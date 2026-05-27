@@ -1,5 +1,5 @@
 # Stage 1 : Build
-FROM node:22.12-bookworm-slim AS builder
+FROM node:22-bookworm-slim AS builder
 
 # pnpm 11 installé via npm direct (évite bug corepack/signature pnpm)
 RUN npm install -g pnpm@11.1.3
@@ -19,7 +19,7 @@ COPY . .
 RUN pnpm build
 
 # Stage 2 : Runtime minimal
-FROM node:22.12-bookworm-slim AS runtime
+FROM node:22-bookworm-slim AS runtime
 
 WORKDIR /app
 
