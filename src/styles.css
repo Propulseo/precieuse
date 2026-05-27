@@ -1,0 +1,243 @@
+/* ============================================================
+ * Precieuse v2 — Design tokens (direction v4c)
+ * ============================================================ */
+
+/* Polices Google — chargees ici plutot que via <link> pour limiter les FOUT */
+@import url('https://fonts.googleapis.com/css2?family=Spectral:wght@500&family=Ysabeau+Office:ital,wght@0,200;0,300;1,300&display=swap');
+
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@import 'tw-animate-css';
+
+/* ─── Brand tokens (charte Précieuse — canard / poudre) ─── */
+:root {
+  --canard: #005454;
+  --canard-90: #1a6464;
+  --canard-10: #e6eded;
+  --poudre: #eadcd3;
+  --poudre-dark: #d9c7b8;
+
+  /* Palette secondaire */
+  --rouille: #d85248;
+  --blush: #ffa1a1;
+  --corail: #ff5a5a;
+  --orange: #ff7936;
+  --lie-de-vin: #af334b;
+  --violet: #5d2966;
+  --fuchsia: #e72274;
+
+  /* Tokens semantiques */
+  --background: var(--poudre);
+  --foreground: var(--canard);
+  --muted: var(--canard-10);
+  --muted-foreground: var(--canard-90);
+  --accent: var(--canard);
+  --accent-foreground: var(--poudre);
+  --border: var(--poudre-dark);
+  --ring: var(--canard);
+
+  --radius: 0.5rem;
+}
+
+/* ─── Theme Tailwind v4 ─── */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --color-canard: var(--canard);
+  --color-canard-90: var(--canard-90);
+  --color-canard-10: var(--canard-10);
+  --color-poudre: var(--poudre);
+  --color-poudre-dark: var(--poudre-dark);
+
+  --color-rouille: var(--rouille);
+  --color-blush: var(--blush);
+  --color-corail: var(--corail);
+  --color-orange: var(--orange);
+  --color-lie-de-vin: var(--lie-de-vin);
+  --color-violet: var(--violet);
+  --color-fuchsia: var(--fuchsia);
+
+  --font-body: 'Ysabeau Office', system-ui, sans-serif;
+  --font-display: 'Spectral', Georgia, serif;
+
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+}
+
+/* ─── Base ─── */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--poudre);
+    color: var(--canard);
+    font-family: var(--font-body);
+    font-weight: 200;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ─── Typographies de luxe (utilites custom) ─── */
+@utility font-display-xl {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(80px, 14vw, 220px);
+  line-height: 0.85;
+  letter-spacing: -0.045em;
+}
+
+@utility font-display-lg {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(40px, 5vw, 60px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+
+@utility font-headline {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 0.95;
+}
+
+@utility font-headline-md {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(24px, 2.5vw, 32px);
+  line-height: 1.25;
+}
+
+@utility font-script-lg {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(18px, 1.8vw, 22px);
+  line-height: 1.2;
+}
+
+@utility font-script-sm {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@utility font-technical {
+  font-family: var(--font-body);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  font-weight: 300;
+}
+
+@utility font-subheading {
+  font-family: var(--font-body);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 300;
+}
+
+@utility font-body-lg {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 200;
+}
+
+/* ─── Effets visuels ─── */
+@utility luxe-grayscale {
+  filter: grayscale(100%) contrast(1.05);
+}
+
+/* Loaders carrousel — keyframes communes (durée hardcodée 7s = INTERVAL_MS) */
+@keyframes loaderFillX {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes loaderFillY {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+@keyframes loaderHalo {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(3); opacity: 0; }
+}
+@keyframes loaderRingFill {
+  to { stroke-dashoffset: 0; }
+}
+
+.loader-fillX {
+  transform-origin: left center;
+  animation: loaderFillX 7000ms linear forwards;
+}
+.loader-fillY {
+  transform-origin: center top;
+  animation: loaderFillY 7000ms linear forwards;
+}
+.loader-halo {
+  transform-origin: center;
+  animation: loaderHalo 7000ms linear forwards;
+}
+.loader-ring-fill {
+  animation: loaderRingFill 7000ms linear forwards;
+}
+
+/* ─── Splash screen (chargement initial) ─── */
+@keyframes splashPictoReveal {
+  from { clip-path: inset(0 100% 0 0); opacity: 0.35; }
+  to { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+.splash-picto {
+  clip-path: inset(0 100% 0 0);
+  animation: splashPictoReveal 3.2s cubic-bezier(0.33, 1, 0.68, 1) 0.3s forwards;
+}
+
+@keyframes splashDividerGrow {
+  from { width: 0; opacity: 0; }
+  to { width: 80px; opacity: 1; }
+}
+.splash-divider {
+  width: 0;
+  animation: splashDividerGrow 1s cubic-bezier(0.33, 1, 0.68, 1) 3.2s forwards;
+}
+
+@keyframes splashTaglineFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.splash-tagline {
+  opacity: 0;
+  animation: splashTaglineFade 0.9s ease-out 3.6s forwards;
+}
+
+.paper-grain {
+  position: relative;
+}
+.paper-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+}
