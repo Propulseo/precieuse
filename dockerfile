@@ -1,8 +1,8 @@
 # Stage 1 : Build
 FROM node:22.12-bookworm-slim AS builder
 
-# Active pnpm 11 (résout bien les optional deps natives, contrairement à pnpm 9)
-RUN corepack enable && corepack prepare pnpm@11.1.3 --activate
+# pnpm 11 installé via npm direct (évite bug corepack/signature pnpm)
+RUN npm install -g pnpm@11.1.3
 
 WORKDIR /app
 
