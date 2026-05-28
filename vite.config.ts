@@ -22,6 +22,15 @@ const config = defineConfig({
     tanstackStart(),
     viteReact(),
   ],
+  environments: {
+    ssr: {
+      build: {
+        rollupOptions: {
+          input: './server.ts',
+        },
+      },
+    },
+  },
 })
 
 export default config
