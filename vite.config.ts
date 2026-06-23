@@ -15,7 +15,9 @@ const config = defineConfig({
     paraglideVitePlugin({
       project: './project.inlang',
       outdir: './src/paraglide',
-      strategy: ['baseLocale'],
+      // cookie : la langue choisie est mémorisée et lue côté serveur (SSR) ;
+      // baseLocale (fr) par défaut tant qu'aucun cookie.
+      strategy: ['cookie', 'baseLocale'],
     }),
     nitro(),
     tailwindcss(),

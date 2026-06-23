@@ -1,5 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
+import { getLocale, locales, setLocale } from '#/paraglide/runtime'
 import { BRAND_LOCKUP_MASK } from './brand/brand'
 
 const navLinks = [
@@ -12,34 +13,41 @@ const navLinks = [
 const SCROLL_THRESHOLD = 60
 
 /**
- * Sélecteur de langue (FR / EN / PT).
- * FR est actif ; EN & PT sont visibles mais marqués « à venir » tant que le
- * contenu n'est pas traduit (infra Paraglide encore en mode baseLocale).
- * À activer quand le contenu FR sera figé puis traduit.
+ * Sélecteur de langue FR / EN / PT (Paraglide, stratégie cookie).
+ * `setLocale` mémorise la langue (cookie) et recharge ; le SSR lit alors la
+ * bonne langue via le middleware Paraglide (server.ts).
  */
 function LangControl({ isHomeTop }: { isHomeTop: boolean }) {
+  const current = getLocale()
   const active = isHomeTop ? 'text-poudre' : 'text-canard'
-  const muted = isHomeTop ? 'text-poudre/45' : 'text-canard/40'
+  const idle = isHomeTop
+    ? 'text-poudre/50 hover:text-poudre'
+    : 'text-canard/45 hover:text-canard'
+  const sep = isHomeTop ? 'text-poudre/30' : 'text-canard/25'
   return (
     <div
-      className="flex items-center gap-1.5 font-display text-[12px] tracking-[0.12em] select-none"
-      aria-label="Langue : français (anglais et portugais à venir)"
+      className="flex items-center gap-1.5 font-display text-[12px] tracking-[0.12em]"
+      aria-label="Choix de la langue"
     >
-      <span className={active} aria-current="true">
-        FR
-      </span>
-      <span className={muted} aria-hidden>
-        ·
-      </span>
-      <span className={`${muted} cursor-default`} title="Version anglaise à venir">
-        EN
-      </span>
-      <span className={muted} aria-hidden>
-        ·
-      </span>
-      <span className={`${muted} cursor-default`} title="Versão portuguesa em breve">
-        PT
-      </span>
+      {locales.map((loc, i) => (
+        <Fragment key={loc}>
+          {i > 0 && (
+            <span className={sep} aria-hidden>
+              ·
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={() => loc !== current && setLocale(loc)}
+            aria-current={loc === current}
+            className={`uppercase transition-colors ${
+              loc === current ? active : `${idle} cursor-pointer`
+            }`}
+          >
+            {loc.toUpperCase()}
+          </button>
+        </Fragment>
+      ))}
     </div>
   )
 }
