@@ -3,7 +3,7 @@ import type { Product } from '../lib/content/products'
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V'] as const
 
-type CardRole = 'focus' | 'peek-left' | 'peek-right' | 'hidden'
+type CardRole = 'focus' | 'peek-left' | 'peek-right' | 'hidden-left' | 'hidden-right'
 
 interface Props {
   product: Product
@@ -17,17 +17,23 @@ const CARD_TRANSITION = 'transition-all duration-700 ease-[cubic-bezier(0.32,0.7
 
 function getCardClasses(role: CardRole): string {
   const base = `absolute top-0 bottom-0 my-auto h-fit overflow-hidden bg-poudre/85 ${CARD_TRANSITION}`
+  const peekShape = 'scale-[0.78] w-[24%] max-w-[300px] aspect-[3/4]'
 
   if (role === 'focus') {
     return `${base} left-1/2 -translate-x-1/2 z-20 opacity-100 scale-100 w-[88%] max-w-[1080px] shadow-[0_30px_80px_-20px_rgba(61,40,23,0.35)] cursor-default`
   }
   if (role === 'peek-left') {
-    return `${base} left-[1%] z-10 opacity-50 scale-[0.78] w-[24%] max-w-[300px] aspect-[3/4] blur-[1.5px] cursor-pointer hover:opacity-75 hover:scale-[0.82] hover:blur-0 hidden lg:block`
+    return `${base} left-[1%] z-10 opacity-50 ${peekShape} blur-[1.5px] cursor-pointer hover:opacity-75 hover:scale-[0.82] hover:blur-0 hidden lg:block`
   }
   if (role === 'peek-right') {
-    return `${base} right-[1%] z-10 opacity-50 scale-[0.78] w-[24%] max-w-[300px] aspect-[3/4] blur-[1.5px] cursor-pointer hover:opacity-75 hover:scale-[0.82] hover:blur-0 hidden lg:block`
+    return `${base} right-[1%] z-10 opacity-50 ${peekShape} blur-[1.5px] cursor-pointer hover:opacity-75 hover:scale-[0.82] hover:blur-0 hidden lg:block`
   }
-  return `${base} left-1/2 -translate-x-1/2 z-0 opacity-0 pointer-events-none w-[88%] max-w-[1080px]`
+  if (role === 'hidden-left') {
+    // hors-champ à gauche, prête à glisser vers/depuis la peek gauche
+    return `${base} left-[-26%] z-0 opacity-0 ${peekShape} pointer-events-none hidden lg:block`
+  }
+  // hidden-right : hors-champ à droite
+  return `${base} right-[-26%] z-0 opacity-0 ${peekShape} pointer-events-none hidden lg:block`
 }
 
 function FocusCardContent({ product, index }: { product: Product; index: number }) {

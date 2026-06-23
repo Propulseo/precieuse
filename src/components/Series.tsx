@@ -8,14 +8,16 @@ function mod(n: number, m: number): number {
   return ((n % m) + m) % m
 }
 
-type SlideRole = 'focus' | 'peek-left' | 'peek-right' | 'hidden'
+type SlideRole = 'focus' | 'peek-left' | 'peek-right' | 'hidden-left' | 'hidden-right'
 
 function getRoleFor(i: number, current: number, n: number): SlideRole {
   const diff = mod(i - current, n)
   if (diff === 0) return 'focus'
   if (diff === 1) return 'peek-right'
   if (diff === n - 1) return 'peek-left'
-  return 'hidden'
+  // Cartes hors-champ rangées du bon côté (droite si devant, gauche si derrière)
+  // pour que tout défile dans le même sens — une pièce adjacente à la fois.
+  return diff * 2 <= n ? 'hidden-right' : 'hidden-left'
 }
 
 export function Series({ products = PRODUCTS }: { products?: Product[] }) {
