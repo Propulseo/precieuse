@@ -2,7 +2,7 @@ const PAIRES = [
   { roman: 'i', pas: 'pas de saison', mais: 'Des pièces dessinées pour traverser le temps.' },
   { roman: 'ii', pas: 'pas de stock', mais: "Une fabrication à l'unité, à partir d'une commande." },
   { roman: 'iii', pas: "pas d'usine", mais: 'Une main, un atelier, un geste, du dessin au sertissage.' },
-  { roman: 'iv', pas: "pas d'or anonyme", mais: 'Or 19kt traçable, pierres précieuses choisies une à une.' },
+  { roman: 'iv', pas: "pas d'or anonyme", mais: 'Or 18 carats sourcé et tracé grâce au traité de Kimberley, pierres précieuses choisies une à une.' },
 ]
 
 function Filigrane() {
@@ -24,7 +24,7 @@ function Seal() {
       <circle cx="60" cy="60" r="50" stroke="currentColor" strokeWidth="0.4" strokeDasharray="1 3" />
       <text x="60" y="40" textAnchor="middle" fontSize="9" fill="currentColor" fontFamily="serif" letterSpacing="1.8">ATELIER</text>
       <text x="60" y="68" textAnchor="middle" fontSize="22" fill="currentColor" fontFamily="serif" fontStyle="italic">P</text>
-      <text x="60" y="86" textAnchor="middle" fontSize="9" fill="currentColor" fontFamily="serif" letterSpacing="1.8">LISBOA</text>
+      <text x="60" y="86" textAnchor="middle" fontSize="9" fill="currentColor" fontFamily="serif" letterSpacing="1.8">BORDEAUX</text>
       <text x="60" y="100" textAnchor="middle" fontSize="7" fill="currentColor" fontFamily="serif" letterSpacing="2">MMXXVI</text>
     </svg>
   )
@@ -40,16 +40,16 @@ export function AvantPropos() {
           <div className="relative w-full max-w-[460px] aspect-[3/4] border border-canard/30 overflow-hidden">
             <img
               src="/images/emeline-portrait.jpg"
-              alt="Portrait d'Eméline Le Ray, fondatrice et joaillière de Précieuse"
+              alt="Portrait d'Emeline Le Ray, fondatrice et joaillière de Précieuse"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
           <div className="mt-3 flex items-baseline justify-between max-w-[460px]">
             <span className="font-display text-[13px] tracking-[0.25em] uppercase text-canard/70">
-              Eméline Le Ray
+              Emeline Le Ray
             </span>
             <span className="font-display text-[12px] tracking-[0.2em] uppercase text-canard">
-              Lisboa · MMXXVI
+              Bordeaux · MMXXVI
             </span>
           </div>
         </div>
@@ -61,7 +61,7 @@ export function AvantPropos() {
 
           <div className="flex flex-col items-start mb-10">
             <span className="font-display text-[34px] tracking-[0.18em] uppercase text-canard leading-none">
-              Maison
+              Atelier
             </span>
             <div className="my-3">
               <Filigrane />
@@ -92,12 +92,12 @@ export function AvantPropos() {
           <div className="mt-10 flex items-center gap-6 pt-6 border-t border-canard/15">
             <Seal />
             <div className="flex flex-col">
-              <span className="font-display text-[18px] text-canard">Eméline Le Ray</span>
+              <span className="font-display text-[18px] text-canard">Emeline Le Ray</span>
               <span className="font-display text-[13px] text-canard/65 tracking-wide">
                 joaillière diplômée · 10 ans d'expérience
               </span>
               <span className="font-display text-[12px] text-canard/45 tracking-wide mt-0.5">
-                fondatrice · Lisboa · MMXXV
+                fondatrice · Bordeaux · MMXXVI
               </span>
             </div>
           </div>

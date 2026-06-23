@@ -3,7 +3,7 @@ export function HeroBespoke() {
     <section className="relative min-h-screen -mt-16 pt-16 flex flex-col items-center justify-center bg-canard overflow-hidden">
       <img
         src="/images/stitch-v3/sur-mesure-sketching.jpg"
-        alt="Eméline dessine une esquisse sur-mesure à l'atelier"
+        alt="Emeline dessine une esquisse sur-mesure à l'atelier"
         className="absolute inset-0 w-full h-full object-cover"
         style={{ filter: 'saturate(1.1) brightness(0.7) contrast(1.05)', objectPosition: 'center 40%' }}
       />
@@ -15,7 +15,7 @@ export function HeroBespoke() {
 
       <div className="relative z-10 text-center px-6 max-w-[700px] motion-safe:animate-[fadeUp_1.4s_ease-out_200ms_both]">
         <span className="font-technical text-poudre/50 block mb-8">
-          Création sur-mesure · Lisboa
+          Création sur-mesure · Bordeaux
         </span>
 
         <h1 className="font-headline text-[clamp(42px,6vw,88px)] text-poudre leading-[0.92]">
@@ -38,7 +38,7 @@ export function HeroBespoke() {
       <div className="relative z-10 absolute bottom-0 inset-x-0 border-t border-poudre/15 px-8 lg:px-16 py-6">
         <div className="mx-auto max-w-[1440px] flex items-center justify-center gap-12 sm:gap-16">
           {[
-            ['à partir de', '1 000 €'],
+            ['tarif', 'Sur devis'],
             ['délai', '4 à 8 sem.'],
             ['réponse', '48 h'],
           ].map(([label, value]) => (

@@ -11,25 +11,25 @@ export type Matiere = {
 
 export const MATIERES: Matiere[] = [
   {
-    slug: 'or-19kt',
-    nom: 'Or 19kt',
-    sous_titre: 'fondu à Lisboa',
+    slug: 'or-18kt',
+    nom: 'Or 18 carats',
+    sous_titre: 'sourcé et tracé',
     description_courte:
-      'Or 19 carats jaune ou rose, fondu et travaillé dans notre atelier portugais. Sa teneur supérieure aux 18kt français lui donne un éclat plus chaud, plus lumineux.',
+      'Or 18 carats jaune, blanc ou rose, travaillé à la main dans notre atelier à Bordeaux. Un or sourcé et tracé grâce au traité de Kimberley, choisi pour son éclat chaud et sa tenue — pensé pour durer.',
     image: '/images/matieres/or-19kt-v2.jpg',
-    image_alt: "Anneau d'or 19kt poli, posé sur un galet de marbre blanc",
-    annotation_caveat: 'fondu à Lisboa',
+    image_alt: "Anneau d'or 18 carats poli, posé sur un galet de marbre blanc",
+    annotation_caveat: 'sourcé et tracé · Kimberley',
     page: 'p. 05',
   },
   {
-    slug: 'diamants-gvs',
-    nom: 'Diamants GVS',
-    sous_titre: 'certifiés à la loupe',
+    slug: 'diamants',
+    nom: 'Diamants',
+    sous_titre: 'certifiés GIA/HRD',
     description_courte:
-      'Diamants taille brillant, navette et baguette, qualité GVS (clarté très légères inclusions, couleur G-H). Chaque pierre est sertie à la main, libérant la lumière au maximum.',
+      'Diamants taille brillant, navette et baguette, certifiés GIA ou HRD. Chaque pierre est sourcée et tracée grâce au traité de Kimberley, puis sertie à la main pour libérer la lumière au maximum.',
     image: '/images/matieres/diamants-gvs-v2.jpg',
     image_alt: 'Diamant taille poire posé sur podium céramique beige',
-    annotation_caveat: 'GVS certifiés',
+    annotation_caveat: 'certifiés GIA/HRD',
     page: 'p. 06',
   },
   {

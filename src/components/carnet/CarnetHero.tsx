@@ -16,7 +16,7 @@ export function CarnetHero() {
           </h1>
           <p className="font-body italic font-light text-[20px] text-canard-90 mt-4 max-w-[44ch]">
             Croquis, récits de fabrication, guides matières. Les coulisses d'un
-            atelier de joaillerie à Lisbonne.
+            atelier de joaillerie à Bordeaux.
           </p>
         </div>
 

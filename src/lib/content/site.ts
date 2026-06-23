@@ -1,14 +1,14 @@
 export const SITE = {
   brand: 'Précieuse',
-  baseline: 'Joaillerie artisanale · Lisboa',
+  baseline: 'Joaillerie artisanale · Bordeaux',
   email: 'atelier@precieuse-joaillerie.com',
-  whatsapp: 'https://wa.me/351000000000',
+  whatsapp: 'https://wa.me/33000000000',
   instagram: 'https://instagram.com/precieusejoaillerie',
   address: {
-    street: 'Rua da Boavista, 84',
-    zip: '1200-070',
-    city: 'Lisboa',
-    country: 'Portugal',
+    street: '[Adresse Bordeaux — à confirmer]',
+    zip: '',
+    city: 'Bordeaux',
+    country: 'France',
   },
   hours: 'sur rendez-vous · mardi à samedi · 10h à 18h',
 } as const
@@ -30,7 +30,7 @@ export const BESPOKE_PROCESS: ProcessStep[] = [
     number: '02',
     title: 'Je dessine',
     description:
-      'Je crée deux ou trois esquisses à partir de votre brief. Chaque croquis explore une direction différente.',
+      'Je crée deux ou trois esquisses à partir de vos envies. Chaque croquis explore une direction différente.',
   },
   {
     number: '03',
@@ -42,7 +42,7 @@ export const BESPOKE_PROCESS: ProcessStep[] = [
     number: '04',
     title: 'Je fabrique',
     description:
-      'Fabrication complète au Portugal, en fonte à cire perdue, selon les techniques artisanales. Quatre à huit semaines.',
+      'Fabrication complète à la main à Bordeaux, en fonte à cire perdue, selon les techniques artisanales. Quatre à huit semaines.',
   },
   {
     number: '05',

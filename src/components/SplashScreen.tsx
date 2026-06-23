@@ -61,7 +61,7 @@ export function SplashScreen() {
       <span aria-hidden className="splash-divider mt-7 block h-px bg-canard" />
 
       <p className="splash-tagline font-display text-[12px] sm:text-[13px] tracking-[0.4em] uppercase text-canard/65 mt-5">
-        Joaillerie artisanale · Lisboa
+        Joaillerie artisanale · Bordeaux
       </p>
     </div>
   )

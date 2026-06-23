@@ -24,15 +24,15 @@ export const ARTICLES: Article[] = [
     featured: true,
   },
   {
-    slug: 'or-19kt-signature-portugal',
-    title: "L'or 19 kt, signature du Portugal",
+    slug: 'or-18kt-source-trace',
+    title: "L'or 18 carats, sourcé et tracé",
     excerpt:
-      "Pourquoi le Portugal travaille un or plus pur que le reste de l'Europe, et ce que cela change pour votre bijou.",
+      "Pourquoi nous ne travaillons que de l'or sourcé et tracé grâce au traité de Kimberley, et ce que cela change pour votre bijou. (Brouillon — à valider.)",
     category: 'Matières',
     date: '28 avril 2026',
     readTime: '4 min',
     image: '/images/matieres/or-19kt-v2.jpg',
-    imageAlt: "Anneau d'or 19 kt poli",
+    imageAlt: "Anneau d'or 18 carats poli",
   },
   {
     slug: 'journal-fonte-matinee-atelier',

@@ -24,13 +24,13 @@ export const FOOTER_DATA = {
     },
     {
       label: 'LinkedIn',
-      handle: 'Eméline Le Ray',
+      handle: 'Emeline Le Ray',
       href: 'https://www.linkedin.com/in/emeline-le-ray-70052116a',
     },
   ],
   email: 'atelier@precieuse-joaillerie.com',
-  signature: 'Fait à Lisbonne, porté partout',
-  copyright: '© Précieuse · Joaillerie artisanale, Portugal',
+  signature: 'Fait à la main à Bordeaux, porté partout',
+  copyright: '© Précieuse · Joaillerie artisanale, Bordeaux, France',
   credit: {
     label: "Fait avec passion par Propul'SEO",
     href: 'https://propulseo.fr',

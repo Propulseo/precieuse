@@ -44,7 +44,7 @@ export function Nav() {
         >
           <img
             src="/brand/logo.png"
-            alt="Précieuse, Joaillerie artisanale, Lisboa"
+            alt="Précieuse, Joaillerie artisanale, Bordeaux"
             width={420}
             height={140}
             className={`h-9 w-auto lg:h-10 transition-[filter] duration-500 ease-out ${

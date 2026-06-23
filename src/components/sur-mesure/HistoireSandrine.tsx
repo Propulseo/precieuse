@@ -31,7 +31,7 @@ export function HistoireSandrine() {
         <div className="mt-10 flex flex-col items-center gap-1">
           <span className="font-display text-[16px] text-poudre">Sandrine M.</span>
           <span className="font-display text-[13px] text-poudre/50 tracking-wide">
-            serpentine or blanc · pavage diamants GVS
+            serpentine or blanc · pavage diamants certifiés GIA/HRD
           </span>
           <span className="font-display text-[12px] text-poudre/35 tracking-wide mt-0.5">
             Paris · 2025

@@ -18,7 +18,7 @@ export function SurMesure() {
             Tout commence par une envie, un moment à marquer, une idée à traduire.
             Vous me parlez de vous, je vous propose une esquisse. Ensemble, on affine
             les lignes, on choisit les pierres, les volumes. Puis vient le temps de la
-            fabrication, en or 19kt, à la main, dans mon atelier au Portugal.
+            fabrication, en or 18 carats, à la main, dans mon atelier à Bordeaux.
           </p>
           <p className="font-body italic font-light text-[20px] text-canard-90 mt-4">
             Ce qui naît, c'est bien plus qu'un bijou : c'est un lien.
@@ -49,7 +49,7 @@ export function SurMesure() {
             Démarrer votre création
           </a>
           <span className="font-display text-[13px] text-canard/55">
-            À partir de 1 000 € · Délai 8 semaines · Livraison DHL sécurisée
+            Sur devis · Délai 8 semaines · Remise sécurisée
           </span>
         </div>
       </div>

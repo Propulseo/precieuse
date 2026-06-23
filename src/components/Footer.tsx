@@ -8,7 +8,7 @@ export function Footer() {
       {/* --- Grille principale --- */}
       <div className="border-t border-canard/15 px-4 lg:px-8 pt-12 lg:pt-14 pb-8">
         <div className="mx-auto max-w-[1440px] grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
-          {/* Maison */}
+          {/* Atelier */}
           <div className="col-span-2 md:col-span-1 flex flex-col items-start gap-4">
             <img
               src={FOOTER_DATA.logoSrc}

@@ -18,7 +18,7 @@ export function FormulaireInvitation() {
         </h2>
         <p className="font-body italic font-light text-[18px] text-canard/60 leading-relaxed mb-12">
           Pas de devis automatique : une conversation, un dessin, un bijou.
-          Eméline vous répond personnellement sous 48 h.
+          Emeline vous répond personnellement sous 48 h.
         </p>
 
         <form onSubmit={(e) => e.preventDefault()} className="space-y-5 text-left">

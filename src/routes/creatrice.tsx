@@ -11,7 +11,7 @@ function CreatricePage() {
           <div className="relative w-full max-w-[460px] aspect-[3/4] border border-ink/30 overflow-hidden mx-auto lg:mx-0">
             <img
               src="/images/emeline/emeline-atelier.jpg"
-              alt="Eméline, joaillière artisanale, dans son atelier"
+              alt="Emeline, joaillière artisanale, dans son atelier"
               className="absolute inset-0 w-full h-full object-cover luxe-grayscale"
             />
           </div>
@@ -21,7 +21,7 @@ function CreatricePage() {
               La créatrice
             </span>
             <h1 className="font-headline text-[clamp(48px,7vw,90px)] text-ink leading-[0.95]">
-              Moi c'est Eméline.
+              Moi c'est Emeline.
             </h1>
             <p className="font-display italic text-[20px] text-ink/75 mt-8 leading-relaxed max-w-prose">
               Joaillière artisanale, je fabrique le bijou de vos rêves. Douze ans à travailler l'or,
