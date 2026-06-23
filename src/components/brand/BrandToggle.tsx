@@ -4,6 +4,8 @@ import {
   BRANDS,
   HERO_MARK_LABELS,
   HERO_MARKS,
+  SEAL_VARIANT_LABELS,
+  SEAL_VARIANTS,
 } from './brand'
 import { useBrand } from './BrandProvider'
 
@@ -14,7 +16,8 @@ import { useBrand } from './BrandProvider'
  * Accessible clavier, pill compacte et élégante.
  */
 export function BrandToggle() {
-  const { brand, setBrand, heroMark, setHeroMark } = useBrand()
+  const { brand, setBrand, heroMark, setHeroMark, sealVariant, setSealVariant } =
+    useBrand()
 
   return (
     <div className="fixed bottom-6 left-6 z-50 flex items-center gap-2 rounded-full border border-canard/20 bg-poudre/90 px-2 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.12)] backdrop-blur-md">
@@ -77,6 +80,38 @@ export function BrandToggle() {
               }`}
             >
               {HERO_MARK_LABELS[m]}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Séparateur discret */}
+      <span aria-hidden className="h-4 w-px bg-canard/15" />
+
+      {/* Switch du cachet d'atelier (avant-propos) : Rond / Octogone / Épuré */}
+      <div
+        role="radiogroup"
+        aria-label="Cachet d'atelier"
+        className="flex items-center rounded-full bg-canard/5 p-0.5"
+      >
+        {SEAL_VARIANTS.map((v) => {
+          const active = sealVariant === v
+          return (
+            <button
+              key={v}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              aria-label={`Cachet ${SEAL_VARIANT_LABELS[v]}`}
+              title={SEAL_VARIANT_LABELS[v]}
+              onClick={() => setSealVariant(v)}
+              className={`rounded-full px-2.5 py-0.5 font-display text-[10px] tracking-[0.15em] uppercase transition-all duration-300 ${
+                active
+                  ? 'bg-canard text-poudre shadow-sm'
+                  : 'text-canard/60 hover:text-canard'
+              }`}
+            >
+              {SEAL_VARIANT_LABELS[v]}
             </button>
           )
         })}

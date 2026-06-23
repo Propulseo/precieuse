@@ -59,3 +59,23 @@ export const HERO_MARK_LABELS: Record<HeroMark, string> = {
 export function isHeroMark(value: unknown): value is HeroMark {
   return value === 'logo' || value === 'texte'
 }
+
+// ─── Cachet d'atelier (avant-propos) : 3 montages au choix ───
+// Fusion de la fleur de la marque (picto d'Emeline) avec la provenance
+// « ATELIER · BORDEAUX · MMXXVI ». Piloté par `data-seal` sur <html>, persisté
+// indépendamment. La fleur et le texte suivent --brand-accent (toggle couleur).
+export type SealVariant = 'rond' | 'octogone' | 'epure'
+
+export const SEAL_VARIANTS: SealVariant[] = ['rond', 'octogone', 'epure']
+export const DEFAULT_SEAL_VARIANT: SealVariant = 'rond'
+export const SEAL_VARIANT_STORAGE_KEY = 'precieuse-seal'
+
+export const SEAL_VARIANT_LABELS: Record<SealVariant, string> = {
+  rond: 'Rond',
+  octogone: 'Octogone',
+  epure: 'Épuré',
+}
+
+export function isSealVariant(value: unknown): value is SealVariant {
+  return value === 'rond' || value === 'octogone' || value === 'epure'
+}

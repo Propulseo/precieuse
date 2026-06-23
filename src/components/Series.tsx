@@ -124,7 +124,6 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 border-t-2 border-double border-canard/15" />
     </section>
   )
 }

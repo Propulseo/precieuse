@@ -2,7 +2,9 @@ import {
   BRAND_STORAGE_KEY,
   DEFAULT_BRAND,
   DEFAULT_HERO_MARK,
+  DEFAULT_SEAL_VARIANT,
   HERO_MARK_STORAGE_KEY,
+  SEAL_VARIANT_STORAGE_KEY,
 } from './brand'
 
 // Script inline exécuté AVANT le paint : lit les choix visiteur en localStorage
@@ -21,4 +23,10 @@ export const BRAND_NO_FLASH_SCRIPT = `(function(){try{var allowed=['canard','blu
   DEFAULT_HERO_MARK,
 )};}document.documentElement.setAttribute('data-hero-mark',hm);}catch(e){document.documentElement.setAttribute('data-hero-mark',${JSON.stringify(
   DEFAULT_HERO_MARK,
+)});}try{var slAllowed=['rond','octogone','epure'];var sl=localStorage.getItem(${JSON.stringify(
+  SEAL_VARIANT_STORAGE_KEY,
+)});if(slAllowed.indexOf(sl)===-1){sl=${JSON.stringify(
+  DEFAULT_SEAL_VARIANT,
+)};}document.documentElement.setAttribute('data-seal',sl);}catch(e){document.documentElement.setAttribute('data-seal',${JSON.stringify(
+  DEFAULT_SEAL_VARIANT,
 )});}})();`

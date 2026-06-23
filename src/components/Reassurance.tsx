@@ -24,8 +24,8 @@ function Icon({ name }: { name: string }) {
 
 export function Reassurance() {
   return (
-    <div className="bg-poudre border-y border-canard/10 py-5 px-4 lg:px-8">
-      <div className="mx-auto max-w-[1440px] flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
+    <div className="bg-poudre border-y border-canard/15 py-5 px-6 lg:px-14">
+      <div className="flex flex-wrap items-center justify-center md:justify-between gap-x-8 gap-y-3">
         {ITEMS.map((item) => (
           <span key={item.text} className="flex items-center gap-2.5 text-canard/70">
             <span className="text-rouille"><Icon name={item.icon} /></span>

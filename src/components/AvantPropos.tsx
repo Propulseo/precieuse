@@ -1,8 +1,10 @@
+import { useBrand } from './brand/BrandProvider'
+
 const PAIRES = [
   { roman: 'i', pas: 'pas de saison', mais: 'Des pièces dessinées pour traverser le temps.' },
   { roman: 'ii', pas: 'pas de stock', mais: "Une fabrication à la commande, pas forcément à l'unité." },
   { roman: 'iii', pas: "pas d'usine", mais: 'Une main, un atelier, un geste, du dessin au sertissage.' },
-  { roman: 'iv', pas: "pas d'or sans origine", mais: 'Or 18 carats sourcé et tracé grâce au traité de Kimberley, pierres précieuses choisies une à une.' },
+  { roman: 'iv', pas: 'pas de hasard', mais: 'Or 18 carats sourcé et tracé grâce au traité de Kimberley, pierres précieuses choisies une à une.' },
 ]
 
 function Filigrane() {
@@ -17,23 +19,87 @@ function Filigrane() {
   )
 }
 
-function Seal() {
+/** La fleur de la marque (picto d'Emeline), recolorée par --brand-accent. */
+function FlowerMark({ size, className }: { size: number; className?: string }) {
   return (
-    <svg aria-hidden="true" viewBox="0 0 120 120" className="w-[88px] h-[88px] text-canard opacity-80" fill="none">
-      <circle cx="60" cy="60" r="56" stroke="currentColor" strokeWidth="0.8" />
-      <circle cx="60" cy="60" r="50" stroke="currentColor" strokeWidth="0.4" strokeDasharray="1 3" />
-      <text x="60" y="40" textAnchor="middle" fontSize="9" fill="currentColor" fontFamily="serif" letterSpacing="1.8">ATELIER</text>
-      <text x="60" y="68" textAnchor="middle" fontSize="22" fill="currentColor" fontFamily="serif" fontStyle="italic">P</text>
-      <text x="60" y="86" textAnchor="middle" fontSize="9" fill="currentColor" fontFamily="serif" letterSpacing="1.8">BORDEAUX</text>
-      <text x="60" y="100" textAnchor="middle" fontSize="7" fill="currentColor" fontFamily="serif" letterSpacing="2">MMXXVI</text>
-    </svg>
+    <div
+      aria-hidden
+      className={className}
+      style={{
+        width: size,
+        height: size,
+        backgroundColor: 'var(--brand-accent)',
+        maskImage: 'url(/brand/picto-teal.png)',
+        WebkitMaskImage: 'url(/brand/picto-teal.png)',
+        maskSize: 'contain',
+        WebkitMaskSize: 'contain',
+        maskRepeat: 'no-repeat',
+        WebkitMaskRepeat: 'no-repeat',
+        maskPosition: 'center',
+        WebkitMaskPosition: 'center',
+      }}
+    />
   )
+}
+
+/** Variant « rond » : cachet circulaire pointillé, fleur au centre. */
+function SealRond() {
+  return (
+    <div className="relative h-[94px] w-[94px] shrink-0" aria-hidden="true">
+      <svg viewBox="0 0 120 120" className="absolute inset-0 h-full w-full opacity-85" fill="none" style={{ color: 'var(--brand-accent)' }}>
+        <circle cx="60" cy="60" r="56" stroke="currentColor" strokeWidth="0.8" />
+        <circle cx="60" cy="60" r="50" stroke="currentColor" strokeWidth="0.4" strokeDasharray="1 3" />
+        <text x="60" y="33" textAnchor="middle" fontSize="8.5" fill="currentColor" fontFamily="serif" letterSpacing="2.2">ATELIER</text>
+        <text x="60" y="91" textAnchor="middle" fontSize="8.5" fill="currentColor" fontFamily="serif" letterSpacing="2.2">BORDEAUX</text>
+        <text x="60" y="103" textAnchor="middle" fontSize="6.5" fill="currentColor" fontFamily="serif" letterSpacing="2.6">MMXXVI</text>
+      </svg>
+      <FlowerMark size={40} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-90" />
+    </div>
+  )
+}
+
+/** Variant « octogone » : reprend la forme du picto d'Emeline (cartouche). */
+function SealOctogone() {
+  return (
+    <div className="relative h-[104px] w-[88px] shrink-0" aria-hidden="true">
+      <svg viewBox="0 0 120 140" className="absolute inset-0 h-full w-full opacity-85" fill="none" style={{ color: 'var(--brand-accent)' }}>
+        <path d="M40 8 L80 8 L98 26 L98 114 L80 132 L40 132 L22 114 L22 26 Z" stroke="currentColor" strokeWidth="0.9" strokeLinejoin="round" />
+        <text x="60" y="34" textAnchor="middle" fontSize="8.5" fill="currentColor" fontFamily="serif" letterSpacing="2.2">ATELIER</text>
+        <text x="60" y="116" textAnchor="middle" fontSize="8.5" fill="currentColor" fontFamily="serif" letterSpacing="2.2">BORDEAUX</text>
+        <text x="60" y="127" textAnchor="middle" fontSize="6.5" fill="currentColor" fontFamily="serif" letterSpacing="2.6">MMXXVI</text>
+      </svg>
+      <FlowerMark size={44} className="absolute left-1/2 top-[47%] -translate-x-1/2 -translate-y-1/2 opacity-90" />
+    </div>
+  )
+}
+
+/** Variant « épuré » : fleur seule + filet + ligne de provenance. */
+function SealEpure() {
+  return (
+    <div className="flex shrink-0 flex-col items-center gap-2.5 pt-1" aria-hidden="true">
+      <FlowerMark size={50} className="opacity-90" />
+      <span className="block h-px w-12" style={{ backgroundColor: 'var(--brand-accent)', opacity: 0.45 }} />
+      <span className="font-display text-[9px] uppercase tracking-[0.25em]" style={{ color: 'var(--brand-accent)' }}>
+        Atelier · Bordeaux · MMXXVI
+      </span>
+    </div>
+  )
+}
+
+/**
+ * Cachet d'atelier — 3 montages au choix (toggle « Cachet » en bas à gauche) :
+ * fusion de la fleur de la marque + provenance « ATELIER · BORDEAUX · MMXXVI ».
+ */
+function Seal() {
+  const { sealVariant } = useBrand()
+  if (sealVariant === 'octogone') return <SealOctogone />
+  if (sealVariant === 'epure') return <SealEpure />
+  return <SealRond />
 }
 
 export function AvantPropos() {
   return (
     <section className="relative bg-poudre py-20 px-8 lg:px-16">
-      <div className="absolute top-0 left-0 right-0 border-t border-canard/25" />
 
       <div className="mx-auto max-w-[1320px] grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
         <div className="relative md:order-1 order-2 mx-auto md:mx-0">

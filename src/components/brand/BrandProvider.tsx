@@ -11,11 +11,15 @@ import {
   BRANDS,
   DEFAULT_BRAND,
   DEFAULT_HERO_MARK,
+  DEFAULT_SEAL_VARIANT,
   HERO_MARK_STORAGE_KEY,
+  SEAL_VARIANT_STORAGE_KEY,
   isBrand,
   isHeroMark,
+  isSealVariant,
   type Brand,
   type HeroMark,
+  type SealVariant,
 } from './brand'
 
 type BrandContextValue = {
@@ -24,6 +28,8 @@ type BrandContextValue = {
   toggleBrand: () => void
   heroMark: HeroMark
   setHeroMark: (mark: HeroMark) => void
+  sealVariant: SealVariant
+  setSealVariant: (variant: SealVariant) => void
 }
 
 const BrandContext = createContext<BrandContextValue | null>(null)
@@ -62,14 +68,33 @@ function readStoredHeroMark(): HeroMark {
   return DEFAULT_HERO_MARK
 }
 
+function readStoredSealVariant(): SealVariant {
+  if (typeof document !== 'undefined') {
+    const fromAttr = document.documentElement.dataset.seal
+    if (isSealVariant(fromAttr)) return fromAttr
+  }
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = window.localStorage.getItem(SEAL_VARIANT_STORAGE_KEY)
+      if (isSealVariant(stored)) return stored
+    } catch {
+      /* localStorage indisponible — on garde le défaut */
+    }
+  }
+  return DEFAULT_SEAL_VARIANT
+}
+
 export function BrandProvider({ children }: { children: ReactNode }) {
   const [brand, setBrandState] = useState<Brand>(DEFAULT_BRAND)
   const [heroMark, setHeroMarkState] = useState<HeroMark>(DEFAULT_HERO_MARK)
+  const [sealVariant, setSealVariantState] =
+    useState<SealVariant>(DEFAULT_SEAL_VARIANT)
 
   // Sync initial après hydratation (le SSR ne connaît pas le choix visiteur).
   useEffect(() => {
     setBrandState(readStoredBrand())
     setHeroMarkState(readStoredHeroMark())
+    setSealVariantState(readStoredSealVariant())
   }, [])
 
   const setBrand = useCallback((next: Brand) => {
@@ -100,6 +125,20 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  const setSealVariant = useCallback((next: SealVariant) => {
+    setSealVariantState(next)
+    if (typeof document !== 'undefined') {
+      document.documentElement.dataset.seal = next
+    }
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(SEAL_VARIANT_STORAGE_KEY, next)
+      } catch {
+        /* ignore */
+      }
+    }
+  }, [])
+
   // Parcourt la palette dans l'ordre (utilitaire ; l'UI principale est la
   // rangée de pastilles de BrandToggle).
   const toggleBrand = useCallback(() => {
@@ -110,7 +149,15 @@ export function BrandProvider({ children }: { children: ReactNode }) {
 
   return (
     <BrandContext.Provider
-      value={{ brand, setBrand, toggleBrand, heroMark, setHeroMark }}
+      value={{
+        brand,
+        setBrand,
+        toggleBrand,
+        heroMark,
+        setHeroMark,
+        sealVariant,
+        setSealVariant,
+      }}
     >
       {children}
     </BrandContext.Provider>
