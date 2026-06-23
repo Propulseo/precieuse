@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { m } from '#/paraglide/messages'
 import { PRODUCTS, type Product } from '../lib/content/products'
 import { SeriesCard } from './SeriesCard'
 import { LoaderB } from './loader-variants/LoaderB'
@@ -61,7 +62,7 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
     <section
       className="relative bg-poudre overflow-hidden py-16 lg:py-20 outline-none focus-visible:ring-2 focus-visible:ring-canard"
       aria-roledescription="carousel"
-      aria-label="Collection, Coverflow premium"
+      aria-label={m.series_carousel_label()}
       tabIndex={0}
       onKeyDown={handleKeyDown}
       onTouchStart={handleTouchStart}
@@ -70,17 +71,17 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
       <div className="mx-auto max-w-[1440px] px-0 lg:px-12 w-full">
         <div className="mb-8 px-8 lg:px-0 flex items-end justify-between">
           <div>
-            <h2 className="font-headline text-[40px] text-canard leading-none mb-1">La Collection</h2>
-            <p className="font-body italic font-light text-[18px] text-rouille">cinq pièces, cinq histoires</p>
+            <h2 className="font-headline text-[40px] text-canard leading-none mb-1">{m.series_title()}</h2>
+            <p className="font-body italic font-light text-[18px] text-rouille">{m.series_subtitle()}</p>
           </div>
           <span className="font-display text-[13px] text-canard hidden md:block">p. 04</span>
         </div>
 
-        <div className="flex items-center justify-center gap-5 mb-6 px-8 lg:px-0" role="group" aria-label="Navigation carousel">
+        <div className="flex items-center justify-center gap-5 mb-6 px-8 lg:px-0" role="group" aria-label={m.series_nav_label()}>
           <button
             type="button"
             onClick={prev}
-            aria-label="Pièce précédente"
+            aria-label={m.series_prev()}
             className="w-9 h-9 flex items-center justify-center text-canard/70 hover:text-canard hover:bg-canard/5 rounded-full transition-colors"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
@@ -93,7 +94,7 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
           <button
             type="button"
             onClick={next}
-            aria-label="Pièce suivante"
+            aria-label={m.series_next()}
             className="w-9 h-9 flex items-center justify-center text-canard/70 hover:text-canard hover:bg-canard/5 rounded-full transition-colors"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
@@ -116,7 +117,7 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
 
           <div className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 flex-col items-center gap-1 z-30 pointer-events-none">
             <span className="font-body italic font-light text-[13px] text-canard-90 [writing-mode:vertical-rl] rotate-180 tracking-wide">
-              pièce {current + 1} / {N}
+              {m.series_piece_counter({ n: current + 1, total: N })}
             </span>
           </div>
         </div>

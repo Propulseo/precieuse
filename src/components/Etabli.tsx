@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
+import { m } from '#/paraglide/messages'
 import { ETABLI_STEPS, type EtabliStep } from '../lib/content/etabli'
 
 const SIGNATURES = [
-  { day: 'lundi', time: '11h32', glyph: '♦' },
-  { day: 'mardi', time: '14h08', glyph: '※' },
-  { day: 'mercredi', time: '16h45', glyph: '✦' },
-  { day: 'jeudi', time: '18h20', glyph: '❖' },
+  { day: () => m.etabli_day_monday(), time: '11h32', glyph: '♦' },
+  { day: () => m.etabli_day_tuesday(), time: '14h08', glyph: '※' },
+  { day: () => m.etabli_day_wednesday(), time: '16h45', glyph: '✦' },
+  { day: () => m.etabli_day_thursday(), time: '18h20', glyph: '❖' },
 ]
 
 const ROMAN_PATHS: Record<string, string> = {
@@ -78,9 +79,9 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
         <div className="mx-auto max-w-[1440px] flex items-end justify-between flex-wrap gap-6">
           <div>
             <span className="font-display text-[12px] tracking-[0.35em] text-canard block mb-3">
-              CHAPITRE VII · LE CHEMIN DE LA MATIÈRE
+              {m.etabli_overline()}
             </span>
-            <h2 className="font-headline text-[56px] text-canard leading-[0.95]">À l'établi.</h2>
+            <h2 className="font-headline text-[56px] text-canard leading-[0.95]">{m.etabli_title()}</h2>
           </div>
         </div>
       </header>
@@ -107,7 +108,7 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
                 </div>
                 <div className="absolute bottom-0 inset-x-0 p-8 bg-gradient-to-t from-poudre via-poudre/60 to-transparent flex items-baseline justify-between">
                   <span className="font-body italic font-light text-[18px] text-canard-90">
-                    cliché · {sig.day} {sig.time}
+                    {m.etabli_photo_caption()} · {sig.day()} {sig.time}
                   </span>
                   <span className="font-display text-[13px] tracking-widest text-canard">
                     {String(active + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
@@ -143,7 +144,7 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
                     <div className="flex items-center gap-3">
                       <span className="block w-10 h-px bg-canard" />
                       <span className="font-display text-[12px] tracking-[0.35em] text-canard">
-                        FRAGMENT {s.roman}
+                        {m.etabli_fragment_label({ roman: s.roman })}
                       </span>
                     </div>
 
@@ -163,7 +164,7 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
 
                     <div className="flex items-end justify-between pt-6 max-w-[480px] border-t border-canard/20">
                       <span className="font-body italic font-light text-[18px] text-canard-90/80">
-                        É. R., {sg.day} {sg.time}
+                        É. R., {sg.day()} {sg.time}
                       </span>
                       <span aria-hidden className="font-display text-[28px] text-violet/40 leading-none">
                         {sg.glyph}
@@ -180,7 +181,7 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
       <div className="px-8 lg:px-16 pt-12 pb-24 relative">
         <div className="mx-auto max-w-[1440px] flex justify-between items-end pt-8 border-t border-canard/15">
           <span className="font-body italic font-light text-[17px] text-canard-90">
-            quatre étapes, pas une de moins
+            {m.etabli_footer_note()}
           </span>
           <span className="font-display text-[13px] text-canard">p. 07</span>
         </div>

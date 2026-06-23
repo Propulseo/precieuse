@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { getProducts } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
+import { m } from '#/paraglide/messages'
 
 export const Route = createFileRoute('/collection')({
   component: CollectionPage,
@@ -15,10 +16,10 @@ function CollectionPage() {
       <div className="mx-auto max-w-[1320px]">
         <header className="mb-12">
           <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3">
-            CHAPITRE I · LA COLLECTION
+            {m.collection_chapter_eyebrow()}
           </span>
-          <h1 className="font-headline text-[64px] text-ink leading-none">La Collection</h1>
-          <p className="font-script text-[20px] text-raspberry mt-4">cinq pièces, cinq histoires</p>
+          <h1 className="font-headline text-[64px] text-ink leading-none">{m.collection_title()}</h1>
+          <p className="font-script text-[20px] text-raspberry mt-4">{m.collection_subtitle()}</p>
         </header>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

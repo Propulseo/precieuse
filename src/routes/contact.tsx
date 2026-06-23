@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
 import { SITE } from '../lib/content/site'
+import { m } from '#/paraglide/messages'
 
 export const Route = createFileRoute('/contact')({ component: ContactPage })
 
@@ -11,20 +12,19 @@ function ContactPage() {
         {/* Colonne gauche : intro + coordonnees */}
         <div>
           <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
-            Contact
+            {m.contact_eyebrow()}
           </span>
           <h1 className="font-display italic text-[clamp(48px,7vw,90px)] text-ink leading-[0.95]">
-            Parlons de votre projet.
+            {m.contact_title()}
           </h1>
           <p className="font-display italic text-[18px] text-ink/75 mt-8 leading-relaxed max-w-prose">
-            Une question sur la collection ? Une création sur-mesure ? Un simple bonjour ? Écrivez-moi par
-            formulaire, par mail ou directement par WhatsApp. Je vous réponds sous 24h.
+            {m.contact_lede()}
           </p>
 
           <ul className="mt-12 space-y-6">
             <li>
               <span className="font-display italic text-[11px] tracking-[0.3em] text-gold uppercase block mb-1">
-                Email
+                {m.contact_label_email()}
               </span>
               <a href={`mailto:${SITE.email}`} className="font-script text-[22px] text-raspberry hover:text-ink transition-colors">
                 {SITE.email}
@@ -32,7 +32,7 @@ function ContactPage() {
             </li>
             <li>
               <span className="font-display italic text-[11px] tracking-[0.3em] text-gold uppercase block mb-1">
-                WhatsApp
+                {m.contact_label_whatsapp()}
               </span>
               <a
                 href={SITE.whatsapp}
@@ -40,12 +40,12 @@ function ContactPage() {
                 rel="noopener noreferrer"
                 className="font-script text-[22px] text-raspberry hover:text-ink transition-colors"
               >
-                Discuter directement
+                {m.contact_whatsapp_link()}
               </a>
             </li>
             <li>
               <span className="font-display italic text-[11px] tracking-[0.3em] text-gold uppercase block mb-1">
-                Atelier
+                {m.contact_label_atelier()}
               </span>
               <span className="font-script text-[20px] text-raspberry not-italic leading-[1.6]">
                 {SITE.address.street}, {SITE.address.zip} {SITE.address.city}
@@ -79,9 +79,9 @@ function ContactForm() {
   if (sent) {
     return (
       <div className="flex flex-col items-start gap-3 py-8">
-        <span className="font-display italic text-[28px] text-ink">Merci !</span>
+        <span className="font-display italic text-[28px] text-ink">{m.contact_success_title()}</span>
         <p className="font-script text-[20px] text-raspberry">
-          Votre message est bien arrivé. Je vous réponds sous 24h. É.
+          {m.contact_success_body()}
         </p>
       </div>
     )
@@ -89,7 +89,7 @@ function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      <Field label="Votre nom">
+      <Field label={m.contact_field_name()}>
         <input
           type="text"
           required
@@ -98,7 +98,7 @@ function ContactForm() {
           className="w-full bg-transparent border-b border-ink/30 pb-2 font-sans text-[15px] text-ink focus:outline-none focus:border-ink transition-colors"
         />
       </Field>
-      <Field label="Votre email">
+      <Field label={m.contact_field_email()}>
         <input
           type="email"
           required
@@ -107,7 +107,7 @@ function ContactForm() {
           className="w-full bg-transparent border-b border-ink/30 pb-2 font-sans text-[15px] text-ink focus:outline-none focus:border-ink transition-colors"
         />
       </Field>
-      <Field label="Votre message">
+      <Field label={m.contact_field_message()}>
         <textarea
           required
           rows={4}
@@ -120,7 +120,7 @@ function ContactForm() {
         type="submit"
         className="self-start font-display italic text-[16px] text-ink border border-ink/30 px-8 py-3 mt-2 hover:bg-ink hover:text-cream transition-all duration-300"
       >
-        Envoyer →
+        {m.contact_submit()} →
       </button>
     </form>
   )

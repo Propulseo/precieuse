@@ -1,11 +1,12 @@
+import { m } from '#/paraglide/messages'
 import { BRAND_PICTO_MASK, maskStyle } from './brand/brand'
 import { useBrand } from './brand/BrandProvider'
 
 const PAIRES = [
-  { roman: 'i', pas: 'pas de saison', mais: 'Des pièces dessinées pour traverser le temps.' },
-  { roman: 'ii', pas: 'pas de stock', mais: "Une fabrication à la commande, pas forcément à l'unité." },
-  { roman: 'iii', pas: "pas d'usine", mais: 'Une main, un atelier, un geste, du dessin au sertissage.' },
-  { roman: 'iv', pas: 'pas de hasard', mais: 'Or 18 carats sourcé et tracé grâce au traité de Kimberley, pierres précieuses choisies une à une.' },
+  { roman: 'i', pas: () => m.avantpropos_pair1_pas(), mais: () => m.avantpropos_pair1_mais() },
+  { roman: 'ii', pas: () => m.avantpropos_pair2_pas(), mais: () => m.avantpropos_pair2_mais() },
+  { roman: 'iii', pas: () => m.avantpropos_pair3_pas(), mais: () => m.avantpropos_pair3_mais() },
+  { roman: 'iv', pas: () => m.avantpropos_pair4_pas(), mais: () => m.avantpropos_pair4_mais() },
 ]
 
 function Filigrane() {
@@ -95,7 +96,7 @@ export function AvantPropos() {
           <div className="relative w-full max-w-[460px] aspect-[3/4] border border-canard/30 overflow-hidden">
             <img
               src="/images/emeline-portrait.jpg"
-              alt="Portrait d'Emeline Le Ray, fondatrice et joaillière de Précieuse"
+              alt={m.avantpropos_portrait_alt()}
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
@@ -111,7 +112,7 @@ export function AvantPropos() {
 
         <div className="md:order-2 order-1">
           <span className="font-display text-[10px] tracking-[0.45em] uppercase text-canard block mb-5">
-            Avant-propos
+            {m.avantpropos_foreword()}
           </span>
 
           <div className="flex flex-col items-start mb-10">
@@ -134,10 +135,10 @@ export function AvantPropos() {
                 </span>
                 <div className="flex flex-col gap-1.5">
                   <span className="font-display text-[15px] text-canard/65 tracking-wide">
-                    {p.pas}
+                    {p.pas()}
                   </span>
                   <span className="font-display text-[20px] text-canard leading-[1.45]">
-                    {p.mais}
+                    {p.mais()}
                   </span>
                 </div>
               </li>
@@ -149,10 +150,10 @@ export function AvantPropos() {
             <div className="flex flex-col">
               <span className="font-display text-[18px] text-canard">Emeline Le Ray</span>
               <span className="font-display text-[13px] text-canard/65 tracking-wide">
-                joaillière diplômée · 12 ans d'expérience
+                {m.avantpropos_credits_qualification()}
               </span>
               <span className="font-display text-[12px] text-canard/45 tracking-wide mt-0.5">
-                fondatrice · Bordeaux · MMXXVI
+                {m.avantpropos_credits_founder()}
               </span>
             </div>
           </div>

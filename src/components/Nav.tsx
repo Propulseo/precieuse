@@ -1,13 +1,16 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { Fragment, useEffect, useState } from 'react'
+import { m } from '#/paraglide/messages'
 import { getLocale, locales, setLocale } from '#/paraglide/runtime'
 import { BRAND_LOCKUP_MASK, maskStyle } from './brand/brand'
 
+// label en thunk : m.*() doit être appelé au rendu (locale courante), pas au
+// chargement du module (sinon la langue est figée à la locale de base).
 const navLinks = [
-  { label: 'À propos', href: '/a-propos' },
-  { label: 'Collection', href: '/collection' },
-  { label: 'Le Carnet', href: '/carnet' },
-  { label: 'Contact', href: '/contact' },
+  { label: () => m.nav_about(), href: '/a-propos' },
+  { label: () => m.nav_collection(), href: '/collection' },
+  { label: () => m.nav_journal(), href: '/carnet' },
+  { label: () => m.nav_contact(), href: '/contact' },
 ]
 
 const SCROLL_THRESHOLD = 60
@@ -27,7 +30,7 @@ function LangControl({ isHomeTop }: { isHomeTop: boolean }) {
   return (
     <div
       className="flex items-center gap-1.5 font-display text-[12px] tracking-[0.12em]"
-      aria-label="Choix de la langue"
+      aria-label={m.nav_language_choice()}
     >
       {locales.map((loc, i) => (
         <Fragment key={loc}>
@@ -81,14 +84,14 @@ export function Nav() {
       <nav className="mx-auto flex max-w-[1440px] items-center justify-between px-8 py-3 lg:px-16">
         <Link
           to="/"
-          aria-label="Précieuse, accueil"
+          aria-label={m.nav_home_aria()}
           className="relative block transition-opacity hover:opacity-70"
         >
           {/* Lockup recoloré via masque CSS : suit --brand-accent (toggle),
               et passe en blanc par-dessus le hero plein écran (home, en haut). */}
           <span
             role="img"
-            aria-label="Précieuse, Joaillerie artisanale, Bordeaux"
+            aria-label={m.nav_brand_aria()}
             className="block h-9 w-auto lg:h-10 transition-colors duration-500 ease-out"
             style={{
               aspectRatio: '8284 / 2955',
@@ -112,11 +115,11 @@ export function Nav() {
                 : 'text-canard/70 hover:text-canard'
             return (
               <Link
-                key={l.label}
+                key={l.href}
                 to={l.href}
                 className={`font-display text-[14px] transition-colors duration-300 ${baseColor}`}
               >
-                {l.label}
+                {l.label()}
               </Link>
             )
           })}
@@ -129,7 +132,7 @@ export function Nav() {
                 : 'border-canard/40 text-canard hover:bg-canard hover:text-poudre'
             }`}
           >
-            Sur-Mesure
+            {m.nav_bespoke()}
           </Link>
 
           <LangControl isHomeTop={isHomeTop} />

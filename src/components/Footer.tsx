@@ -1,3 +1,4 @@
+import { m } from '#/paraglide/messages'
 import { FOOTER_DATA } from '../lib/content/footer'
 import { BRAND_LOCKUP_MASK, maskStyle } from './brand/brand'
 
@@ -12,7 +13,7 @@ export function Footer() {
             {/* Lockup recoloré via masque CSS : suit --brand-accent (toggle). */}
             <span
               role="img"
-              aria-label="Précieuse, Joaillerie artisanale, Bordeaux"
+              aria-label={m.footer_brand_aria()}
               className="block h-10 w-auto opacity-90"
               style={{
                 aspectRatio: '8284 / 2955',
@@ -28,9 +29,9 @@ export function Footer() {
           {/* Naviguer */}
           <div>
             <span className="font-display text-[11px] tracking-[0.35em] uppercase text-lie-de-vin block mb-4">
-              Naviguer
+              {m.footer_navigate()}
             </span>
-            <nav className="flex flex-col gap-2.5" aria-label="Navigation principale">
+            <nav className="flex flex-col gap-2.5" aria-label={m.footer_nav_aria()}>
               {FOOTER_DATA.nav.map((l) => (
                 <a
                   key={l.label}
@@ -46,7 +47,7 @@ export function Footer() {
           {/* Suivre */}
           <div>
             <span className="font-display text-[11px] tracking-[0.35em] uppercase text-lie-de-vin block mb-4">
-              Suivre
+              {m.footer_follow()}
             </span>
             <div className="flex flex-col gap-3">
               {FOOTER_DATA.social.map((s) => (
@@ -71,7 +72,7 @@ export function Footer() {
           {/* Écrire */}
           <div>
             <span className="font-display text-[11px] tracking-[0.35em] uppercase text-lie-de-vin block mb-4">
-              Écrire
+              {m.footer_write()}
             </span>
             <a
               href={`mailto:${FOOTER_DATA.email}`}
@@ -80,9 +81,9 @@ export function Footer() {
               {FOOTER_DATA.email}
             </a>
             <p className="mt-3 font-display text-[13px] text-canard/60 leading-relaxed max-w-[200px]">
-              Réponse sous 48 h,
+              {m.footer_response_line1()}
               <br />
-              du lundi au vendredi.
+              {m.footer_response_line2()}
             </p>
           </div>
         </div>
@@ -91,7 +92,7 @@ export function Footer() {
       {/* --- Barre legale --- */}
       <div className="border-t border-canard/10 px-4 lg:px-8 py-5">
         <div className="mx-auto max-w-[1440px] flex items-center justify-between gap-x-6 gap-y-3 flex-wrap font-display text-[12px] text-canard/60">
-          <nav className="flex items-center gap-4" aria-label="Liens légaux">
+          <nav className="flex items-center gap-4" aria-label={m.footer_legal_aria()}>
             {FOOTER_DATA.legal.map((l) => (
               <a key={l.label} href={l.href} className="hover:text-canard transition-colors duration-300">
                 {l.label}

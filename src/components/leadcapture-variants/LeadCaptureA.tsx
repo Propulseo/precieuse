@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { m } from '#/paraglide/messages'
 
 export function LeadCaptureA() {
   const [civility, setCivility] = useState<'M' | 'Mme' | null>(null)
@@ -16,16 +17,15 @@ export function LeadCaptureA() {
         />
 
         <h2 className="font-headline text-[22px] sm:text-[26px] text-canard mt-4 mb-3">
-          Recevoir les photos portées
+          {m.leadcapture_title()}
         </h2>
 
         <p className="font-display text-[14px] text-canard/70 leading-relaxed max-w-[440px] mb-6">
-          Découvrez nos bagues telles qu'elles vivent, portées au quotidien, dans la lumière vraie.
-          Un savoir-faire joaillier, une création qui vous ressemble.
+          {m.leadcapture_subtitle()}
         </p>
 
         <fieldset className="flex items-center gap-6 mb-5">
-          <legend className="sr-only">Civilité</legend>
+          <legend className="sr-only">{m.leadcapture_civility_legend()}</legend>
           {(['M', 'Mme'] as const).map((c) => (
             <label
               key={c}
@@ -56,25 +56,25 @@ export function LeadCaptureA() {
         </fieldset>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5 w-full mb-7 text-left">
-          <FieldA label="Prénom *" name="prenom" required />
-          <FieldA label="Nom *" name="nom" required />
-          <FieldA label="Email *" name="email" type="email" required />
-          <FieldA label="Téléphone" name="phone" type="tel" prefix="FR" />
+          <FieldA label={m.leadcapture_field_firstname()} name="prenom" required />
+          <FieldA label={m.leadcapture_field_lastname()} name="nom" required />
+          <FieldA label={m.leadcapture_field_email()} name="email" type="email" required />
+          <FieldA label={m.leadcapture_field_phone()} name="phone" type="tel" prefix="FR" />
         </div>
 
         <button
           type="submit"
           className="bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-8 py-3 hover:bg-canard transition-colors duration-300"
         >
-          Recevoir les photos
+          {m.leadcapture_submit()}
         </button>
 
         <p className="font-display text-[11px] text-canard/55 mt-5 max-w-[420px]">
-          En validant, j'accepte de recevoir un email et j'approuve la{' '}
+          {m.leadcapture_consent_prefix()}{' '}
           <a href="/confidentialite" className="underline underline-offset-2 hover:text-canard">
-            politique de confidentialité
+            {m.leadcapture_consent_link()}
           </a>
-          .
+          {m.leadcapture_consent_suffix()}
         </p>
       </form>
     </section>

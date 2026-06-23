@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { m } from '#/paraglide/messages'
 import { LETTRES, type Lettre } from '../lib/content/lettres'
 
 const INTERVAL_MS = 8000
@@ -96,17 +97,17 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       aria-roledescription="carousel"
-      aria-label="Témoignages clientes"
+      aria-label={m.testimonials_carousel_label()}
     >
       <div className="mx-auto max-w-[1400px] flex flex-col items-center text-center">
         <span className="inline-block px-5 py-1.5 rounded-full border border-canard/35 font-display text-[11px] tracking-[0.4em] uppercase text-canard/80">
-          Témoignages
+          {m.testimonials_overline()}
         </span>
 
         <h2 className="font-display text-[clamp(30px,4.2vw,52px)] leading-[1.05] text-canard mt-5 mb-9 lg:mb-12 max-w-[16ch]">
-          Celles qui les
+          {m.testimonials_title_line1()}
           <br />
-          portent en parlent
+          {m.testimonials_title_line2()}
         </h2>
 
         <div className="relative w-full h-[300px] sm:h-[320px] lg:h-[340px]">
@@ -118,7 +119,7 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
                 key={t.auteur}
                 className={getCardClasses(role, mat)}
                 aria-hidden={role !== 'focus'}
-                aria-label={`Témoignage de ${t.auteur}, ${t.ville}`}
+                aria-label={m.testimonials_card_label({ author: t.auteur, city: t.ville })}
               >
                 <p
                   className={`font-display text-[clamp(16px,1.7vw,20px)] leading-[1.45] ${mat.text}`}
@@ -138,12 +139,12 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
         <div
           className="flex items-center gap-3 mt-8 lg:mt-10"
           role="group"
-          aria-label="Navigation des témoignages"
+          aria-label={m.testimonials_nav_label()}
         >
           <button
             type="button"
             onClick={goPrev}
-            aria-label="Témoignage précédent"
+            aria-label={m.testimonials_prev_label()}
             className="w-10 h-10 rounded-full border border-canard/30 flex items-center justify-center text-canard hover:bg-canard hover:text-poudre transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-canard"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
@@ -159,7 +160,7 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
           <button
             type="button"
             onClick={goNext}
-            aria-label="Témoignage suivant"
+            aria-label={m.testimonials_next_label()}
             className="w-10 h-10 rounded-full border border-canard/30 flex items-center justify-center text-canard hover:bg-canard hover:text-poudre transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-canard"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>

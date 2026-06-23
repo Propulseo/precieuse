@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ARTICLES, CATEGORIES, type Article } from '../../lib/content/carnet'
+import { m } from '#/paraglide/messages'
 
 export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
   const rest = articles.filter((a) => !a.featured)
@@ -65,7 +66,7 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
               </p>
 
               <span className="font-display text-[11px] text-canard/30 mt-4">
-                {article.readTime} de lecture
+                {m.carnet_read_time({ time: article.readTime })}
               </span>
             </article>
           ))}

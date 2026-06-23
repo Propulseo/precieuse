@@ -1,4 +1,5 @@
 import { PROMESSES } from '../../lib/content/sur-mesure'
+import { m } from '#/paraglide/messages'
 
 export function Promesses({ promesses = PROMESSES }: { promesses?: typeof PROMESSES }) {
   return (
@@ -9,14 +10,14 @@ export function Promesses({ promesses = PROMESSES }: { promesses?: typeof PROMES
         <div className="mb-14 flex items-end justify-between">
           <div>
             <span className="font-display text-[12px] tracking-[0.35em] text-canard block mb-3">
-              ENGAGEMENTS
+              {m.promesses_eyebrow()}
             </span>
             <h2 className="font-headline text-[clamp(32px,4vw,48px)] text-canard leading-[0.95]">
-              Nos Promesses.
+              {m.promesses_title()}
             </h2>
           </div>
           <span className="font-body italic font-light text-[13px] text-canard-90/40 hidden md:block">
-            ce qui ne se négocie pas
+            {m.promesses_aside()}
           </span>
         </div>
 

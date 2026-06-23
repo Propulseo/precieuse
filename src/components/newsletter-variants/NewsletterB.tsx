@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NEWSLETTER } from './newsletter-data'
+import { m } from '#/paraglide/messages'
 
 interface Props {
   isOpen: boolean
@@ -23,7 +24,7 @@ export function NewsletterB({ isOpen, onClose, onSubmit }: Props) {
       <button
         type="button"
         onClick={onClose}
-        aria-label="Fermer"
+        aria-label={m.newsletter_close()}
         className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center text-canard/55 hover:text-canard hover:bg-canard/5 rounded-full transition-colors"
       >
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden>

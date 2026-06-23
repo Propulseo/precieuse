@@ -1,3 +1,4 @@
+import { m } from '#/paraglide/messages'
 import { BRAND_WORDMARK_MASK, maskStyle } from '../brand/brand'
 import { useBrand } from '../brand/BrandProvider'
 
@@ -15,14 +16,14 @@ export function HeroSplitSezane() {
         <div className="relative overflow-hidden">
           <img
             src="/images/real/bague-main-josephine.webp"
-            alt="Bague Joséphine en or 18 carats portée à la main — atelier Précieuse, Bordeaux"
+            alt={m.hero_alt_josephine()}
             className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
         <div className="relative overflow-hidden">
           <img
             src="/images/real/buste-thelma-louise.webp"
-            alt="Bagues Thelma et Louise en or 18 carats portées — création de l'atelier Précieuse, Bordeaux"
+            alt={m.hero_alt_thelma_louise()}
             className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
@@ -37,7 +38,7 @@ export function HeroSplitSezane() {
             className="font-display text-[12px] tracking-[0.4em] uppercase block mb-5 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]"
             style={{ color: 'var(--brand-accent)' }}
           >
-            Joaillerie artisanale · Bordeaux
+            {m.hero_eyebrow()}
           </span>
 
           {/* Marque de la hero : soit le logo (masque CSS), soit le mot écrit
@@ -66,24 +67,24 @@ export function HeroSplitSezane() {
           )}
 
           <p className="font-display text-[clamp(20px,2.6vw,30px)] text-poudre mb-3 max-w-[24ch] leading-snug drop-shadow-[0_1px_6px_rgba(0,0,0,0.25)]">
-            Votre bijou.{' '}
-            <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">Votre histoire.</span>
+            {m.hero_tagline_lead()}{' '}
+            <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">{m.hero_tagline_accent()}</span>
           </p>
           <p className="font-display text-[clamp(14px,1.7vw,18px)] text-poudre/85 mb-10 max-w-[36ch] leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.25)]">
-            Un savoir-faire joaillier, une création qui vous ressemble.
+            {m.hero_subline()}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="/collection"
               className="inline-flex items-center justify-center w-[260px] font-display text-[12px] tracking-[0.35em] uppercase border border-poudre/80 px-9 py-3.5 hover:bg-poudre hover:text-canard transition-colors duration-300"
             >
-              Découvrir la collection
+              {m.hero_cta_collection()}
             </a>
             <a
               href="/sur-mesure"
               className="inline-flex items-center justify-center w-[260px] font-display text-[12px] tracking-[0.35em] uppercase border border-poudre/80 px-9 py-3.5 hover:bg-poudre hover:text-canard transition-colors duration-300"
             >
-              Créer sur-mesure
+              {m.hero_cta_bespoke()}
             </a>
           </div>
         </div>

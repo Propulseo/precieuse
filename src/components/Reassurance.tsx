@@ -1,8 +1,10 @@
+import { m } from '#/paraglide/messages'
+
 const ITEMS = [
-  { icon: 'RotateCcw', text: 'Retour gratuit 30 jours' },
-  { icon: 'Ruler', text: 'Mise à taille offerte' },
-  { icon: 'MessageCircle', text: 'WhatsApp 7j/7 avec Emeline' },
-  { icon: 'ShieldCheck', text: 'Certificat GIA ou HRD' },
+  { icon: 'RotateCcw', text: () => m.reassurance_returns() },
+  { icon: 'Ruler', text: () => m.reassurance_resizing() },
+  { icon: 'MessageCircle', text: () => m.reassurance_whatsapp() },
+  { icon: 'ShieldCheck', text: () => m.reassurance_certificate() },
 ]
 
 function Icon({ name }: { name: string }) {
@@ -27,9 +29,9 @@ export function Reassurance() {
     <div className="bg-poudre border-y border-canard/15 py-5 px-6 lg:px-14">
       <div className="flex flex-wrap items-center justify-center md:justify-between gap-x-8 gap-y-3">
         {ITEMS.map((item) => (
-          <span key={item.text} className="flex items-center gap-2.5 text-canard/70">
+          <span key={item.icon} className="flex items-center gap-2.5 text-canard/70">
             <span className="text-rouille"><Icon name={item.icon} /></span>
-            <span className="font-display text-[13px] tracking-wide">{item.text}</span>
+            <span className="font-display text-[13px] tracking-wide">{item.text()}</span>
           </span>
         ))}
       </div>

@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { m } from '#/paraglide/messages'
 
 export const Route = createFileRoute('/creatrice')({ component: CreatricePage })
 
@@ -11,21 +12,20 @@ function CreatricePage() {
           <div className="relative w-full max-w-[460px] aspect-[3/4] border border-ink/30 overflow-hidden mx-auto lg:mx-0">
             <img
               src="/images/emeline/emeline-atelier.jpg"
-              alt="Emeline, joaillière artisanale, dans son atelier"
+              alt={m.creatrice_intro_portrait_alt()}
               className="absolute inset-0 w-full h-full object-cover luxe-grayscale"
             />
           </div>
 
           <div>
             <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
-              La créatrice
+              {m.creatrice_intro_eyebrow()}
             </span>
             <h1 className="font-headline text-[clamp(48px,7vw,90px)] text-ink leading-[0.95]">
-              Moi c'est Emeline.
+              {m.creatrice_intro_title()}
             </h1>
             <p className="font-display italic text-[20px] text-ink/75 mt-8 leading-relaxed max-w-prose">
-              Joaillière artisanale, je fabrique le bijou de vos rêves. Douze ans à travailler l'or,
-              tous les jours. Ça laisse des traces, et surtout du savoir-faire.
+              {m.creatrice_intro_lede()}
             </p>
           </div>
         </div>
@@ -37,24 +37,20 @@ function CreatricePage() {
           <div className="relative aspect-[3/4] overflow-hidden order-2 lg:order-1">
             <img
               src="/images/real/deux-mains.webp"
-              alt="Deux mains présentant une bague en or 18 carats — geste de l'atelier Précieuse, Bordeaux"
+              alt={m.creatrice_parcours_image_alt()}
               className="absolute inset-0 w-full h-full object-cover luxe-grayscale"
             />
           </div>
           <div className="order-1 lg:order-2">
             <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
-              Le parcours
+              {m.creatrice_parcours_eyebrow()}
             </span>
             <h2 className="font-headline text-[40px] text-ink leading-none mb-8">
-              De la formation à l'atelier
+              {m.creatrice_parcours_title()}
             </h2>
             <div className="space-y-6 font-sans text-[15px] text-ink/80 leading-relaxed max-w-prose">
-              <p>
-                Formation en joaillerie, puis douze années à pratiquer chaque technique au quotidien :
-                fonte à cire perdue, sertissage, polissage main. Chaque bague que je crée passe par mes
-                mains, du dessin initial au polissage final.
-              </p>
-              <p>C'est exigeant, c'est précis, c'est lent. Et c'est ce qui rend chaque pièce unique et pérenne.</p>
+              <p>{m.creatrice_parcours_p1()}</p>
+              <p>{m.creatrice_parcours_p2()}</p>
             </div>
           </div>
         </div>
@@ -64,21 +60,17 @@ function CreatricePage() {
       <section className="relative bg-cream py-20 px-8 lg:px-16 border-t border-ink/15">
         <div className="mx-auto max-w-[800px]">
           <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
-            La philosophie
+            {m.creatrice_philosophie_eyebrow()}
           </span>
           <h2 className="font-headline text-[40px] text-ink leading-none mb-8">
-            Pas de compromis, pas de raccourci.
+            {m.creatrice_philosophie_title()}
           </h2>
           <p className="font-sans text-[15px] text-ink/80 leading-relaxed">
-            Il y a des jours de doutes. Mais c'est dans ces moments-là que je me recentre sur l'essentiel :
-            créer des bijoux qui racontent votre histoire, qui deviennent une part de vous. Pas de compromis
-            sur la matière, pas de raccourci sur le savoir-faire. Précieuse, c'est cela : la transparence de
-            l'artisanat, la confiance du geste.
+            {m.creatrice_philosophie_body()}
           </p>
           <blockquote className="border-l-2 border-raspberry/40 pl-6 mt-12">
             <p className="font-display italic text-[26px] text-ink leading-snug">
-              « Ce que personne ne voit derrière un bijou artisanal, et que personne n'a pris le temps de
-              vous expliquer. »
+              {m.creatrice_philosophie_quote()}
             </p>
           </blockquote>
         </div>
@@ -86,12 +78,12 @@ function CreatricePage() {
 
       {/* CTA */}
       <section className="relative bg-cream py-24 px-8 lg:px-16 border-t border-ink/15 text-center">
-        <h2 className="font-headline text-[48px] text-ink leading-none mb-10">On se rencontre ?</h2>
+        <h2 className="font-headline text-[48px] text-ink leading-none mb-10">{m.creatrice_cta_title()}</h2>
         <Link
           to="/contact"
           className="inline-block font-display italic text-[18px] text-ink border border-ink/30 px-8 py-3 hover:bg-ink hover:text-cream transition-all duration-300"
         >
-          Prendre rendez-vous →
+          {m.creatrice_cta_button()} →
         </Link>
       </section>
     </>

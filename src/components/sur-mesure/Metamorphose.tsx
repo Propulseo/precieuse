@@ -1,5 +1,6 @@
 import { METAMORPHOSE, type MetamorphoseStep } from '../../lib/content/sur-mesure'
 import { Reveal } from '../Reveal'
+import { m } from '#/paraglide/messages'
 
 export function Metamorphose({ steps = METAMORPHOSE }: { steps?: MetamorphoseStep[] }) {
   return (
@@ -8,10 +9,10 @@ export function Metamorphose({ steps = METAMORPHOSE }: { steps?: MetamorphoseSte
 
       <div className="mx-auto max-w-[1320px] mb-20">
         <span className="font-display text-[12px] tracking-[0.35em] text-canard block mb-3">
-          DU CROQUIS AU BIJOU
+          {m.metamorphose_eyebrow()}
         </span>
         <h2 className="font-headline text-[clamp(36px,5vw,56px)] text-canard leading-[0.95]">
-          La Métamorphose.
+          {m.metamorphose_title()}
         </h2>
       </div>
 
@@ -42,7 +43,7 @@ export function Metamorphose({ steps = METAMORPHOSE }: { steps?: MetamorphoseSte
                   <div className="flex items-center gap-3 mb-6">
                     <span className="block w-10 h-px bg-canard" />
                     <span className="font-display text-[12px] tracking-[0.35em] text-canard">
-                      ÉTAPE {step.roman}
+                      {m.metamorphose_step_label({ roman: step.roman })}
                     </span>
                   </div>
 
