@@ -18,18 +18,20 @@ import {
   getEtabliSteps,
   getBespokeProcess,
 } from '../lib/cms'
+import { getLocale } from '#/paraglide/runtime'
 
 export const Route = createFileRoute('/')({
   component: Home,
   // Lit Sanity quand configuré, sinon le contenu statique (fallback des getters).
   loader: async () => {
+    const locale = getLocale()
     const [products, matieres, lettres, etabliSteps, bespokeProcess] =
       await Promise.all([
-        getProducts(),
-        getMatieres(),
-        getLettres(),
-        getEtabliSteps(),
-        getBespokeProcess(),
+        getProducts(locale),
+        getMatieres(locale),
+        getLettres(locale),
+        getEtabliSteps(locale),
+        getBespokeProcess(locale),
       ])
     return { products, matieres, lettres, etabliSteps, bespokeProcess }
   },

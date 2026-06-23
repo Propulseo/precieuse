@@ -1,11 +1,12 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { getProduct } from '../lib/cms'
+import { getLocale } from '#/paraglide/runtime'
 
 export const Route = createFileRoute('/collection/$slug')({
   component: ProductPage,
   // Reads from Sanity when configured, otherwise the static PRODUCTS fallback.
   loader: async ({ params }) => {
-    const product = await getProduct(params.slug)
+    const product = await getProduct(params.slug, getLocale())
     if (!product) throw notFound()
     return product
   },

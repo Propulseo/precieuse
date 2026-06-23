@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { getProducts } from '../lib/cms'
+import { getLocale } from '#/paraglide/runtime'
 
 export const Route = createFileRoute('/collection')({
   component: CollectionPage,
   // Reads from Sanity when configured, otherwise the static PRODUCTS fallback.
-  loader: () => getProducts(),
+  loader: () => getProducts(getLocale()),
 })
 
 function CollectionPage() {

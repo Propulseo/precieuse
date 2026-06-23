@@ -6,13 +6,15 @@ import { HistoireSandrine } from '../components/sur-mesure/HistoireSandrine'
 import { FormulaireInvitation } from '../components/sur-mesure/FormulaireInvitation'
 import { Reveal } from '../components/Reveal'
 import { getMetamorphose, getPromesses } from '../lib/cms'
+import { getLocale } from '#/paraglide/runtime'
 
 export const Route = createFileRoute('/sur-mesure')({
   component: SurMesurePage,
   loader: async () => {
+    const locale = getLocale()
     const [metamorphose, promesses] = await Promise.all([
-      getMetamorphose(),
-      getPromesses(),
+      getMetamorphose(locale),
+      getPromesses(locale),
     ])
     return { metamorphose, promesses }
   },
