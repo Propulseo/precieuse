@@ -1,9 +1,7 @@
 import { FOOTER_DATA } from '../lib/content/footer'
-import { useBrand } from './brand/BrandProvider'
-import { logoForBrand } from './brand/brand'
+import { BRAND_LOCKUP_MASK } from './brand/brand'
 
 export function Footer() {
-  const { brand } = useBrand()
   return (
     <footer className="bg-poudre-dark">
       {/* --- Grille principale --- */}
@@ -11,10 +9,23 @@ export function Footer() {
         <div className="mx-auto max-w-[1440px] grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
           {/* Atelier */}
           <div className="col-span-2 md:col-span-1 flex flex-col items-start gap-4">
-            <img
-              src={logoForBrand(brand)}
-              alt="Précieuse, Joaillerie artisanale, Bordeaux"
-              className="h-10 w-auto opacity-90"
+            {/* Lockup recoloré via masque CSS : suit --brand-accent (toggle). */}
+            <span
+              role="img"
+              aria-label="Précieuse, Joaillerie artisanale, Bordeaux"
+              className="block h-10 w-auto opacity-90"
+              style={{
+                aspectRatio: '8284 / 2955',
+                backgroundColor: 'var(--brand-accent)',
+                maskImage: `url(${BRAND_LOCKUP_MASK})`,
+                WebkitMaskImage: `url(${BRAND_LOCKUP_MASK})`,
+                maskSize: 'contain',
+                WebkitMaskSize: 'contain',
+                maskRepeat: 'no-repeat',
+                WebkitMaskRepeat: 'no-repeat',
+                maskPosition: 'center',
+                WebkitMaskPosition: 'center',
+              }}
             />
             <span className="font-display text-[14px] text-canard/75 leading-relaxed">
               {FOOTER_DATA.signature}

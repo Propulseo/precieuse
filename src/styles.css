@@ -9,29 +9,36 @@
 @plugin '@tailwindcss/typography';
 @import 'tw-animate-css';
 
-/* ─── Toggle couleur visiteur (teal ↔ blush) ──────────────────────────
+/* ─── Toggle couleur visiteur (palette 5 teintes) ─────────────────────
    Accent de marque pilotable par l'attribut `data-brand` sur <html>.
-   Le fond reste poudre ; seul l'accent (et le logo) change.
-   Valeurs faciles à ajuster ici. Défaut = teal (rappel du logo canard). */
+   Le fond reste poudre ; seul l'accent (et les logos, masqués CSS) change.
+   Valeurs faciles à ajuster ici. Défaut = canard. */
 :root {
-  --brand-accent-teal: #125e5e;
-  --brand-accent-teal-strong: #0d4747;
-  --brand-accent-blush: #b97e72;
-  --brand-accent-blush-strong: #9c6055;
-
-  /* Rôle « accent de marque » — résolu selon data-brand (défaut teal). */
-  --brand-accent: var(--brand-accent-teal);
-  --brand-accent-strong: var(--brand-accent-teal-strong);
+  /* Rôle « accent de marque » — résolu selon data-brand (défaut canard). */
+  --brand-accent: #125e5e;
+  --brand-accent-strong: #0d4747;
 }
 
 /* ─── Résolution de l'accent selon le choix visiteur ─── */
-[data-brand='teal'] {
-  --brand-accent: var(--brand-accent-teal);
-  --brand-accent-strong: var(--brand-accent-teal-strong);
+[data-brand='canard'] {
+  --brand-accent: #125e5e;
+  --brand-accent-strong: #0d4747;
 }
 [data-brand='blush'] {
-  --brand-accent: var(--brand-accent-blush);
-  --brand-accent-strong: var(--brand-accent-blush-strong);
+  --brand-accent: #b97e72;
+  --brand-accent-strong: #9c6055;
+}
+[data-brand='or'] {
+  --brand-accent: #b08d57;
+  --brand-accent-strong: #8f7044;
+}
+[data-brand='lie-de-vin'] {
+  --brand-accent: #7a2e3e;
+  --brand-accent-strong: #5e222f;
+}
+[data-brand='nuit'] {
+  --brand-accent: #2f3e4d;
+  --brand-accent-strong: #232f3a;
 }
 
 /* ─── Brand tokens (charte Précieuse — canard / poudre) ─── */

@@ -1,7 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
-import { useBrand } from './brand/BrandProvider'
-import { logoForBrand } from './brand/brand'
+import { BRAND_LOCKUP_MASK } from './brand/brand'
 
 const navLinks = [
   { label: 'À propos', href: '/a-propos' },
@@ -14,7 +13,6 @@ const SCROLL_THRESHOLD = 60
 
 export function Nav() {
   const { pathname } = useLocation()
-  const { brand } = useBrand()
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -45,14 +43,24 @@ export function Nav() {
           aria-label="Précieuse, accueil"
           className="relative block transition-opacity hover:opacity-70"
         >
-          <img
-            src={logoForBrand(brand)}
-            alt="Précieuse, Joaillerie artisanale, Bordeaux"
-            width={420}
-            height={140}
-            className={`h-9 w-auto lg:h-10 transition-[filter] duration-500 ease-out ${
-              isHomeTop ? 'brightness-0 invert' : ''
-            }`}
+          {/* Lockup recoloré via masque CSS : suit --brand-accent (toggle),
+              et passe en blanc par-dessus le hero plein écran (home, en haut). */}
+          <span
+            role="img"
+            aria-label="Précieuse, Joaillerie artisanale, Bordeaux"
+            className="block h-9 w-auto lg:h-10 transition-colors duration-500 ease-out"
+            style={{
+              aspectRatio: '8284 / 2955',
+              backgroundColor: isHomeTop ? '#ffffff' : 'var(--brand-accent)',
+              maskImage: `url(${BRAND_LOCKUP_MASK})`,
+              WebkitMaskImage: `url(${BRAND_LOCKUP_MASK})`,
+              maskSize: 'contain',
+              WebkitMaskSize: 'contain',
+              maskRepeat: 'no-repeat',
+              WebkitMaskRepeat: 'no-repeat',
+              maskPosition: 'center',
+              WebkitMaskPosition: 'center',
+            }}
           />
         </Link>
 

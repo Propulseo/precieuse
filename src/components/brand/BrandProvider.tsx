@@ -8,6 +8,7 @@ import {
 import type { ReactNode } from 'react'
 import {
   BRAND_STORAGE_KEY,
+  BRANDS,
   DEFAULT_BRAND,
   isBrand,
   type Brand,
@@ -60,8 +61,12 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  // Parcourt la palette dans l'ordre (utilitaire ; l'UI principale est la
+  // rangée de pastilles de BrandToggle).
   const toggleBrand = useCallback(() => {
-    setBrand(brand === 'teal' ? 'blush' : 'teal')
+    const idx = BRANDS.indexOf(brand)
+    const next = BRANDS[(idx + 1) % BRANDS.length]
+    setBrand(next)
   }, [brand, setBrand])
 
   return (

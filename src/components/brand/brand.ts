@@ -1,34 +1,43 @@
-// Toggle couleur visiteur (teal ↔ blush) — modèle de marque partagé.
+// Palette de marque sélectionnable par le visiteur (5 teintes curées).
 // Le choix pilote l'accent (CSS var `--brand-accent`, via `data-brand` sur <html>)
-// et le logo (lockup teal / blush). Persisté en localStorage.
+// et recolore les logos (rendus en masque CSS, plus en PNG par couleur).
+// Persisté en localStorage.
 
-export type Brand = 'teal' | 'blush'
+export type Brand = 'canard' | 'blush' | 'or' | 'lie-de-vin' | 'nuit'
 
-export const BRANDS: Brand[] = ['teal', 'blush']
-export const DEFAULT_BRAND: Brand = 'teal'
+export const BRANDS: Brand[] = ['canard', 'blush', 'or', 'lie-de-vin', 'nuit']
+export const DEFAULT_BRAND: Brand = 'canard'
 export const BRAND_STORAGE_KEY = 'precieuse-brand'
 
 export const BRAND_LABELS: Record<Brand, string> = {
-  teal: 'Canard',
+  canard: 'Canard',
   blush: 'Blush',
+  or: 'Or',
+  'lie-de-vin': 'Lie-de-vin',
+  nuit: 'Nuit',
 }
 
 // Pastilles d'aperçu pour le contrôle (doivent suivre les valeurs de styles.css).
 export const BRAND_SWATCHES: Record<Brand, string> = {
-  teal: '#125e5e',
+  canard: '#125e5e',
   blush: '#b97e72',
+  or: '#b08d57',
+  'lie-de-vin': '#7a2e3e',
+  nuit: '#2f3e4d',
 }
 
-// Logo par marque — lockup horizontal (picto + wordmark) décliné teal / blush.
-export const BRAND_LOGOS: Record<Brand, string> = {
-  teal: '/brand/lockup-teal.png',
-  blush: '/brand/lockup-blush.png',
-}
+// Source du masque CSS pour les logos (recolorés via --brand-accent).
+// Le wordmark (hero) et le lockup (nav/footer) sont des PNG RGBA dont l'alpha
+// porte la forme ; on les utilise comme mask-image sur un fond --brand-accent.
+export const BRAND_WORDMARK_MASK = '/brand/logo-teal.png'
+export const BRAND_LOCKUP_MASK = '/brand/lockup-teal.png'
 
 export function isBrand(value: unknown): value is Brand {
-  return value === 'teal' || value === 'blush'
-}
-
-export function logoForBrand(brand: Brand): string {
-  return BRAND_LOGOS[brand] ?? BRAND_LOGOS[DEFAULT_BRAND]
+  return (
+    value === 'canard' ||
+    value === 'blush' ||
+    value === 'or' ||
+    value === 'lie-de-vin' ||
+    value === 'nuit'
+  )
 }
