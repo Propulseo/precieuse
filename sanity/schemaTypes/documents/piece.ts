@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { localizedImage } from '../../lib/i18n'
 
 /**
  * Pièce de collection — correspond au type `Product` de
@@ -36,19 +37,7 @@ export const piece = defineType({
     }),
     defineField({ name: 'materials', title: 'Matières', type: 'localizedText' }),
     defineField({ name: 'story', title: 'Histoire', type: 'localizedText' }),
-    defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Texte alternatif',
-          type: 'localizedString',
-        }),
-      ],
-    }),
+    localizedImage(),
     defineField({ name: 'order', title: "Ordre d'affichage", type: 'number' }),
   ],
   orderings: [

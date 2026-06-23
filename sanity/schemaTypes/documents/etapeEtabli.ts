@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { localizedImage } from '../../lib/i18n'
 
 /**
  * Étape de l'établi (atelier) — correspond au type `EtabliStep` de
@@ -28,19 +29,7 @@ export const etapeEtabli = defineType({
       type: 'localizedString',
     }),
     defineField({ name: 'detail', title: 'Détail', type: 'localizedText' }),
-    defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Texte alternatif',
-          type: 'localizedString',
-        }),
-      ],
-    }),
+    localizedImage(),
   ],
   orderings: [
     {

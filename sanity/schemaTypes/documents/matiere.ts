@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { localizedImage } from '../../lib/i18n'
 
 /**
  * Matière — correspond au type `Matiere` de src/lib/content/matieres.ts
@@ -28,19 +29,7 @@ export const matiere = defineType({
       title: 'Description courte',
       type: 'localizedText',
     }),
-    defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Texte alternatif',
-          type: 'localizedString',
-        }),
-      ],
-    }),
+    localizedImage(),
     defineField({
       name: 'annotationCaveat',
       title: 'Annotation (manuscrite)',

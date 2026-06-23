@@ -1,4 +1,4 @@
-import { BRAND_WORDMARK_MASK } from '../brand/brand'
+import { BRAND_WORDMARK_MASK, maskStyle } from '../brand/brand'
 import { useBrand } from '../brand/BrandProvider'
 
 /**
@@ -50,15 +50,7 @@ export function HeroSplitSezane() {
               style={{
                 width: 'min(80vw, 520px)',
                 aspectRatio: '4844 / 2740',
-                backgroundColor: 'var(--brand-accent)',
-                maskImage: `url(${BRAND_WORDMARK_MASK})`,
-                WebkitMaskImage: `url(${BRAND_WORDMARK_MASK})`,
-                maskSize: 'contain',
-                WebkitMaskSize: 'contain',
-                maskRepeat: 'no-repeat',
-                WebkitMaskRepeat: 'no-repeat',
-                maskPosition: 'center',
-                WebkitMaskPosition: 'center',
+                ...maskStyle(BRAND_WORDMARK_MASK),
               }}
             />
           ) : (

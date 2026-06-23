@@ -1,10 +1,5 @@
 import { defineField, defineType } from 'sanity'
-
-const altField = defineField({
-  name: 'alt',
-  title: 'Texte alternatif',
-  type: 'localizedString',
-})
+import { localizedImage } from '../../lib/i18n'
 
 /**
  * Page Créatrice ("Moi c'est Emeline") — singleton. Le contenu vit
@@ -19,13 +14,7 @@ export const creatricePage = defineType({
     defineField({ name: 'overline', title: 'Surtitre', type: 'localizedString' }),
     defineField({ name: 'title', title: 'Titre', type: 'localizedString' }),
     defineField({ name: 'intro', title: 'Introduction', type: 'localizedText' }),
-    defineField({
-      name: 'portrait',
-      title: 'Portrait',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [altField],
-    }),
+    localizedImage({ name: 'portrait', title: 'Portrait' }),
     defineField({
       name: 'sections',
       title: 'Sections',
@@ -44,13 +33,7 @@ export const creatricePage = defineType({
               type: 'array',
               of: [{ type: 'localizedText' }],
             }),
-            defineField({
-              name: 'image',
-              title: 'Image',
-              type: 'image',
-              options: { hotspot: true },
-              fields: [altField],
-            }),
+            localizedImage(),
           ],
           preview: {
             select: { title: 'title.fr', subtitle: 'overline.fr', media: 'image' },

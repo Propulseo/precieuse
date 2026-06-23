@@ -1,7 +1,7 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { Fragment, useEffect, useState } from 'react'
 import { getLocale, locales, setLocale } from '#/paraglide/runtime'
-import { BRAND_LOCKUP_MASK } from './brand/brand'
+import { BRAND_LOCKUP_MASK, maskStyle } from './brand/brand'
 
 const navLinks = [
   { label: 'À propos', href: '/a-propos' },
@@ -92,15 +92,10 @@ export function Nav() {
             className="block h-9 w-auto lg:h-10 transition-colors duration-500 ease-out"
             style={{
               aspectRatio: '8284 / 2955',
-              backgroundColor: isHomeTop ? '#ffffff' : 'var(--brand-accent)',
-              maskImage: `url(${BRAND_LOCKUP_MASK})`,
-              WebkitMaskImage: `url(${BRAND_LOCKUP_MASK})`,
-              maskSize: 'contain',
-              WebkitMaskSize: 'contain',
-              maskRepeat: 'no-repeat',
-              WebkitMaskRepeat: 'no-repeat',
-              maskPosition: 'center',
-              WebkitMaskPosition: 'center',
+              ...maskStyle(
+                BRAND_LOCKUP_MASK,
+                isHomeTop ? '#ffffff' : 'var(--brand-accent)',
+              ),
             }}
           />
         </Link>

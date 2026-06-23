@@ -1,3 +1,4 @@
+import { BRAND_PICTO_MASK, maskStyle } from './brand/brand'
 import { useBrand } from './brand/BrandProvider'
 
 const PAIRES = [
@@ -25,19 +26,7 @@ function FlowerMark({ size, className }: { size: number; className?: string }) {
     <div
       aria-hidden
       className={className}
-      style={{
-        width: size,
-        height: size,
-        backgroundColor: 'var(--brand-accent)',
-        maskImage: 'url(/brand/picto-teal.png)',
-        WebkitMaskImage: 'url(/brand/picto-teal.png)',
-        maskSize: 'contain',
-        WebkitMaskSize: 'contain',
-        maskRepeat: 'no-repeat',
-        WebkitMaskRepeat: 'no-repeat',
-        maskPosition: 'center',
-        WebkitMaskPosition: 'center',
-      }}
+      style={{ width: size, height: size, ...maskStyle(BRAND_PICTO_MASK) }}
     />
   )
 }

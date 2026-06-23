@@ -1,5 +1,5 @@
 import { FOOTER_DATA } from '../lib/content/footer'
-import { BRAND_LOCKUP_MASK } from './brand/brand'
+import { BRAND_LOCKUP_MASK, maskStyle } from './brand/brand'
 
 export function Footer() {
   return (
@@ -16,15 +16,7 @@ export function Footer() {
               className="block h-10 w-auto opacity-90"
               style={{
                 aspectRatio: '8284 / 2955',
-                backgroundColor: 'var(--brand-accent)',
-                maskImage: `url(${BRAND_LOCKUP_MASK})`,
-                WebkitMaskImage: `url(${BRAND_LOCKUP_MASK})`,
-                maskSize: 'contain',
-                WebkitMaskSize: 'contain',
-                maskRepeat: 'no-repeat',
-                WebkitMaskRepeat: 'no-repeat',
-                maskPosition: 'center',
-                WebkitMaskPosition: 'center',
+                ...maskStyle(BRAND_LOCKUP_MASK),
               }}
             />
             <span className="font-display text-[14px] text-canard/75 leading-relaxed">

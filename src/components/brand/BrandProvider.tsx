@@ -8,7 +8,6 @@ import {
 import type { ReactNode } from 'react'
 import {
   BRAND_STORAGE_KEY,
-  BRANDS,
   DEFAULT_BRAND,
   DEFAULT_HERO_MARK,
   DEFAULT_SEAL_VARIANT,
@@ -25,7 +24,6 @@ import {
 type BrandContextValue = {
   brand: Brand
   setBrand: (brand: Brand) => void
-  toggleBrand: () => void
   heroMark: HeroMark
   setHeroMark: (mark: HeroMark) => void
   sealVariant: SealVariant
@@ -34,54 +32,66 @@ type BrandContextValue = {
 
 const BrandContext = createContext<BrandContextValue | null>(null)
 
-function readStoredBrand(): Brand {
+/**
+ * Un réglage visiteur = un attribut `data-*` sur <html> + une clé localStorage,
+ * validé par un type-guard, avec un défaut. Une seule table décrit les trois
+ * (couleur, marque hero, cachet) ; `readStored`/`persist` la parcourent.
+ */
+type ToggleSpec<T extends string> = {
+  attr: string
+  storageKey: string
+  isValid: (value: unknown) => value is T
+  fallback: T
+}
+
+const BRAND_SPEC: ToggleSpec<Brand> = {
+  attr: 'brand',
+  storageKey: BRAND_STORAGE_KEY,
+  isValid: isBrand,
+  fallback: DEFAULT_BRAND,
+}
+const HERO_MARK_SPEC: ToggleSpec<HeroMark> = {
+  attr: 'heroMark',
+  storageKey: HERO_MARK_STORAGE_KEY,
+  isValid: isHeroMark,
+  fallback: DEFAULT_HERO_MARK,
+}
+const SEAL_SPEC: ToggleSpec<SealVariant> = {
+  attr: 'seal',
+  storageKey: SEAL_VARIANT_STORAGE_KEY,
+  isValid: isSealVariant,
+  fallback: DEFAULT_SEAL_VARIANT,
+}
+
+/** Lit le réglage : attribut posé avant le paint (no-flash) → localStorage → défaut. */
+function readStored<T extends string>(spec: ToggleSpec<T>): T {
   if (typeof document !== 'undefined') {
-    // L'attribut est posé avant le paint par le script no-flash (root shell).
-    const fromAttr = document.documentElement.dataset.brand
-    if (isBrand(fromAttr)) return fromAttr
+    const fromAttr = document.documentElement.dataset[spec.attr]
+    if (spec.isValid(fromAttr)) return fromAttr
   }
   if (typeof window !== 'undefined') {
     try {
-      const stored = window.localStorage.getItem(BRAND_STORAGE_KEY)
-      if (isBrand(stored)) return stored
+      const stored = window.localStorage.getItem(spec.storageKey)
+      if (spec.isValid(stored)) return stored
     } catch {
       /* localStorage indisponible (mode privé strict) — on garde le défaut */
     }
   }
-  return DEFAULT_BRAND
+  return spec.fallback
 }
 
-function readStoredHeroMark(): HeroMark {
+/** Persiste le choix : attribut <html> (effet immédiat) + localStorage (mémoire). */
+function persist<T extends string>(spec: ToggleSpec<T>, next: T): void {
   if (typeof document !== 'undefined') {
-    // L'attribut est posé avant le paint par le script no-flash (root shell).
-    const fromAttr = document.documentElement.dataset.heroMark
-    if (isHeroMark(fromAttr)) return fromAttr
+    document.documentElement.dataset[spec.attr] = next
   }
   if (typeof window !== 'undefined') {
     try {
-      const stored = window.localStorage.getItem(HERO_MARK_STORAGE_KEY)
-      if (isHeroMark(stored)) return stored
+      window.localStorage.setItem(spec.storageKey, next)
     } catch {
-      /* localStorage indisponible (mode privé strict) — on garde le défaut */
+      /* ignore */
     }
   }
-  return DEFAULT_HERO_MARK
-}
-
-function readStoredSealVariant(): SealVariant {
-  if (typeof document !== 'undefined') {
-    const fromAttr = document.documentElement.dataset.seal
-    if (isSealVariant(fromAttr)) return fromAttr
-  }
-  if (typeof window !== 'undefined') {
-    try {
-      const stored = window.localStorage.getItem(SEAL_VARIANT_STORAGE_KEY)
-      if (isSealVariant(stored)) return stored
-    } catch {
-      /* localStorage indisponible — on garde le défaut */
-    }
-  }
-  return DEFAULT_SEAL_VARIANT
 }
 
 export function BrandProvider({ children }: { children: ReactNode }) {
@@ -92,67 +102,31 @@ export function BrandProvider({ children }: { children: ReactNode }) {
 
   // Sync initial après hydratation (le SSR ne connaît pas le choix visiteur).
   useEffect(() => {
-    setBrandState(readStoredBrand())
-    setHeroMarkState(readStoredHeroMark())
-    setSealVariantState(readStoredSealVariant())
+    setBrandState(readStored(BRAND_SPEC))
+    setHeroMarkState(readStored(HERO_MARK_SPEC))
+    setSealVariantState(readStored(SEAL_SPEC))
   }, [])
 
   const setBrand = useCallback((next: Brand) => {
     setBrandState(next)
-    if (typeof document !== 'undefined') {
-      document.documentElement.dataset.brand = next
-    }
-    if (typeof window !== 'undefined') {
-      try {
-        window.localStorage.setItem(BRAND_STORAGE_KEY, next)
-      } catch {
-        /* ignore */
-      }
-    }
+    persist(BRAND_SPEC, next)
   }, [])
 
   const setHeroMark = useCallback((next: HeroMark) => {
     setHeroMarkState(next)
-    if (typeof document !== 'undefined') {
-      document.documentElement.dataset.heroMark = next
-    }
-    if (typeof window !== 'undefined') {
-      try {
-        window.localStorage.setItem(HERO_MARK_STORAGE_KEY, next)
-      } catch {
-        /* ignore */
-      }
-    }
+    persist(HERO_MARK_SPEC, next)
   }, [])
 
   const setSealVariant = useCallback((next: SealVariant) => {
     setSealVariantState(next)
-    if (typeof document !== 'undefined') {
-      document.documentElement.dataset.seal = next
-    }
-    if (typeof window !== 'undefined') {
-      try {
-        window.localStorage.setItem(SEAL_VARIANT_STORAGE_KEY, next)
-      } catch {
-        /* ignore */
-      }
-    }
+    persist(SEAL_SPEC, next)
   }, [])
-
-  // Parcourt la palette dans l'ordre (utilitaire ; l'UI principale est la
-  // rangée de pastilles de BrandToggle).
-  const toggleBrand = useCallback(() => {
-    const idx = BRANDS.indexOf(brand)
-    const next = BRANDS[(idx + 1) % BRANDS.length]
-    setBrand(next)
-  }, [brand, setBrand])
 
   return (
     <BrandContext.Provider
       value={{
         brand,
         setBrand,
-        toggleBrand,
         heroMark,
         setHeroMark,
         sealVariant,

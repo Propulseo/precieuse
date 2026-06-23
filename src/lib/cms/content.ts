@@ -38,8 +38,8 @@ import {
 } from '../content/sur-mesure'
 import { FOOTER_DATA } from '../content/footer'
 
-/** GROQ projection for a localized image: resolves to the asset URL string. */
-const IMAGE_URL = `"image": image.asset->url`
+/** GROQ projection for a localized image: asset URL string + localized alt. */
+const IMAGE_FIELDS = `"image": image.asset->url, "imageAlt": image.alt`
 
 // ---------------------------------------------------------------------------
 // Collection — pièces
@@ -50,7 +50,7 @@ export async function getProducts(locale: Locale = DEFAULT_LOCALE): Promise<Prod
   const data = await sanity.fetch<Array<Record<string, unknown>>>(
     `*[_type == "piece"] | order(order asc){
       "slug": slug.current, name, tagline, priceLabel, description,
-      materials, story, ${IMAGE_URL}, "imageAlt": image.alt
+      materials, story, ${IMAGE_FIELDS}
     }`,
   )
   if (!data?.length) return PRODUCTS
@@ -84,7 +84,7 @@ export async function getMatieres(locale: Locale = DEFAULT_LOCALE): Promise<Mati
   const data = await sanity.fetch<Array<Record<string, unknown>>>(
     `*[_type == "matiere"] | order(order asc){
       "slug": slug.current, nom, sousTitre, description,
-      ${IMAGE_URL}, "imageAlt": image.alt, annotationCaveat, page
+      ${IMAGE_FIELDS}, annotationCaveat, page
     }`,
   )
   if (!data?.length) return MATIERES
@@ -109,7 +109,7 @@ export async function getArticles(locale: Locale = DEFAULT_LOCALE): Promise<Arti
   const data = await sanity.fetch<Array<Record<string, unknown>>>(
     `*[_type == "article"] | order(order asc){
       "slug": slug.current, title, excerpt, category, date, readTime,
-      ${IMAGE_URL}, "imageAlt": image.alt, featured
+      ${IMAGE_FIELDS}, featured
     }`,
   )
   if (!data?.length) return ARTICLES
@@ -162,7 +162,7 @@ export async function getEtabliSteps(
   if (!isSanityConfigured) return ETABLI_STEPS
   const data = await sanity.fetch<Array<Record<string, unknown>>>(
     `*[_type == "etapeEtabli"] | order(index asc){
-      roman, index, title, annotation, detail, ${IMAGE_URL}, "imageAlt": image.alt
+      roman, index, title, annotation, detail, ${IMAGE_FIELDS}
     }`,
   )
   if (!data?.length) return ETABLI_STEPS
@@ -206,7 +206,7 @@ export async function getMetamorphose(
   if (!isSanityConfigured) return METAMORPHOSE
   const data = await sanity.fetch<Record<string, unknown> | null>(
     `*[_type == "surMesurePage"][0]{
-      metamorphose[]{ roman, title, annotation, detail, ${IMAGE_URL}, "imageAlt": image.alt }
+      metamorphose[]{ roman, title, annotation, detail, ${IMAGE_FIELDS} }
     }`,
   )
   const items = (data?.metamorphose as Array<Record<string, unknown>> | undefined) ?? []
@@ -227,7 +227,7 @@ export async function getPromesses(
   if (!isSanityConfigured) return PROMESSES
   const data = await sanity.fetch<Record<string, unknown> | null>(
     `*[_type == "surMesurePage"][0]{
-      promesses[]{ titre, detail, ${IMAGE_URL}, "imageAlt": image.alt }
+      promesses[]{ titre, detail, ${IMAGE_FIELDS} }
     }`,
   )
   const items = (data?.promesses as Array<Record<string, unknown>> | undefined) ?? []

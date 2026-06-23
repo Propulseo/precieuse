@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { localizedImage } from '../../lib/i18n'
 
 /**
  * Article du Carnet — correspond au type `Article` de
@@ -42,19 +43,7 @@ export const article = defineType({
       description: 'Format libre (ex. « 12 mai 2026 »).',
     }),
     defineField({ name: 'readTime', title: 'Temps de lecture', type: 'string' }),
-    defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Texte alternatif',
-          type: 'localizedString',
-        }),
-      ],
-    }),
+    localizedImage(),
     defineField({
       name: 'featured',
       title: 'Mis en avant ?',

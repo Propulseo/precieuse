@@ -1,10 +1,5 @@
 import { defineField, defineType } from 'sanity'
-
-const altField = defineField({
-  name: 'alt',
-  title: 'Texte alternatif',
-  type: 'localizedString',
-})
+import { localizedImage } from '../../lib/i18n'
 
 /**
  * Page Sur-Mesure — regroupe la « Métamorphose » (étapes illustrées) et les
@@ -38,13 +33,7 @@ export const surMesurePage = defineType({
               type: 'localizedString',
             }),
             defineField({ name: 'detail', title: 'Détail', type: 'localizedText' }),
-            defineField({
-              name: 'image',
-              title: 'Image',
-              type: 'image',
-              options: { hotspot: true },
-              fields: [altField],
-            }),
+            localizedImage(),
           ],
           preview: { select: { title: 'title.fr', subtitle: 'roman', media: 'image' } },
         }),
@@ -62,13 +51,7 @@ export const surMesurePage = defineType({
           fields: [
             defineField({ name: 'titre', title: 'Titre', type: 'localizedString' }),
             defineField({ name: 'detail', title: 'Détail', type: 'localizedString' }),
-            defineField({
-              name: 'image',
-              title: 'Image',
-              type: 'image',
-              options: { hotspot: true },
-              fields: [altField],
-            }),
+            localizedImage(),
           ],
           preview: { select: { title: 'titre.fr', subtitle: 'detail.fr', media: 'image' } },
         }),

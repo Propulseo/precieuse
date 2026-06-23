@@ -3,6 +3,8 @@
 // et recolore les logos (rendus en masque CSS, plus en PNG par couleur).
 // Persisté en localStorage.
 
+import type { CSSProperties } from 'react'
+
 export type Brand = 'canard' | 'blush' | 'or' | 'lie-de-vin' | 'nuit'
 
 export const BRANDS: Brand[] = ['canard', 'blush', 'or', 'lie-de-vin', 'nuit']
@@ -31,15 +33,33 @@ export const BRAND_SWATCHES: Record<Brand, string> = {
 // porte la forme ; on les utilise comme mask-image sur un fond --brand-accent.
 export const BRAND_WORDMARK_MASK = '/brand/logo-teal.png'
 export const BRAND_LOCKUP_MASK = '/brand/lockup-teal.png'
+export const BRAND_PICTO_MASK = '/brand/picto-teal.png'
+
+/**
+ * Style d'un logo rendu en masque CSS : peint `color` (défaut --brand-accent) à
+ * travers l'alpha du PNG `mask`. Centralise les 8 propriétés mask/-webkit-mask
+ * répétées (hero, nav, footer, cachet). La taille reste au call site
+ * (`width`/`height`/`aspectRatio`).
+ */
+export function maskStyle(
+  mask: string,
+  color: string = 'var(--brand-accent)',
+): CSSProperties {
+  return {
+    backgroundColor: color,
+    maskImage: `url(${mask})`,
+    WebkitMaskImage: `url(${mask})`,
+    maskSize: 'contain',
+    WebkitMaskSize: 'contain',
+    maskRepeat: 'no-repeat',
+    WebkitMaskRepeat: 'no-repeat',
+    maskPosition: 'center',
+    WebkitMaskPosition: 'center',
+  }
+}
 
 export function isBrand(value: unknown): value is Brand {
-  return (
-    value === 'canard' ||
-    value === 'blush' ||
-    value === 'or' ||
-    value === 'lie-de-vin' ||
-    value === 'nuit'
-  )
+  return typeof value === 'string' && (BRANDS as string[]).includes(value)
 }
 
 // ─── Marque affichée dans la hero : logo (masque CSS) ou texte (« Précieuse. ») ───
@@ -57,7 +77,7 @@ export const HERO_MARK_LABELS: Record<HeroMark, string> = {
 }
 
 export function isHeroMark(value: unknown): value is HeroMark {
-  return value === 'logo' || value === 'texte'
+  return typeof value === 'string' && (HERO_MARKS as string[]).includes(value)
 }
 
 // ─── Cachet d'atelier (avant-propos) : 3 montages au choix ───
@@ -77,5 +97,5 @@ export const SEAL_VARIANT_LABELS: Record<SealVariant, string> = {
 }
 
 export function isSealVariant(value: unknown): value is SealVariant {
-  return value === 'rond' || value === 'octogone' || value === 'epure'
+  return typeof value === 'string' && (SEAL_VARIANTS as string[]).includes(value)
 }

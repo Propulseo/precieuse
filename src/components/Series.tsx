@@ -57,8 +57,6 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
   const currentProduct = products[current]
   if (!currentProduct) return null
 
-  const annotationNum = current + 1
-
   return (
     <section
       className="relative bg-poudre overflow-hidden py-16 lg:py-20 outline-none focus-visible:ring-2 focus-visible:ring-canard"
@@ -118,7 +116,7 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
 
           <div className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 flex-col items-center gap-1 z-30 pointer-events-none">
             <span className="font-body italic font-light text-[13px] text-canard-90 [writing-mode:vertical-rl] rotate-180 tracking-wide">
-              pièce {annotationNum} / {N}
+              pièce {current + 1} / {N}
             </span>
           </div>
         </div>
