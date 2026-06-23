@@ -1,9 +1,14 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { PRODUCTS } from '../lib/content/products'
+import { getProducts } from '../lib/cms'
 
-export const Route = createFileRoute('/collection')({ component: CollectionPage })
+export const Route = createFileRoute('/collection')({
+  component: CollectionPage,
+  // Reads from Sanity when configured, otherwise the static PRODUCTS fallback.
+  loader: () => getProducts(),
+})
 
 function CollectionPage() {
+  const PRODUCTS = Route.useLoaderData()
   return (
     <section className="bg-cream py-20 px-8 lg:px-16 min-h-screen">
       <div className="mx-auto max-w-[1320px]">

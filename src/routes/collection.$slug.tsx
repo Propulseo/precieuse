@@ -1,10 +1,11 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
-import { PRODUCTS } from '../lib/content/products'
+import { getProduct } from '../lib/cms'
 
 export const Route = createFileRoute('/collection/$slug')({
   component: ProductPage,
-  loader: ({ params }) => {
-    const product = PRODUCTS.find((p) => p.slug === params.slug)
+  // Reads from Sanity when configured, otherwise the static PRODUCTS fallback.
+  loader: async ({ params }) => {
+    const product = await getProduct(params.slug)
     if (!product) throw notFound()
     return product
   },

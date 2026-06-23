@@ -1,0 +1,62 @@
+import { defineField, defineType } from 'sanity'
+
+/**
+ * Matière — correspond au type `Matiere` de src/lib/content/matieres.ts
+ * (Or 18 carats, Diamants, Saphirs, Émeraudes, Rubis).
+ */
+export const matiere = defineType({
+  name: 'matiere',
+  title: 'Matière',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'nom',
+      title: 'Nom',
+      type: 'string',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: { source: 'nom' },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({ name: 'sousTitre', title: 'Sous-titre', type: 'localizedString' }),
+    defineField({
+      name: 'description',
+      title: 'Description courte',
+      type: 'localizedText',
+    }),
+    defineField({
+      name: 'image',
+      title: 'Image',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Texte alternatif',
+          type: 'localizedString',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'annotationCaveat',
+      title: 'Annotation (manuscrite)',
+      type: 'localizedString',
+    }),
+    defineField({ name: 'page', title: 'Folio (ex. p. 05)', type: 'string' }),
+    defineField({ name: 'order', title: "Ordre d'affichage", type: 'number' }),
+  ],
+  orderings: [
+    {
+      title: "Ordre d'affichage",
+      name: 'orderAsc',
+      by: [{ field: 'order', direction: 'asc' }],
+    },
+  ],
+  preview: {
+    select: { title: 'nom', media: 'image' },
+  },
+})

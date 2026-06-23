@@ -1,6 +1,10 @@
 {
   "include": ["**/*.ts", "**/*.tsx", "eslint.config.js", "prettier.config.js", "vite.config.js"],
-  
+  // The Sanity Studio (sanity/, sanity.config.ts) is a standalone tool run via
+  // `npx sanity dev`; it pulls the `sanity` package + its own tooling and must
+  // not be type-checked or built as part of the TanStack Start app.
+  "exclude": ["node_modules", ".output", ".nitro", "sanity", "sanity.config.ts"],
+
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",
