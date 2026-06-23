@@ -1,7 +1,13 @@
-import { BRAND_STORAGE_KEY, DEFAULT_BRAND } from './brand'
+import {
+  BRAND_STORAGE_KEY,
+  DEFAULT_BRAND,
+  DEFAULT_HERO_MARK,
+  HERO_MARK_STORAGE_KEY,
+} from './brand'
 
-// Script inline exécuté AVANT le paint : lit le choix visiteur en localStorage
-// et pose `data-brand` sur <html> pour éviter tout flash de couleur au chargement.
+// Script inline exécuté AVANT le paint : lit les choix visiteur en localStorage
+// et pose `data-brand` (couleur) + `data-hero-mark` (logo/texte) sur <html> pour
+// éviter tout flash au chargement.
 // Inséré dans le <head> du shell via dangerouslySetInnerHTML.
 export const BRAND_NO_FLASH_SCRIPT = `(function(){try{var allowed=['canard','blush','or','lie-de-vin','nuit'];var b=localStorage.getItem(${JSON.stringify(
   BRAND_STORAGE_KEY,
@@ -9,4 +15,10 @@ export const BRAND_NO_FLASH_SCRIPT = `(function(){try{var allowed=['canard','blu
   DEFAULT_BRAND,
 )};}document.documentElement.setAttribute('data-brand',b);}catch(e){document.documentElement.setAttribute('data-brand',${JSON.stringify(
   DEFAULT_BRAND,
+)});}try{var hmAllowed=['logo','texte'];var hm=localStorage.getItem(${JSON.stringify(
+  HERO_MARK_STORAGE_KEY,
+)});if(hmAllowed.indexOf(hm)===-1){hm=${JSON.stringify(
+  DEFAULT_HERO_MARK,
+)};}document.documentElement.setAttribute('data-hero-mark',hm);}catch(e){document.documentElement.setAttribute('data-hero-mark',${JSON.stringify(
+  DEFAULT_HERO_MARK,
 )});}})();`

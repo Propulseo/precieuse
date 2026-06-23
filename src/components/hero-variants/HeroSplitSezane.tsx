@@ -1,4 +1,5 @@
 import { BRAND_WORDMARK_MASK } from '../brand/brand'
+import { useBrand } from '../brand/BrandProvider'
 
 /**
  * Hero A — Split 50/50 strict (style Sézane).
@@ -6,6 +7,8 @@ import { BRAND_WORDMARK_MASK } from '../brand/brand'
  * Texte centré à cheval sur les 2 images, 1 seul CTA.
  */
 export function HeroSplitSezane() {
+  const { heroMark } = useBrand()
+
   return (
     <section className="relative w-full h-screen min-h-[640px] -mt-16 overflow-hidden">
       <div className="grid grid-cols-2 h-full">
@@ -34,25 +37,38 @@ export function HeroSplitSezane() {
             Joaillerie artisanale · Bordeaux
           </span>
 
-          {/* Wordmark « Précieuse » recoloré via masque CSS : suit --brand-accent. */}
-          <div
-            role="img"
-            aria-label="Précieuse"
-            className="mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]"
-            style={{
-              width: 'min(80vw, 520px)',
-              aspectRatio: '4844 / 2740',
-              backgroundColor: 'var(--brand-accent)',
-              maskImage: `url(${BRAND_WORDMARK_MASK})`,
-              WebkitMaskImage: `url(${BRAND_WORDMARK_MASK})`,
-              maskSize: 'contain',
-              WebkitMaskSize: 'contain',
-              maskRepeat: 'no-repeat',
-              WebkitMaskRepeat: 'no-repeat',
-              maskPosition: 'center',
-              WebkitMaskPosition: 'center',
-            }}
-          />
+          {/* Marque de la hero : soit le logo (masque CSS), soit le mot écrit
+              « Précieuse. ». Les deux suivent la couleur via --brand-accent. */}
+          {heroMark === 'logo' ? (
+            <div
+              role="img"
+              aria-label="Précieuse"
+              className="mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]"
+              style={{
+                width: 'min(80vw, 520px)',
+                aspectRatio: '4844 / 2740',
+                backgroundColor: 'var(--brand-accent)',
+                maskImage: `url(${BRAND_WORDMARK_MASK})`,
+                WebkitMaskImage: `url(${BRAND_WORDMARK_MASK})`,
+                maskSize: 'contain',
+                WebkitMaskSize: 'contain',
+                maskRepeat: 'no-repeat',
+                WebkitMaskRepeat: 'no-repeat',
+                maskPosition: 'center',
+                WebkitMaskPosition: 'center',
+              }}
+            />
+          ) : (
+            <h1
+              className="font-headline mb-4 text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]"
+              style={{
+                fontSize: 'clamp(56px, 11vw, 140px)',
+                color: 'var(--brand-accent)',
+              }}
+            >
+              Précieuse.
+            </h1>
+          )}
 
           <p className="font-display text-[clamp(16px,2vw,22px)] text-poudre/90 mb-10 max-w-[28ch] leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.25)]">
             Chaque bijou raconte une histoire.{' '}

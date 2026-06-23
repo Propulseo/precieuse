@@ -41,3 +41,21 @@ export function isBrand(value: unknown): value is Brand {
     value === 'nuit'
   )
 }
+
+// ─── Marque affichée dans la hero : logo (masque CSS) ou texte (« Précieuse. ») ───
+// Réglage indépendant de la couleur, persisté séparément en localStorage et
+// piloté par `data-hero-mark` sur <html> (posé avant le paint par no-flash).
+export type HeroMark = 'logo' | 'texte'
+
+export const HERO_MARKS: HeroMark[] = ['logo', 'texte']
+export const DEFAULT_HERO_MARK: HeroMark = 'logo'
+export const HERO_MARK_STORAGE_KEY = 'precieuse-hero-mark'
+
+export const HERO_MARK_LABELS: Record<HeroMark, string> = {
+  logo: 'Logo',
+  texte: 'Texte',
+}
+
+export function isHeroMark(value: unknown): value is HeroMark {
+  return value === 'logo' || value === 'texte'
+}
