@@ -1,6 +1,6 @@
-import { BESPOKE_PROCESS } from '../lib/content/site'
+import { BESPOKE_PROCESS, type ProcessStep } from '../lib/content/site'
 
-export function SurMesure() {
+export function SurMesure({ process = BESPOKE_PROCESS }: { process?: ProcessStep[] }) {
   return (
     <section className="relative bg-poudre py-20 lg:py-28 px-6 lg:px-16">
       <div className="absolute top-0 left-0 right-0 border-t border-canard/15" />
@@ -26,7 +26,7 @@ export function SurMesure() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6">
-          {BESPOKE_PROCESS.map((step) => (
+          {process.map((step) => (
             <div key={step.number} className="flex flex-col items-center text-center">
               <span className="font-display text-[36px] text-rouille/70 leading-none mb-3">
                 {step.number}

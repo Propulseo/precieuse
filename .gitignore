@@ -19,3 +19,11 @@ todos.json
 *.tif
 *.tiff
 *.ai
+
+# Cache runtime du Sanity Studio
+.sanity/
+
+# Matériaux de travail locaux (ne pas versionner) : kit photos source + retours cliente
+/Photos-3-001/
+/Retour cliente/
+/public/images/Photo Precieus/

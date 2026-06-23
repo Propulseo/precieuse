@@ -1,6 +1,6 @@
 import { PROMESSES } from '../../lib/content/sur-mesure'
 
-export function Promesses() {
+export function Promesses({ promesses = PROMESSES }: { promesses?: typeof PROMESSES }) {
   return (
     <section className="relative bg-poudre py-20 lg:py-28 px-8 lg:px-16">
       <div className="absolute top-0 left-0 right-0 border-t border-canard/25" />
@@ -21,7 +21,7 @@ export function Promesses() {
         </div>
 
         <div className="divide-y divide-canard/15">
-          {PROMESSES.map((p, i) => (
+          {promesses.map((p, i) => (
             <div
               key={p.titre}
               className="grid grid-cols-[48px_1fr] sm:grid-cols-[64px_200px_1fr] gap-x-6 lg:gap-x-10 py-7 lg:py-9 items-baseline"

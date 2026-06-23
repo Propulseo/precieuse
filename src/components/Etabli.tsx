@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ETABLI_STEPS } from '../lib/content/etabli'
+import { ETABLI_STEPS, type EtabliStep } from '../lib/content/etabli'
 
 const SIGNATURES = [
   { day: 'lundi', time: '11h32', glyph: '♦' },
@@ -41,7 +41,7 @@ function RomanTrace({ roman, drawn }: { roman: string; drawn: boolean }) {
   )
 }
 
-export function Etabli() {
+export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
   const [active, setActive] = useState(0)
   const [drawnSet, setDrawnSet] = useState<Set<number>>(new Set([0]))
   const stepRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -68,7 +68,7 @@ export function Etabli() {
     return () => observer.disconnect()
   }, [])
 
-  const step = ETABLI_STEPS[active]
+  const step = steps[active]
   const sig = SIGNATURES[active]
   if (!step || !sig) return null
 
@@ -91,7 +91,7 @@ export function Etabli() {
           <div className="hidden lg:block">
             <div className="sticky top-12 h-[80vh] w-full">
               <div className="relative w-full h-full overflow-hidden">
-                {ETABLI_STEPS.map((s, idx) => (
+                {steps.map((s, idx) => (
                   <div
                     key={s.roman}
                     aria-hidden={active !== idx}
@@ -110,7 +110,7 @@ export function Etabli() {
                     cliché · {sig.day} {sig.time}
                   </span>
                   <span className="font-display text-[13px] tracking-widest text-canard">
-                    {String(active + 1).padStart(2, '0')} / {String(ETABLI_STEPS.length).padStart(2, '0')}
+                    {String(active + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
                   </span>
                 </div>
               </div>
@@ -119,7 +119,7 @@ export function Etabli() {
 
           {/* Textes scrollés */}
           <div>
-            {ETABLI_STEPS.map((s, idx) => {
+            {steps.map((s, idx) => {
               const isActive = active === idx
               const detailFirst = s.detail.charAt(0)
               const detailRest = s.detail.slice(1)

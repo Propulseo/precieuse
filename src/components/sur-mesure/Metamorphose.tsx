@@ -1,7 +1,7 @@
-import { METAMORPHOSE } from '../../lib/content/sur-mesure'
+import { METAMORPHOSE, type MetamorphoseStep } from '../../lib/content/sur-mesure'
 import { Reveal } from '../Reveal'
 
-export function Metamorphose() {
+export function Metamorphose({ steps = METAMORPHOSE }: { steps?: MetamorphoseStep[] }) {
   return (
     <section className="relative bg-poudre py-24 lg:py-32 px-8 lg:px-16">
       <div className="absolute top-0 left-0 right-0 border-t-2 border-double border-canard/15" />
@@ -16,7 +16,7 @@ export function Metamorphose() {
       </div>
 
       <div className="mx-auto max-w-[1320px] flex flex-col gap-28 lg:gap-36">
-        {METAMORPHOSE.map((step, idx) => {
+        {steps.map((step, idx) => {
           const imageFirst = idx % 2 === 0
           return (
             <Reveal key={step.roman} delay={80}>

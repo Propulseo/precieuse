@@ -1,8 +1,8 @@
-import { ARTICLES } from '../../lib/content/carnet'
+import { ARTICLES, type Article } from '../../lib/content/carnet'
 
-const featured = ARTICLES.find((a) => a.featured)!
-
-export function CarnetHero() {
+export function CarnetHero({ articles = ARTICLES }: { articles?: Article[] }) {
+  const featured = articles.find((a) => a.featured) ?? articles[0]
+  if (!featured) return null
   return (
     <section className="relative bg-poudre pt-10 pb-20 lg:pb-28 px-8 lg:px-16">
       <div className="mx-auto max-w-[1320px]">

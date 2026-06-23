@@ -1,9 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
-import { PRODUCTS } from '../lib/content/products'
+import { PRODUCTS, type Product } from '../lib/content/products'
 import { SeriesCard } from './SeriesCard'
 import { LoaderB } from './loader-variants/LoaderB'
-
-const N = PRODUCTS.length
 
 function mod(n: number, m: number): number {
   return ((n % m) + m) % m
@@ -11,15 +9,16 @@ function mod(n: number, m: number): number {
 
 type SlideRole = 'focus' | 'peek-left' | 'peek-right' | 'hidden'
 
-function getRoleFor(i: number, current: number): SlideRole {
-  const diff = mod(i - current, N)
+function getRoleFor(i: number, current: number, n: number): SlideRole {
+  const diff = mod(i - current, n)
   if (diff === 0) return 'focus'
   if (diff === 1) return 'peek-right'
-  if (diff === N - 1) return 'peek-left'
+  if (diff === n - 1) return 'peek-left'
   return 'hidden'
 }
 
-export function Series() {
+export function Series({ products = PRODUCTS }: { products?: Product[] }) {
+  const N = products.length
   const [current, setCurrent] = useState(0)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
@@ -33,9 +32,9 @@ export function Series() {
   }, [])
 
   // Carousel piloté par l'index (clic / swipe / clavier) — cyclique, sans scroll-jacking.
-  const goTo = useCallback((i: number) => setCurrent(mod(i, N)), [])
-  const next = useCallback(() => setCurrent((c) => mod(c + 1, N)), [])
-  const prev = useCallback(() => setCurrent((c) => mod(c - 1, N)), [])
+  const goTo = useCallback((i: number) => setCurrent(mod(i, N)), [N])
+  const next = useCallback(() => setCurrent((c) => mod(c + 1, N)), [N])
+  const prev = useCallback(() => setCurrent((c) => mod(c - 1, N)), [N])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowRight') next()
@@ -55,7 +54,7 @@ export function Series() {
     setTouchStartX(null)
   }
 
-  const currentProduct = PRODUCTS[current]
+  const currentProduct = products[current]
   if (!currentProduct) return null
 
   const annotationNum = current + 1
@@ -106,12 +105,12 @@ export function Series() {
         </div>
 
         <div className="relative overflow-hidden h-[520px] sm:h-[600px] lg:h-[660px]">
-          {PRODUCTS.map((product, i) => (
+          {products.map((product, i) => (
             <SeriesCard
               key={product.slug}
               product={product}
               index={i}
-              role={getRoleFor(i, current)}
+              role={getRoleFor(i, current, N)}
               reducedMotion={reducedMotion}
               onClickPeek={() => goTo(i)}
             />

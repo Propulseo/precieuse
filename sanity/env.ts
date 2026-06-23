@@ -10,7 +10,11 @@ export const apiVersion =
 
 export const dataset = process.env.VITE_SANITY_DATASET || 'production'
 
-export const projectId = process.env.VITE_SANITY_PROJECT_ID || ''
+// Fallback en dur sur le vrai projectId (public) : dans le navigateur du Studio
+// (Vite), `process.env.VITE_*` est indisponible — sans ce fallback, le Studio
+// retombait sur `'placeholder'` (cf. sanity.config.ts) et l'ajout d'origine CORS
+// ciblait un projet inexistant.
+export const projectId = process.env.VITE_SANITY_PROJECT_ID || '8zuvflol'
 
 /**
  * `true` once a Sanity project id is provided via env.

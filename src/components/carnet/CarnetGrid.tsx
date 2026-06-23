@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { ARTICLES, CATEGORIES } from '../../lib/content/carnet'
+import { ARTICLES, CATEGORIES, type Article } from '../../lib/content/carnet'
 
-const rest = ARTICLES.filter((a) => !a.featured)
-
-export function CarnetGrid() {
+export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
+  const rest = articles.filter((a) => !a.featured)
   const [filter, setFilter] = useState<string>('Tous')
   const filtered = filter === 'Tous' ? rest : rest.filter((a) => a.category === filter)
 

@@ -8,4 +8,13 @@
  */
 const projectId = import.meta.env.VITE_SANITY_PROJECT_ID ?? ''
 
-export const isSanityConfigured = Boolean(projectId)
+/**
+ * Sanity est lu UNIQUEMENT côté serveur (SSR / loaders).
+ *
+ * Le dataset « public » n'autorise pas la lecture anonyme (rôles d'accès du
+ * projet → docs `omitted: permission`). On lit donc avec un token, qui ne doit
+ * jamais partir dans le bundle navigateur. En navigation côté client, les
+ * getters retombent sur le contenu statique (identique au contenu publié).
+ */
+export const isSanityConfigured =
+  Boolean(projectId) && typeof window === 'undefined'

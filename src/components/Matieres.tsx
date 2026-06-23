@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { MATIERES } from '../lib/content/matieres'
+import { MATIERES, type Matiere } from '../lib/content/matieres'
 
 /** Stagger delay between each card in ms */
 const STAGGER_MS = 200
 
-export function Matieres() {
+export function Matieres({ matieres = MATIERES }: { matieres?: Matiere[] }) {
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
 
@@ -45,7 +45,7 @@ export function Matieres() {
       </div>
 
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
-        {MATIERES.map((m, i) => (
+        {matieres.map((m, i) => (
           <article
             key={m.slug}
             className="group flex h-full flex-col border-r border-b border-canard/10 last:border-r-0 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"

@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { LETTRES } from '../lib/content/lettres'
+import { LETTRES, type Lettre } from '../lib/content/lettres'
 
 const INTERVAL_MS = 8000
-const N = LETTRES.length
 
 function mod(n: number, m: number): number {
   return ((n % m) + m) % m
@@ -10,11 +9,11 @@ function mod(n: number, m: number): number {
 
 type CardRole = 'focus' | 'peek-left' | 'peek-right' | 'hidden'
 
-function getRoleFor(i: number, current: number): CardRole {
-  const diff = mod(i - current, N)
+function getRoleFor(i: number, current: number, n: number): CardRole {
+  const diff = mod(i - current, n)
   if (diff === 0) return 'focus'
   if (diff === 1) return 'peek-right'
-  if (diff === N - 1) return 'peek-left'
+  if (diff === n - 1) return 'peek-left'
   return 'hidden'
 }
 
@@ -48,7 +47,8 @@ function getCardClasses(role: CardRole, mat: Material): string {
   return `${base} ${sizing} left-1/2 -translate-x-1/2 z-0 opacity-0 scale-[0.7] pointer-events-none`
 }
 
-export function Testimonials() {
+export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
+  const N = lettres.length
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
@@ -63,8 +63,8 @@ export function Testimonials() {
     return () => mq.removeEventListener('change', handler)
   }, [])
 
-  const goNext = useCallback(() => setCurrent((c) => mod(c + 1, N)), [])
-  const goPrev = useCallback(() => setCurrent((c) => mod(c - 1, N)), [])
+  const goNext = useCallback(() => setCurrent((c) => mod(c + 1, N)), [N])
+  const goPrev = useCallback(() => setCurrent((c) => mod(c - 1, N)), [N])
 
   useEffect(() => {
     if (paused || reducedMotion) return
@@ -110,8 +110,8 @@ export function Testimonials() {
         </h2>
 
         <div className="relative w-full h-[300px] sm:h-[320px] lg:h-[340px]">
-          {LETTRES.map((t, i) => {
-            const role = getRoleFor(i, current)
+          {lettres.map((t, i) => {
+            const role = getRoleFor(i, current, N)
             const mat = materialFor(i)
             return (
               <article
