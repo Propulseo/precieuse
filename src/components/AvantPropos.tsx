@@ -3,22 +3,55 @@ import { BRAND_PICTO_MASK, maskStyle } from './brand/brand'
 import { useBrand } from './brand/BrandProvider'
 
 const PAIRES = [
-  { roman: 'i', pas: () => m.avantpropos_pair1_pas(), mais: () => m.avantpropos_pair1_mais() },
-  { roman: 'ii', pas: () => m.avantpropos_pair2_pas(), mais: () => m.avantpropos_pair2_mais() },
-  { roman: 'iii', pas: () => m.avantpropos_pair3_pas(), mais: () => m.avantpropos_pair3_mais() },
-  { roman: 'iv', pas: () => m.avantpropos_pair4_pas(), mais: () => m.avantpropos_pair4_mais() },
+  { roman: 'I', pas: () => m.avantpropos_pair1_pas(), mais: () => m.avantpropos_pair1_mais() },
+  { roman: 'II', pas: () => m.avantpropos_pair2_pas(), mais: () => m.avantpropos_pair2_mais() },
+  { roman: 'III', pas: () => m.avantpropos_pair3_pas(), mais: () => m.avantpropos_pair3_mais() },
+  { roman: 'IV', pas: () => m.avantpropos_pair4_pas(), mais: () => m.avantpropos_pair4_mais() },
 ]
 
-function Filigrane() {
+const FILIGRANE_SVG_CLASS = 'w-[80px] h-6 text-rouille opacity-70'
+
+/** Losange : pierre taillée sur un filet. */
+function FiligraneLosange() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 80 24" className="w-[80px] h-6 text-rouille opacity-70" fill="none">
-      <path d="M40 12 Q 32 4 24 12 Q 16 20 8 12" stroke="currentColor" strokeWidth="0.6" fill="none" />
-      <path d="M40 12 Q 48 4 56 12 Q 64 20 72 12" stroke="currentColor" strokeWidth="0.6" fill="none" />
-      <circle cx="40" cy="12" r="2" stroke="currentColor" strokeWidth="0.6" fill="currentColor" fillOpacity="0.3" />
-      <line x1="0" y1="12" x2="6" y2="12" stroke="currentColor" strokeWidth="0.4" />
-      <line x1="74" y1="12" x2="80" y2="12" stroke="currentColor" strokeWidth="0.4" />
+    <svg aria-hidden="true" viewBox="0 0 80 24" className={FILIGRANE_SVG_CLASS} fill="none">
+      <line x1="6" y1="12" x2="34" y2="12" stroke="currentColor" strokeWidth="0.6" />
+      <rect x="36" y="8" width="8" height="8" stroke="currentColor" strokeWidth="0.6" transform="rotate(45 40 12)" />
+      <line x1="46" y1="12" x2="74" y2="12" stroke="currentColor" strokeWidth="0.6" />
     </svg>
   )
+}
+
+/** Points : trois pastilles sobres. */
+function FiligranePoints() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 80 24" className={FILIGRANE_SVG_CLASS} fill="none">
+      <line x1="8" y1="12" x2="30" y2="12" stroke="currentColor" strokeWidth="0.5" />
+      <circle cx="35.5" cy="12" r="1.3" fill="currentColor" />
+      <circle cx="40" cy="12" r="1.7" fill="currentColor" />
+      <circle cx="44.5" cy="12" r="1.3" fill="currentColor" />
+      <line x1="50" y1="12" x2="72" y2="12" stroke="currentColor" strokeWidth="0.5" />
+    </svg>
+  )
+}
+
+/** Éclat : scintillement de diamant (étoile à 4 branches). */
+function FiligraneEclat() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 80 24" className={FILIGRANE_SVG_CLASS} fill="none">
+      <line x1="8" y1="12" x2="30" y2="12" stroke="currentColor" strokeWidth="0.5" />
+      <path d="M40 4 L41.6 10.4 L48 12 L41.6 13.6 L40 20 L38.4 13.6 L32 12 L38.4 10.4 Z" fill="currentColor" />
+      <line x1="50" y1="12" x2="72" y2="12" stroke="currentColor" strokeWidth="0.5" />
+    </svg>
+  )
+}
+
+/** Séparateur décoratif — 3 motifs au choix (toggle « Filigrane »). */
+function Filigrane() {
+  const { filigraneVariant } = useBrand()
+  if (filigraneVariant === 'points') return <FiligranePoints />
+  if (filigraneVariant === 'eclat') return <FiligraneEclat />
+  return <FiligraneLosange />
 }
 
 /** La fleur de la marque (picto d'Emeline), recolorée par --brand-accent. */

@@ -66,7 +66,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={getLocale()} data-brand="canard" data-hero-mark="logo" data-seal="rond">
+    <html lang={getLocale()} data-brand="canard" data-hero-mark="logo" data-seal="rond" data-filigrane="losange">
       <head>
         {/* No-flash : pose data-brand depuis localStorage avant le paint. */}
         <script dangerouslySetInnerHTML={{ __html: BRAND_NO_FLASH_SCRIPT }} />

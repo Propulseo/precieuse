@@ -9,14 +9,18 @@ import type { ReactNode } from 'react'
 import {
   BRAND_STORAGE_KEY,
   DEFAULT_BRAND,
+  DEFAULT_FILIGRANE_VARIANT,
   DEFAULT_HERO_MARK,
   DEFAULT_SEAL_VARIANT,
+  FILIGRANE_VARIANT_STORAGE_KEY,
   HERO_MARK_STORAGE_KEY,
   SEAL_VARIANT_STORAGE_KEY,
   isBrand,
+  isFiligraneVariant,
   isHeroMark,
   isSealVariant,
   type Brand,
+  type FiligraneVariant,
   type HeroMark,
   type SealVariant,
 } from './brand'
@@ -28,14 +32,16 @@ type BrandContextValue = {
   setHeroMark: (mark: HeroMark) => void
   sealVariant: SealVariant
   setSealVariant: (variant: SealVariant) => void
+  filigraneVariant: FiligraneVariant
+  setFiligraneVariant: (variant: FiligraneVariant) => void
 }
 
 const BrandContext = createContext<BrandContextValue | null>(null)
 
 /**
  * Un réglage visiteur = un attribut `data-*` sur <html> + une clé localStorage,
- * validé par un type-guard, avec un défaut. Une seule table décrit les trois
- * (couleur, marque hero, cachet) ; `readStored`/`persist` la parcourent.
+ * validé par un type-guard, avec un défaut. Une seule table décrit chacun
+ * (couleur, marque hero, cachet, filigrane) ; `readStored`/`persist` la parcourent.
  */
 type ToggleSpec<T extends string> = {
   attr: string
@@ -61,6 +67,12 @@ const SEAL_SPEC: ToggleSpec<SealVariant> = {
   storageKey: SEAL_VARIANT_STORAGE_KEY,
   isValid: isSealVariant,
   fallback: DEFAULT_SEAL_VARIANT,
+}
+const FILIGRANE_SPEC: ToggleSpec<FiligraneVariant> = {
+  attr: 'filigrane',
+  storageKey: FILIGRANE_VARIANT_STORAGE_KEY,
+  isValid: isFiligraneVariant,
+  fallback: DEFAULT_FILIGRANE_VARIANT,
 }
 
 /** Lit le réglage : attribut posé avant le paint (no-flash) → localStorage → défaut. */
@@ -99,12 +111,15 @@ export function BrandProvider({ children }: { children: ReactNode }) {
   const [heroMark, setHeroMarkState] = useState<HeroMark>(DEFAULT_HERO_MARK)
   const [sealVariant, setSealVariantState] =
     useState<SealVariant>(DEFAULT_SEAL_VARIANT)
+  const [filigraneVariant, setFiligraneVariantState] =
+    useState<FiligraneVariant>(DEFAULT_FILIGRANE_VARIANT)
 
   // Sync initial après hydratation (le SSR ne connaît pas le choix visiteur).
   useEffect(() => {
     setBrandState(readStored(BRAND_SPEC))
     setHeroMarkState(readStored(HERO_MARK_SPEC))
     setSealVariantState(readStored(SEAL_SPEC))
+    setFiligraneVariantState(readStored(FILIGRANE_SPEC))
   }, [])
 
   const setBrand = useCallback((next: Brand) => {
@@ -122,6 +137,11 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     persist(SEAL_SPEC, next)
   }, [])
 
+  const setFiligraneVariant = useCallback((next: FiligraneVariant) => {
+    setFiligraneVariantState(next)
+    persist(FILIGRANE_SPEC, next)
+  }, [])
+
   return (
     <BrandContext.Provider
       value={{
@@ -131,6 +151,8 @@ export function BrandProvider({ children }: { children: ReactNode }) {
         setHeroMark,
         sealVariant,
         setSealVariant,
+        filigraneVariant,
+        setFiligraneVariant,
       }}
     >
       {children}

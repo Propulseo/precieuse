@@ -99,3 +99,23 @@ export const SEAL_VARIANT_LABELS: Record<SealVariant, string> = {
 export function isSealVariant(value: unknown): value is SealVariant {
   return typeof value === 'string' && (SEAL_VARIANTS as string[]).includes(value)
 }
+
+// ─── Filigrane (séparateur décoratif de l'avant-propos) : 3 motifs au choix ───
+// Piloté par `data-filigrane` sur <html>, persisté indépendamment.
+export type FiligraneVariant = 'losange' | 'points' | 'eclat'
+
+export const FILIGRANE_VARIANTS: FiligraneVariant[] = ['losange', 'points', 'eclat']
+export const DEFAULT_FILIGRANE_VARIANT: FiligraneVariant = 'losange'
+export const FILIGRANE_VARIANT_STORAGE_KEY = 'precieuse-filigrane'
+
+export const FILIGRANE_VARIANT_LABELS: Record<FiligraneVariant, string> = {
+  losange: 'Losange',
+  points: 'Points',
+  eclat: 'Éclat',
+}
+
+export function isFiligraneVariant(value: unknown): value is FiligraneVariant {
+  return (
+    typeof value === 'string' && (FILIGRANE_VARIANTS as string[]).includes(value)
+  )
+}
