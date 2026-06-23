@@ -33,7 +33,10 @@ export function HeroSplitSezane() {
 
       <div className="absolute inset-0 flex items-center justify-center px-6">
         <div className="mx-auto flex w-full max-w-[640px] flex-col items-center text-center text-poudre">
-          <span className="font-display text-[12px] tracking-[0.4em] uppercase text-poudre/85 block mb-5">
+          <span
+            className="font-display text-[12px] tracking-[0.4em] uppercase block mb-5 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]"
+            style={{ color: 'var(--brand-accent)' }}
+          >
             Joaillerie artisanale · Bordeaux
           </span>
 
