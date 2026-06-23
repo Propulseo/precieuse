@@ -1,8 +1,8 @@
 const ITEMS = [
   { icon: 'RotateCcw', text: 'Retour gratuit 30 jours' },
-  { icon: 'Ruler', text: 'Remise à taille offerte' },
+  { icon: 'Ruler', text: 'Mise à taille offerte' },
   { icon: 'MessageCircle', text: 'WhatsApp 7j/7 avec Emeline' },
-  { icon: 'ShieldCheck', text: 'RJC · Processus de Kimberly' },
+  { icon: 'ShieldCheck', text: 'Certificat GIA ou HRD' },
 ]
 
 function Icon({ name }: { name: string }) {

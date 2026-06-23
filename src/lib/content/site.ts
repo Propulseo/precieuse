@@ -22,7 +22,7 @@ export type ProcessStep = {
 export const BESPOKE_PROCESS: ProcessStep[] = [
   {
     number: '01',
-    title: "Vous m'appelez",
+    title: 'Vous me contactez',
     description:
       'Nous discutons de votre vision, vos préférences, votre budget, votre délai. Un moment privilégié, sans engagement.',
   },
@@ -36,7 +36,7 @@ export const BESPOKE_PROCESS: ProcessStep[] = [
     number: '03',
     title: 'Vous validez',
     description:
-      'Vous choisissez une esquisse, nous affinons ensemble les détails : pierre finale, taille, finitions.',
+      'Vous choisissez une esquisse, nous affinons ensemble les détails : pierre finale, taille, finitions. Je vous remets alors un devis précis, sans surprise.',
   },
   {
     number: '04',

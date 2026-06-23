@@ -81,8 +81,8 @@ export const PRODUCTS: Product[] = [
       'Or 18 carats · Pavage demi-tour diamants certifiés GIA/HRD · Largeur 2 ou 3 mm au choix',
     story:
       "Le modèle le plus discret de la collection, et pourtant celui qui revient le plus souvent dans les commandes : la preuve que l'évidence ne se démode pas.",
-    image: '/images/real/bague-pierre-precieuse-perle.webp',
+    image: '/images/real/buste-thelma-louise.webp',
     imageAlt:
-      'Bague Louise en or 18 carats, pierre précieuse et perle — atelier Précieuse, Bordeaux',
+      'Bague Louise en or 18 carats portée — atelier Précieuse, Bordeaux',
   },
 ]

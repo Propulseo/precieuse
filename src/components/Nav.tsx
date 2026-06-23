@@ -11,6 +11,39 @@ const navLinks = [
 
 const SCROLL_THRESHOLD = 60
 
+/**
+ * Sélecteur de langue (FR / EN / PT).
+ * FR est actif ; EN & PT sont visibles mais marqués « à venir » tant que le
+ * contenu n'est pas traduit (infra Paraglide encore en mode baseLocale).
+ * À activer quand le contenu FR sera figé puis traduit.
+ */
+function LangControl({ isHomeTop }: { isHomeTop: boolean }) {
+  const active = isHomeTop ? 'text-poudre' : 'text-canard'
+  const muted = isHomeTop ? 'text-poudre/45' : 'text-canard/40'
+  return (
+    <div
+      className="flex items-center gap-1.5 font-display text-[12px] tracking-[0.12em] select-none"
+      aria-label="Langue : français (anglais et portugais à venir)"
+    >
+      <span className={active} aria-current="true">
+        FR
+      </span>
+      <span className={muted} aria-hidden>
+        ·
+      </span>
+      <span className={`${muted} cursor-default`} title="Version anglaise à venir">
+        EN
+      </span>
+      <span className={muted} aria-hidden>
+        ·
+      </span>
+      <span className={`${muted} cursor-default`} title="Versão portuguesa em breve">
+        PT
+      </span>
+    </div>
+  )
+}
+
 export function Nav() {
   const { pathname } = useLocation()
   const [scrolled, setScrolled] = useState(false)
@@ -95,6 +128,8 @@ export function Nav() {
           >
             Sur-Mesure
           </Link>
+
+          <LangControl isHomeTop={isHomeTop} />
         </div>
 
       </nav>

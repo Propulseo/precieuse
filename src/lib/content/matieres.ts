@@ -34,12 +34,16 @@ export const MATIERES: Matiere[] = [
     annotation_caveat: 'certifiés GIA/HRD',
     page: 'p. 06',
   },
+  // Pierres de couleur — remplacées suite au retour cliente (Saphirs→Tanzanites,
+  // Émeraudes→Tourmalines, Rubis→Opales). Libellés rédigés à valider par Emeline.
+  // Photos : substituts génériques pour l'instant — photos dédiées Tanzanite /
+  // Tourmaline / Opale à fournir (la bague rouge « rubis » a été retirée d'ici).
   {
-    slug: 'saphirs',
-    nom: 'Saphirs',
-    sous_titre: 'bleu de roi · padparadscha',
+    slug: 'tanzanites',
+    nom: 'Tanzanites',
+    sous_titre: 'bleu-violet rare',
     description_courte:
-      'Saphirs bleu de roi, jaune miel ou padparadscha rose-orangé, sourcés en Birmanie ou au Sri Lanka. Sur commande pour les pièces sur-mesure.',
+      "Tanzanite au bleu-violet profond, gemme rare née au pied du Kilimandjaro et nulle part ailleurs. Sa couleur se révèle autrement à chaque lumière. Sur commande pour les pièces sur-mesure.",
     image: '/images/real/bague-pierre-aurore.webp',
     image_alt:
       "Bague en or 18 carats sertie d'une pierre de couleur — atelier Précieuse, Bordeaux",
@@ -47,27 +51,27 @@ export const MATIERES: Matiere[] = [
     page: 'p. 07',
   },
   {
-    slug: 'emeraudes',
-    nom: 'Émeraudes',
-    sous_titre: 'Colombie · Zambie',
+    slug: 'tourmalines',
+    nom: 'Tourmalines',
+    sous_titre: 'toute une palette',
     description_courte:
-      'Émeraudes colombiennes (vert intense, jardin caractéristique) ou zambiennes (vert plus froid, plus pures). Une matière vivante, jamais identique.',
+      "Tourmalines vertes, rosées ou indigo, jusqu'au bleu Paraïba électrique. La pierre aux mille couleurs, choisie une à une pour son caractère. Sur commande pour les pièces sur-mesure.",
     image: '/images/real/bague-entouree-josephine.webp',
     image_alt:
       'Bague en or 18 carats, pierre de couleur entourée de diamants — atelier Précieuse, Bordeaux',
-    annotation_caveat: 'vivantes, jamais identiques',
+    annotation_caveat: 'sur commande',
     page: 'p. 08',
   },
   {
-    slug: 'rubis',
-    nom: 'Rubis',
-    sous_titre: 'rouge sang de pigeon',
+    slug: 'opales',
+    nom: 'Opales',
+    sous_titre: 'feux changeants',
     description_courte:
-      'Rubis Mozambique ou Birmanie, du rouge framboise au mythique sang de pigeon. Pierre de cœur, signature des pièces les plus émotionnelles.',
-    image: '/images/real/bague-rubis.webp',
+      "Opales aux reflets mouvants : chaque éclat de lumière y révèle une nouvelle couleur. Une pierre vivante, jamais deux fois la même. Sur commande pour les pièces sur-mesure.",
+    image: '/images/real/bague-pierre-precieuse-perle.webp',
     image_alt:
-      "Bague en or 18 carats sertie d'un rubis — atelier Précieuse, Bordeaux",
-    annotation_caveat: 'pierre de cœur',
+      "Bague en or 18 carats sertie d'une pierre de couleur aux reflets changeants — atelier Précieuse, Bordeaux",
+    annotation_caveat: 'sur commande',
     page: 'p. 09',
   },
 ]

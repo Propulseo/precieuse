@@ -73,9 +73,12 @@ export function HeroSplitSezane() {
             </h1>
           )}
 
-          <p className="font-display text-[clamp(16px,2vw,22px)] text-poudre/90 mb-10 max-w-[28ch] leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.25)]">
-            Chaque bijou raconte une histoire.{' '}
-            <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">La vôtre.</span>
+          <p className="font-display text-[clamp(20px,2.6vw,30px)] text-poudre mb-3 max-w-[24ch] leading-snug drop-shadow-[0_1px_6px_rgba(0,0,0,0.25)]">
+            Votre bijou.{' '}
+            <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">Votre histoire.</span>
+          </p>
+          <p className="font-display text-[clamp(14px,1.7vw,18px)] text-poudre/85 mb-10 max-w-[36ch] leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.25)]">
+            Un savoir-faire joaillier, une création qui vous ressemble.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a

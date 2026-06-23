@@ -1,8 +1,8 @@
 const PAIRES = [
   { roman: 'i', pas: 'pas de saison', mais: 'Des pièces dessinées pour traverser le temps.' },
-  { roman: 'ii', pas: 'pas de stock', mais: "Une fabrication à l'unité, à partir d'une commande." },
+  { roman: 'ii', pas: 'pas de stock', mais: "Une fabrication à la commande, pas forcément à l'unité." },
   { roman: 'iii', pas: "pas d'usine", mais: 'Une main, un atelier, un geste, du dessin au sertissage.' },
-  { roman: 'iv', pas: "pas d'or anonyme", mais: 'Or 18 carats sourcé et tracé grâce au traité de Kimberley, pierres précieuses choisies une à une.' },
+  { roman: 'iv', pas: "pas d'or sans origine", mais: 'Or 18 carats sourcé et tracé grâce au traité de Kimberley, pierres précieuses choisies une à une.' },
 ]
 
 function Filigrane() {
@@ -94,7 +94,7 @@ export function AvantPropos() {
             <div className="flex flex-col">
               <span className="font-display text-[18px] text-canard">Emeline Le Ray</span>
               <span className="font-display text-[13px] text-canard/65 tracking-wide">
-                joaillière diplômée · 10 ans d'expérience
+                joaillière diplômée · 12 ans d'expérience
               </span>
               <span className="font-display text-[12px] text-canard/45 tracking-wide mt-0.5">
                 fondatrice · Bordeaux · MMXXVI
