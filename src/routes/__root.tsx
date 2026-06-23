@@ -15,6 +15,9 @@ import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
 import { SplashScreen } from '../components/SplashScreen'
 import { WhatsAppButton } from '../components/WhatsAppButton'
+import { BrandProvider } from '../components/brand/BrandProvider'
+import { BrandToggle } from '../components/brand/BrandToggle'
+import { BRAND_NO_FLASH_SCRIPT } from '../components/brand/no-flash-script'
 
 import appCss from '../styles.css?url'
 
@@ -63,17 +66,21 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={getLocale()}>
+    <html lang={getLocale()} data-brand="teal">
       <head>
+        {/* No-flash : pose data-brand depuis localStorage avant le paint. */}
+        <script dangerouslySetInnerHTML={{ __html: BRAND_NO_FLASH_SCRIPT }} />
         <HeadContent />
       </head>
       <body>
         <SplashScreen />
         <ConvexProvider>
-          <Nav />
-          <main className="pt-16 min-h-screen">{children}</main>
-          <Footer />
-          <WhatsAppButton />
+          <BrandProvider>
+            <Nav />
+            <main className="pt-16 min-h-screen">{children}</main>
+            <Footer />
+            <WhatsAppButton />
+            <BrandToggle />
           <TanStackDevtools
             config={{
               position: 'bottom-right',
@@ -86,6 +93,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               TanStackQueryDevtools,
             ]}
           />
+          </BrandProvider>
         </ConvexProvider>
         <Scripts />
       </body>

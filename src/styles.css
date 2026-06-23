@@ -9,10 +9,40 @@
 @plugin '@tailwindcss/typography';
 @import 'tw-animate-css';
 
+/* ─── Toggle couleur visiteur (teal ↔ blush) ──────────────────────────
+   Accent de marque pilotable par l'attribut `data-brand` sur <html>.
+   Le fond reste poudre ; seul l'accent (et le logo) change.
+   Valeurs faciles à ajuster ici. Défaut = teal (rappel du logo canard). */
+:root {
+  --brand-accent-teal: #125e5e;
+  --brand-accent-teal-strong: #0d4747;
+  --brand-accent-blush: #b97e72;
+  --brand-accent-blush-strong: #9c6055;
+
+  /* Rôle « accent de marque » — résolu selon data-brand (défaut teal). */
+  --brand-accent: var(--brand-accent-teal);
+  --brand-accent-strong: var(--brand-accent-teal-strong);
+}
+
+/* ─── Résolution de l'accent selon le choix visiteur ─── */
+[data-brand='teal'] {
+  --brand-accent: var(--brand-accent-teal);
+  --brand-accent-strong: var(--brand-accent-teal-strong);
+}
+[data-brand='blush'] {
+  --brand-accent: var(--brand-accent-blush);
+  --brand-accent-strong: var(--brand-accent-blush-strong);
+}
+
 /* ─── Brand tokens (charte Précieuse — canard / poudre) ─── */
 :root {
-  --canard: #005454;
-  --canard-90: #1a6464;
+  /* Accent principal routé sur l'accent de marque pour suivre le toggle.
+     (ancienne valeur fixe : canard #005454) */
+  --canard: var(--brand-accent);
+  /* Variante « forte » (hover, surlignages) — suit aussi le toggle.
+     (ancienne valeur fixe : #1a6464) */
+  --canard-90: var(--brand-accent-strong);
+  /* Teinte claire neutre conservée (fonds muted, bordures discrètes). */
   --canard-10: #e6eded;
   --poudre: #eadcd3;
   --poudre-dark: #d9c7b8;

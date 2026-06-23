@@ -1,5 +1,7 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
+import { useBrand } from './brand/BrandProvider'
+import { logoForBrand } from './brand/brand'
 
 const navLinks = [
   { label: 'À propos', href: '/a-propos' },
@@ -12,6 +14,7 @@ const SCROLL_THRESHOLD = 60
 
 export function Nav() {
   const { pathname } = useLocation()
+  const { brand } = useBrand()
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -43,7 +46,7 @@ export function Nav() {
           className="relative block transition-opacity hover:opacity-70"
         >
           <img
-            src="/brand/lockup-teal.png"
+            src={logoForBrand(brand)}
             alt="Précieuse, Joaillerie artisanale, Bordeaux"
             width={420}
             height={140}

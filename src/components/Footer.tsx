@@ -1,8 +1,9 @@
 import { FOOTER_DATA } from '../lib/content/footer'
-
-
+import { useBrand } from './brand/BrandProvider'
+import { logoForBrand } from './brand/brand'
 
 export function Footer() {
+  const { brand } = useBrand()
   return (
     <footer className="bg-poudre-dark">
       {/* --- Grille principale --- */}
@@ -11,7 +12,7 @@ export function Footer() {
           {/* Atelier */}
           <div className="col-span-2 md:col-span-1 flex flex-col items-start gap-4">
             <img
-              src={FOOTER_DATA.logoSrc}
+              src={logoForBrand(brand)}
               alt="Précieuse, Joaillerie artisanale, Bordeaux"
               className="h-10 w-auto opacity-90"
             />
