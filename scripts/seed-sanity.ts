@@ -77,6 +77,21 @@ async function main() {
 
   console.log('→ Upload des photos…')
 
+  // Pré-upload concurrent de toutes les photos (dédupliqué par chemin) : bien
+  // plus rapide que séquentiel. Les boucles ci-dessous tapent ensuite le cache.
+  await Promise.all(
+    [
+      ...new Set([
+        ...PRODUCTS.map((p) => p.image),
+        ...MATIERES.map((m) => m.image),
+        ...ARTICLES.map((a) => a.image),
+        ...ETABLI_STEPS.map((e) => e.image),
+        ...METAMORPHOSE.map((m) => m.image),
+        ...PROMESSES.map((p) => p.image),
+      ]),
+    ].map(uploadImage),
+  )
+
   // Pièces (collection)
   for (let i = 0; i < PRODUCTS.length; i++) {
     const p = PRODUCTS[i]!
