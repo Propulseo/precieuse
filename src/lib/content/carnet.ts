@@ -19,8 +19,9 @@ export const ARTICLES: Article[] = [
     category: 'Atelier',
     date: '12 mai 2026',
     readTime: '6 min',
-    image: '/images/atelier/esquisses-amethyste.jpg',
-    imageAlt: "Esquisses de bijoux et améthyste brute sur l'établi",
+    image: '/images/real/bague-main-josephine.webp',
+    imageAlt:
+      'Bague Joséphine en or 18 carats portée à la main — atelier Précieuse, Bordeaux',
     featured: true,
   },
   {
@@ -31,8 +32,9 @@ export const ARTICLES: Article[] = [
     category: 'Matières',
     date: '28 avril 2026',
     readTime: '4 min',
-    image: '/images/matieres/or-19kt-v2.jpg',
-    imageAlt: "Anneau d'or 18 carats poli",
+    image: '/images/real/bague-pierre-josephine.webp',
+    imageAlt:
+      "Bague en or 18 carats poli sertie d'une pierre — savoir-faire de l'atelier Précieuse, Bordeaux",
   },
   {
     slug: 'journal-fonte-matinee-atelier',
@@ -42,8 +44,9 @@ export const ARTICLES: Article[] = [
     category: 'Atelier',
     date: '15 avril 2026',
     readTime: '5 min',
-    image: '/images/stitch/journal-fonte-or.jpg',
-    imageAlt: "Fonte de l'or à l'atelier",
+    image: '/images/real/deux-mains.webp',
+    imageAlt:
+      "Deux mains présentant une bague en or 18 carats — geste de l'atelier Précieuse, Bordeaux",
   },
   {
     slug: 'choisir-pierre-precieuse',
@@ -53,8 +56,9 @@ export const ARTICLES: Article[] = [
     category: 'Guides',
     date: '2 avril 2026',
     readTime: '7 min',
-    image: '/images/matieres/diamants-gvs-v2.jpg',
-    imageAlt: 'Diamant taille poire',
+    image: '/images/real/bague-diamant.webp',
+    imageAlt:
+      'Bague en or 18 carats sertie de diamants certifiés GIA/HRD — atelier Précieuse, Bordeaux',
   },
   {
     slug: 'rhodolite-pierre-oubliee',
@@ -64,8 +68,9 @@ export const ARTICLES: Article[] = [
     category: 'Matières',
     date: '18 mars 2026',
     readTime: '3 min',
-    image: '/images/carnet/rhodolite-profil.jpg',
-    imageAlt: 'Rhodolite rose framboise en gros plan',
+    image: '/images/real/main-chaise-josephine.webp',
+    imageAlt:
+      'Bague en or 18 carats sertie de pierres de couleur, portée à la main — atelier Précieuse, Bordeaux',
   },
   {
     slug: 'bague-portee-au-quotidien',
@@ -75,8 +80,9 @@ export const ARTICLES: Article[] = [
     category: 'Guides',
     date: '4 mars 2026',
     readTime: '4 min',
-    image: '/images/carnet/josephine-portee.jpg',
-    imageAlt: 'Bague Joséphine portée au quotidien',
+    image: '/images/real/bague-main-chaise-aurore.webp',
+    imageAlt:
+      'Bague en or 18 carats portée à la main — atelier Précieuse, Bordeaux',
   },
 ]
 

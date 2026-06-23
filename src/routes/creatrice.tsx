@@ -36,8 +36,8 @@ function CreatricePage() {
         <div className="mx-auto max-w-[1320px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="relative aspect-[3/4] overflow-hidden order-2 lg:order-1">
             <img
-              src="/images/atelier/bague-en-fabrication.jpg"
-              alt="Bague en cours de fabrication sur l'établi"
+              src="/images/real/deux-mains.webp"
+              alt="Deux mains présentant une bague en or 18 carats — geste de l'atelier Précieuse, Bordeaux"
               className="absolute inset-0 w-full h-full object-cover luxe-grayscale"
             />
           </div>

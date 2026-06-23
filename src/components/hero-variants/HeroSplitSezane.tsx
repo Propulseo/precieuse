@@ -9,15 +9,15 @@ export function HeroSplitSezane() {
       <div className="grid grid-cols-2 h-full">
         <div className="relative overflow-hidden">
           <img
-            src="/images/bijou-lifestyle-blazer.jpg"
-            alt="Bijou Précieuse, ambiance veste"
+            src="/images/real/bague-main-josephine.webp"
+            alt="Bague Joséphine en or 18 carats portée à la main — atelier Précieuse, Bordeaux"
             className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
         <div className="relative overflow-hidden">
           <img
-            src="/images/bijoux-officiels/aurore.jpg"
-            alt="Bague Aurore, macro produit"
+            src="/images/real/buste-thelma-louise.webp"
+            alt="Bagues Thelma et Louise en or 18 carats portées — création de l'atelier Précieuse, Bordeaux"
             className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
@@ -28,7 +28,7 @@ export function HeroSplitSezane() {
 
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-poudre px-6">
         <span className="font-display text-[12px] tracking-[0.4em] uppercase text-poudre/85 block mb-5">
-          Joaillerie artisanale · Lisboa
+          Joaillerie artisanale · Bordeaux
         </span>
         <h1 className="font-headline text-[clamp(48px,7vw,96px)] leading-[0.95] mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]">
           Précieuse.

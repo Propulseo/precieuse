@@ -2,8 +2,8 @@ export function HistoireSandrine() {
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden px-6 py-20 lg:py-28">
       <img
-        src="/images/atelier/dessin-aquarelle.jpg"
-        alt="Dessin aquarelle original, bague sur-mesure de Sandrine"
+        src="/images/real/bague-main-chaise-thelma.webp"
+        alt="Bague en or 18 carats et diamants portée à la main — création sur-mesure de l'atelier Précieuse, Bordeaux"
         className="absolute inset-0 w-full h-full object-cover"
         style={{ filter: 'brightness(0.35) saturate(1.1)' }}
       />

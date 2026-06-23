@@ -14,8 +14,9 @@ export const METAMORPHOSE: MetamorphoseStep[] = [
     annotation: 'toujours au crayon B, sur papier vélin',
     detail:
       "Tout commence par un échange. Vous me parlez de vous, de l'occasion, du geste que vous imaginez. Je traduis vos mots en lignes : deux ou trois croquis, autant de directions possibles. Rien n'est figé, tout se construit ensemble.",
-    image: '/images/atelier/esquisses-amethyste.jpg',
-    imageAlt: 'Esquisses de bijoux sur papier vélin avec améthyste brute',
+    image: '/images/real/deux-mains.webp',
+    imageAlt:
+      "Deux mains présentant une bague en or 18 carats — geste de l'atelier Précieuse, Bordeaux",
   },
   {
     roman: 'II',
@@ -23,8 +24,9 @@ export const METAMORPHOSE: MetamorphoseStep[] = [
     annotation: "l'or entre à 1064 °C, il sort pièce unique",
     detail:
       "Le croquis validé devient volume. Modelage en cire, puis fonte à cire perdue en or 18 carats dans mon atelier à Bordeaux. Chaque pièce est coulée individuellement. Il n'y aura pas de seconde chance, et c'est ce qui rend chaque bijou irremplaçable.",
-    image: '/images/atelier/bague-en-fabrication.jpg',
-    imageAlt: 'Bague en cours de fabrication sur établi',
+    image: '/images/real/mains-poche-thelma.webp',
+    imageAlt:
+      'Bague Thelma en or 18 carats présentée à la main — atelier Précieuse, Bordeaux',
   },
   {
     roman: 'III',
@@ -32,8 +34,9 @@ export const METAMORPHOSE: MetamorphoseStep[] = [
     annotation: 'polie, sertie, signée. Votre bijou est né',
     detail:
       "Polissage à la main, sertissage pierre par pierre sous loupe. Chaque grain est poursuivi, chaque arête adoucie. Le bijou reçoit son certificat d'authenticité, puis rejoint son écrin pour le voyage jusqu'à vous. Livraison sécurisée, assurée, suivie.",
-    image: '/images/bijoux-officiels/josephine.jpg',
-    imageAlt: 'Bague Joséphine terminée, or et diamants',
+    image: '/images/real/bague-main-josephine.webp',
+    imageAlt:
+      'Bague Joséphine en or 18 carats portée à la main — atelier Précieuse, Bordeaux',
   },
 ]
 
@@ -41,32 +44,36 @@ export const PROMESSES = [
   {
     titre: 'Or 18 carats',
     detail: 'Sourcé et tracé grâce au traité de Kimberley',
-    image: '/images/matieres/or-19kt-v2.jpg',
-    imageAlt: 'Or 18 carats poli',
+    image: '/images/real/bague-pierre-josephine.webp',
+    imageAlt:
+      "Bague en or 18 carats poli sertie d'une pierre — atelier Précieuse, Bordeaux",
   },
   {
     titre: 'Pierres certifiées',
     detail: 'Diamants et pierres certifiés GIA/HRD, choisis un à un',
-    image: '/images/matieres/diamants-gvs-v2.jpg',
-    imageAlt: 'Diamant certifié GIA/HRD',
+    image: '/images/real/bague-diamant.webp',
+    imageAlt:
+      'Bague en or 18 carats sertie de diamants certifiés GIA/HRD — atelier Précieuse, Bordeaux',
   },
   {
     titre: 'Fait main',
     detail: 'Fonte à cire perdue, sertissage sous loupe',
-    image: '/images/matieres/saphirs-v2.jpg',
-    imageAlt: 'Saphir taille émeraude',
+    image: '/images/real/bague-pierre-aurore.webp',
+    imageAlt:
+      "Bague en or 18 carats sertie d'une pierre de couleur — atelier Précieuse, Bordeaux",
   },
   {
     titre: '4 à 8 semaines',
     detail: 'Le temps juste pour un travail sans compromis',
-    image: '/images/matieres/emeraudes-v2.jpg',
-    imageAlt: 'Émeraude colombienne',
+    image: '/images/real/bague-entouree-josephine.webp',
+    imageAlt:
+      'Bague en or 18 carats, pierre de couleur entourée de diamants — atelier Précieuse, Bordeaux',
   },
   {
     titre: 'Remise sécurisée',
     detail: 'Express, assurée, certificat inclus',
-    image: '/images/matieres/rubis-v2.jpg',
-    imageAlt: 'Rubis taille émeraude',
+    image: '/images/real/bague-rubis.webp',
+    imageAlt: "Bague en or 18 carats sertie d'un rubis — atelier Précieuse, Bordeaux",
   },
 ]
 

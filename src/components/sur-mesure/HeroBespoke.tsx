@@ -2,8 +2,8 @@ export function HeroBespoke() {
   return (
     <section className="relative min-h-screen -mt-16 pt-16 flex flex-col items-center justify-center bg-canard overflow-hidden">
       <img
-        src="/images/stitch-v3/sur-mesure-sketching.jpg"
-        alt="Emeline dessine une esquisse sur-mesure à l'atelier"
+        src="/images/real/mains-poche-thelma.webp"
+        alt="Bague en or 18 carats présentée à la main — création sur-mesure de l'atelier Précieuse, Bordeaux"
         className="absolute inset-0 w-full h-full object-cover"
         style={{ filter: 'saturate(1.1) brightness(0.7) contrast(1.05)', objectPosition: 'center 40%' }}
       />

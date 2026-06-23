@@ -43,7 +43,7 @@ export function Nav() {
           className="relative block transition-opacity hover:opacity-70"
         >
           <img
-            src="/brand/logo.png"
+            src="/brand/lockup-teal.png"
             alt="Précieuse, Joaillerie artisanale, Bordeaux"
             width={420}
             height={140}

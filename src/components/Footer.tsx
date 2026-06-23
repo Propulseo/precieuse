@@ -12,7 +12,7 @@ export function Footer() {
           <div className="col-span-2 md:col-span-1 flex flex-col items-start gap-4">
             <img
               src={FOOTER_DATA.logoSrc}
-              alt="Précieuse"
+              alt="Précieuse, Joaillerie artisanale, Bordeaux"
               className="h-10 w-auto opacity-90"
             />
             <span className="font-display text-[14px] text-canard/75 leading-relaxed">

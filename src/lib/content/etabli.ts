@@ -16,8 +16,9 @@ export const ETABLI_STEPS: EtabliStep[] = [
     annotation: 'toujours au crayon B, jamais à la gomme. Les erreurs restent',
     detail:
       "Le premier trait décide de tout. Sur papier vélin, le crayon laisse une mémoire que la pièce finie portera.",
-    image: '/images/atelier/esquisses-amethyste.jpg',
-    imageAlt: "Esquisses d'améthyste sur papier vélin",
+    image: '/images/real/deux-mains.webp',
+    imageAlt:
+      "Deux mains présentant une bague en or 18 carats — geste de l'atelier Précieuse, Bordeaux",
   },
   {
     roman: 'II',
@@ -26,8 +27,9 @@ export const ETABLI_STEPS: EtabliStep[] = [
     annotation: 'température critique à 68°C, une seconde de trop et tout recommence',
     detail:
       "Modelage à la main du volume exact. La cire pardonne moins que le papier : elle est le dernier brouillon.",
-    image: '/images/atelier/dessin-aquarelle.jpg',
-    imageAlt: 'Modèle en cire de la pièce',
+    image: '/images/real/main-poche-josephine.webp',
+    imageAlt:
+      'Bague en or 18 carats présentée à la main — atelier Précieuse, Bordeaux',
   },
   {
     roman: 'III',
@@ -36,8 +38,9 @@ export const ETABLI_STEPS: EtabliStep[] = [
     annotation: "l'or entre à 1064°C, il sort pièce unique. Il n'y a pas d'autre façon",
     detail:
       "La cire disparaît, l'or prend sa place. Une seule pièce sortira du moule. Il n'y aura pas de seconde chance.",
-    image: '/images/stitch/journal-fonte-or.jpg',
-    imageAlt: "Fonte de l'or dans le moule",
+    image: '/images/real/mains-poche-thelma.webp',
+    imageAlt:
+      'Bague Thelma en or 18 carats présentée à la main — atelier Précieuse, Bordeaux',
   },
   {
     roman: 'IV',
@@ -46,7 +49,8 @@ export const ETABLI_STEPS: EtabliStep[] = [
     annotation: 'deux heures minimum, à la main, sous loupe. C\'est là que la lumière naît',
     detail:
       "Chaque grain est poursuivi, chaque arête adoucie. La lumière n'est pas donnée par le métal : elle est arrachée à la main.",
-    image: '/images/atelier/bague-en-fabrication.jpg',
-    imageAlt: 'Polissage final de la bague en atelier',
+    image: '/images/real/bague-main-chaise-thelma.webp',
+    imageAlt:
+      'Bague en or 18 carats et diamants portée à la main — atelier Précieuse, Bordeaux',
   },
 ]

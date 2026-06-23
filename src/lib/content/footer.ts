@@ -35,5 +35,5 @@ export const FOOTER_DATA = {
     label: "Fait avec passion par Propul'SEO",
     href: 'https://propulseo.fr',
   },
-  logoSrc: '/brand/logo.png',
+  logoSrc: '/brand/lockup-teal.png',
 }

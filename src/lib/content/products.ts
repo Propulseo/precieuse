@@ -22,8 +22,9 @@ export const PRODUCTS: Product[] = [
       'Or 18 carats (jaune, blanc ou rose) · Diamants pavés certifiés GIA/HRD · Pierre centrale au choix',
     story:
       "Inspirée des bagues de transmission familiale, Joséphine incarne le lien entre générations. Son design épuré mais généreux en matière fait ressentir la qualité du savoir-faire : chaque pavage est positionné pour maximiser la lumière.",
-    image: '/images/bijoux-officiels/josephine.jpg',
-    imageAlt: 'Bague Joséphine, entourage diamants',
+    image: '/images/real/bague-entouree-josephine.webp',
+    imageAlt:
+      "Bague Joséphine en or 18 carats, pierre centrale entourée d'un halo de diamants — atelier Précieuse, Bordeaux",
   },
   {
     slug: 'aurore',
@@ -35,8 +36,9 @@ export const PRODUCTS: Product[] = [
     materials: 'Or 18 carats · Diamant central certifié GIA/HRD · Anneau 1,8 mm',
     story:
       "Le premier modèle dessiné après une nuit blanche, en pensant à toutes celles qui veulent une bague qui ne s'oublie jamais, sans jamais se faire remarquer.",
-    image: '/images/bijoux-officiels/aurore.jpg',
-    imageAlt: 'Bague Aurore, solitaire diamant',
+    image: '/images/real/bague-pierre-aurore.webp',
+    imageAlt:
+      'Bague Aurore en or 18 carats, solitaire posé sur pierre — atelier Précieuse, Bordeaux',
   },
   {
     slug: 'eugenie',
@@ -49,8 +51,9 @@ export const PRODUCTS: Product[] = [
       'Or 18 carats · Trois diamants gradués certifiés GIA/HRD · Possibilité saphir, rubis ou émeraude central',
     story:
       "Pensée pour célébrer un cap : un anniversaire, une décennie, une étape. Chaque pierre raconte un moment, et l'ensemble fait récit.",
-    image: '/images/bijoux-officiels/eugenie.png',
-    imageAlt: 'Bague Eugénie, dessin original',
+    image: '/images/real/bague-diamant.webp',
+    imageAlt:
+      'Bague Eugénie en or 18 carats sertie de diamants — atelier Précieuse, Bordeaux',
   },
   {
     slug: 'thelma',
@@ -63,8 +66,9 @@ export const PRODUCTS: Product[] = [
       'Or 18 carats · Pierre centrale 1 ct minimum (diamant ou couleur) · Pavage optionnel',
     story:
       "Née d'une commande pour une femme qui voulait « une bague qu'on remarque sans qu'elle hurle ». Le résultat : une pièce ample, mais portée au quotidien sans accroche.",
-    image: '/images/bijoux-officiels/thelma.jpg',
-    imageAlt: 'Bague Thelma, pierre centrale sculptée',
+    image: '/images/real/bague-boule-thelma.webp',
+    imageAlt:
+      'Bague Thelma en or 18 carats, pierre centrale généreuse à la monture sculpturale — atelier Précieuse, Bordeaux',
   },
   {
     slug: 'louise',
@@ -77,7 +81,8 @@ export const PRODUCTS: Product[] = [
       'Or 18 carats · Pavage demi-tour diamants certifiés GIA/HRD · Largeur 2 ou 3 mm au choix',
     story:
       "Le modèle le plus discret de la collection, et pourtant celui qui revient le plus souvent dans les commandes : la preuve que l'évidence ne se démode pas.",
-    image: '/images/bijoux-officiels/louise.jpg',
-    imageAlt: 'Bague Louise, alliance pavée',
+    image: '/images/real/bague-pierre-precieuse-perle.webp',
+    imageAlt:
+      'Bague Louise en or 18 carats, pierre précieuse et perle — atelier Précieuse, Bordeaux',
   },
 ]
