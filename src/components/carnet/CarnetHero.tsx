@@ -1,5 +1,6 @@
 import { ARTICLES, type Article } from '../../lib/content/carnet'
 import { m } from '#/paraglide/messages'
+import { objectPositionStyle } from '../framing/framing'
 
 export function CarnetHero({ articles = ARTICLES }: { articles?: Article[] }) {
   const featured = articles.find((a) => a.featured) ?? articles[0]
@@ -26,6 +27,7 @@ export function CarnetHero({ articles = ARTICLES }: { articles?: Article[] }) {
             <img
               src={featured.image}
               alt={featured.imageAlt}
+              style={objectPositionStyle(featured.imagePosition)}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             />
             <div className="absolute top-5 left-5">

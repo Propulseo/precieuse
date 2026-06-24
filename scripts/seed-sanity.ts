@@ -85,12 +85,27 @@ async function uploadImage(publicPath: string): Promise<string> {
   return asset._id
 }
 
-function imageField(assetId: string, altFr?: string, altEn?: string, altPt?: string) {
-  return {
+function imageField(
+  assetId: string,
+  altFr?: string,
+  altEn?: string,
+  altPt?: string,
+  position?: string,
+) {
+  const field: Record<string, unknown> = {
     _type: 'image',
     asset: { _type: 'reference', _ref: assetId },
     alt: Lstr(altFr, altEn, altPt),
   }
+  // Point focal initial depuis products.ts (ex. '61% 54%') → hotspot Sanity.
+  // Emeline pourra l'ajuster visuellement dans le Studio ensuite.
+  if (position) {
+    const [px, py] = position.split(/\s+/).map((s) => parseFloat(s) / 100)
+    if (Number.isFinite(px) && Number.isFinite(py)) {
+      field.hotspot = { _type: 'sanity.imageHotspot', x: px, y: py, height: 1, width: 1 }
+    }
+  }
+  return field
 }
 
 async function main() {
@@ -128,7 +143,7 @@ async function main() {
       description: Ltext(p.description, tr?.description.en, tr?.description.pt),
       materials: Ltext(p.materials, tr?.materials.en, tr?.materials.pt),
       story: Ltext(p.story, tr?.story.en, tr?.story.pt),
-      image: imageField(assetId, p.imageAlt, tr?.imageAlt.en, tr?.imageAlt.pt),
+      image: imageField(assetId, p.imageAlt, tr?.imageAlt.en, tr?.imageAlt.pt, p.imagePosition),
       order: i,
     })
   }

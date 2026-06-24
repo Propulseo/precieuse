@@ -1,6 +1,7 @@
 import { METAMORPHOSE, type MetamorphoseStep } from '../../lib/content/sur-mesure'
 import { Reveal } from '../Reveal'
 import { m } from '#/paraglide/messages'
+import { objectPositionStyle } from '../framing/framing'
 
 export function Metamorphose({ steps = METAMORPHOSE }: { steps?: MetamorphoseStep[] }) {
   return (
@@ -31,6 +32,7 @@ export function Metamorphose({ steps = METAMORPHOSE }: { steps?: MetamorphoseSte
                   <img
                     src={step.image}
                     alt={step.imageAlt}
+                    style={objectPositionStyle(step.imagePosition)}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   <div className="absolute top-6 left-6 font-display text-[80px] lg:text-[120px] leading-none text-poudre/20 select-none">

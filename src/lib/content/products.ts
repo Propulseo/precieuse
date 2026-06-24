@@ -8,6 +8,8 @@ export type Product = {
   story: string
   image: string
   imageAlt: string
+  /** Point focal CSS (object-position), piloté par le hotspot Sanity (défaut centre). */
+  imagePosition?: string
 }
 
 export const PRODUCTS: Product[] = [
@@ -25,6 +27,7 @@ export const PRODUCTS: Product[] = [
     image: '/images/real/bague-entouree-josephine.webp',
     imageAlt:
       "Bague Joséphine en or 18 carats, pierre centrale entourée d'un halo de diamants — atelier Précieuse, Bordeaux",
+    imagePosition: '61% 54%',
   },
   {
     slug: 'aurore',
@@ -51,9 +54,9 @@ export const PRODUCTS: Product[] = [
       'Or 18 carats · Trois diamants gradués certifiés GIA/HRD · Possibilité saphir, rubis ou émeraude central',
     story:
       "Pensée pour célébrer un cap : un anniversaire, une décennie, une étape. Chaque pierre raconte un moment, et l'ensemble fait récit.",
-    image: '/images/real/bague-diamant.webp',
+    image: '/images/real/eugenie-dessin.png',
     imageAlt:
-      'Bague Eugénie en or 18 carats sertie de diamants — atelier Précieuse, Bordeaux',
+      'Dessin de la bague Eugénie, trilogie à pierre marquise et griffes fines — atelier Précieuse, Bordeaux',
   },
   {
     slug: 'thelma',

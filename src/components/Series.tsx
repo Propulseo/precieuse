@@ -1,14 +1,20 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { m } from '#/paraglide/messages'
 import { PRODUCTS, type Product } from '../lib/content/products'
-import { SeriesCard } from './SeriesCard'
+import { SeriesCard, FocusCardContent } from './SeriesCard'
 import { LoaderB } from './loader-variants/LoaderB'
+import { useBrand } from './brand/BrandProvider'
 
 function mod(n: number, m: number): number {
   return ((n % m) + m) % m
 }
 
-type SlideRole = 'focus' | 'peek-left' | 'peek-right' | 'hidden-left' | 'hidden-right'
+type SlideRole =
+  | 'focus'
+  | 'peek-left'
+  | 'peek-right'
+  | 'hidden-left'
+  | 'hidden-right'
 
 function getRoleFor(i: number, current: number, n: number): SlideRole {
   const diff = mod(i - current, n)
@@ -20,11 +26,119 @@ function getRoleFor(i: number, current: number, n: number): SlideRole {
   return diff * 2 <= n ? 'hidden-right' : 'hidden-left'
 }
 
+// Décalage signé (chemin le plus court, cyclique) pour le mode « glissé » :
+// 0 = centre, ±1 = juste à côté (visible le temps de la glisse), ±2 = hors-champ.
+function slideOffset(i: number, current: number, n: number): number {
+  let d = mod(i - current, n)
+  if (d * 2 > n) d -= n
+  return d
+}
+
+const STAGE_CARD =
+  'absolute top-0 bottom-0 my-auto h-fit w-[88%] max-w-[1080px] -translate-x-1/2 overflow-hidden bg-poudre/85 shadow-[0_30px_80px_-20px_rgba(61,40,23,0.35)]'
+const STAGE_EASE = 'duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]'
+
+/** Mode « glissé » : une grande pièce à la fois, qui glisse sur le côté. */
+function SlideStage({
+  products,
+  current,
+  reducedMotion,
+}: {
+  products: Product[]
+  current: number
+  reducedMotion: boolean
+}) {
+  const n = products.length
+  const motion = reducedMotion ? '' : `transition-[left,opacity] ${STAGE_EASE}`
+  return (
+    <>
+      {products.map((product, i) => {
+        const off = slideOffset(i, current, n)
+        const active = off === 0
+        const onScreen = Math.abs(off) <= 1
+        return (
+          <div
+            key={product.slug}
+            className={`${STAGE_CARD} ${motion} ${active ? 'z-20' : 'z-10 pointer-events-none'} ${onScreen ? 'opacity-100' : 'opacity-0'}`}
+            style={{ left: `${50 + off * 100}%` }}
+            aria-hidden={!active}
+          >
+            <FocusCardContent product={product} index={i} />
+          </div>
+        )
+      })}
+    </>
+  )
+}
+
+/** Mode « fondu » : la pièce suivante apparaît en fondu, sans mouvement. */
+function FadeStage({
+  products,
+  current,
+  reducedMotion,
+}: {
+  products: Product[]
+  current: number
+  reducedMotion: boolean
+}) {
+  const motion = reducedMotion ? '' : `transition-opacity ${STAGE_EASE}`
+  return (
+    <>
+      {products.map((product, i) => {
+        const active = i === current
+        return (
+          <div
+            key={product.slug}
+            className={`${STAGE_CARD} left-1/2 ${motion} ${active ? 'z-20 opacity-100' : 'z-0 opacity-0 pointer-events-none'}`}
+            aria-hidden={!active}
+          >
+            <FocusCardContent product={product} index={i} />
+          </div>
+        )
+      })}
+    </>
+  )
+}
+
+/** Mode « coverflow » : grande pièce au centre, aperçus des voisines aux côtés. */
+function CoverflowStage({
+  products,
+  current,
+  reducedMotion,
+  goTo,
+}: {
+  products: Product[]
+  current: number
+  reducedMotion: boolean
+  goTo: (i: number) => void
+}) {
+  const n = products.length
+  return (
+    <>
+      {products.map((product, i) => (
+        <SeriesCard
+          key={product.slug}
+          product={product}
+          index={i}
+          total={n}
+          role={getRoleFor(i, current, n)}
+          reducedMotion={reducedMotion}
+          onClickPeek={() => goTo(i)}
+        />
+      ))}
+    </>
+  )
+}
+
 export function Series({ products = PRODUCTS }: { products?: Product[] }) {
   const N = products.length
+  const { carouselMode } = useBrand()
   const [current, setCurrent] = useState(0)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
+  const [inView, setInView] = useState(false)
+  const [paused, setPaused] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -33,6 +147,29 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
     mq.addEventListener('change', handler)
     return () => mq.removeEventListener('change', handler)
   }, [])
+
+  // Auto-défilement piloté par le scroll : on observe l'entrée de la section
+  // dans le viewport. Dès qu'on « arrive » dessus en scrollant, ça défile ;
+  // quand on la quitte, ça s'arrête (pas de scroll-jacking).
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry?.isIntersecting ?? false),
+      { threshold: 0.35 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  // Actif seulement si la section est visible, en pause au survol/focus, et
+  // désactivé si l'utilisateur préfère les animations réduites (accessibilité).
+  const autoplay = inView && !paused && !reducedMotion && N > 1
+  useEffect(() => {
+    if (!autoplay) return
+    const id = setInterval(() => setCurrent((c) => mod(c + 1, N)), 4500)
+    return () => clearInterval(id)
+  }, [autoplay, N])
 
   // Carousel piloté par l'index (clic / swipe / clavier) — cyclique, sans scroll-jacking.
   const goTo = useCallback((i: number) => setCurrent(mod(i, N)), [N])
@@ -62,6 +199,7 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
 
   return (
     <section
+      ref={sectionRef}
       className="relative bg-poudre overflow-hidden py-16 lg:py-20 outline-none focus-visible:ring-2 focus-visible:ring-canard"
       aria-roledescription="carousel"
       aria-label={m.series_carousel_label()}
@@ -69,6 +207,10 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
       onKeyDown={handleKeyDown}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
     >
       <div className="mx-auto max-w-[1440px] px-0 lg:px-12 w-full">
         <div className="mb-8 px-8 lg:px-0 flex items-end justify-between">
@@ -106,16 +248,15 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
         </div>
 
         <div className="relative overflow-hidden h-[520px] sm:h-[600px] lg:h-[660px]">
-          {products.map((product, i) => (
-            <SeriesCard
-              key={product.slug}
-              product={product}
-              index={i}
-              role={getRoleFor(i, current, N)}
-              reducedMotion={reducedMotion}
-              onClickPeek={() => goTo(i)}
-            />
-          ))}
+          {carouselMode === 'glisse' && (
+            <SlideStage products={products} current={current} reducedMotion={reducedMotion} />
+          )}
+          {carouselMode === 'fondu' && (
+            <FadeStage products={products} current={current} reducedMotion={reducedMotion} />
+          )}
+          {carouselMode === 'coverflow' && (
+            <CoverflowStage products={products} current={current} reducedMotion={reducedMotion} goTo={goTo} />
+          )}
 
           <div className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 flex-col items-center gap-1 z-30 pointer-events-none">
             <span className="font-body italic font-light text-[13px] text-canard-90 [writing-mode:vertical-rl] rotate-180 tracking-wide">

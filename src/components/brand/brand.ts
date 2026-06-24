@@ -119,3 +119,30 @@ export function isFiligraneVariant(value: unknown): value is FiligraneVariant {
     typeof value === 'string' && (FILIGRANE_VARIANTS as string[]).includes(value)
   )
 }
+
+// ─── Carousel de la collection : 3 comportements au choix ───
+// Piloté par `data-carousel` sur <html>, persisté indépendamment. Permet à
+// Emeline de choisir le défilement de la section « Collection » sans toucher au
+// code. Chaque mode a un libellé court (toggle) et une phrase d'explication.
+export type CarouselMode = 'glisse' | 'fondu' | 'coverflow'
+
+export const CAROUSEL_MODES: CarouselMode[] = ['glisse', 'fondu', 'coverflow']
+export const DEFAULT_CAROUSEL_MODE: CarouselMode = 'glisse'
+export const CAROUSEL_MODE_STORAGE_KEY = 'precieuse-carousel'
+
+export const CAROUSEL_MODE_LABELS: Record<CarouselMode, string> = {
+  glisse: 'Glissé',
+  fondu: 'Fondu',
+  coverflow: 'Coverflow',
+}
+
+// Phrase affichée sous le réglage, pour qu'Emeline comprenne ce que ça change.
+export const CAROUSEL_MODE_HINTS: Record<CarouselMode, string> = {
+  glisse: 'Une grande pièce à la fois, qui glisse sur le côté.',
+  fondu: 'La pièce suivante apparaît en fondu, sans mouvement.',
+  coverflow: 'Grande pièce au centre, aperçus des voisines sur les côtés.',
+}
+
+export function isCarouselMode(value: unknown): value is CarouselMode {
+  return typeof value === 'string' && (CAROUSEL_MODES as string[]).includes(value)
+}

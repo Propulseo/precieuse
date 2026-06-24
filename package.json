@@ -12,7 +12,10 @@
     "test": "vitest run",
     "lint": "eslint",
     "format": "prettier --write . && eslint --fix",
-    "check": "prettier --check ."
+    "check": "prettier --check .",
+    "seed": "tsx scripts/seed-sanity.ts",
+    "studio:dev": "sanity dev",
+    "studio:deploy": "sanity deploy"
   },
   "dependencies": {
     "@convex-dev/react-query": "0.1.0",

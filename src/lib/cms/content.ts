@@ -38,8 +38,23 @@ import {
 } from '../content/sur-mesure'
 import { FOOTER_DATA } from '../content/footer'
 
-/** GROQ projection for a localized image: asset URL string + localized alt. */
-const IMAGE_FIELDS = `"image": image.asset->url, "imageAlt": image.alt`
+/**
+ * GROQ projection for a localized image: asset URL + localized alt + hotspot
+ * (point focal). Le hotspot pilote `object-position` côté front (cf.
+ * `hotspotToPosition`) — Emeline le règle visuellement dans le Studio.
+ */
+const IMAGE_FIELDS = `"image": image.asset->url, "imageAlt": image.alt, "imageHotspot": image.hotspot`
+
+/** Convertit un hotspot Sanity {x,y ∈ 0–1} en `object-position` CSS, sinon undefined (centre). */
+function hotspotToPosition(h: unknown): string | undefined {
+  if (h && typeof h === 'object') {
+    const { x, y } = h as { x?: number; y?: number }
+    if (typeof x === 'number' && typeof y === 'number') {
+      return `${Math.round(x * 100)}% ${Math.round(y * 100)}%`
+    }
+  }
+  return undefined
+}
 
 // ---------------------------------------------------------------------------
 // Collection — pièces
@@ -64,6 +79,8 @@ export async function getProducts(locale: Locale = DEFAULT_LOCALE): Promise<Prod
     story: pickLocale(d.story as never, locale),
     image: String(d.image ?? ''),
     imageAlt: pickLocale(d.imageAlt as never, locale),
+    // Point focal piloté par le hotspot Sanity (réglé par Emeline dans le Studio).
+    imagePosition: hotspotToPosition(d.imageHotspot),
   }))
 }
 
@@ -95,6 +112,7 @@ export async function getMatieres(locale: Locale = DEFAULT_LOCALE): Promise<Mati
     description_courte: pickLocale(d.description as never, locale),
     image: String(d.image ?? ''),
     image_alt: pickLocale(d.imageAlt as never, locale),
+    imagePosition: hotspotToPosition(d.imageHotspot),
     annotation_caveat: pickLocale(d.annotationCaveat as never, locale),
     page: String(d.page ?? ''),
   }))
@@ -122,6 +140,7 @@ export async function getArticles(locale: Locale = DEFAULT_LOCALE): Promise<Arti
     readTime: String(d.readTime ?? ''),
     image: String(d.image ?? ''),
     imageAlt: pickLocale(d.imageAlt as never, locale),
+    imagePosition: hotspotToPosition(d.imageHotspot),
     featured: Boolean(d.featured),
   }))
 }
@@ -174,6 +193,7 @@ export async function getEtabliSteps(
     detail: pickLocale(d.detail as never, locale),
     image: String(d.image ?? ''),
     imageAlt: pickLocale(d.imageAlt as never, locale),
+    imagePosition: hotspotToPosition(d.imageHotspot),
   }))
 }
 
@@ -218,6 +238,7 @@ export async function getMetamorphose(
     detail: pickLocale(d.detail as never, locale),
     image: String(d.image ?? ''),
     imageAlt: pickLocale(d.imageAlt as never, locale),
+    imagePosition: hotspotToPosition(d.imageHotspot),
   }))
 }
 

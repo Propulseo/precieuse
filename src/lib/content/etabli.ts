@@ -6,6 +6,8 @@ export type EtabliStep = {
   detail: string
   image: string
   imageAlt: string
+  /** Point focal CSS (object-position), piloté par le hotspot Sanity (défaut centre). */
+  imagePosition?: string
 }
 
 export const ETABLI_STEPS: EtabliStep[] = [

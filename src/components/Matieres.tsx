@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { m } from '#/paraglide/messages'
 import { MATIERES, type Matiere } from '../lib/content/matieres'
+import { objectPositionStyle } from './framing/framing'
 
 /** Stagger delay between each card in ms */
 const STAGGER_MS = 200
@@ -60,6 +61,7 @@ export function Matieres({ matieres = MATIERES }: { matieres?: Matiere[] }) {
               <img
                 src={mat.image}
                 alt={mat.image_alt}
+                style={objectPositionStyle(mat.imagePosition)}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
               />
               <span className="font-display text-[12px] text-poudre/85 absolute bottom-3 right-4 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">

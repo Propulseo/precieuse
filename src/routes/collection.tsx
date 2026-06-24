@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { getProducts } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
+import { objectPositionStyle } from '../components/framing/framing'
 
 export const Route = createFileRoute('/collection')({
   component: CollectionPage,
@@ -34,6 +35,7 @@ function CollectionPage() {
                 <img
                   src={product.image}
                   alt={product.imageAlt}
+                  style={objectPositionStyle(product.imagePosition)}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>

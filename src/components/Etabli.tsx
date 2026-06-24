@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { m } from '#/paraglide/messages'
 import { ETABLI_STEPS, type EtabliStep } from '../lib/content/etabli'
+import { objectPositionStyle } from './framing/framing'
 
 const SIGNATURES = [
   { day: () => m.etabli_day_monday(), time: '11h32', glyph: '♦' },
@@ -8,13 +9,6 @@ const SIGNATURES = [
   { day: () => m.etabli_day_wednesday(), time: '16h45', glyph: '✦' },
   { day: () => m.etabli_day_thursday(), time: '18h20', glyph: '❖' },
 ]
-
-const ROMAN_PATHS: Record<string, string> = {
-  I: 'M50 20 L50 180',
-  II: 'M30 20 L30 180 M70 20 L70 180',
-  III: 'M20 20 L20 180 M50 20 L50 180 M80 20 L80 180',
-  IV: 'M20 20 L20 180 M40 20 L80 180',
-}
 
 function BrushUnderline() {
   return (
@@ -24,27 +18,8 @@ function BrushUnderline() {
   )
 }
 
-function RomanTrace({ roman, drawn }: { roman: string; drawn: boolean }) {
-  return (
-    <svg aria-hidden viewBox="0 0 100 200" className="w-full h-full text-canard/80">
-      <path
-        d={ROMAN_PATHS[roman] || ROMAN_PATHS.I}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        pathLength={1}
-        strokeDasharray="1"
-        strokeDashoffset={drawn ? 0 : 1}
-        className="transition-[stroke-dashoffset] duration-[1400ms] ease-out"
-      />
-    </svg>
-  )
-}
-
 export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
   const [active, setActive] = useState(0)
-  const [drawnSet, setDrawnSet] = useState<Set<number>>(new Set([0]))
   const stepRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
@@ -54,12 +29,6 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
           if (entry.isIntersecting) {
             const idx = Number(entry.target.getAttribute('data-idx'))
             setActive(idx)
-            setDrawnSet((prev) => {
-              if (prev.has(idx)) return prev
-              const next = new Set(prev)
-              next.add(idx)
-              return next
-            })
           }
         })
       },
@@ -99,13 +68,10 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
                     className="absolute inset-0 transition-opacity duration-[1200ms] ease-out"
                     style={{ opacity: active === idx ? 1 : 0 }}
                   >
-                    <img src={s.image} alt={s.imageAlt} className="absolute inset-0 w-full h-full object-cover scale-[1.03]" />
+                    <img src={s.image} alt={s.imageAlt} style={objectPositionStyle(s.imagePosition)} className="absolute inset-0 w-full h-full object-cover scale-[1.03]" />
                   </div>
                 ))}
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.65)_100%)]" />
-                <div className="absolute top-10 left-10 w-24 h-48">
-                  <RomanTrace roman={step.roman} drawn={drawnSet.has(active)} />
-                </div>
                 <div className="absolute bottom-0 inset-x-0 p-8 bg-gradient-to-t from-poudre via-poudre/60 to-transparent flex items-baseline justify-between">
                   <span className="font-body italic font-light text-[18px] text-canard-90">
                     {m.etabli_photo_caption()} · {sig.day()} {sig.time}
@@ -137,7 +103,7 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
                   className="group min-h-[85vh] flex flex-col justify-center py-16 relative"
                 >
                   <div className="lg:hidden relative w-full aspect-[4/5] mb-8 overflow-hidden">
-                    <img src={s.image} alt={s.imageAlt} className="absolute inset-0 w-full h-full object-cover" />
+                    <img src={s.image} alt={s.imageAlt} style={objectPositionStyle(s.imagePosition)} className="absolute inset-0 w-full h-full object-cover" />
                   </div>
 
                   <div className="space-y-7 transition-[opacity,transform] duration-700 ease-out group-data-[active=false]:opacity-50 group-data-[active=false]:translate-y-2">

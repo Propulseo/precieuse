@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ARTICLES, CATEGORIES, type Article } from '../../lib/content/carnet'
 import { m } from '#/paraglide/messages'
+import { objectPositionStyle } from '../framing/framing'
 
 export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
   const rest = articles.filter((a) => !a.featured)
@@ -41,6 +42,7 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
                 <img
                   src={article.image}
                   alt={article.imageAlt}
+                  style={objectPositionStyle(article.imagePosition)}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 />
               </a>

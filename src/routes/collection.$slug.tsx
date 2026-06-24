@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { getProduct } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
+import { objectPositionStyle } from '../components/framing/framing'
 
 export const Route = createFileRoute('/collection/$slug')({
   component: ProductPage,
@@ -25,7 +26,7 @@ function ProductPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mt-8">
           <div className="aspect-[3/4] overflow-hidden bg-muted">
-            <img src={product.image} alt={product.imageAlt} className="w-full h-full object-cover" />
+            <img src={product.image} alt={product.imageAlt} style={objectPositionStyle(product.imagePosition)} className="w-full h-full object-cover" />
           </div>
 
           <div>

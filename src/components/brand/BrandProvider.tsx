@@ -8,7 +8,9 @@ import {
 import type { ReactNode } from 'react'
 import {
   BRAND_STORAGE_KEY,
+  CAROUSEL_MODE_STORAGE_KEY,
   DEFAULT_BRAND,
+  DEFAULT_CAROUSEL_MODE,
   DEFAULT_FILIGRANE_VARIANT,
   DEFAULT_HERO_MARK,
   DEFAULT_SEAL_VARIANT,
@@ -16,10 +18,12 @@ import {
   HERO_MARK_STORAGE_KEY,
   SEAL_VARIANT_STORAGE_KEY,
   isBrand,
+  isCarouselMode,
   isFiligraneVariant,
   isHeroMark,
   isSealVariant,
   type Brand,
+  type CarouselMode,
   type FiligraneVariant,
   type HeroMark,
   type SealVariant,
@@ -34,6 +38,8 @@ type BrandContextValue = {
   setSealVariant: (variant: SealVariant) => void
   filigraneVariant: FiligraneVariant
   setFiligraneVariant: (variant: FiligraneVariant) => void
+  carouselMode: CarouselMode
+  setCarouselMode: (mode: CarouselMode) => void
 }
 
 const BrandContext = createContext<BrandContextValue | null>(null)
@@ -41,7 +47,8 @@ const BrandContext = createContext<BrandContextValue | null>(null)
 /**
  * Un réglage visiteur = un attribut `data-*` sur <html> + une clé localStorage,
  * validé par un type-guard, avec un défaut. Une seule table décrit chacun
- * (couleur, marque hero, cachet, filigrane) ; `readStored`/`persist` la parcourent.
+ * (couleur, marque hero, cachet, filigrane, carousel) ; `readStored`/`persist`
+ * la parcourent.
  */
 type ToggleSpec<T extends string> = {
   attr: string
@@ -73,6 +80,12 @@ const FILIGRANE_SPEC: ToggleSpec<FiligraneVariant> = {
   storageKey: FILIGRANE_VARIANT_STORAGE_KEY,
   isValid: isFiligraneVariant,
   fallback: DEFAULT_FILIGRANE_VARIANT,
+}
+const CAROUSEL_SPEC: ToggleSpec<CarouselMode> = {
+  attr: 'carousel',
+  storageKey: CAROUSEL_MODE_STORAGE_KEY,
+  isValid: isCarouselMode,
+  fallback: DEFAULT_CAROUSEL_MODE,
 }
 
 /** Lit le réglage : attribut posé avant le paint (no-flash) → localStorage → défaut. */
@@ -113,6 +126,8 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     useState<SealVariant>(DEFAULT_SEAL_VARIANT)
   const [filigraneVariant, setFiligraneVariantState] =
     useState<FiligraneVariant>(DEFAULT_FILIGRANE_VARIANT)
+  const [carouselMode, setCarouselModeState] =
+    useState<CarouselMode>(DEFAULT_CAROUSEL_MODE)
 
   // Sync initial après hydratation (le SSR ne connaît pas le choix visiteur).
   useEffect(() => {
@@ -120,6 +135,7 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     setHeroMarkState(readStored(HERO_MARK_SPEC))
     setSealVariantState(readStored(SEAL_SPEC))
     setFiligraneVariantState(readStored(FILIGRANE_SPEC))
+    setCarouselModeState(readStored(CAROUSEL_SPEC))
   }, [])
 
   const setBrand = useCallback((next: Brand) => {
@@ -142,6 +158,11 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     persist(FILIGRANE_SPEC, next)
   }, [])
 
+  const setCarouselMode = useCallback((next: CarouselMode) => {
+    setCarouselModeState(next)
+    persist(CAROUSEL_SPEC, next)
+  }, [])
+
   return (
     <BrandContext.Provider
       value={{
@@ -153,6 +174,8 @@ export function BrandProvider({ children }: { children: ReactNode }) {
         setSealVariant,
         filigraneVariant,
         setFiligraneVariant,
+        carouselMode,
+        setCarouselMode,
       }}
     >
       {children}
