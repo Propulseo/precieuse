@@ -56,13 +56,30 @@ function hotspotToPosition(h: unknown): string | undefined {
   return undefined
 }
 
+/**
+ * Lecture Sanity tolérante aux pannes. Renvoie `null` au lieu de propager si la
+ * requête échoue (token absent/invalide sur le dataset privé, réseau, Sanity HS).
+ * Chaque getter teste déjà `!data` et retombe sur son contenu statique, donc une
+ * défaillance CMS dégrade proprement vers le statique au lieu de renvoyer une 500
+ * (NFR perf/fiabilité — le site marketing ne doit jamais tomber à cause du CMS).
+ * N'est appelé qu'après le garde `isSanityConfigured`, donc `sanity` est non-null.
+ */
+async function cmsFetch<T>(query: string): Promise<T | null> {
+  try {
+    return await sanity.fetch<T>(query)
+  } catch (err) {
+    console.error('[cms] lecture Sanity échouée — repli sur le contenu statique:', err)
+    return null
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Collection — pièces
 // ---------------------------------------------------------------------------
 
 export async function getProducts(locale: Locale = DEFAULT_LOCALE): Promise<Product[]> {
   if (!isSanityConfigured) return PRODUCTS
-  const data = await sanity.fetch<Array<Record<string, unknown>>>(
+  const data = await cmsFetch<Array<Record<string, unknown>>>(
     `*[_type == "piece"] | order(order asc){
       "slug": slug.current, name, tagline, priceLabel, description,
       materials, story, ${IMAGE_FIELDS}
@@ -98,7 +115,7 @@ export async function getProduct(
 
 export async function getMatieres(locale: Locale = DEFAULT_LOCALE): Promise<Matiere[]> {
   if (!isSanityConfigured) return MATIERES
-  const data = await sanity.fetch<Array<Record<string, unknown>>>(
+  const data = await cmsFetch<Array<Record<string, unknown>>>(
     `*[_type == "matiere"] | order(order asc){
       "slug": slug.current, nom, sousTitre, description,
       ${IMAGE_FIELDS}, annotationCaveat, page
@@ -124,7 +141,7 @@ export async function getMatieres(locale: Locale = DEFAULT_LOCALE): Promise<Mati
 
 export async function getArticles(locale: Locale = DEFAULT_LOCALE): Promise<Article[]> {
   if (!isSanityConfigured) return ARTICLES
-  const data = await sanity.fetch<Array<Record<string, unknown>>>(
+  const data = await cmsFetch<Array<Record<string, unknown>>>(
     `*[_type == "article"] | order(order asc){
       "slug": slug.current, title, excerpt, category, date, readTime,
       ${IMAGE_FIELDS}, featured
@@ -155,7 +172,7 @@ export function getCarnetCategories(): typeof CATEGORIES {
 
 export async function getLettres(locale: Locale = DEFAULT_LOCALE): Promise<Lettre[]> {
   if (!isSanityConfigured) return LETTRES
-  const data = await sanity.fetch<Array<Record<string, unknown>>>(
+  const data = await cmsFetch<Array<Record<string, unknown>>>(
     `*[_type == "temoignage"] | order(order asc){
       citation, auteur, initiale, ville, date, piece
     }`,
@@ -179,7 +196,7 @@ export async function getEtabliSteps(
   locale: Locale = DEFAULT_LOCALE,
 ): Promise<EtabliStep[]> {
   if (!isSanityConfigured) return ETABLI_STEPS
-  const data = await sanity.fetch<Array<Record<string, unknown>>>(
+  const data = await cmsFetch<Array<Record<string, unknown>>>(
     `*[_type == "etapeEtabli"] | order(index asc){
       roman, index, title, annotation, detail, ${IMAGE_FIELDS}
     }`,
@@ -205,7 +222,7 @@ export async function getBespokeProcess(
   locale: Locale = DEFAULT_LOCALE,
 ): Promise<ProcessStep[]> {
   if (!isSanityConfigured) return BESPOKE_PROCESS
-  const data = await sanity.fetch<Array<Record<string, unknown>>>(
+  const data = await cmsFetch<Array<Record<string, unknown>>>(
     `*[_type == "etapeSurMesure"] | order(number asc){ number, title, description }`,
   )
   if (!data?.length) return BESPOKE_PROCESS
@@ -224,7 +241,7 @@ export async function getMetamorphose(
   locale: Locale = DEFAULT_LOCALE,
 ): Promise<MetamorphoseStep[]> {
   if (!isSanityConfigured) return METAMORPHOSE
-  const data = await sanity.fetch<Record<string, unknown> | null>(
+  const data = await cmsFetch<Record<string, unknown> | null>(
     `*[_type == "surMesurePage"][0]{
       metamorphose[]{ roman, title, annotation, detail, ${IMAGE_FIELDS} }
     }`,
@@ -246,7 +263,7 @@ export async function getPromesses(
   locale: Locale = DEFAULT_LOCALE,
 ): Promise<typeof PROMESSES> {
   if (!isSanityConfigured) return PROMESSES
-  const data = await sanity.fetch<Record<string, unknown> | null>(
+  const data = await cmsFetch<Record<string, unknown> | null>(
     `*[_type == "surMesurePage"][0]{
       promesses[]{ titre, detail, ${IMAGE_FIELDS} }
     }`,
@@ -276,7 +293,7 @@ export function getBudgets(): typeof BUDGETS {
 
 export async function getSite(locale: Locale = DEFAULT_LOCALE): Promise<typeof SITE> {
   if (!isSanityConfigured) return SITE
-  const data = await sanity.fetch<Record<string, unknown> | null>(
+  const data = await cmsFetch<Record<string, unknown> | null>(
     `*[_type == "siteSettings"][0]{
       brand, baseline, email, whatsapp, instagram, address, hours
     }`,
@@ -307,7 +324,7 @@ export async function getFooter(
   locale: Locale = DEFAULT_LOCALE,
 ): Promise<typeof FOOTER_DATA> {
   if (!isSanityConfigured) return FOOTER_DATA
-  const data = await sanity.fetch<Record<string, unknown> | null>(
+  const data = await cmsFetch<Record<string, unknown> | null>(
     `*[_type == "footer"][0]{
       nav[]{ label, href }, legal[]{ label, href },
       social[]{ label, handle, href }, email, signature, copyright,
