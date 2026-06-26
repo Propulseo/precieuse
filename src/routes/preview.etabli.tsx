@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { devOnly } from '../lib/dev-only'
 import { useState } from 'react'
 import { EtabliPiecesFinies } from '../components/etabli-variants/EtabliPiecesFinies'
 import { EtabliTroisTemps } from '../components/etabli-variants/EtabliTroisTemps'
@@ -12,7 +13,7 @@ const VARIANTS = [
 
 type VariantId = (typeof VARIANTS)[number]['id']
 
-export const Route = createFileRoute('/preview/etabli')({ component: EtabliPreview })
+export const Route = createFileRoute('/preview/etabli')({ component: EtabliPreview, beforeLoad: devOnly })
 
 function EtabliPreview() {
   const [active, setActive] = useState<VariantId>('A')

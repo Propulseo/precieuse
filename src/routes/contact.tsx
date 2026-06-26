@@ -1,11 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState, type FormEvent } from 'react'
-import { SITE } from '../lib/content/site'
+import { useState } from 'react'
+import type { FormEvent } from 'react'
+import { getSite } from '../lib/cms'
+import { sendLead } from '../lib/leads'
+import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
 
-export const Route = createFileRoute('/contact')({ component: ContactPage })
+export const Route = createFileRoute('/contact')({
+  component: ContactPage,
+  loader: async () => ({ site: await getSite(getLocale()) }),
+})
 
 function ContactPage() {
+  const { site } = Route.useLoaderData()
   return (
     <section className="relative bg-cream py-20 px-8 lg:px-16 min-h-screen">
       <div className="mx-auto max-w-[1320px] grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
@@ -26,8 +33,8 @@ function ContactPage() {
               <span className="font-display italic text-[11px] tracking-[0.3em] text-gold uppercase block mb-1">
                 {m.contact_label_email()}
               </span>
-              <a href={`mailto:${SITE.email}`} className="font-script text-[22px] text-raspberry hover:text-ink transition-colors">
-                {SITE.email}
+              <a href={`mailto:${site.email}`} className="font-script text-[22px] text-raspberry hover:text-ink transition-colors">
+                {site.email}
               </a>
             </li>
             <li>
@@ -35,7 +42,7 @@ function ContactPage() {
                 {m.contact_label_whatsapp()}
               </span>
               <a
-                href={SITE.whatsapp}
+                href={site.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-script text-[22px] text-raspberry hover:text-ink transition-colors"
@@ -48,9 +55,9 @@ function ContactPage() {
                 {m.contact_label_atelier()}
               </span>
               <span className="font-script text-[20px] text-raspberry not-italic leading-[1.6]">
-                {SITE.address.street}, {SITE.address.zip} {SITE.address.city}
+                {site.address.street}, {site.address.zip} {site.address.city}
                 <br />
-                {SITE.hours}
+                {site.hours}
               </span>
             </li>
           </ul>
@@ -67,13 +74,32 @@ function ContactPage() {
 
 function ContactForm() {
   const [sent, setSent] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState(false)
   const [form, setForm] = useState({ nom: '', email: '', message: '' })
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!form.nom.trim() || !form.email.trim() || !form.message.trim()) return
-    setSent(true)
-    // TODO Phase 7 : envoyer vers Convex (table leads) + email Brevo
+    setSubmitting(true)
+    setError(false)
+    try {
+      await sendLead({
+        data: {
+          kind: 'contact',
+          name: form.nom,
+          email: form.email,
+          message: form.message,
+          locale: getLocale(),
+        },
+      })
+      setSent(true)
+    } catch (err) {
+      console.error('[contact] échec envoi :', err)
+      setError(true)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (sent) {
@@ -118,10 +144,16 @@ function ContactForm() {
       </Field>
       <button
         type="submit"
-        className="self-start font-display italic text-[16px] text-ink border border-ink/30 px-8 py-3 mt-2 hover:bg-ink hover:text-cream transition-all duration-300"
+        disabled={submitting}
+        className="self-start font-display italic text-[16px] text-ink border border-ink/30 px-8 py-3 mt-2 hover:bg-ink hover:text-cream transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {m.contact_submit()} →
       </button>
+      {error && (
+        <p className="font-sans text-[13px] text-raspberry">
+          {m.form_error()}
+        </p>
+      )}
     </form>
   )
 }

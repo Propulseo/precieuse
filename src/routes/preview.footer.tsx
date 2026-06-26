@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { devOnly } from '../lib/dev-only'
 import { useState } from 'react'
 import { FooterA } from '../components/footer-variants/FooterA'
 import { FooterB } from '../components/footer-variants/FooterB'
@@ -16,7 +17,7 @@ const VARIANTS = [
 
 type VariantId = (typeof VARIANTS)[number]['id']
 
-export const Route = createFileRoute('/preview/footer')({ component: FooterPreview })
+export const Route = createFileRoute('/preview/footer')({ component: FooterPreview, beforeLoad: devOnly })
 
 function FooterPreview() {
   const [active, setActive] = useState<VariantId>('A')

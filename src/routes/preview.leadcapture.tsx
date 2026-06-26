@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { devOnly } from '../lib/dev-only'
 import { useState } from 'react'
 import { LeadCaptureA } from '../components/leadcapture-variants/LeadCaptureA'
 import { LeadCaptureB } from '../components/leadcapture-variants/LeadCaptureB'
@@ -16,7 +17,7 @@ const VARIANTS = [
 
 type VariantId = (typeof VARIANTS)[number]['id']
 
-export const Route = createFileRoute('/preview/leadcapture')({ component: LeadCapturePreview })
+export const Route = createFileRoute('/preview/leadcapture')({ component: LeadCapturePreview, beforeLoad: devOnly })
 
 function LeadCapturePreview() {
   const [active, setActive] = useState<VariantId>('A')

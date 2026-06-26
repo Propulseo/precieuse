@@ -1,14 +1,54 @@
 import { useState } from 'react'
+import type { FormEvent } from 'react'
 import { m } from '#/paraglide/messages'
+import { getLocale } from '#/paraglide/runtime'
+import { sendLead } from '../../lib/leads'
 
 export function LeadCaptureA() {
   const [civility, setCivility] = useState<'M' | 'Mme' | null>(null)
+  const [submitting, setSubmitting] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [error, setError] = useState(false)
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const fd = new FormData(e.currentTarget)
+    setSubmitting(true)
+    setError(false)
+    try {
+      await sendLead({
+        data: {
+          kind: 'leadCapture',
+          civility: civility ?? undefined,
+          firstName: String(fd.get('prenom') ?? ''),
+          lastName: String(fd.get('nom') ?? ''),
+          email: String(fd.get('email') ?? ''),
+          phone: String(fd.get('phone') ?? '') || undefined,
+          locale: getLocale(),
+        },
+      })
+      setSent(true)
+    } catch (err) {
+      console.error('[leadcapture] échec envoi :', err)
+      setError(true)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  if (sent) {
+    return (
+      <section className="relative bg-poudre border-t border-b border-canard/15 py-16 px-4 lg:px-8 text-center">
+        <p className="font-headline text-[24px] text-canard">{m.form_success()}</p>
+      </section>
+    )
+  }
 
   return (
     <section className="relative bg-poudre border-t border-b border-canard/15 py-12 lg:py-14 px-4 lg:px-8">
       <form
         className="mx-auto max-w-[860px] text-center flex flex-col items-center"
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={handleSubmit}
       >
         <img
           src="/brand/picto-shape.png"
@@ -64,10 +104,14 @@ export function LeadCaptureA() {
 
         <button
           type="submit"
-          className="bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-8 py-3 hover:bg-canard transition-colors duration-300"
+          disabled={submitting}
+          className="bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-8 py-3 hover:bg-canard transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {m.leadcapture_submit()}
         </button>
+        {error && (
+          <p className="font-display text-[13px] text-rouille mt-3">{m.form_error()}</p>
+        )}
 
         <p className="font-display text-[11px] text-canard/55 mt-5 max-w-[420px]">
           {m.leadcapture_consent_prefix()}{' '}

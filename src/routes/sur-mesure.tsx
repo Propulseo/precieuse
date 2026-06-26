@@ -5,23 +5,24 @@ import { Promesses } from '../components/sur-mesure/Promesses'
 import { HistoireSandrine } from '../components/sur-mesure/HistoireSandrine'
 import { FormulaireInvitation } from '../components/sur-mesure/FormulaireInvitation'
 import { Reveal } from '../components/Reveal'
-import { getMetamorphose, getPromesses } from '../lib/cms'
+import { getMetamorphose, getPromesses, getSite } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
 
 export const Route = createFileRoute('/sur-mesure')({
   component: SurMesurePage,
   loader: async () => {
     const locale = getLocale()
-    const [metamorphose, promesses] = await Promise.all([
+    const [metamorphose, promesses, site] = await Promise.all([
       getMetamorphose(locale),
       getPromesses(locale),
+      getSite(locale),
     ])
-    return { metamorphose, promesses }
+    return { metamorphose, promesses, site }
   },
 })
 
 function SurMesurePage() {
-  const { metamorphose, promesses } = Route.useLoaderData()
+  const { metamorphose, promesses, site } = Route.useLoaderData()
   return (
     <>
       <HeroBespoke />
@@ -32,7 +33,7 @@ function SurMesurePage() {
       <Reveal delay={60}>
         <HistoireSandrine />
       </Reveal>
-      <FormulaireInvitation />
+      <FormulaireInvitation whatsapp={site.whatsapp} />
     </>
   )
 }
