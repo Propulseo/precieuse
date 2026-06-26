@@ -11,7 +11,6 @@ import { etapeEtabli } from './documents/etapeEtabli'
 import { surMesurePage } from './documents/surMesurePage'
 import { creatricePage } from './documents/creatricePage'
 import { legalPage } from './documents/legalPage'
-import { navigation } from './documents/navigation'
 import { footer } from './documents/footer'
 
 export const schemaTypes: SchemaTypeDefinition[] = [
@@ -28,6 +27,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   surMesurePage,
   creatricePage,
   legalPage,
-  navigation,
   footer,
 ]

@@ -1,16 +1,5 @@
 import { defineField, defineType } from 'sanity'
 
-const linkObject = defineField({
-  name: 'link',
-  title: 'Lien',
-  type: 'object',
-  fields: [
-    defineField({ name: 'label', title: 'Libellé', type: 'localizedString' }),
-    defineField({ name: 'href', title: 'URL / chemin', type: 'string' }),
-  ],
-  preview: { select: { title: 'label.fr', subtitle: 'href' } },
-})
-
 const socialObject = defineField({
   name: 'social',
   title: 'Réseau social',
@@ -24,7 +13,9 @@ const socialObject = defineField({
 })
 
 /**
- * Pied de page — correspond à FOOTER_DATA de src/lib/content/footer.ts.
+ * Pied de page — partie éditable par Emeline : réseaux sociaux + email.
+ * Les libellés de navigation, la signature et le copyright sont gérés par les
+ * traductions (Paraglide, FR/EN/PT) ; le crédit agence est figé dans le code.
  */
 export const footer = defineType({
   name: 'footer',
@@ -32,41 +23,12 @@ export const footer = defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'nav',
-      title: 'Navigation principale',
-      type: 'array',
-      of: [linkObject],
-    }),
-    defineField({
-      name: 'legal',
-      title: 'Navigation légale',
-      type: 'array',
-      of: [linkObject],
-    }),
-    defineField({
       name: 'social',
       title: 'Réseaux sociaux',
       type: 'array',
       of: [socialObject],
     }),
-    defineField({ name: 'email', title: 'Email', type: 'string' }),
-    defineField({ name: 'signature', title: 'Signature', type: 'localizedString' }),
-    defineField({ name: 'copyright', title: 'Copyright', type: 'localizedString' }),
-    defineField({
-      name: 'credit',
-      title: 'Crédit (agence)',
-      type: 'object',
-      fields: [
-        defineField({ name: 'label', title: 'Libellé', type: 'string' }),
-        defineField({ name: 'href', title: 'URL', type: 'url' }),
-      ],
-    }),
-    defineField({
-      name: 'logoSrc',
-      title: 'Logo (chemin)',
-      type: 'string',
-      description: 'Chemin sous /public (ex. /brand/lockup-teal.png).',
-    }),
+    defineField({ name: 'email', title: 'Email de contact', type: 'string' }),
   ],
   preview: {
     prepare: () => ({ title: 'Pied de page' }),

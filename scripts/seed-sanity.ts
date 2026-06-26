@@ -39,7 +39,6 @@ import {
   BESPOKE_TRANSLATIONS,
   METAMORPHOSE_TRANSLATIONS,
   PROMESSE_TRANSLATIONS,
-  FOOTER_LABEL_TRANSLATIONS,
 } from './seed-translations'
 
 const projectId = process.env.VITE_SANITY_PROJECT_ID
@@ -292,28 +291,11 @@ async function main() {
     },
   })
 
-  // Pied de page (singleton)
+  // Pied de page (singleton) — seuls les réseaux sociaux + l'email sont pilotés
+  // par Sanity ; nav/signature/copyright sont traduits via Paraglide, crédit figé.
   docs.push({
     _id: 'footer',
     _type: 'footer',
-    nav: FOOTER_DATA.nav.map((l, i) => {
-      const tr = FOOTER_LABEL_TRANSLATIONS[l.href]
-      return {
-        _type: 'link',
-        _key: `nav-${i}`,
-        label: Lstr(l.label, tr?.en, tr?.pt),
-        href: l.href,
-      }
-    }),
-    legal: FOOTER_DATA.legal.map((l, i) => {
-      const tr = FOOTER_LABEL_TRANSLATIONS[l.href]
-      return {
-        _type: 'link',
-        _key: `legal-${i}`,
-        label: Lstr(l.label, tr?.en, tr?.pt),
-        href: l.href,
-      }
-    }),
     social: FOOTER_DATA.social.map((s, i) => ({
       _type: 'social',
       _key: `social-${i}`,
@@ -322,18 +304,6 @@ async function main() {
       href: s.href,
     })),
     email: FOOTER_DATA.email,
-    signature: Lstr(
-      FOOTER_DATA.signature,
-      'Handmade in Bordeaux, worn everywhere',
-      'Feito à mão em Bordeaux, usado em toda a parte',
-    ),
-    copyright: Lstr(
-      FOOTER_DATA.copyright,
-      '© Précieuse · Artisan jewellery, Bordeaux, France',
-      '© Précieuse · Joalharia artesanal, Bordeaux, França',
-    ),
-    credit: { label: FOOTER_DATA.credit.label, href: FOOTER_DATA.credit.href },
-    logoSrc: FOOTER_DATA.logoSrc,
   })
 
   console.log(`→ Écriture de ${docs.length} documents…`)
