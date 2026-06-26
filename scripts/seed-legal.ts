@@ -20,6 +20,7 @@ try {
 }
 
 const CONTACT_EMAIL = 'contact@precieuse-joaillerie.com'
+const WHATSAPP_URL = 'https://wa.me/351939198334'
 
 const projectId = process.env.VITE_SANITY_PROJECT_ID
 const token = process.env.SANITY_WRITE_TOKEN
@@ -48,11 +49,15 @@ async function main() {
   await tx.commit()
   console.log(`✓ ${legalDocs.length} pages légales seedées : ${legalDocs.map((d) => d._id).join(', ')}`)
 
-  // 2. Uniformise l'email de contact sur les singletons existants (best-effort).
-  for (const id of ['siteSettings', 'footer']) {
+  // 2. Uniformise l'email + le WhatsApp sur les singletons existants (best-effort).
+  const patches: Array<[string, Record<string, string>]> = [
+    ['siteSettings', { email: CONTACT_EMAIL, whatsapp: WHATSAPP_URL }],
+    ['footer', { email: CONTACT_EMAIL }],
+  ]
+  for (const [id, fields] of patches) {
     try {
-      await client.patch(id).set({ email: CONTACT_EMAIL }).commit()
-      console.log(`✓ email mis à jour sur ${id} → ${CONTACT_EMAIL}`)
+      await client.patch(id).set(fields).commit()
+      console.log(`✓ ${id} mis à jour : ${Object.keys(fields).join(', ')}`)
     } catch {
       console.log(`• ${id} absent ou non modifiable — ignoré (repli code en place)`)
     }
