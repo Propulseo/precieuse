@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { devOnly } from '../lib/dev-only'
 import { useState } from 'react'
 import { HeroSplitSezane } from '../components/hero-variants/HeroSplitSezane'
 import { HeroSplitProduit } from '../components/hero-variants/HeroSplitProduit'
@@ -14,7 +15,7 @@ const VARIANTS = [
 
 type VariantId = (typeof VARIANTS)[number]['id']
 
-export const Route = createFileRoute('/preview/hero')({ component: HeroPreview })
+export const Route = createFileRoute('/preview/hero')({ component: HeroPreview, beforeLoad: devOnly })
 
 function HeroPreview() {
   const [active, setActive] = useState<VariantId>('A')

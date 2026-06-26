@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { devOnly } from '../lib/dev-only'
 import { useState } from 'react'
 import { useNewsletterTrigger } from '../lib/hooks/useNewsletterTrigger'
 import { NewsletterA } from '../components/newsletter-variants/NewsletterA'
@@ -17,7 +18,7 @@ const VARIANTS = [
 
 type VariantId = (typeof VARIANTS)[number]['id']
 
-export const Route = createFileRoute('/preview/newsletter')({ component: NewsletterPreview })
+export const Route = createFileRoute('/preview/newsletter')({ component: NewsletterPreview, beforeLoad: devOnly })
 
 function NewsletterPreview() {
   const [active, setActive] = useState<VariantId>('A')

@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { devOnly } from '../lib/dev-only'
 import { useState, useEffect } from 'react'
 import { LoaderA } from '../components/loader-variants/LoaderA'
 import { LoaderB } from '../components/loader-variants/LoaderB'
@@ -19,7 +20,7 @@ type VariantId = (typeof VARIANTS)[number]['id']
 const INTERVAL_MS = 7000
 const TOTAL = 5
 
-export const Route = createFileRoute('/preview/loaders')({ component: LoaderPreview })
+export const Route = createFileRoute('/preview/loaders')({ component: LoaderPreview, beforeLoad: devOnly })
 
 function LoaderPreview() {
   const [active, setActive] = useState<VariantId>('A')

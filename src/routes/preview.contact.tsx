@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { devOnly } from '../lib/dev-only'
 import { useState } from 'react'
 import { ContactA } from '../components/contact-variants/ContactA'
 import { ContactB } from '../components/contact-variants/ContactB'
@@ -16,7 +17,7 @@ const VARIANTS = [
 
 type VariantId = (typeof VARIANTS)[number]['id']
 
-export const Route = createFileRoute('/preview/contact')({ component: ContactPreview })
+export const Route = createFileRoute('/preview/contact')({ component: ContactPreview, beforeLoad: devOnly })
 
 function ContactPreview() {
   const [active, setActive] = useState<VariantId>('A')
