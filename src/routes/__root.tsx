@@ -11,7 +11,7 @@ import ConvexProvider from '../integrations/convex/provider'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import { getLocale } from '#/paraglide/runtime'
-import { getSite } from '../lib/cms'
+import { getSite, getFooter } from '../lib/cms'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
 import { SplashScreen } from '../components/SplashScreen'
@@ -37,9 +37,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     }
   },
 
-  // Réglages globaux pilotés par Emeline dans Sanity (numéro WhatsApp, etc.),
-  // avec repli sur les constantes locales si Sanity n'est pas configuré.
-  loader: async () => ({ site: await getSite(getLocale()) }),
+  // Réglages globaux pilotés par Emeline dans Sanity (numéro WhatsApp, footer…),
+  // avec repli sur les constantes/Paraglide si Sanity n'est pas configuré.
+  loader: async () => {
+    const locale = getLocale()
+    const [site, footer] = await Promise.all([getSite(locale), getFooter()])
+    return { site, footer }
+  },
 
   head: () => ({
     meta: [
@@ -70,7 +74,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { site } = Route.useLoaderData()
+  const { site, footer } = Route.useLoaderData()
   return (
     <html lang={getLocale()} data-brand="canard" data-hero-mark="logo" data-seal="rond" data-filigrane="losange" data-carousel="glisse">
       <head>
@@ -84,7 +88,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <BrandProvider>
             <Nav />
             <main className="pt-16 min-h-screen">{children}</main>
-            <Footer />
+            <Footer footer={footer} />
             <WhatsAppButton href={site.whatsapp} />
             {/* Sélecteur de design réservé au dev : jamais exposé en prod. */}
             {import.meta.env.DEV && <BrandToggle />}

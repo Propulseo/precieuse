@@ -1,8 +1,16 @@
 import { m } from '#/paraglide/messages'
 import { FOOTER_DATA } from '../lib/content/footer'
+import type { FooterCms } from '../lib/cms'
 import { BRAND_LOCKUP_MASK, maskStyle } from './brand/brand'
 
-export function Footer() {
+/**
+ * `footer` vient de Sanity (getFooter) quand le document existe — Emeline pilote
+ * alors liens, réseaux, email, signature, copyright. Sinon `null` => repli sur
+ * les libellés Paraglide (traduits FR/EN/PT). Le crédit agence (Propul'SEO) reste
+ * volontairement figé (Paraglide), non éditable par Emeline.
+ */
+export function Footer({ footer }: { footer: FooterCms | null }) {
+  // Libellés structurels traduits par Paraglide (FR/EN/PT) — non éditables par Emeline.
   const navLinks = [
     { label: m.footer_nav_collection(), href: '/collection' },
     { label: m.footer_nav_journal(), href: '/carnet' },
@@ -15,6 +23,11 @@ export function Footer() {
     { label: m.footer_legal_privacy(), href: '/confidentialite' },
     { label: m.footer_legal_terms(), href: '/cgv' },
   ]
+  // Réseaux sociaux + email : pilotés par Emeline via Sanity (repli statique).
+  const social = footer?.social.length ? footer.social : FOOTER_DATA.social
+  const email = footer?.email || FOOTER_DATA.email
+  const signature = m.footer_signature()
+  const copyright = m.footer_copyright()
 
   return (
     <footer className="bg-poudre-dark">
@@ -34,7 +47,7 @@ export function Footer() {
               }}
             />
             <span className="font-display text-[14px] text-canard/75 leading-relaxed">
-              {m.footer_signature()}
+              {signature}
             </span>
 
           </div>
@@ -63,7 +76,7 @@ export function Footer() {
               {m.footer_follow()}
             </span>
             <div className="flex flex-col gap-3">
-              {FOOTER_DATA.social.map((s) => (
+              {social.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
@@ -88,10 +101,10 @@ export function Footer() {
               {m.footer_write()}
             </span>
             <a
-              href={`mailto:${FOOTER_DATA.email}`}
+              href={`mailto:${email}`}
               className="font-display text-[15px] text-canard/90 hover:text-canard-90 transition-colors duration-300 break-all"
             >
-              {FOOTER_DATA.email}
+              {email}
             </a>
             <p className="mt-3 font-display text-[13px] text-canard/60 leading-relaxed max-w-[200px]">
               {m.footer_response_line1()}
@@ -112,7 +125,7 @@ export function Footer() {
               </a>
             ))}
           </nav>
-          <span>{m.footer_copyright()}</span>
+          <span>{copyright}</span>
           <a
             href={FOOTER_DATA.credit.href}
             target="_blank"

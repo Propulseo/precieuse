@@ -1,14 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { getLegalPage } from '../lib/cms'
+import { getLocale } from '#/paraglide/runtime'
+import { m } from '#/paraglide/messages'
+import { LegalPageView } from '../components/LegalPageView'
 
-export const Route = createFileRoute('/confidentialite')({ component: ConfidentialitePage })
+export const Route = createFileRoute('/confidentialite')({
+  component: ConfidentialitePage,
+  loader: () => getLegalPage('confidentialite', getLocale()),
+})
 
 function ConfidentialitePage() {
+  const content = Route.useLoaderData()
   return (
-    <section className="bg-cream py-20 px-8 lg:px-16 min-h-screen">
-      <div className="mx-auto max-w-[800px]">
-        <h1 className="font-headline text-[48px] text-ink leading-none mb-8">Confidentialité</h1>
-        <p className="font-display italic text-[16px] text-ink/70">Page à compléter.</p>
-      </div>
-    </section>
+    <LegalPageView
+      title={content?.title || m.footer_legal_privacy()}
+      blocks={content?.body ?? []}
+    />
   )
 }
