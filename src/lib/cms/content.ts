@@ -21,21 +21,34 @@
  */
 import { cmsClient as sanity } from './client'
 import { isSanityConfigured } from './env'
-import { DEFAULT_LOCALE, pickLocale, type Locale } from '../../../sanity/lib/locale'
+import {
+  DEFAULT_LOCALE,
+  pickLocale,
+  pickLocaleBlocks
+  
+} from '../../../sanity/lib/locale'
+import type {Locale} from '../../../sanity/lib/locale';
 
-import { PRODUCTS, type Product } from '../content/products'
-import { MATIERES, type Matiere } from '../content/matieres'
-import { ARTICLES, CATEGORIES, type Article } from '../content/carnet'
-import { LETTRES, type Lettre } from '../content/lettres'
-import { ETABLI_STEPS, type EtabliStep } from '../content/etabli'
-import { SITE, BESPOKE_PROCESS, type ProcessStep } from '../content/site'
+import { PRODUCTS  } from '../content/products'
+import type {Product} from '../content/products';
+import { MATIERES  } from '../content/matieres'
+import type {Matiere} from '../content/matieres';
+import { ARTICLES, CATEGORIES  } from '../content/carnet'
+import type {Article} from '../content/carnet';
+import { LETTRES  } from '../content/lettres'
+import type {Lettre} from '../content/lettres';
+import { ETABLI_STEPS  } from '../content/etabli'
+import type {EtabliStep} from '../content/etabli';
+import { SITE, BESPOKE_PROCESS  } from '../content/site'
+import type {ProcessStep} from '../content/site';
 import {
   METAMORPHOSE,
   PROMESSES,
   CREATION_TYPES,
-  BUDGETS,
-  type MetamorphoseStep,
+  BUDGETS
+  
 } from '../content/sur-mesure'
+import type {MetamorphoseStep} from '../content/sur-mesure';
 import { FOOTER_DATA } from '../content/footer'
 
 /**
@@ -64,9 +77,12 @@ function hotspotToPosition(h: unknown): string | undefined {
  * (NFR perf/fiabilité — le site marketing ne doit jamais tomber à cause du CMS).
  * N'est appelé qu'après le garde `isSanityConfigured`, donc `sanity` est non-null.
  */
-async function cmsFetch<T>(query: string): Promise<T | null> {
+async function cmsFetch<T>(
+  query: string,
+  params?: Record<string, unknown>,
+): Promise<T | null> {
   try {
-    return await sanity.fetch<T>(query)
+    return await sanity.fetch<T>(query, params ?? {})
   } catch (err) {
     console.error('[cms] lecture Sanity échouée — repli sur le contenu statique:', err)
     return null
@@ -320,40 +336,123 @@ export async function getSite(locale: Locale = DEFAULT_LOCALE): Promise<typeof S
 // Footer
 // ---------------------------------------------------------------------------
 
-export async function getFooter(
-  locale: Locale = DEFAULT_LOCALE,
-): Promise<typeof FOOTER_DATA> {
-  if (!isSanityConfigured) return FOOTER_DATA
+/** Contenu footer piloté par Emeline : réseaux sociaux + email (neutres en langue). */
+export type FooterCms = { social: typeof FOOTER_DATA.social; email: string }
+
+/**
+ * Renvoie les réseaux sociaux + l'email du footer depuis Sanity, ou `null` si
+ * non configuré / document absent. Volontairement limité à ces deux champs
+ * (contenu qui change vraiment et indépendant de la langue) : les libellés de
+ * navigation, la signature et le copyright restent gérés par Paraglide (traduits
+ * FR/EN/PT) pour éviter toute régression i18n, et le crédit agence reste figé.
+ */
+export async function getFooter(): Promise<FooterCms | null> {
+  if (!isSanityConfigured) return null
   const data = await cmsFetch<Record<string, unknown> | null>(
-    `*[_type == "footer"][0]{
-      nav[]{ label, href }, legal[]{ label, href },
-      social[]{ label, handle, href }, email, signature, copyright,
-      credit{ label, href }, logoSrc
-    }`,
+    `*[_type == "footer"][0]{ social[]{ label, handle, href }, email }`,
   )
-  if (!data) return FOOTER_DATA
-  const credit = (data.credit as Record<string, unknown> | undefined) ?? {}
+  if (!data) return null
   return {
-    nav: ((data.nav as Array<Record<string, unknown>>) ?? []).map((l) => ({
-      label: pickLocale(l.label as never, locale),
-      href: String(l.href ?? ''),
-    })),
-    legal: ((data.legal as Array<Record<string, unknown>>) ?? []).map((l) => ({
-      label: pickLocale(l.label as never, locale),
-      href: String(l.href ?? ''),
-    })),
-    social: ((data.social as Array<Record<string, unknown>>) ?? []).map((s) => ({
+    social: ((data.social as Array<Record<string, unknown>> | undefined) ?? []).map((s) => ({
       label: String(s.label ?? ''),
       handle: String(s.handle ?? ''),
       href: String(s.href ?? ''),
     })),
     email: String(data.email ?? FOOTER_DATA.email),
-    signature: pickLocale(data.signature as never, locale) || FOOTER_DATA.signature,
-    copyright: pickLocale(data.copyright as never, locale) || FOOTER_DATA.copyright,
-    credit: {
-      label: String(credit.label ?? FOOTER_DATA.credit.label),
-      href: String(credit.href ?? FOOTER_DATA.credit.href),
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Pages légales (mentions légales, confidentialité, CGV)
+// ---------------------------------------------------------------------------
+
+/** Contenu d'une page légale résolu pour une locale. `body` = blocs Portable Text. */
+export type LegalContent = { title: string; body: unknown[] }
+
+/**
+ * Renvoie le contenu Sanity d'une page légale par slug, ou `null` si Sanity
+ * n'est pas configuré / le document n'existe pas. Les routes affichent alors un
+ * repli (titre Paraglide + message « en cours de rédaction »).
+ */
+export async function getLegalPage(
+  slug: string,
+  locale: Locale = DEFAULT_LOCALE,
+): Promise<LegalContent | null> {
+  if (!isSanityConfigured) return null
+  const data = await cmsFetch<Record<string, unknown> | null>(
+    `*[_type == "legalPage" && slug.current == $slug][0]{ title, body }`,
+    { slug },
+  )
+  if (!data) return null
+  return {
+    title: pickLocale(data.title as never, locale),
+    body: pickLocaleBlocks(data.body as never, locale),
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Page Créatrice ("À propos")
+// ---------------------------------------------------------------------------
+
+export type CreatriceImage = { url: string; alt: string; position?: string }
+export type CreatriceSection = {
+  overline: string
+  title: string
+  body: string[]
+  image: CreatriceImage
+}
+export type CreatriceContent = {
+  overline: string
+  title: string
+  intro: string
+  portrait: CreatriceImage
+  sections: CreatriceSection[]
+  quote: string
+}
+
+/**
+ * Contenu Sanity de la page Créatrice, ou `null` si non configuré / absent —
+ * la route retombe alors sur sa version statique (Paraglide). Dès qu'Emeline
+ * remplit le document, son storytelling + ses photos priment.
+ */
+export async function getCreatrice(
+  locale: Locale = DEFAULT_LOCALE,
+): Promise<CreatriceContent | null> {
+  if (!isSanityConfigured) return null
+  const data = await cmsFetch<Record<string, unknown> | null>(
+    `*[_type == "creatricePage"][0]{
+      overline, title, intro,
+      "portrait": portrait.asset->url, "portraitAlt": portrait.alt, "portraitHotspot": portrait.hotspot,
+      sections[]{
+        overline, title, body,
+        "image": image.asset->url, "imageAlt": image.alt, "imageHotspot": image.hotspot
+      },
+      quote
+    }`,
+  )
+  if (!data) return null
+  const sections = ((data.sections as Array<Record<string, unknown>> | undefined) ?? []).map((s) => ({
+    overline: pickLocale(s.overline as never, locale),
+    title: pickLocale(s.title as never, locale),
+    body: ((s.body as Array<unknown> | undefined) ?? [])
+      .map((b) => pickLocale(b as never, locale))
+      .filter(Boolean),
+    image: {
+      url: String(s.image ?? ''),
+      alt: pickLocale(s.imageAlt as never, locale),
+      position: hotspotToPosition(s.imageHotspot),
     },
-    logoSrc: String(data.logoSrc ?? FOOTER_DATA.logoSrc),
-  } as typeof FOOTER_DATA
+  }))
+  return {
+    overline: pickLocale(data.overline as never, locale),
+    title: pickLocale(data.title as never, locale),
+    intro: pickLocale(data.intro as never, locale),
+    portrait: {
+      url: String(data.portrait ?? ''),
+      alt: pickLocale(data.portraitAlt as never, locale),
+      position: hotspotToPosition(data.portraitHotspot),
+    },
+    sections,
+    quote: pickLocale(data.quote as never, locale),
+  }
 }
