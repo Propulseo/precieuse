@@ -11,6 +11,7 @@ import ConvexProvider from '../integrations/convex/provider'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import { getLocale } from '#/paraglide/runtime'
+import { getSite } from '../lib/cms'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
 import { SplashScreen } from '../components/SplashScreen'
@@ -35,6 +36,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       document.documentElement.setAttribute('lang', getLocale())
     }
   },
+
+  // Réglages globaux pilotés par Emeline dans Sanity (numéro WhatsApp, etc.),
+  // avec repli sur les constantes locales si Sanity n'est pas configuré.
+  loader: async () => ({ site: await getSite(getLocale()) }),
 
   head: () => ({
     meta: [
@@ -65,6 +70,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { site } = Route.useLoaderData()
   return (
     <html lang={getLocale()} data-brand="canard" data-hero-mark="logo" data-seal="rond" data-filigrane="losange" data-carousel="glisse">
       <head>
@@ -79,8 +85,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <Nav />
             <main className="pt-16 min-h-screen">{children}</main>
             <Footer />
-            <WhatsAppButton />
-            <BrandToggle />
+            <WhatsAppButton href={site.whatsapp} />
+            {/* Sélecteur de design réservé au dev : jamais exposé en prod. */}
+            {import.meta.env.DEV && <BrandToggle />}
           <TanStackDevtools
             config={{
               position: 'bottom-right',

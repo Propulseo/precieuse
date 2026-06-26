@@ -1,10 +1,10 @@
 import { m } from '#/paraglide/messages'
 import { SITE } from '../lib/content/site'
 
-export function WhatsAppButton() {
+export function WhatsAppButton({ href = SITE.whatsapp }: { href?: string }) {
   return (
     <a
-      href={SITE.whatsapp}
+      href={href}
       target="_blank"
       rel="noreferrer"
       aria-label={m.wa_aria()}

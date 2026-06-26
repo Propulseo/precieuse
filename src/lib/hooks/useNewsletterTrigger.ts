@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
+import { getLocale } from '#/paraglide/runtime'
+import { subscribeNewsletter } from '../leads'
 
 const STORAGE_KEY = 'precieuse-newsletter-state'
 const SCROLL_THRESHOLD = 0.5
@@ -37,10 +39,7 @@ function writeState(state: NewsletterState) {
 function shouldShow(state: NewsletterState): boolean {
   if (!state) return true
   if (state.status === 'submitted') return false
-  if (state.status === 'closed') {
-    return Date.now() - state.timestamp >= SUPPRESSION_DAYS * DAY_MS
-  }
-  return true
+  return Date.now() - state.timestamp >= SUPPRESSION_DAYS * DAY_MS
 }
 
 export function useNewsletterTrigger() {
@@ -78,10 +77,11 @@ export function useNewsletterTrigger() {
   const submit = useCallback((email: string) => {
     setIsOpen(false)
     writeState({ status: 'submitted' })
-    // TODO: brancher Brevo / Convex action ici. Pour l'instant on log pour vérification manuelle.
-    if (typeof window !== 'undefined') {
-      console.info('[newsletter] subscription (non envoyée):', email)
-    }
+    // Envoi vers Brevo (server function). Sans clé Brevo côté serveur, l'appel
+    // réussit en no-op (cf. src/lib/brevo.ts) — rien n'est perdu côté UX.
+    void subscribeNewsletter({ data: { email, locale: getLocale() } }).catch(
+      (err) => console.error('[newsletter] échec inscription :', err),
+    )
   }, [])
 
   const forceOpen = useCallback(() => {
