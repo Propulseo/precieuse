@@ -7,7 +7,7 @@ import { BRAND_LOCKUP_MASK, maskStyle } from './brand/brand'
 // label en thunk : m.*() doit être appelé au rendu (locale courante), pas au
 // chargement du module (sinon la langue est figée à la locale de base).
 const navLinks = [
-  { label: () => m.nav_about(), href: '/a-propos' },
+  { label: () => m.nav_about(), href: '/creatrice' },
   { label: () => m.nav_collection(), href: '/collection' },
   { label: () => m.nav_journal(), href: '/carnet' },
   { label: () => m.nav_contact(), href: '/contact' },
@@ -58,6 +58,7 @@ function LangControl({ isHomeTop }: { isHomeTop: boolean }) {
 export function Nav() {
   const { pathname } = useLocation()
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD)
@@ -66,19 +67,33 @@ export function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Ferme le menu mobile à chaque changement de page.
+  useEffect(() => setMenuOpen(false), [pathname])
+
+  // Bloque le scroll de fond quand le menu mobile est ouvert.
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
   /**
    * Mode "transparent" uniquement sur la home (qui a un hero plein écran),
-   * et seulement quand on est tout en haut.
-   * Sur les autres pages : toujours opaque.
+   * et seulement quand on est tout en haut. Sur les autres pages, et dès que le
+   * menu mobile est ouvert : toujours opaque (lisibilité).
    */
   const isHomeTop = pathname === '/' && !scrolled
+  const barOpaque = !isHomeTop || menuOpen
+  const burgerColor = isHomeTop && !menuOpen ? 'text-poudre' : 'text-canard'
 
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-[background-color,border-color,backdrop-filter] duration-500 ease-out ${
-        isHomeTop
-          ? 'bg-transparent border-b border-transparent'
-          : 'bg-poudre/95 backdrop-blur-sm border-b border-canard/15'
+        barOpaque
+          ? 'bg-poudre/95 backdrop-blur-sm border-b border-canard/15'
+          : 'bg-transparent border-b border-transparent'
       }`}
     >
       <nav className="mx-auto flex max-w-[1440px] items-center justify-between px-8 py-3 lg:px-16">
@@ -138,7 +153,53 @@ export function Nav() {
           <LangControl isHomeTop={isHomeTop} />
         </div>
 
+        {/* Bouton menu mobile */}
+        <button
+          type="button"
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-expanded={menuOpen}
+          aria-label={menuOpen ? m.nav_menu_close() : m.nav_menu_open()}
+          className={`-mr-2 flex h-10 w-10 items-center justify-center transition-colors md:hidden ${burgerColor}`}
+        >
+          {menuOpen ? (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M4 7h16 M4 12h16 M4 17h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          )}
+        </button>
       </nav>
+
+      {/* Panneau de navigation mobile */}
+      {menuOpen && (
+        <div className="border-b border-canard/15 bg-poudre px-8 pb-6 pt-1 md:hidden">
+          <div className="flex flex-col">
+            {navLinks.map((l) => (
+              <Link
+                key={l.href}
+                to={l.href}
+                onClick={() => setMenuOpen(false)}
+                className="border-b border-canard/10 py-3 font-display text-[16px] text-canard/85 transition-colors hover:text-canard"
+              >
+                {l.label()}
+              </Link>
+            ))}
+            <Link
+              to="/sur-mesure"
+              onClick={() => setMenuOpen(false)}
+              className="mt-5 border border-canard/40 px-5 py-3 text-center font-display text-[13px] uppercase tracking-[0.15em] text-canard transition-colors hover:bg-canard hover:text-poudre"
+            >
+              {m.nav_bespoke()}
+            </Link>
+            <div className="mt-6 flex justify-center">
+              <LangControl isHomeTop={false} />
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   )
 }
