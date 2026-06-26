@@ -28,7 +28,7 @@ export const FOOTER_DATA = {
       href: 'https://www.linkedin.com/in/emeline-le-ray-70052116a',
     },
   ],
-  email: 'atelier@precieuse-joaillerie.com',
+  email: 'contact@precieuse-joaillerie.com',
   signature: 'Fait à la main à Bordeaux, porté partout',
   copyright: '© Précieuse · Joaillerie artisanale, Bordeaux, France',
   credit: {

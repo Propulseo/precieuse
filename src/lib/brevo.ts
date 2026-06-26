@@ -21,8 +21,8 @@ function config() {
   return {
     apiKey,
     listId: Number(process.env.BREVO_LIST_ID) || undefined,
-    notifyEmail: process.env.LEAD_NOTIFY_EMAIL || 'atelier@precieuse-joaillerie.com',
-    fromEmail: process.env.LEAD_FROM_EMAIL || 'atelier@precieuse-joaillerie.com',
+    notifyEmail: process.env.LEAD_NOTIFY_EMAIL || 'contact@precieuse-joaillerie.com',
+    fromEmail: process.env.LEAD_FROM_EMAIL || 'contact@precieuse-joaillerie.com',
   }
 }
 
