@@ -50,6 +50,7 @@ import {
 } from '../content/sur-mesure'
 import type {MetamorphoseStep} from '../content/sur-mesure';
 import { FOOTER_DATA } from '../content/footer'
+import { getStaticLegal } from '../content/legal'
 
 /**
  * GROQ projection for a localized image: asset URL + localized alt + hotspot
@@ -378,15 +379,21 @@ export async function getLegalPage(
   slug: string,
   locale: Locale = DEFAULT_LOCALE,
 ): Promise<LegalContent | null> {
-  if (!isSanityConfigured) return null
+  const fallback = getStaticLegal(slug)
+  const staticContent: LegalContent | null = fallback
+    ? { title: fallback.title, body: fallback.body }
+    : null
+  if (!isSanityConfigured) return staticContent
   const data = await cmsFetch<Record<string, unknown> | null>(
     `*[_type == "legalPage" && slug.current == $slug][0]{ title, body }`,
     { slug },
   )
-  if (!data) return null
+  if (!data) return staticContent
+  // Sanity prime, mais on retombe sur le contenu statique champ par champ s'il est vide.
+  const body = pickLocaleBlocks(data.body as never, locale)
   return {
-    title: pickLocale(data.title as never, locale),
-    body: pickLocaleBlocks(data.body as never, locale),
+    title: pickLocale(data.title as never, locale) || fallback?.title || '',
+    body: body.length ? body : (fallback?.body ?? []),
   }
 }
 
