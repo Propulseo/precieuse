@@ -1,7 +1,7 @@
 export const SITE = {
   brand: 'Précieuse',
   baseline: 'Joaillerie artisanale · Bordeaux',
-  email: 'atelier@precieuse-joaillerie.com',
+  email: 'contact@precieuse-joaillerie.com',
   whatsapp: 'https://wa.me/33000000000',
   instagram: 'https://instagram.com/precieusejoaillerie',
   address: {

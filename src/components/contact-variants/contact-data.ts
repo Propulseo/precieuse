@@ -1,6 +1,6 @@
 export const CONTACT = {
   tel: '+33 1 23 45 67 89',
-  email: 'atelier@precieuse-joaillerie.com',
+  email: 'contact@precieuse-joaillerie.com',
   hours: 'mardi → samedi, 10h–18h',
   instagram: 'precieusejoaillerie',
   instagramUrl: 'https://www.instagram.com/precieusejoaillerie',
