@@ -3,6 +3,19 @@ import { FOOTER_DATA } from '../lib/content/footer'
 import { BRAND_LOCKUP_MASK, maskStyle } from './brand/brand'
 
 export function Footer() {
+  const navLinks = [
+    { label: m.footer_nav_collection(), href: '/collection' },
+    { label: m.footer_nav_journal(), href: '/carnet' },
+    { label: m.footer_nav_atelier(), href: '/creatrice' },
+    { label: m.footer_nav_bespoke(), href: '/sur-mesure' },
+    { label: m.footer_nav_contact(), href: '/contact' },
+  ]
+  const legalLinks = [
+    { label: m.footer_legal_mentions(), href: '/mentions-legales' },
+    { label: m.footer_legal_privacy(), href: '/confidentialite' },
+    { label: m.footer_legal_terms(), href: '/cgv' },
+  ]
+
   return (
     <footer className="bg-poudre-dark">
       {/* --- Grille principale --- */}
@@ -21,7 +34,7 @@ export function Footer() {
               }}
             />
             <span className="font-display text-[14px] text-canard/75 leading-relaxed">
-              {FOOTER_DATA.signature}
+              {m.footer_signature()}
             </span>
 
           </div>
@@ -32,7 +45,7 @@ export function Footer() {
               {m.footer_navigate()}
             </span>
             <nav className="flex flex-col gap-2.5" aria-label={m.footer_nav_aria()}>
-              {FOOTER_DATA.nav.map((l) => (
+              {navLinks.map((l) => (
                 <a
                   key={l.label}
                   href={l.href}
@@ -93,20 +106,20 @@ export function Footer() {
       <div className="border-t border-canard/10 px-4 lg:px-8 py-5">
         <div className="mx-auto max-w-[1440px] flex items-center justify-between gap-x-6 gap-y-3 flex-wrap font-display text-[12px] text-canard/60">
           <nav className="flex items-center gap-4" aria-label={m.footer_legal_aria()}>
-            {FOOTER_DATA.legal.map((l) => (
+            {legalLinks.map((l) => (
               <a key={l.label} href={l.href} className="hover:text-canard transition-colors duration-300">
                 {l.label}
               </a>
             ))}
           </nav>
-          <span>{FOOTER_DATA.copyright}</span>
+          <span>{m.footer_copyright()}</span>
           <a
             href={FOOTER_DATA.credit.href}
             target="_blank"
             rel="noreferrer"
             className="hover:text-canard-90 transition-colors duration-300"
           >
-            {FOOTER_DATA.credit.label}
+            {m.footer_credit()}
           </a>
         </div>
       </div>

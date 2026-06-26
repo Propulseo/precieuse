@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { NEWSLETTER } from './newsletter-data'
 import { m } from '#/paraglide/messages'
 
 interface Props {
@@ -33,15 +32,15 @@ export function NewsletterB({ isOpen, onClose, onSubmit }: Props) {
       </button>
 
       <span className="font-display text-[10px] tracking-[0.35em] uppercase text-canard/55">
-        {NEWSLETTER.eyebrow}
+        {m.newsletter_eyebrow()}
       </span>
 
       <h3 id="nl-b-title" className="mt-2 font-display text-[22px] leading-tight text-canard">
-        {NEWSLETTER.title}
+        {m.newsletter_title()}
       </h3>
 
       <p className="mt-2 font-display text-[13px] text-canard/70 leading-relaxed">
-        {NEWSLETTER.shortSubtitle}
+        {m.newsletter_short_subtitle()}
       </p>
 
       <form
@@ -53,7 +52,7 @@ export function NewsletterB({ isOpen, onClose, onSubmit }: Props) {
       >
         <input
           type="email"
-          placeholder={NEWSLETTER.placeholder}
+          placeholder={m.newsletter_placeholder()}
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -63,7 +62,7 @@ export function NewsletterB({ isOpen, onClose, onSubmit }: Props) {
           type="submit"
           className="w-full bg-canard text-poudre rounded-md py-2 font-display text-[12px] tracking-[0.2em] uppercase hover:bg-canard-90 transition-colors"
         >
-          {NEWSLETTER.cta}
+          {m.newsletter_cta()}
         </button>
       </form>
     </div>
