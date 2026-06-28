@@ -10,6 +10,12 @@ export type Article = {
   /** Point focal CSS (object-position), piloté par le hotspot Sanity (défaut centre). */
   imagePosition?: string
   featured?: boolean
+  /**
+   * Corps de l'article (blocs Portable Text) — renseigné par la page détail
+   * (`getArticle`) uniquement, pas par la liste (`getArticles`). Vide tant
+   * qu'Emeline n'a pas rédigé le contenu dans le Studio.
+   */
+  body?: unknown[]
 }
 
 export const ARTICLES: Article[] = [

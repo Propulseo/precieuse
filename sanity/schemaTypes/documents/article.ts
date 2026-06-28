@@ -43,6 +43,12 @@ export const article = defineType({
       description: 'Format libre (ex. « 12 mai 2026 »).',
     }),
     defineField({ name: 'readTime', title: 'Temps de lecture', type: 'string' }),
+    defineField({
+      name: 'body',
+      title: 'Contenu',
+      type: 'localizedPortableText',
+      description: "Corps de l'article affiché sur sa page (/carnet/<slug>).",
+    }),
     localizedImage(),
     defineField({
       name: 'featured',

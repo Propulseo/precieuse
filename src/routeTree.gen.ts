@@ -26,6 +26,7 @@ import { Route as PreviewFooterRouteImport } from './routes/preview.footer'
 import { Route as PreviewEtabliRouteImport } from './routes/preview.etabli'
 import { Route as PreviewContactRouteImport } from './routes/preview.contact'
 import { Route as CollectionSlugRouteImport } from './routes/collection.$slug'
+import { Route as CarnetSlugRouteImport } from './routes/carnet.$slug'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const SurMesureRoute = SurMesureRouteImport.update({
@@ -113,6 +114,11 @@ const CollectionSlugRoute = CollectionSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => CollectionRoute,
 } as any)
+const CarnetSlugRoute = CarnetSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CarnetRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -121,7 +127,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/carnet': typeof CarnetRoute
+  '/carnet': typeof CarnetRouteWithChildren
   '/cgv': typeof CgvRoute
   '/collection': typeof CollectionRouteWithChildren
   '/confidentialite': typeof ConfidentialiteRoute
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/creatrice': typeof CreatriceRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/sur-mesure': typeof SurMesureRoute
+  '/carnet/$slug': typeof CarnetSlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
   '/preview/contact': typeof PreviewContactRoute
   '/preview/etabli': typeof PreviewEtabliRoute
@@ -141,7 +148,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/carnet': typeof CarnetRoute
+  '/carnet': typeof CarnetRouteWithChildren
   '/cgv': typeof CgvRoute
   '/collection': typeof CollectionRouteWithChildren
   '/confidentialite': typeof ConfidentialiteRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/creatrice': typeof CreatriceRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/sur-mesure': typeof SurMesureRoute
+  '/carnet/$slug': typeof CarnetSlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
   '/preview/contact': typeof PreviewContactRoute
   '/preview/etabli': typeof PreviewEtabliRoute
@@ -162,7 +170,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/carnet': typeof CarnetRoute
+  '/carnet': typeof CarnetRouteWithChildren
   '/cgv': typeof CgvRoute
   '/collection': typeof CollectionRouteWithChildren
   '/confidentialite': typeof ConfidentialiteRoute
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   '/creatrice': typeof CreatriceRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/sur-mesure': typeof SurMesureRoute
+  '/carnet/$slug': typeof CarnetSlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
   '/preview/contact': typeof PreviewContactRoute
   '/preview/etabli': typeof PreviewEtabliRoute
@@ -192,6 +201,7 @@ export interface FileRouteTypes {
     | '/creatrice'
     | '/mentions-legales'
     | '/sur-mesure'
+    | '/carnet/$slug'
     | '/collection/$slug'
     | '/preview/contact'
     | '/preview/etabli'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/creatrice'
     | '/mentions-legales'
     | '/sur-mesure'
+    | '/carnet/$slug'
     | '/collection/$slug'
     | '/preview/contact'
     | '/preview/etabli'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/creatrice'
     | '/mentions-legales'
     | '/sur-mesure'
+    | '/carnet/$slug'
     | '/collection/$slug'
     | '/preview/contact'
     | '/preview/etabli'
@@ -245,7 +257,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CarnetRoute: typeof CarnetRoute
+  CarnetRoute: typeof CarnetRouteWithChildren
   CgvRoute: typeof CgvRoute
   CollectionRoute: typeof CollectionRouteWithChildren
   ConfidentialiteRoute: typeof ConfidentialiteRoute
@@ -384,6 +396,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionSlugRouteImport
       parentRoute: typeof CollectionRoute
     }
+    '/carnet/$slug': {
+      id: '/carnet/$slug'
+      path: '/$slug'
+      fullPath: '/carnet/$slug'
+      preLoaderRoute: typeof CarnetSlugRouteImport
+      parentRoute: typeof CarnetRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -393,6 +412,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface CarnetRouteChildren {
+  CarnetSlugRoute: typeof CarnetSlugRoute
+}
+
+const CarnetRouteChildren: CarnetRouteChildren = {
+  CarnetSlugRoute: CarnetSlugRoute,
+}
+
+const CarnetRouteWithChildren =
+  CarnetRoute._addFileChildren(CarnetRouteChildren)
 
 interface CollectionRouteChildren {
   CollectionSlugRoute: typeof CollectionSlugRoute
@@ -408,7 +438,7 @@ const CollectionRouteWithChildren = CollectionRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CarnetRoute: CarnetRoute,
+  CarnetRoute: CarnetRouteWithChildren,
   CgvRoute: CgvRoute,
   CollectionRoute: CollectionRouteWithChildren,
   ConfidentialiteRoute: ConfidentialiteRoute,

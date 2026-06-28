@@ -183,6 +183,28 @@ export function getCarnetCategories(): typeof CATEGORIES {
   return CATEGORIES
 }
 
+/**
+ * Article unique (métadonnées + corps Portable Text) par slug, ou `undefined`
+ * si aucun article ne correspond. Les métadonnées proviennent de `getArticles`
+ * (statique ou Sanity) ; le corps `body` n'est récupéré qu'ici (la liste ne le
+ * projette pas, pour rester légère). `body` reste vide tant que Sanity n'est pas
+ * branché ou que l'article n'a pas encore de contenu rédigé.
+ */
+export async function getArticle(
+  slug: string,
+  locale: Locale = DEFAULT_LOCALE,
+): Promise<Article | undefined> {
+  const article = (await getArticles(locale)).find((a) => a.slug === slug)
+  if (!article) return undefined
+  if (!isSanityConfigured) return article
+  const data = await cmsFetch<Record<string, unknown> | null>(
+    `*[_type == "article" && slug.current == $slug][0]{ body }`,
+    { slug },
+  )
+  const body = data ? pickLocaleBlocks(data.body as never, locale) : []
+  return { ...article, body: body.length ? body : undefined }
+}
+
 // ---------------------------------------------------------------------------
 // Témoignages (lettres)
 // ---------------------------------------------------------------------------
