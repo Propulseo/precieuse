@@ -147,6 +147,30 @@ export function isCarouselMode(value: unknown): value is CarouselMode {
   return typeof value === 'string' && (CAROUSEL_MODES as string[]).includes(value)
 }
 
+// ─── Présentation de la section Collection (home) : défilé plein écran ou carrousel ───
+// Piloté par `data-collection` sur <html>, persisté indépendamment. Défaut = défilé.
+export type CollectionLayout = 'defile' | 'carrousel'
+
+export const COLLECTION_LAYOUTS: CollectionLayout[] = ['defile', 'carrousel']
+export const DEFAULT_COLLECTION_LAYOUT: CollectionLayout = 'defile'
+export const COLLECTION_LAYOUT_STORAGE_KEY = 'precieuse-collection-layout'
+
+export const COLLECTION_LAYOUT_LABELS: Record<CollectionLayout, string> = {
+  defile: 'Défilé',
+  carrousel: 'Carrousel',
+}
+
+export const COLLECTION_LAYOUT_HINTS: Record<CollectionLayout, string> = {
+  defile: 'Les pièces défilent horizontalement au scroll (plein écran).',
+  carrousel: 'Une pièce à la fois, en carrousel (réglable ci-dessous).',
+}
+
+export function isCollectionLayout(value: unknown): value is CollectionLayout {
+  return (
+    typeof value === 'string' && (COLLECTION_LAYOUTS as string[]).includes(value)
+  )
+}
+
 // ─── Couleurs personnalisables (aperçu dev) : 3 niveaux pilotés en direct ───
 // Chaque niveau écrit UNE variable CSS sur <html> (style inline, qui l'emporte
 // sur les tokens de styles.css) et persiste son hex en localStorage. Le no-flash
@@ -198,11 +222,13 @@ export const COLOR_SLOTS: Record<ColorSlot, ColorSlotSpec> = {
   tertiary: {
     cssVar: '--framboise',
     storageKey: 'precieuse-color-tertiary',
-    fallback: '#bb4e7c',
+    fallback: '#b80049',
     label: 'Couleur tertiaire (accent)',
     hint: 'Accents, eyebrows, liens, détails.',
     presets: [
       { label: 'Framboise', hex: '#bb4e7c' },
+      { label: 'Framboise foncé', hex: '#8e3a5d' },
+      { label: 'Rubis', hex: '#b80049' },
       { label: 'Rose', hex: '#d07992' },
       { label: 'Prune', hex: '#72106b' },
       { label: 'Corail', hex: '#f98688' },

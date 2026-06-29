@@ -60,7 +60,7 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
                     className="absolute inset-0 transition-opacity duration-[1200ms] ease-out"
                     style={{ opacity: active === idx ? 1 : 0 }}
                   >
-                    <img src={s.image} alt={s.imageAlt} style={objectPositionStyle(s.imagePosition)} className="absolute inset-0 w-full h-full object-cover scale-[1.03]" />
+                    <img src={s.image} alt={s.imageAlt} loading="lazy" decoding="async" style={objectPositionStyle(s.imagePosition)} className="absolute inset-0 w-full h-full object-cover scale-[1.03]" />
                   </div>
                 ))}
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.65)_100%)]" />
@@ -90,7 +90,7 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
                   className="group min-h-[60vh] flex flex-col justify-center py-8 relative"
                 >
                   <div className="lg:hidden relative w-full aspect-[4/5] mb-8 overflow-hidden">
-                    <img src={s.image} alt={s.imageAlt} style={objectPositionStyle(s.imagePosition)} className="absolute inset-0 w-full h-full object-cover" />
+                    <img src={s.image} alt={s.imageAlt} loading="lazy" decoding="async" style={objectPositionStyle(s.imagePosition)} className="absolute inset-0 w-full h-full object-cover" />
                   </div>
 
                   <div className="space-y-7 transition-[opacity,transform] duration-700 ease-out group-data-[active=false]:opacity-50 group-data-[active=false]:translate-y-2">

@@ -61,7 +61,7 @@
        · Accent UI (texte accent, eyebrows, hovers, liens)  → framboise (lisible)
        · Profondeur / accent foncé lisible                  → prune
        · Touches douces (filets, cachet, fonds teintés)     → rose, corail, pêche */
-  --framboise: #bb4e7c; /* accent UI principal */
+  --framboise: #b80049; /* accent UI principal — rubis (AA ~5:1 sur poudre) */
   --prune: #72106b;     /* accent profond, bon contraste */
   --rose: #d07992;      /* rose poudré — déco douce (faible contraste : éviter petit texte) */
   --corail: #f98688;    /* corail — ambiance / déco */

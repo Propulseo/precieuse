@@ -59,6 +59,8 @@ export function Matieres({ matieres = MATIERES }: { matieres?: Matiere[] }) {
               <img
                 src={mat.image}
                 alt={mat.image_alt}
+                loading="lazy"
+                decoding="async"
                 style={objectPositionStyle(mat.imagePosition)}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
               />

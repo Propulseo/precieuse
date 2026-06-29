@@ -9,10 +9,12 @@ import type { ReactNode } from 'react'
 import {
   BRAND_STORAGE_KEY,
   CAROUSEL_MODE_STORAGE_KEY,
+  COLLECTION_LAYOUT_STORAGE_KEY,
   COLOR_SLOTS,
   COLOR_SLOTS_ORDER,
   DEFAULT_BRAND,
   DEFAULT_CAROUSEL_MODE,
+  DEFAULT_COLLECTION_LAYOUT,
   DEFAULT_FILIGRANE_VARIANT,
   DEFAULT_HERO_MARK,
   DEFAULT_SEAL_VARIANT,
@@ -21,12 +23,14 @@ import {
   SEAL_VARIANT_STORAGE_KEY,
   isBrand,
   isCarouselMode,
+  isCollectionLayout,
   isFiligraneVariant,
   isHeroMark,
   isHex,
   isSealVariant,
   type Brand,
   type CarouselMode,
+  type CollectionLayout,
   type ColorSlot,
   type FiligraneVariant,
   type HeroMark,
@@ -83,6 +87,8 @@ type BrandContextValue = {
   setFiligraneVariant: (variant: FiligraneVariant) => void
   carouselMode: CarouselMode
   setCarouselMode: (mode: CarouselMode) => void
+  collectionLayout: CollectionLayout
+  setCollectionLayout: (layout: CollectionLayout) => void
   colors: Colors
   setColor: (slot: ColorSlot, hex: string) => void
   resetColors: () => void
@@ -133,6 +139,12 @@ const CAROUSEL_SPEC: ToggleSpec<CarouselMode> = {
   isValid: isCarouselMode,
   fallback: DEFAULT_CAROUSEL_MODE,
 }
+const COLLECTION_SPEC: ToggleSpec<CollectionLayout> = {
+  attr: 'collection',
+  storageKey: COLLECTION_LAYOUT_STORAGE_KEY,
+  isValid: isCollectionLayout,
+  fallback: DEFAULT_COLLECTION_LAYOUT,
+}
 
 /** Lit le réglage : attribut posé avant le paint (no-flash) → localStorage → défaut. */
 function readStored<T extends string>(spec: ToggleSpec<T>): T {
@@ -174,6 +186,8 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     useState<FiligraneVariant>(DEFAULT_FILIGRANE_VARIANT)
   const [carouselMode, setCarouselModeState] =
     useState<CarouselMode>(DEFAULT_CAROUSEL_MODE)
+  const [collectionLayout, setCollectionLayoutState] =
+    useState<CollectionLayout>(DEFAULT_COLLECTION_LAYOUT)
   const [colors, setColorsState] = useState<Colors>(DEFAULT_COLORS)
 
   // Sync initial après hydratation (le SSR ne connaît pas le choix visiteur).
@@ -183,6 +197,7 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     setSealVariantState(readStored(SEAL_SPEC))
     setFiligraneVariantState(readStored(FILIGRANE_SPEC))
     setCarouselModeState(readStored(CAROUSEL_SPEC))
+    setCollectionLayoutState(readStored(COLLECTION_SPEC))
     const nextColors: Colors = {
       primary: readColor('primary'),
       secondary: readColor('secondary'),
@@ -218,6 +233,11 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     persist(CAROUSEL_SPEC, next)
   }, [])
 
+  const setCollectionLayout = useCallback((next: CollectionLayout) => {
+    setCollectionLayoutState(next)
+    persist(COLLECTION_SPEC, next)
+  }, [])
+
   const setColor = useCallback((slot: ColorSlot, hex: string) => {
     setColorsState((c) => ({ ...c, [slot]: hex }))
     applyColor(slot, hex)
@@ -245,6 +265,8 @@ export function BrandProvider({ children }: { children: ReactNode }) {
         setFiligraneVariant,
         carouselMode,
         setCarouselMode,
+        collectionLayout,
+        setCollectionLayout,
         colors,
         setColor,
         resetColors,

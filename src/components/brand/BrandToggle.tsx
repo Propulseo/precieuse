@@ -4,6 +4,9 @@ import {
   CAROUSEL_MODE_HINTS,
   CAROUSEL_MODE_LABELS,
   CAROUSEL_MODES,
+  COLLECTION_LAYOUT_HINTS,
+  COLLECTION_LAYOUT_LABELS,
+  COLLECTION_LAYOUTS,
   COLOR_SLOTS,
   COLOR_SLOTS_ORDER,
   FILIGRANE_VARIANT_LABELS,
@@ -160,6 +163,8 @@ export function BrandToggle() {
     setFiligraneVariant,
     carouselMode,
     setCarouselMode,
+    collectionLayout,
+    setCollectionLayout,
     colors,
     resetColors,
   } = useBrand()
@@ -246,15 +251,33 @@ export function BrandToggle() {
             />
           </Field>
 
-          <Field label="Carousel collection" hint={CAROUSEL_MODE_HINTS[carouselMode]}>
+          <Field
+            label="Section Collection"
+            hint={COLLECTION_LAYOUT_HINTS[collectionLayout]}
+          >
             <PillGroup
-              ariaLabel="Carousel de la collection"
-              values={CAROUSEL_MODES}
-              current={carouselMode}
-              labels={CAROUSEL_MODE_LABELS}
-              onSelect={setCarouselMode}
+              ariaLabel="Présentation de la section Collection"
+              values={COLLECTION_LAYOUTS}
+              current={collectionLayout}
+              labels={COLLECTION_LAYOUT_LABELS}
+              onSelect={setCollectionLayout}
             />
           </Field>
+
+          {collectionLayout === 'carrousel' ? (
+            <Field
+              label="Mouvement du carrousel"
+              hint={CAROUSEL_MODE_HINTS[carouselMode]}
+            >
+              <PillGroup
+                ariaLabel="Mouvement du carrousel"
+                values={CAROUSEL_MODES}
+                current={carouselMode}
+                labels={CAROUSEL_MODE_LABELS}
+                onSelect={setCarouselMode}
+              />
+            </Field>
+          ) : null}
         </div>
       ) : null}
 

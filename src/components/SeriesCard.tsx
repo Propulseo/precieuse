@@ -3,8 +3,6 @@ import { m } from '#/paraglide/messages'
 import type { Product } from '../lib/content/products'
 import { objectPositionStyle } from './framing/framing'
 
-const ROMAN = ['I', 'II', 'III', 'IV', 'V'] as const
-
 export type CardRole =
   | 'focus'
   | 'peek-left'
@@ -34,7 +32,7 @@ function getCardClasses(role: CardRole): string {
   const peekShape = 'scale-[0.78] w-[24%] max-w-[300px] aspect-[3/4]'
 
   if (role === 'focus') {
-    return `${base} left-1/2 z-20 opacity-100 scale-100 w-[88%] max-w-[1080px] shadow-[0_30px_80px_-20px_rgba(61,40,23,0.35)] cursor-default`
+    return `${base} left-1/2 z-20 opacity-100 scale-100 w-[88%] max-w-[1080px] cursor-default`
   }
   if (role === 'peek-left') {
     return `${base} left-[13%] z-10 opacity-50 ${peekShape} blur-[1.5px] cursor-pointer hover:opacity-75 hover:scale-[0.82] hover:blur-0 hidden lg:block`
@@ -53,10 +51,9 @@ function getCardClasses(role: CardRole): string {
 /** Pièce en vedette : visuel + descriptif (réutilisé par les modes glissé/fondu). */
 export function FocusCardContent({
   product,
-  index,
 }: {
   product: Product
-  index: number
+  index?: number
 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] aspect-[5/3] md:aspect-[16/9]">
@@ -64,34 +61,36 @@ export function FocusCardContent({
         <img
           src={product.image}
           alt={product.imageAlt}
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover"
           style={objectPositionStyle(product.imagePosition)}
         />
       </div>
 
       <div
-        className="relative bg-poudre flex flex-col justify-center px-8 lg:px-12 py-10 lg:py-14"
+        className="relative bg-poudre flex flex-col justify-start overflow-hidden px-8 lg:px-12 py-9 lg:py-12"
         aria-live="polite"
         aria-atomic="true"
       >
-        <span className="font-display text-[20px] text-canard leading-none mb-6 select-none">
-          {ROMAN[index]}
-        </span>
-
-        <h3 className="font-display text-[clamp(40px,4.5vw,64px)] text-canard leading-[1.05] mb-3">
+        <h3 className="font-display text-[clamp(40px,4.5vw,64px)] text-canard leading-[1.05] mb-2">
           {product.name}
         </h3>
 
-        <p className="font-body italic font-light text-[22px] lg:text-[24px] text-canard-90 mb-6 leading-snug">
+        <p className="font-body italic font-light text-[22px] lg:text-[24px] text-framboise mb-5 leading-snug">
           {product.tagline}
         </p>
 
-        <p className="font-body font-light text-[13px] text-canard/80 leading-relaxed mb-8 line-clamp-3">
+        <p className="hidden md:block font-body font-light text-[14px] lg:text-[15px] text-canard/80 leading-relaxed mb-4 line-clamp-4">
+          {product.description}
+        </p>
+
+        <p className="font-body font-light text-[12.5px] text-canard/55 leading-relaxed line-clamp-2">
           {product.materials}
         </p>
 
-        <div className="flex flex-col gap-4 pt-6 border-t border-canard/15">
-          <span className="font-display text-[20px] text-canard">{product.price}</span>
+        <div className="mt-auto flex flex-col gap-3 pt-5 border-t border-canard/15">
+          <span className="font-display text-[19px] text-canard">{product.price}</span>
           <Link
             to="/collection/$slug"
             params={{ slug: product.slug }}
@@ -112,6 +111,8 @@ export function PeekCardContent({ product }: { product: Product }) {
       <img
         src={product.image}
         alt={product.imageAlt}
+        loading="lazy"
+        decoding="async"
         className="absolute inset-0 w-full h-full object-cover"
         style={objectPositionStyle(product.imagePosition)}
       />

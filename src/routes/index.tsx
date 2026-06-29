@@ -2,6 +2,9 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Hero } from '../components/Hero'
 import { AvantPropos } from '../components/AvantPropos'
 import { Series } from '../components/Series'
+import { CollectionFilmstrip } from '../components/collection-variants/CollectionFilmstrip'
+import { useBrand } from '../components/brand/BrandProvider'
+import type { Product } from '../lib/content/products'
 import { Reassurance } from '../components/Reassurance'
 import { Matieres } from '../components/Matieres'
 import { Etabli } from '../components/Etabli'
@@ -45,24 +48,36 @@ function Home() {
   return (
     <>
       <Hero />
-      <Series products={products} />
+      <CollectionSection products={products} />
       <Reassurance />
-      <Reveal delay={60}>
-        <AvantPropos />
-      </Reveal>
-      <Matieres matieres={matieres} />
-      <Reveal delay={60}>
-        <Etabli steps={etabliSteps} />
-      </Reveal>
-      <Reveal delay={60}>
-        <SurMesure process={bespokeProcess} />
-      </Reveal>
+      {/* Sections éditoriales calées à ~1 écran (min-h, centrées) pour un rythme
+          uniforme. min-h-screen : remplit au moins un écran sans jamais rogner. */}
+      <div className="flex min-h-screen flex-col justify-center">
+        <Reveal delay={60}>
+          <AvantPropos />
+        </Reveal>
+      </div>
+      <div className="flex min-h-screen flex-col justify-center">
+        <Matieres matieres={matieres} />
+      </div>
+      <div className="flex min-h-screen flex-col justify-center">
+        <Reveal delay={60}>
+          <Etabli steps={etabliSteps} />
+        </Reveal>
+      </div>
+      <div className="flex min-h-screen flex-col justify-center">
+        <Reveal delay={60}>
+          <SurMesure process={bespokeProcess} />
+        </Reveal>
+      </div>
       <Reveal delay={60}>
         <Testimonials lettres={lettres} />
       </Reveal>
-      <Reveal delay={60}>
-        <LeadCaptureA />
-      </Reveal>
+      <div className="flex min-h-screen flex-col justify-center">
+        <Reveal delay={60}>
+          <LeadCaptureA />
+        </Reveal>
+      </div>
 
       <NewsletterB
         isOpen={newsletter.isOpen}
@@ -70,5 +85,18 @@ function Home() {
         onSubmit={newsletter.submit}
       />
     </>
+  )
+}
+
+/**
+ * Section 2 (Collection) : défilé plein écran (validé) ou carrousel de base,
+ * au choix dans le toggle « Apparence » (réglage `collectionLayout`, défaut défilé).
+ */
+function CollectionSection({ products }: { products: Product[] }) {
+  const { collectionLayout } = useBrand()
+  return collectionLayout === 'carrousel' ? (
+    <Series products={products} />
+  ) : (
+    <CollectionFilmstrip products={products} />
   )
 }

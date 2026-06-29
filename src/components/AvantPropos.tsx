@@ -130,6 +130,8 @@ export function AvantPropos() {
             <img
               src="/images/emeline-portrait.jpg"
               alt={m.avantpropos_portrait_alt()}
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>

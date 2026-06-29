@@ -10,6 +10,8 @@ export type Product = {
   imageAlt: string
   /** Point focal CSS (object-position), piloté par le hotspot Sanity (défaut centre). */
   imagePosition?: string
+  /** Zoom de cadrage (scale) sur l'image dans le défilé Collection. Défaut 1. */
+  imageZoom?: number
 }
 
 export const PRODUCTS: Product[] = [
@@ -28,6 +30,7 @@ export const PRODUCTS: Product[] = [
     imageAlt:
       "Bague Joséphine en or 18 carats, pierre centrale entourée d'un halo de diamants — atelier Précieuse, Bordeaux",
     imagePosition: '61% 54%',
+    imageZoom: 1.35,
   },
   {
     slug: 'aurore',
