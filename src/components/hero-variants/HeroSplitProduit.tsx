@@ -33,7 +33,7 @@ export function HeroSplitProduit() {
           Précieuse.
         </h1>
         <p className="font-display italic text-[clamp(15px,1.6vw,18px)] text-cream/90 max-w-[440px] mb-10 leading-relaxed">
-          Bagues façonnées à la main, en or 19 carats et pierres choisies.
+          Bagues façonnées à la main, en or 18 carats et pierres choisies.
         </p>
         <a
           href="/collection"

@@ -41,7 +41,7 @@ export function HeroV6() {
           </h1>
 
           <p className="font-display italic text-[18px] lg:text-[22px] text-[#fff7e3]/85 leading-relaxed mt-8 max-w-[36ch]">
-            Un atelier, à Lisbonne. Chaque bague naît d'une commande,
+            Un atelier, à Bordeaux. Chaque bague naît d'une commande,
             d'une main, d'un nom.
           </p>
 

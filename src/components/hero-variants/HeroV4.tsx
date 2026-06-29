@@ -39,7 +39,7 @@ export function HeroV4() {
             </h1>
 
             <span className="font-script-lg text-gold-pale drop-shadow-md text-center motion-safe:animate-[fadeUp_1.4s_ease-out_700ms_both]">
-              un atelier, à Lisbonne
+              un atelier, à Bordeaux
             </span>
 
             <Link

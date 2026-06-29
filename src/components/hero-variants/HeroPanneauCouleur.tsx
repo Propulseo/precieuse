@@ -39,7 +39,7 @@ export function HeroPanneauCouleur() {
             une présence.
           </h1>
           <p className="font-display italic text-[17px] leading-relaxed text-cream/85 max-w-[360px] mb-10">
-            Cinq pièces façonnées à la main, en or 19 carats, dans notre atelier au Portugal.
+            Cinq pièces façonnées à la main, en or 18 carats, dans notre atelier à Bordeaux.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a

@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import {
-  BRAND_LABELS,
-  BRAND_SWATCHES,
-  BRANDS,
   CAROUSEL_MODE_HINTS,
   CAROUSEL_MODE_LABELS,
   CAROUSEL_MODES,
+  COLOR_SLOTS,
+  COLOR_SLOTS_ORDER,
   FILIGRANE_VARIANT_LABELS,
   FILIGRANE_VARIANTS,
   HERO_MARK_LABELS,
   HERO_MARKS,
   SEAL_VARIANT_LABELS,
   SEAL_VARIANTS,
+  type ColorSlot,
 } from './brand'
 import { useBrand } from './BrandProvider'
 
@@ -88,6 +88,62 @@ function PillGroup<T extends string>({
   )
 }
 
+/** Un niveau de couleur : pastilles de la palette + pioche libre (input color). */
+function ColorField({ slot }: { slot: ColorSlot }) {
+  const { colors, setColor } = useBrand()
+  const spec = COLOR_SLOTS[slot]
+  const current = colors[slot]
+  return (
+    <Field label={spec.label} hint={spec.hint}>
+      <div
+        role="group"
+        aria-label={spec.label}
+        className="flex flex-wrap items-center gap-1.5"
+      >
+        {spec.presets.map((p) => {
+          const active = current.toLowerCase() === p.hex.toLowerCase()
+          return (
+            <button
+              key={p.hex}
+              type="button"
+              aria-label={p.label}
+              title={p.label}
+              onClick={() => setColor(slot, p.hex)}
+              className="group flex items-center justify-center rounded-full p-0.5"
+            >
+              <span
+                aria-hidden
+                className={`block h-5 w-5 rounded-full border transition-transform duration-300 ${
+                  active
+                    ? 'scale-110 border-canard ring-1 ring-canard/40 ring-offset-1 ring-offset-poudre'
+                    : 'border-black/10 group-hover:scale-110'
+                }`}
+                style={{ backgroundColor: p.hex }}
+              />
+            </button>
+          )
+        })}
+        {/* Couleur libre */}
+        <label
+          className="relative ml-0.5 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border border-dashed border-canard/40 text-canard/60"
+          title="Couleur libre"
+        >
+          <input
+            type="color"
+            value={current}
+            onChange={(e) => setColor(slot, e.target.value)}
+            aria-label={`${spec.label} — couleur libre`}
+            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+          />
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden>
+            <path d="M5 1v8 M1 5h8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+          </svg>
+        </label>
+      </div>
+    </Field>
+  )
+}
+
 /**
  * Contrôle visiteur (bas-gauche) pour faire valider les choix de design par
  * Emeline. Replié par défaut (pastille « Apparence ») ; déplié, chaque réglage
@@ -96,8 +152,6 @@ function PillGroup<T extends string>({
  */
 export function BrandToggle() {
   const {
-    brand,
-    setBrand,
     heroMark,
     setHeroMark,
     sealVariant,
@@ -106,6 +160,8 @@ export function BrandToggle() {
     setFiligraneVariant,
     carouselMode,
     setCarouselMode,
+    colors,
+    resetColors,
   } = useBrand()
   const [open, setOpen] = useState(false)
 
@@ -133,39 +189,23 @@ export function BrandToggle() {
             </button>
           </div>
 
-          <Field label="Couleur de la marque">
-            <div
-              role="radiogroup"
-              aria-label="Couleur de la marque"
-              className="flex items-center gap-1.5"
-            >
-              {BRANDS.map((b) => {
-                const active = brand === b
-                return (
-                  <button
-                    key={b}
-                    type="button"
-                    role="radio"
-                    aria-checked={active}
-                    aria-label={`Couleur ${BRAND_LABELS[b]}`}
-                    title={BRAND_LABELS[b]}
-                    onClick={() => setBrand(b)}
-                    className="group flex items-center justify-center rounded-full p-0.5"
-                  >
-                    <span
-                      aria-hidden
-                      className={`block h-5 w-5 rounded-full border transition-transform duration-300 ${
-                        active
-                          ? 'scale-110 border-canard ring-1 ring-canard/40 ring-offset-1 ring-offset-poudre'
-                          : 'border-black/10 group-hover:scale-110'
-                      }`}
-                      style={{ backgroundColor: BRAND_SWATCHES[b] }}
-                    />
-                  </button>
-                )
-              })}
+          <div className="flex flex-col gap-3 border-b border-canard/10 pb-4">
+            <div className="flex items-center justify-between">
+              <span className="font-display text-[10px] uppercase tracking-[0.18em] text-canard/55">
+                Couleurs (aperçu)
+              </span>
+              <button
+                type="button"
+                onClick={resetColors}
+                className="font-display text-[10px] uppercase tracking-[0.12em] text-canard/45 transition-colors hover:text-canard"
+              >
+                Réinitialiser
+              </button>
             </div>
-          </Field>
+            {COLOR_SLOTS_ORDER.map((slot) => (
+              <ColorField key={slot} slot={slot} />
+            ))}
+          </div>
 
           <Field
             label="Marque dans la hero"
@@ -228,7 +268,7 @@ export function BrandToggle() {
         <span
           aria-hidden
           className="h-3 w-3 rounded-full border border-canard/30"
-          style={{ backgroundColor: BRAND_SWATCHES[brand] }}
+          style={{ backgroundColor: colors.primary }}
         />
         Apparence
       </button>

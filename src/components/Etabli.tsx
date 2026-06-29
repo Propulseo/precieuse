@@ -3,13 +3,6 @@ import { m } from '#/paraglide/messages'
 import { ETABLI_STEPS, type EtabliStep } from '../lib/content/etabli'
 import { objectPositionStyle } from './framing/framing'
 
-const SIGNATURES = [
-  { day: () => m.etabli_day_monday(), time: '11h32', glyph: '♦' },
-  { day: () => m.etabli_day_tuesday(), time: '14h08', glyph: '※' },
-  { day: () => m.etabli_day_wednesday(), time: '16h45', glyph: '✦' },
-  { day: () => m.etabli_day_thursday(), time: '18h20', glyph: '❖' },
-]
-
 function BrushUnderline() {
   return (
     <svg aria-hidden viewBox="0 0 320 14" className="absolute -bottom-2 left-0 w-full h-3 text-rouille/60">
@@ -39,18 +32,17 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
   }, [])
 
   const step = steps[active]
-  const sig = SIGNATURES[active]
-  if (!step || !sig) return null
+  if (!step) return null
 
   return (
     <section className="relative bg-poudre">
-      <header className="relative px-8 lg:px-16 pt-24 pb-16">
+      <header className="relative px-8 lg:px-16 pt-12 pb-8">
         <div className="mx-auto max-w-[1440px] flex items-end justify-between flex-wrap gap-6">
           <div>
-            <span className="font-display text-[12px] tracking-[0.35em] text-canard block mb-3">
+            <span className="font-display text-[12px] tracking-[0.35em] text-framboise block mb-3">
               {m.etabli_overline()}
             </span>
-            <h2 className="font-headline text-[56px] text-canard leading-[0.95]">{m.etabli_title()}</h2>
+            <h2 className="font-headline text-[clamp(32px,6vw,56px)] text-canard leading-[0.95]">{m.etabli_title()}</h2>
           </div>
         </div>
       </header>
@@ -72,10 +64,7 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
                   </div>
                 ))}
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.65)_100%)]" />
-                <div className="absolute bottom-0 inset-x-0 p-8 bg-gradient-to-t from-poudre via-poudre/60 to-transparent flex items-baseline justify-between">
-                  <span className="font-body italic font-light text-[18px] text-canard-90">
-                    {m.etabli_photo_caption()} · {sig.day()} {sig.time}
-                  </span>
+                <div className="absolute bottom-0 inset-x-0 p-8 bg-gradient-to-t from-poudre via-poudre/60 to-transparent flex items-baseline justify-end">
                   <span className="font-display text-[13px] tracking-widest text-canard">
                     {String(active + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
                   </span>
@@ -90,8 +79,6 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
               const isActive = active === idx
               const detailFirst = s.detail.charAt(0)
               const detailRest = s.detail.slice(1)
-              const sg = SIGNATURES[idx]
-              if (!sg) return null
               return (
                 <div
                   key={s.roman}
@@ -100,7 +87,7 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
                   }}
                   data-idx={idx}
                   data-active={isActive}
-                  className="group min-h-[85vh] flex flex-col justify-center py-16 relative"
+                  className="group min-h-[60vh] flex flex-col justify-center py-8 relative"
                 >
                   <div className="lg:hidden relative w-full aspect-[4/5] mb-8 overflow-hidden">
                     <img src={s.image} alt={s.imageAlt} style={objectPositionStyle(s.imagePosition)} className="absolute inset-0 w-full h-full object-cover" />
@@ -109,12 +96,12 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
                   <div className="space-y-7 transition-[opacity,transform] duration-700 ease-out group-data-[active=false]:opacity-50 group-data-[active=false]:translate-y-2">
                     <div className="flex items-center gap-3">
                       <span className="block w-10 h-px bg-canard" />
-                      <span className="font-display text-[12px] tracking-[0.35em] text-canard">
+                      <span className="font-display text-[12px] tracking-[0.35em] text-framboise">
                         {m.etabli_fragment_label({ roman: s.roman })}
                       </span>
                     </div>
 
-                    <h3 className="font-headline text-[56px] text-canard leading-[0.98]">{s.title}.</h3>
+                    <h3 className="font-headline text-[clamp(34px,7vw,56px)] text-canard leading-[0.98]">{s.title}.</h3>
 
                     <div className="relative inline-block w-full">
                       <p className="font-body italic font-light text-[24px] text-canard-90 leading-relaxed">{s.annotation}</p>
@@ -127,15 +114,6 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
                       </span>
                       {detailRest}
                     </p>
-
-                    <div className="flex items-end justify-between pt-6 max-w-[480px] border-t border-canard/20">
-                      <span className="font-body italic font-light text-[18px] text-canard-90/80">
-                        É. R., {sg.day()} {sg.time}
-                      </span>
-                      <span aria-hidden className="font-display text-[28px] text-violet/40 leading-none">
-                        {sg.glyph}
-                      </span>
-                    </div>
                   </div>
                 </div>
               )
@@ -144,14 +122,6 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
         </div>
       </div>
 
-      <div className="px-8 lg:px-16 pt-12 pb-24 relative">
-        <div className="mx-auto max-w-[1440px] flex justify-between items-end pt-8 border-t border-canard/15">
-          <span className="font-body italic font-light text-[17px] text-canard-90">
-            {m.etabli_footer_note()}
-          </span>
-          <span className="font-display text-[13px] text-canard">p. 07</span>
-        </div>
-      </div>
     </section>
   )
 }

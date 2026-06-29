@@ -122,7 +122,7 @@ function Seal() {
 
 export function AvantPropos() {
   return (
-    <section className="relative bg-poudre py-20 px-8 lg:px-16">
+    <section className="relative bg-poudre py-10 px-8 lg:px-16">
 
       <div className="mx-auto max-w-[1320px] grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
         <div className="relative md:order-1 order-2 mx-auto md:mx-0">
@@ -144,26 +144,26 @@ export function AvantPropos() {
         </div>
 
         <div className="md:order-2 order-1">
-          <span className="font-display text-[10px] tracking-[0.45em] uppercase text-canard block mb-5">
+          <span className="font-display text-[10px] tracking-[0.45em] uppercase text-framboise block mb-5">
             {m.avantpropos_foreword()}
           </span>
 
-          <div className="flex flex-col items-start mb-10">
+          <div className="flex flex-col items-start mb-5">
             <span className="font-display text-[34px] tracking-[0.18em] uppercase text-canard leading-none">
               Atelier
             </span>
             <div className="my-3">
               <Filigrane />
             </div>
-            <span className="font-headline text-[52px] text-canard leading-none">
+            <span className="font-headline text-[clamp(32px,6vw,52px)] text-canard leading-none">
               Précieuse
             </span>
           </div>
 
           <ul className="flex flex-col gap-7">
             {PAIRES.map((p) => (
-              <li key={p.roman} className="grid grid-cols-[32px_1fr] gap-5 items-baseline">
-                <span className="font-display text-[15px] text-rouille opacity-80 tracking-wider">
+              <li key={p.roman} className="grid grid-cols-[44px_1fr] gap-5 items-baseline">
+                <span className="font-display text-[15px] text-rouille opacity-80 tracking-wider whitespace-nowrap">
                   · {p.roman} ·
                 </span>
                 <div className="flex flex-col gap-1.5">
@@ -178,7 +178,7 @@ export function AvantPropos() {
             ))}
           </ul>
 
-          <div className="mt-10 flex items-center gap-6 pt-6 border-t border-canard/15">
+          <div className="mt-6 flex items-center gap-6 pt-4 border-t border-canard/15">
             <Seal />
             <div className="flex flex-col">
               <span className="font-display text-[18px] text-canard">Emeline Le Ray</span>
@@ -193,11 +193,9 @@ export function AvantPropos() {
         </div>
       </div>
 
-      <div className="mt-12 flex justify-end max-w-[1320px] mx-auto">
-        <span className="font-display text-[13px] text-canard">p. 02</span>
+      <div className="mt-6 flex justify-end max-w-[1320px] mx-auto">
+        <span className="font-display text-[13px] text-framboise">p. 02</span>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 border-t border-canard/25" />
     </section>
   )
 }

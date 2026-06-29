@@ -93,7 +93,7 @@ export function FormulaireInvitation({ whatsapp = SITE.whatsapp }: { whatsapp?: 
                 {m.invitation_submit()}
               </button>
               {error && (
-                <p className="mt-4 font-display text-[13px] text-rouille">{m.form_error()}</p>
+                <p className="mt-4 font-display text-[13px] text-alerte">{m.form_error()}</p>
               )}
             </div>
           </form>

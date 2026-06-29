@@ -38,14 +38,14 @@ export function LeadCaptureA() {
 
   if (sent) {
     return (
-      <section className="relative bg-poudre border-t border-b border-canard/15 py-16 px-4 lg:px-8 text-center">
+      <section className="relative bg-poudre py-8 px-4 lg:px-8 text-center">
         <p className="font-headline text-[24px] text-canard">{m.form_success()}</p>
       </section>
     )
   }
 
   return (
-    <section className="relative bg-poudre border-t border-b border-canard/15 py-12 lg:py-14 px-4 lg:px-8">
+    <section className="relative bg-poudre py-6 lg:py-7 px-4 lg:px-8">
       <form
         className="mx-auto max-w-[860px] text-center flex flex-col items-center"
         onSubmit={handleSubmit}
@@ -110,7 +110,7 @@ export function LeadCaptureA() {
           {m.leadcapture_submit()}
         </button>
         {error && (
-          <p className="font-display text-[13px] text-rouille mt-3">{m.form_error()}</p>
+          <p className="font-display text-[13px] text-alerte mt-3">{m.form_error()}</p>
         )}
 
         <p className="font-display text-[11px] text-canard/55 mt-5 max-w-[420px]">

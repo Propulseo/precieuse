@@ -27,13 +27,13 @@ const STEPS: Step[] = [
     title: 'La Fabrication',
     annotation: 'six semaines, à la main',
     detail:
-      'Fonte à cire perdue, sertissage, polissage manuel. Chaque geste est ancien, chaque pièce sortie du moule est unique. Au Portugal, dans notre atelier.',
+      'Fonte à cire perdue, sertissage, polissage manuel. Chaque geste est ancien, chaque pièce sortie du moule est unique. À Bordeaux, dans notre atelier.',
     image: '/images/etabli/piece-02.png',
   },
   {
     numeral: 'III',
     title: 'La Pièce',
-    annotation: 'or 19 carats, pierres naturelles',
+    annotation: 'or 18 carats, pierres naturelles',
     detail:
       'Ce qui sort de l\'atelier est ce que vous porterez : aucun stock, aucune copie. Une bague vous attend, une seule, façonnée pour vous.',
     image: '/images/etabli/piece-03.png',

@@ -91,7 +91,7 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
   return (
     <section
       id="testimonials"
-      className="scroll-mt-20 relative bg-poudre py-14 lg:py-20 px-4 lg:px-8 overflow-hidden"
+      className="scroll-mt-20 relative bg-poudre py-7 lg:py-10 px-4 lg:px-8 overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={handleTouchStart}
@@ -100,11 +100,11 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
       aria-label={m.testimonials_carousel_label()}
     >
       <div className="mx-auto max-w-[1400px] flex flex-col items-center text-center">
-        <span className="inline-block px-5 py-1.5 rounded-full border border-canard/35 font-display text-[11px] tracking-[0.4em] uppercase text-canard/80">
+        <span className="inline-block px-5 py-1.5 rounded-full border border-framboise/40 font-display text-[11px] tracking-[0.4em] uppercase text-framboise">
           {m.testimonials_overline()}
         </span>
 
-        <h2 className="font-display text-[clamp(30px,4.2vw,52px)] leading-[1.05] text-canard mt-5 mb-9 lg:mb-12 max-w-[16ch]">
+        <h2 className="font-display text-[clamp(30px,4.2vw,52px)] leading-[1.05] text-canard mt-3 mb-5 lg:mb-6 max-w-[16ch]">
           {m.testimonials_title_line1()}
           <br />
           {m.testimonials_title_line2()}
@@ -137,7 +137,7 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
         </div>
 
         <div
-          className="flex items-center gap-3 mt-8 lg:mt-10"
+          className="flex items-center gap-3 mt-5 lg:mt-6"
           role="group"
           aria-label={m.testimonials_nav_label()}
         >

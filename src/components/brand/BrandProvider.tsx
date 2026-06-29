@@ -9,6 +9,8 @@ import type { ReactNode } from 'react'
 import {
   BRAND_STORAGE_KEY,
   CAROUSEL_MODE_STORAGE_KEY,
+  COLOR_SLOTS,
+  COLOR_SLOTS_ORDER,
   DEFAULT_BRAND,
   DEFAULT_CAROUSEL_MODE,
   DEFAULT_FILIGRANE_VARIANT,
@@ -21,13 +23,54 @@ import {
   isCarouselMode,
   isFiligraneVariant,
   isHeroMark,
+  isHex,
   isSealVariant,
   type Brand,
   type CarouselMode,
+  type ColorSlot,
   type FiligraneVariant,
   type HeroMark,
   type SealVariant,
 } from './brand'
+
+type Colors = Record<ColorSlot, string>
+
+const DEFAULT_COLORS: Colors = {
+  primary: COLOR_SLOTS.primary.fallback,
+  secondary: COLOR_SLOTS.secondary.fallback,
+  tertiary: COLOR_SLOTS.tertiary.fallback,
+}
+
+/** Lit l'hex d'un niveau : localStorage → défaut de la charte. */
+function readColor(slot: ColorSlot): string {
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = window.localStorage.getItem(COLOR_SLOTS[slot].storageKey)
+      if (isHex(stored)) return stored
+    } catch {
+      /* localStorage indisponible — défaut */
+    }
+  }
+  return COLOR_SLOTS[slot].fallback
+}
+
+/** Applique l'hex sur la variable CSS de <html> (effet immédiat). */
+function applyColor(slot: ColorSlot, hex: string): void {
+  if (typeof document !== 'undefined') {
+    document.documentElement.style.setProperty(COLOR_SLOTS[slot].cssVar, hex)
+  }
+}
+
+/** Persiste l'hex du niveau. */
+function persistColor(slot: ColorSlot, hex: string): void {
+  if (typeof window !== 'undefined') {
+    try {
+      window.localStorage.setItem(COLOR_SLOTS[slot].storageKey, hex)
+    } catch {
+      /* ignore */
+    }
+  }
+}
 
 type BrandContextValue = {
   brand: Brand
@@ -40,6 +83,9 @@ type BrandContextValue = {
   setFiligraneVariant: (variant: FiligraneVariant) => void
   carouselMode: CarouselMode
   setCarouselMode: (mode: CarouselMode) => void
+  colors: Colors
+  setColor: (slot: ColorSlot, hex: string) => void
+  resetColors: () => void
 }
 
 const BrandContext = createContext<BrandContextValue | null>(null)
@@ -128,6 +174,7 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     useState<FiligraneVariant>(DEFAULT_FILIGRANE_VARIANT)
   const [carouselMode, setCarouselModeState] =
     useState<CarouselMode>(DEFAULT_CAROUSEL_MODE)
+  const [colors, setColorsState] = useState<Colors>(DEFAULT_COLORS)
 
   // Sync initial après hydratation (le SSR ne connaît pas le choix visiteur).
   useEffect(() => {
@@ -136,6 +183,14 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     setSealVariantState(readStored(SEAL_SPEC))
     setFiligraneVariantState(readStored(FILIGRANE_SPEC))
     setCarouselModeState(readStored(CAROUSEL_SPEC))
+    const nextColors: Colors = {
+      primary: readColor('primary'),
+      secondary: readColor('secondary'),
+      tertiary: readColor('tertiary'),
+    }
+    setColorsState(nextColors)
+    // Garantit la cohérence même si le no-flash n'a pas tourné.
+    COLOR_SLOTS_ORDER.forEach((slot) => applyColor(slot, nextColors[slot]))
   }, [])
 
   const setBrand = useCallback((next: Brand) => {
@@ -163,6 +218,20 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     persist(CAROUSEL_SPEC, next)
   }, [])
 
+  const setColor = useCallback((slot: ColorSlot, hex: string) => {
+    setColorsState((c) => ({ ...c, [slot]: hex }))
+    applyColor(slot, hex)
+    persistColor(slot, hex)
+  }, [])
+
+  const resetColors = useCallback(() => {
+    setColorsState(DEFAULT_COLORS)
+    COLOR_SLOTS_ORDER.forEach((slot) => {
+      applyColor(slot, DEFAULT_COLORS[slot])
+      persistColor(slot, DEFAULT_COLORS[slot])
+    })
+  }, [])
+
   return (
     <BrandContext.Provider
       value={{
@@ -176,6 +245,9 @@ export function BrandProvider({ children }: { children: ReactNode }) {
         setFiligraneVariant,
         carouselMode,
         setCarouselMode,
+        colors,
+        setColor,
+        resetColors,
       }}
     >
       {children}
