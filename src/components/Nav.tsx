@@ -3,14 +3,15 @@ import { useEffect, useRef, useState } from 'react'
 import { m } from '#/paraglide/messages'
 import { getLocale, locales, setLocale } from '#/paraglide/runtime'
 import { BRAND_LOCKUP_MASK, maskStyle } from './brand/brand'
+import { useContactDrawer } from './contact/ContactDrawerProvider'
 
 // label en thunk : m.*() doit être appelé au rendu (locale courante), pas au
 // chargement du module (sinon la langue est figée à la locale de base).
+// « Contact » n'est plus un lien : c'est un bouton qui ouvre le drawer.
 const navLinks = [
   { label: () => m.nav_about(), href: '/creatrice' },
   { label: () => m.nav_collection(), href: '/collection' },
   { label: () => m.nav_journal(), href: '/carnet' },
-  { label: () => m.nav_contact(), href: '/contact' },
 ]
 
 const SCROLL_THRESHOLD = 60
@@ -122,6 +123,7 @@ function LangMenu({
 
 export function Nav() {
   const { pathname } = useLocation()
+  const { open: openContact } = useContactDrawer()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -210,6 +212,17 @@ export function Nav() {
               </Link>
             )
           })}
+          <button
+            type="button"
+            onClick={openContact}
+            className={`font-display text-[14px] transition-colors duration-300 ${
+              isHomeTop
+                ? 'text-poudre/85 hover:text-poudre'
+                : 'text-canard/70 hover:text-canard'
+            } ${homeTopShadow}`}
+          >
+            {m.nav_contact()}
+          </button>
         </div>
 
         {/* Zone droite : CTA Sur-mesure + langue (desktop) / burger (mobile) */}
@@ -264,6 +277,16 @@ export function Nav() {
                 {l.label()}
               </Link>
             ))}
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false)
+                openContact()
+              }}
+              className="border-b border-canard/10 py-3 text-left font-display text-[16px] text-canard/85 transition-colors hover:text-canard"
+            >
+              {m.nav_contact()}
+            </button>
             <Link
               to="/sur-mesure"
               onClick={() => setMenuOpen(false)}
