@@ -3,6 +3,7 @@ import { getProduct } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
 import { objectPositionStyle } from '../components/framing/framing'
+import { useContactDrawer } from '../components/contact/ContactDrawerProvider'
 
 export const Route = createFileRoute('/collection/$slug')({
   component: ProductPage,
@@ -16,6 +17,7 @@ export const Route = createFileRoute('/collection/$slug')({
 
 function ProductPage() {
   const product = Route.useLoaderData()
+  const { open: openContact } = useContactDrawer()
 
   return (
     <section className="bg-cream py-20 px-8 lg:px-16 min-h-screen">
@@ -51,12 +53,13 @@ function ProductPage() {
                 <p className="font-display italic text-[16px] text-ink/85 leading-relaxed">{product.story}</p>
               </div>
 
-              <Link
-                to="/contact"
+              <button
+                type="button"
+                onClick={openContact}
                 className="inline-block font-display italic text-[16px] text-ink border border-ink/30 px-8 py-3 mt-6 hover:bg-ink hover:text-cream transition-all duration-300"
               >
                 {m.product_request_cta()} →
-              </Link>
+              </button>
             </div>
           </div>
         </div>
