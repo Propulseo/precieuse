@@ -1,7 +1,7 @@
 # CLAUDE.md — Precieuse v2
 
 ## Projet
-Site editorial premium pour Precieuse (joaillerie artisanale d'Emeline, fabrication Portugal).
+Site editorial premium pour Precieuse (joaillerie artisanale d'Emeline, fabrication en France — atelier a Bordeaux, or 18 carats).
 Objectif : capter des leads sur-mesure, presenter la collection (5 modeles), batir la confiance via le storytelling.
 **Pas un e-commerce classique** : paiements hors-site apres echange humain (virement / PayPal).
 
