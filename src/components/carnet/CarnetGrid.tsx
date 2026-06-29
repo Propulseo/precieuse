@@ -3,27 +3,36 @@ import { ARTICLES, CATEGORIES, type Article } from '../../lib/content/carnet'
 import { m } from '#/paraglide/messages'
 import { objectPositionStyle } from '../framing/framing'
 
+/**
+ * Index des articles du Carnet : filtre par catégorie + grille éditoriale
+ * (rythme magazine — la une est portée par CarnetHero, ici les autres pièces).
+ * Accent framboise sur catégories et survols, état vide géré.
+ */
 export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
   const rest = articles.filter((a) => !a.featured)
   const [filter, setFilter] = useState<string>('Tous')
-  const filtered = filter === 'Tous' ? rest : rest.filter((a) => a.category === filter)
+  const filtered =
+    filter === 'Tous' ? rest : rest.filter((a) => a.category === filter)
 
   return (
-    <section className="relative bg-poudre pb-24 lg:pb-32 px-8 lg:px-16">
-      <div className="absolute top-0 left-0 right-0 border-t border-canard/15" />
-
-      <div className="mx-auto max-w-[1320px] pt-14 lg:pt-20">
-        {/* Filters */}
-        <div className="flex items-center gap-6 mb-12 flex-wrap">
+    <section className="bg-poudre px-8 pb-24 lg:px-16 lg:pb-32">
+      <div className="mx-auto max-w-[1320px]">
+        {/* Filtres */}
+        <div
+          className="mb-12 flex flex-wrap items-center gap-x-6 gap-y-3"
+          role="group"
+          aria-label={m.carnet_eyebrow()}
+        >
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               type="button"
               onClick={() => setFilter(cat)}
-              className={`font-display text-[13px] tracking-[0.15em] uppercase pb-1 border-b-2 transition-colors duration-300 ${
+              aria-pressed={filter === cat}
+              className={`border-b-2 pb-1 font-display text-[13px] uppercase tracking-[0.15em] transition-colors duration-300 ${
                 filter === cat
-                  ? 'border-canard text-canard'
-                  : 'border-transparent text-canard/45 hover:text-canard/70'
+                  ? 'border-framboise text-canard'
+                  : 'border-transparent text-canard/50 hover:text-canard/80'
               }`}
             >
               {cat}
@@ -31,48 +40,54 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
           ))}
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
-          {filtered.map((article) => (
-            <article key={article.slug} className="group flex flex-col">
-              <a
-                href={`/carnet/${article.slug}`}
-                className="relative aspect-[3/2] overflow-hidden block mb-5"
-              >
-                <img
-                  src={article.image}
-                  alt={article.imageAlt}
-                  style={objectPositionStyle(article.imagePosition)}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                />
-              </a>
+        {/* Grille / état vide */}
+        {filtered.length === 0 ? (
+          <p className="py-16 text-center font-body italic font-light text-[18px] text-canard/65">
+            {m.carnet_empty()}
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((article) => (
+              <article key={article.slug} className="group flex flex-col">
+                <a
+                  href={`/carnet/${article.slug}`}
+                  className="relative mb-5 block aspect-[3/2] overflow-hidden"
+                >
+                  <img
+                    src={article.image}
+                    alt={article.imageAlt}
+                    style={objectPositionStyle(article.imagePosition)}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  />
+                </a>
 
-              <div className="flex items-center gap-3 mb-3">
-                <span className="font-display text-[11px] tracking-[0.25em] uppercase text-rouille/80">
-                  {article.category}
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="font-display text-[11px] uppercase tracking-[0.25em] text-framboise">
+                    {article.category}
+                  </span>
+                  <span className="block h-px w-3 bg-canard/25" />
+                  <span className="font-display text-[11px] text-canard/45">
+                    {article.date}
+                  </span>
+                </div>
+
+                <a href={`/carnet/${article.slug}`}>
+                  <h3 className="font-headline text-[22px] leading-[1.15] text-canard transition-colors duration-300 group-hover:text-framboise lg:text-[24px] [text-wrap:balance]">
+                    {article.title}
+                  </h3>
+                </a>
+
+                <p className="mt-2.5 flex-1 font-body font-light text-[14px] leading-relaxed text-canard/70 [text-wrap:pretty]">
+                  {article.excerpt}
+                </p>
+
+                <span className="mt-4 font-display text-[11px] text-canard/45">
+                  {m.carnet_read_time({ time: article.readTime })}
                 </span>
-                <span className="block w-3 h-px bg-canard/25" />
-                <span className="font-display text-[11px] text-canard/40">
-                  {article.date}
-                </span>
-              </div>
-
-              <a href={`/carnet/${article.slug}`}>
-                <h3 className="font-headline text-[22px] lg:text-[24px] text-canard leading-[1.15] group-hover:text-rouille transition-colors duration-300">
-                  {article.title}
-                </h3>
-              </a>
-
-              <p className="font-body font-light text-[14px] text-canard/55 leading-relaxed mt-2.5 flex-1">
-                {article.excerpt}
-              </p>
-
-              <span className="font-display text-[11px] text-canard/30 mt-4">
-                {m.carnet_read_time({ time: article.readTime })}
-              </span>
-            </article>
-          ))}
-        </div>
+              </article>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

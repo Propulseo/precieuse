@@ -156,7 +156,11 @@ export async function getMatieres(locale: Locale = DEFAULT_LOCALE): Promise<Mati
 // Carnet — articles
 // ---------------------------------------------------------------------------
 
-export async function getArticles(locale: Locale = DEFAULT_LOCALE): Promise<Article[]> {
+export async function getArticles(_locale: Locale = DEFAULT_LOCALE): Promise<Article[]> {
+  // Carnet FR-only pour l'instant : le corps des articles n'est pas encore
+  // traduit, on sert donc tout le contenu en français (DEFAULT_LOCALE) pour
+  // éviter un mélange de langues (titre EN/PT + corps FR). `_locale` est conservé
+  // pour la signature ; à réactiver quand le corps sera traduit dans Sanity.
   if (!isSanityConfigured) return ARTICLES
   const data = await cmsFetch<Array<Record<string, unknown>>>(
     `*[_type == "article"] | order(order asc){
@@ -165,18 +169,28 @@ export async function getArticles(locale: Locale = DEFAULT_LOCALE): Promise<Arti
     }`,
   )
   if (!data?.length) return ARTICLES
-  return data.map((d) => ({
-    slug: String(d.slug ?? ''),
-    title: pickLocale(d.title as never, locale),
-    excerpt: pickLocale(d.excerpt as never, locale),
-    category: String(d.category ?? ''),
-    date: String(d.date ?? ''),
-    readTime: String(d.readTime ?? ''),
-    image: String(d.image ?? ''),
-    imageAlt: pickLocale(d.imageAlt as never, locale),
-    imagePosition: hotspotToPosition(d.imageHotspot),
-    featured: Boolean(d.featured),
-  }))
+  return data.map((d) => {
+    const slug = String(d.slug ?? '')
+    // Le corps riche (lede/body/citation de clôture) n'est pas encore modélisé
+    // dans Sanity : on le récupère du contenu statique par slug. La méta et
+    // l'image restent éditables depuis Sanity.
+    const fallback = ARTICLES.find((a) => a.slug === slug)
+    return {
+      slug,
+      title: pickLocale(d.title as never, DEFAULT_LOCALE),
+      excerpt: pickLocale(d.excerpt as never, DEFAULT_LOCALE),
+      category: String(d.category ?? ''),
+      date: String(d.date ?? ''),
+      readTime: String(d.readTime ?? ''),
+      image: String(d.image ?? ''),
+      imageAlt: pickLocale(d.imageAlt as never, DEFAULT_LOCALE),
+      imagePosition: hotspotToPosition(d.imageHotspot),
+      featured: Boolean(d.featured),
+      lede: fallback?.lede,
+      body: fallback?.body,
+      closingQuote: fallback?.closingQuote,
+    }
+  })
 }
 
 export function getCarnetCategories(): typeof CATEGORIES {
