@@ -19,6 +19,8 @@ import { WhatsAppButton } from '../components/WhatsAppButton'
 import { BrandProvider } from '../components/brand/BrandProvider'
 import { BrandToggle } from '../components/brand/BrandToggle'
 import { BRAND_NO_FLASH_SCRIPT } from '../components/brand/no-flash-script'
+import { ContactDrawerProvider } from '../components/contact/ContactDrawerProvider'
+import { ContactDrawer } from '../components/contact/ContactDrawer'
 
 import appCss from '../styles.css?url'
 
@@ -94,24 +96,27 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <SplashScreen />
         <ConvexProvider>
           <BrandProvider>
-            <Nav />
-            <main className="pt-16 min-h-screen">{children}</main>
-            <Footer footer={footer} />
-            <WhatsAppButton href={site.whatsapp} />
-            {/* Sélecteur de design réservé au dev : jamais exposé en prod. */}
-            {import.meta.env.DEV && <BrandToggle />}
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              TanStackQueryDevtools,
-            ]}
-          />
+            <ContactDrawerProvider>
+              <Nav />
+              <main className="pt-16 min-h-screen">{children}</main>
+              <Footer footer={footer} />
+              <WhatsAppButton href={site.whatsapp} />
+              <ContactDrawer site={site} />
+              {/* Sélecteur de design réservé au dev : jamais exposé en prod. */}
+              {import.meta.env.DEV && <BrandToggle />}
+              <TanStackDevtools
+                config={{
+                  position: 'bottom-right',
+                }}
+                plugins={[
+                  {
+                    name: 'Tanstack Router',
+                    render: <TanStackRouterDevtoolsPanel />,
+                  },
+                  TanStackQueryDevtools,
+                ]}
+              />
+            </ContactDrawerProvider>
           </BrandProvider>
         </ConvexProvider>
         <Scripts />
