@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { m } from '#/paraglide/messages'
+import { Eyebrow } from './Eyebrow'
 import { ETABLI_STEPS, type EtabliStep } from '../lib/content/etabli'
 import { objectPositionStyle } from './framing/framing'
 
@@ -39,9 +40,7 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
       <header className="relative px-8 lg:px-16 pt-12 pb-8">
         <div className="mx-auto max-w-[1440px] flex items-end justify-between flex-wrap gap-6">
           <div>
-            <span className="font-display text-[12px] tracking-[0.35em] text-framboise block mb-3">
-              {m.etabli_overline()}
-            </span>
+            <Eyebrow className="mb-3">{m.etabli_overline()}</Eyebrow>
             <h2 className="font-headline text-[clamp(32px,6vw,56px)] text-canard leading-[0.95]">{m.etabli_title()}</h2>
           </div>
         </div>

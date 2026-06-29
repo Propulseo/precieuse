@@ -6,9 +6,6 @@ export function SurMesure({ process = BESPOKE_PROCESS }: { process?: ProcessStep
     <section className="relative bg-poudre py-10 lg:py-14 px-6 lg:px-16">
       <div className="mx-auto max-w-[1440px]">
         <div className="max-w-[720px] mx-auto text-center mb-8">
-          <span className="font-display text-[12px] tracking-[0.35em] text-framboise block mb-4">
-            {m.surmesure_overline()}
-          </span>
           <h2 className="font-headline text-[clamp(32px,4.5vw,56px)] text-canard leading-[1] mb-2">
             {m.surmesure_title()}
           </h2>
@@ -40,7 +37,7 @@ export function SurMesure({ process = BESPOKE_PROCESS }: { process?: ProcessStep
         <div className="mt-7 flex flex-col items-center gap-4">
           <a
             href="/sur-mesure"
-            className="inline-block bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-10 py-3.5 hover:bg-canard transition-colors duration-300"
+            className="inline-block bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-10 py-3.5 hover:bg-canard-90 transition-colors duration-300"
           >
             {m.surmesure_cta()}
           </a>

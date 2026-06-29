@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Précieuse — Aperçus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard);min-height:100vh;padding:8vh 6vw}
+  .eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--rubis)}
+  h1{font-family:var(--display);font-weight:500;font-size:clamp(34px,5vw,60px);letter-spacing:-.01em;margin:12px 0 6px}
+  .lede{font-style:italic;font-size:18px;color:rgba(18,94,94,.7);max-width:60ch;margin-bottom:14px}
+  .note{font-size:13px;color:rgba(18,94,94,.55);max-width:60ch;margin-bottom:48px}
+  h2.sec{font-family:var(--display);font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:rgba(18,94,94,.6);margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid rgba(18,94,94,.15)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-bottom:54px}
+  a.card{display:flex;flex-direction:column;justify-content:space-between;min-height:170px;text-decoration:none;color:inherit;
+    background:rgba(255,255,255,.4);border:1px solid rgba(18,94,94,.14);border-radius:22px;padding:26px 26px 22px;transition:all .35s cubic-bezier(.2,.7,.2,1)}
+  a.card:hover{transform:translateY(-4px);background:var(--canard);color:var(--poudre);border-color:var(--canard);box-shadow:0 26px 50px -28px rgba(13,71,71,.6)}
+  a.card .n{font-family:var(--display);font-size:12px;letter-spacing:.3em;text-transform:uppercase;opacity:.6}
+  a.card h3{font-family:var(--display);font-weight:500;font-size:26px;margin:14px 0 6px}
+  a.card p{font-size:14px;line-height:1.5;opacity:.75}
+  a.card .go{margin-top:16px;font-family:var(--display);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+  a.card.soon{opacity:.5;pointer-events:none}
+  .foot{font-size:12px;color:rgba(18,94,94,.5)}
+</style>
+</head>
+<body>
+  <p class="eyebrow">Précieuse — Atelier de design</p>
+  <h1>Aperçus « waouh »</h1>
+  <p class="lede">Trois directions pour la section Témoignages, à comparer en plein écran. Bouge la souris dans chacune : elles réagissent.</p>
+  <p class="note">Maquettes autonomes (HTML) — la version finale sera rebâtie en React une fois la direction choisie. Images réelles de l'atelier servies par le serveur de dev.</p>
+
+  <h2 class="sec">Témoignages</h2>
+  <div class="grid">
+    <a class="card" href="/previews/temoignages-1-cinema.html">
+      <span class="n">Aperçu 1</span>
+      <div><h3>Cinéma</h3><p>Plein écran, image d'atelier en mouvement, citation qui s'écrit mot à mot.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+    <a class="card" href="/previews/temoignages-2-galerie.html">
+      <span class="n">Aperçu 2</span>
+      <div><h3>Galerie portée</h3><p>Photo d'un bijou porté en parallaxe, carte citation en verre poudré.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+    <a class="card" href="/previews/temoignages-3-relief.html">
+      <span class="n">Aperçu 3</span>
+      <div><h3>Relief</h3><p>Cartes canard en 3D qui s'inclinent à la souris, reflet vivant.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+  </div>
+
+  <h2 class="sec">Contact (à venir)</h2>
+  <div class="grid">
+    <a class="card soon"><span class="n">Bientôt</span><div><h3>Drawer</h3><p>5 concepts de panneau Contact qui glisse — en préparation.</p></div><span class="go">À venir</span></a>
+  </div>
+
+  <p class="foot">Précieuse · joaillerie d'atelier · Bordeaux</p>
+</body>
+</html>

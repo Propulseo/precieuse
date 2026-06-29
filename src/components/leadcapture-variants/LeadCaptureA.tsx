@@ -105,7 +105,7 @@ export function LeadCaptureA() {
         <button
           type="submit"
           disabled={submitting}
-          className="bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-8 py-3 hover:bg-canard transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-8 py-3 hover:bg-canard-90 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {m.leadcapture_submit()}
         </button>

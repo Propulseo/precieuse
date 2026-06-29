@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Témoignages — Cinéma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --canard:#125e5e; --canard-90:#0d4747; --poudre:#eadcd3; --poudre-dark:#d9c7b8; --rubis:#b80049;
+    --display:'Spectral',Georgia,serif; --body:'Ysabeau Office',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--canard-90);color:var(--poudre);overflow:hidden}
+
+  .stage{position:relative;height:100vh;width:100%;overflow:hidden;display:grid;place-items:center}
+  /* Image de fond — léger Ken Burns, derrière un voile canard profond */
+  .bg{position:absolute;inset:0;background:var(--canard-90) center/cover no-repeat;
+      background-image:url('/images/stitch/hero-atelier-dusk.jpg');
+      transform:scale(1.05);animation:ken 24s ease-in-out infinite alternate;will-change:transform}
+  @keyframes ken{from{transform:scale(1.05) translate(0,0)}to{transform:scale(1.16) translate(-1.5%,-1.5%)}}
+  .scrim{position:absolute;inset:0;
+    background:
+      radial-gradient(120% 90% at 30% 40%, rgba(13,71,71,.45), rgba(13,71,71,.86) 70%),
+      linear-gradient(180deg, rgba(13,71,71,.7), rgba(18,94,94,.55));
+    mix-blend-mode:multiply}
+  .grain{position:absolute;inset:0;opacity:.06;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .content{position:relative;z-index:2;max-width:1100px;padding:0 8vw;text-align:center}
+  .eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--rubis);
+    filter:saturate(1.4) brightness(1.6);opacity:0;transform:translateY(8px);animation:fadeUp .9s .2s ease forwards}
+  .rubis-line{height:2px;width:0;background:var(--rubis);margin:22px auto 30px;filter:brightness(1.5);animation:grow 1s .35s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes grow{to{width:64px}}
+
+  blockquote{font-family:var(--display);font-weight:500;font-size:clamp(28px,4.4vw,62px);line-height:1.12;
+    letter-spacing:-.01em;max-width:20ch;margin:0 auto;text-wrap:balance}
+  blockquote .w{display:inline-block;opacity:0;filter:blur(8px);transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1), filter .7s ease}
+  blockquote.in .w{opacity:1;filter:blur(0);transform:none}
+  .author{margin-top:34px;font-family:var(--display);font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:var(--poudre);opacity:0;transition:opacity .8s ease .1s}
+  .author b{font-weight:500}
+  .author .piece{display:block;margin-top:8px;font-family:var(--body);font-style:italic;font-size:15px;letter-spacing:.02em;text-transform:none;color:rgba(234,220,211,.6)}
+  .author.in{opacity:1}
+
+  /* Progression / navigation bas */
+  .rail{position:absolute;left:0;right:0;bottom:42px;z-index:3;display:flex;gap:14px;justify-content:center;align-items:center}
+  .tick{height:2px;width:54px;background:rgba(234,220,211,.22);border:none;padding:0;cursor:pointer;overflow:hidden;position:relative}
+  .tick i{position:absolute;inset:0;left:-100%;background:var(--rubis);filter:brightness(1.5)}
+  .tick.active i{animation:fill var(--dur) linear forwards}
+  .tick.done i{left:0}
+  @keyframes fill{from{left:-100%}to{left:0}}
+
+  .hint{position:absolute;top:34px;left:0;right:0;text-align:center;z-index:3;font-family:var(--display);font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:rgba(234,220,211,.5)}
+  @keyframes fadeUp{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.bg{animation:none}.w{transition:none!important;opacity:1!important;filter:none!important;transform:none!important}}
+</style>
+</head>
+<body>
+  <section class="stage" id="stage">
+    <div class="bg"></div>
+    <div class="scrim"></div>
+    <div class="grain"></div>
+    <p class="hint">Précieuse — Aperçu 1 · Cinéma</p>
+    <div class="content">
+      <p class="eyebrow">Elles en parlent</p>
+      <span class="rubis-line"></span>
+      <blockquote id="quote"></blockquote>
+      <p class="author" id="author"></p>
+    </div>
+    <div class="rail" id="rail"></div>
+  </section>
+
+<script>
+  const DUR = 7000;
+  const data = [
+    {q:"Emeline est tout simplement une artiste. Le résultat est au-delà de ce que j'avais imaginé.", a:"Martine B.", v:"Bordeaux", p:"Création sur-mesure"},
+    {q:"Très professionnelle, agréable et sympathique. Je recommande sans hésiter.", a:"Sandrine L.", v:"Lyon", p:"Bague serpentine"},
+    {q:"On sent dans chaque pièce le temps passé, la précision, l'amour du métier.", a:"Camille R.", v:"Paris", p:"Modèle Joséphine"},
+  ];
+  const quote=document.getElementById('quote'), author=document.getElementById('author'), rail=document.getElementById('rail');
+  let i=0, timer=null, paused=false;
+  document.documentElement.style.setProperty('--dur', DUR+'ms');
+
+  data.forEach((_,k)=>{ const b=document.createElement('button'); b.className='tick'; b.innerHTML='<i></i>'; b.onclick=()=>go(k); rail.appendChild(b); });
+  const ticks=[...rail.children];
+
+  function render(){
+    const d=data[i];
+    quote.classList.remove('in'); author.classList.remove('in');
+    quote.innerHTML = d.q.split(' ').map(w=>`<span class="w">${w}</span>`).join(' ');
+    author.innerHTML = `<b>${d.a}</b> — ${d.v}<span class="piece">${d.p}</span>`;
+    const words=[...quote.querySelectorAll('.w')];
+    requestAnimationFrame(()=>{ quote.classList.add('in'); words.forEach((w,n)=>w.style.transitionDelay=(0.05*n+0.1)+'s'); setTimeout(()=>author.classList.add('in'), 250+words.length*50); });
+    ticks.forEach((t,k)=>{ t.classList.remove('active','done'); if(k<i)t.classList.add('done'); });
+    void ticks[i].offsetWidth; ticks[i].classList.add('active');
+  }
+  function go(n){ i=(n+data.length)%data.length; render(); schedule(); }
+  function schedule(){ clearTimeout(timer); if(paused)return; timer=setTimeout(()=>go(i+1), DUR); }
+  const stage=document.getElementById('stage');
+  stage.addEventListener('mouseenter',()=>{paused=true;clearTimeout(timer);});
+  stage.addEventListener('mouseleave',()=>{paused=false;schedule();});
+  render(); schedule();
+</script>
+</body>
+</html>

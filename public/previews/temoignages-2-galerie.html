@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Témoignages — Galerie portée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard);overflow:hidden}
+
+  .stage{position:relative;height:100vh;overflow:hidden;perspective:1400px}
+  .frame{position:absolute;inset:-6% -4%;}
+  .shot{position:absolute;inset:0;background:var(--canard-90) center/cover no-repeat;opacity:0;
+    transform:scale(1.04);transition:opacity 1.1s ease, transform 8s ease;will-change:transform,opacity}
+  .shot.on{opacity:1;transform:scale(1.1)}
+  .tint{position:absolute;inset:0;background:linear-gradient(105deg, rgba(13,71,71,.55) 0%, rgba(13,71,71,.12) 42%, rgba(13,71,71,0) 60%)}
+  .grain{position:absolute;inset:0;opacity:.05;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .hint{position:absolute;top:32px;left:0;right:0;text-align:center;z-index:5;font-family:var(--display);font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:rgba(234,220,211,.7)}
+
+  /* Carte citation flottante, verre poudré */
+  .card{position:absolute;left:6vw;bottom:9vh;z-index:4;width:min(540px,82vw);
+    background:rgba(234,220,211,.86);backdrop-filter:blur(14px) saturate(1.1);
+    border:1px solid rgba(255,255,255,.5);border-radius:26px;padding:42px 44px 34px;
+    box-shadow:0 40px 80px -40px rgba(13,71,71,.6)}
+  .eyebrow{font-family:var(--display);font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--rubis);margin-bottom:18px}
+  .q{font-family:var(--display);font-weight:500;font-size:clamp(20px,2vw,28px);line-height:1.4;color:var(--canard)}
+  .q::first-letter{} /* placeholder */
+  .drop{float:left;font-family:var(--display);font-size:74px;line-height:.7;color:var(--rubis);margin:6px 14px -6px 0}
+  .meta{margin-top:22px;display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+  .who{font-family:var(--display);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--canard)}
+  .who .piece{display:block;margin-top:5px;font-family:var(--body);font-style:italic;font-size:14px;letter-spacing:0;text-transform:none;color:rgba(18,94,94,.6)}
+  .fade .q,.fade .who{transition:opacity .5s ease}
+  .out .q,.out .who{opacity:0}
+
+  .nav{display:flex;gap:10px;align-items:center}
+  .nav button{width:42px;height:42px;border-radius:999px;border:1px solid rgba(18,94,94,.3);background:transparent;color:var(--canard);cursor:pointer;display:grid;place-items:center;transition:all .3s}
+  .nav button:hover{background:var(--canard);color:var(--poudre)}
+  .dots{position:absolute;right:6vw;bottom:11vh;z-index:4;display:flex;flex-direction:column;gap:10px}
+  .dots b{width:8px;height:8px;border-radius:99px;background:rgba(234,220,211,.55);cursor:pointer;transition:all .3s;display:block}
+  .dots b.on{background:var(--rubis);height:26px}
+  @media (prefers-reduced-motion:reduce){.shot{transition:opacity .3s}.shot.on{transform:scale(1.06)}}
+  @media (max-width:640px){.dots{display:none}.card{left:4vw;right:4vw;width:auto}}
+</style>
+</head>
+<body>
+  <section class="stage" id="stage">
+    <div class="frame" id="frame"></div>
+    <div class="tint"></div>
+    <div class="grain"></div>
+    <p class="hint">Précieuse — Aperçu 2 · Galerie portée</p>
+
+    <div class="card fade" id="card">
+      <p class="eyebrow">Elles en parlent</p>
+      <p class="q" id="q"></p>
+      <div class="meta">
+        <span class="who" id="who"></span>
+        <span class="nav">
+          <button id="prev" aria-label="Précédent">‹</button>
+          <button id="next" aria-label="Suivant">›</button>
+        </span>
+      </div>
+    </div>
+    <div class="dots" id="dots"></div>
+  </section>
+
+<script>
+  const data=[
+    {q:"Emeline est une artiste. Les bijoux qu'elle a créés pour moi sont au-delà de ce que j'avais imaginé. Je suis émue.", a:"Martine B.", v:"Bordeaux", p:"Création sur-mesure", img:"/images/bijou-lifestyle-main.jpg"},
+    {q:"Très contente de votre création pour ma bague. Professionnelle, agréable. Je recommande sans hésiter.", a:"Sandrine L.", v:"Lyon", p:"Bague serpentine", img:"/images/real/bague-main-josephine.webp"},
+    {q:"On sent dans chaque pièce le temps passé, la précision, l'amour du métier. Je la porte chaque jour.", a:"Camille R.", v:"Paris", p:"Modèle Joséphine", img:"/images/real/bague-main-chaise-aurore.webp"},
+  ];
+  const frame=document.getElementById('frame'), card=document.getElementById('card'),
+        q=document.getElementById('q'), who=document.getElementById('who'), dots=document.getElementById('dots');
+  let i=0,timer,paused=false;
+
+  const shots=data.map(d=>{const s=document.createElement('div');s.className='shot';s.style.backgroundImage=`url('${d.img}')`;frame.appendChild(s);return s;});
+  data.forEach((_,k)=>{const b=document.createElement('b');b.onclick=()=>go(k);dots.appendChild(b);});
+  const dotEls=[...dots.children];
+
+  function render(){
+    const d=data[i];
+    card.classList.add('out');
+    setTimeout(()=>{
+      q.innerHTML=`<span class="drop">«</span>${d.q}`;
+      who.innerHTML=`${d.a} · ${d.v}<span class="piece">${d.p}</span>`;
+      card.classList.remove('out');
+    },300);
+    shots.forEach((s,k)=>s.classList.toggle('on',k===i));
+    dotEls.forEach((b,k)=>b.classList.toggle('on',k===i));
+  }
+  function go(n){i=(n+data.length)%data.length;render();schedule();}
+  function schedule(){clearTimeout(timer);if(!paused)timer=setTimeout(()=>go(i+1),7000);}
+  document.getElementById('next').onclick=()=>go(i+1);
+  document.getElementById('prev').onclick=()=>go(i-1);
+
+  // Parallaxe douce à la souris
+  const stage=document.getElementById('stage');
+  stage.addEventListener('mousemove',e=>{
+    const x=(e.clientX/innerWidth-.5), y=(e.clientY/innerHeight-.5);
+    frame.style.transform=`translate(${x*-22}px, ${y*-22}px)`;
+  });
+  card.addEventListener('mouseenter',()=>{paused=true;clearTimeout(timer);});
+  card.addEventListener('mouseleave',()=>{paused=false;schedule();});
+  render();schedule();
+</script>
+</body>
+</html>

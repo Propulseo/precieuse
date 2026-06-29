@@ -1,4 +1,5 @@
 import { m } from '#/paraglide/messages'
+import { Eyebrow } from './Eyebrow'
 import { BRAND_PICTO_MASK, maskStyle } from './brand/brand'
 import { useBrand } from './brand/BrandProvider'
 
@@ -146,9 +147,7 @@ export function AvantPropos() {
         </div>
 
         <div className="md:order-2 order-1">
-          <span className="font-display text-[10px] tracking-[0.45em] uppercase text-framboise block mb-5">
-            {m.avantpropos_foreword()}
-          </span>
+          <Eyebrow className="mb-5">{m.avantpropos_foreword()}</Eyebrow>
 
           <div className="flex flex-col items-start mb-5">
             <span className="font-display text-[34px] tracking-[0.18em] uppercase text-canard leading-none">
