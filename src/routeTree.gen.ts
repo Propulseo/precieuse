@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SurMesureRouteImport } from './routes/sur-mesure'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as CreatriceRouteImport } from './routes/creatrice'
-import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as CollectionRouteImport } from './routes/collection'
 import { Route as CgvRouteImport } from './routes/cgv'
@@ -45,11 +44,6 @@ const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
 const CreatriceRoute = CreatriceRouteImport.update({
   id: '/creatrice',
   path: '/creatrice',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
@@ -149,7 +143,6 @@ export interface FileRoutesByFullPath {
   '/cgv': typeof CgvRoute
   '/collection': typeof CollectionRouteWithChildren
   '/confidentialite': typeof ConfidentialiteRoute
-  '/contact': typeof ContactRoute
   '/creatrice': typeof CreatriceRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/sur-mesure': typeof SurMesureRoute
@@ -171,7 +164,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cgv': typeof CgvRoute
   '/confidentialite': typeof ConfidentialiteRoute
-  '/contact': typeof ContactRoute
   '/creatrice': typeof CreatriceRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/sur-mesure': typeof SurMesureRoute
@@ -196,7 +188,6 @@ export interface FileRoutesById {
   '/cgv': typeof CgvRoute
   '/collection': typeof CollectionRouteWithChildren
   '/confidentialite': typeof ConfidentialiteRoute
-  '/contact': typeof ContactRoute
   '/creatrice': typeof CreatriceRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/sur-mesure': typeof SurMesureRoute
@@ -222,7 +213,6 @@ export interface FileRouteTypes {
     | '/cgv'
     | '/collection'
     | '/confidentialite'
-    | '/contact'
     | '/creatrice'
     | '/mentions-legales'
     | '/sur-mesure'
@@ -244,7 +234,6 @@ export interface FileRouteTypes {
     | '/'
     | '/cgv'
     | '/confidentialite'
-    | '/contact'
     | '/creatrice'
     | '/mentions-legales'
     | '/sur-mesure'
@@ -268,7 +257,6 @@ export interface FileRouteTypes {
     | '/cgv'
     | '/collection'
     | '/confidentialite'
-    | '/contact'
     | '/creatrice'
     | '/mentions-legales'
     | '/sur-mesure'
@@ -293,7 +281,6 @@ export interface RootRouteChildren {
   CgvRoute: typeof CgvRoute
   CollectionRoute: typeof CollectionRouteWithChildren
   ConfidentialiteRoute: typeof ConfidentialiteRoute
-  ContactRoute: typeof ContactRoute
   CreatriceRoute: typeof CreatriceRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   SurMesureRoute: typeof SurMesureRoute
@@ -329,13 +316,6 @@ declare module '@tanstack/react-router' {
       path: '/creatrice'
       fullPath: '/creatrice'
       preLoaderRoute: typeof CreatriceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/confidentialite': {
@@ -500,7 +480,6 @@ const rootRouteChildren: RootRouteChildren = {
   CgvRoute: CgvRoute,
   CollectionRoute: CollectionRouteWithChildren,
   ConfidentialiteRoute: ConfidentialiteRoute,
-  ContactRoute: ContactRoute,
   CreatriceRoute: CreatriceRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   SurMesureRoute: SurMesureRoute,

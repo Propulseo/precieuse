@@ -4,7 +4,6 @@ export const FOOTER_DATA = {
     { label: 'Le Carnet', href: '/carnet' },
     { label: "L'Atelier", href: '/creatrice' },
     { label: 'Sur-Mesure', href: '/sur-mesure' },
-    { label: 'Contact', href: '/contact' },
   ],
   legal: [
     { label: 'Mentions légales', href: '/mentions-legales' },
@@ -33,7 +32,7 @@ export const FOOTER_DATA = {
   copyright: '© Précieuse · Joaillerie artisanale, Bordeaux, France',
   credit: {
     label: "Fait avec passion par Propul'SEO",
-    href: 'https://propulseo.fr',
+    href: 'https://propulseo-site.com',
   },
   logoSrc: '/brand/lockup-teal.png',
 }
