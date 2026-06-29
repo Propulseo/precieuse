@@ -25,7 +25,6 @@ import { Route as PreviewLeadcaptureRouteImport } from './routes/preview.leadcap
 import { Route as PreviewHeroRouteImport } from './routes/preview.hero'
 import { Route as PreviewFooterRouteImport } from './routes/preview.footer'
 import { Route as PreviewEtabliRouteImport } from './routes/preview.etabli'
-import { Route as PreviewContactRouteImport } from './routes/preview.contact'
 import { Route as PreviewCollectionRouteImport } from './routes/preview.collection'
 import { Route as CollectionSlugRouteImport } from './routes/collection.$slug'
 import { Route as CarnetSlugRouteImport } from './routes/carnet.$slug'
@@ -111,11 +110,6 @@ const PreviewEtabliRoute = PreviewEtabliRouteImport.update({
   path: '/preview/etabli',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PreviewContactRoute = PreviewContactRouteImport.update({
-  id: '/preview/contact',
-  path: '/preview/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PreviewCollectionRoute = PreviewCollectionRouteImport.update({
   id: '/preview/collection',
   path: '/preview/collection',
@@ -149,7 +143,6 @@ export interface FileRoutesByFullPath {
   '/carnet/$slug': typeof CarnetSlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
   '/preview/collection': typeof PreviewCollectionRoute
-  '/preview/contact': typeof PreviewContactRoute
   '/preview/etabli': typeof PreviewEtabliRoute
   '/preview/footer': typeof PreviewFooterRoute
   '/preview/hero': typeof PreviewHeroRoute
@@ -170,7 +163,6 @@ export interface FileRoutesByTo {
   '/carnet/$slug': typeof CarnetSlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
   '/preview/collection': typeof PreviewCollectionRoute
-  '/preview/contact': typeof PreviewContactRoute
   '/preview/etabli': typeof PreviewEtabliRoute
   '/preview/footer': typeof PreviewFooterRoute
   '/preview/hero': typeof PreviewHeroRoute
@@ -194,7 +186,6 @@ export interface FileRoutesById {
   '/carnet/$slug': typeof CarnetSlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
   '/preview/collection': typeof PreviewCollectionRoute
-  '/preview/contact': typeof PreviewContactRoute
   '/preview/etabli': typeof PreviewEtabliRoute
   '/preview/footer': typeof PreviewFooterRoute
   '/preview/hero': typeof PreviewHeroRoute
@@ -219,7 +210,6 @@ export interface FileRouteTypes {
     | '/carnet/$slug'
     | '/collection/$slug'
     | '/preview/collection'
-    | '/preview/contact'
     | '/preview/etabli'
     | '/preview/footer'
     | '/preview/hero'
@@ -240,7 +230,6 @@ export interface FileRouteTypes {
     | '/carnet/$slug'
     | '/collection/$slug'
     | '/preview/collection'
-    | '/preview/contact'
     | '/preview/etabli'
     | '/preview/footer'
     | '/preview/hero'
@@ -263,7 +252,6 @@ export interface FileRouteTypes {
     | '/carnet/$slug'
     | '/collection/$slug'
     | '/preview/collection'
-    | '/preview/contact'
     | '/preview/etabli'
     | '/preview/footer'
     | '/preview/hero'
@@ -285,7 +273,6 @@ export interface RootRouteChildren {
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   SurMesureRoute: typeof SurMesureRoute
   PreviewCollectionRoute: typeof PreviewCollectionRoute
-  PreviewContactRoute: typeof PreviewContactRoute
   PreviewEtabliRoute: typeof PreviewEtabliRoute
   PreviewFooterRoute: typeof PreviewFooterRoute
   PreviewHeroRoute: typeof PreviewHeroRoute
@@ -409,13 +396,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PreviewEtabliRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/preview/contact': {
-      id: '/preview/contact'
-      path: '/preview/contact'
-      fullPath: '/preview/contact'
-      preLoaderRoute: typeof PreviewContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/preview/collection': {
       id: '/preview/collection'
       path: '/preview/collection'
@@ -484,7 +464,6 @@ const rootRouteChildren: RootRouteChildren = {
   MentionsLegalesRoute: MentionsLegalesRoute,
   SurMesureRoute: SurMesureRoute,
   PreviewCollectionRoute: PreviewCollectionRoute,
-  PreviewContactRoute: PreviewContactRoute,
   PreviewEtabliRoute: PreviewEtabliRoute,
   PreviewFooterRoute: PreviewFooterRoute,
   PreviewHeroRoute: PreviewHeroRoute,
