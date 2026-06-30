@@ -26,7 +26,7 @@ export function HeroV1() {
 
           <div className="relative px-6 py-12 lg:py-20 flex flex-col items-center gap-10">
             <h1
-              aria-label="Précieuse, joaillerie artisanale, Lisboa"
+              aria-label="Précieuse, joaillerie artisanale, Bordeaux"
               className="font-display italic leading-[0.85] tracking-[-0.045em] text-center select-none"
               style={{
                 fontSize: 'clamp(80px, 14vw, 220px)',

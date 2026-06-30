@@ -19,7 +19,7 @@ export function HeroPanneauCouleur() {
               Joséphine
             </span>
             <span className="font-display italic text-[11px] tracking-[0.3em] uppercase drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
-              Lisboa
+              Bordeaux
             </span>
           </div>
         </div>
