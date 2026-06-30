@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fiche produit — B · Image héroïque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Ysabeau+Office:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard);font-weight:300}
+  img{display:block}
+  a{color:inherit}
+  .badge{position:fixed;top:16px;right:16px;z-index:30;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  .ctx-nav{display:flex;align-items:center;justify-content:space-between;padding:20px 8vw;border-bottom:1px solid rgba(18,94,94,.14)}
+  .ctx-nav .logo{font-family:var(--display);font-size:20px;letter-spacing:.04em}
+  .ctx-nav .links{display:flex;gap:26px;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.7}
+  .ctx-nav .cta{border:1px solid rgba(18,94,94,.4);padding:9px 18px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-family:var(--display)}
+  .ctx-foot{background:var(--canard);color:var(--poudre);text-align:center;padding:48px 8vw;font-family:var(--display);font-size:12px;letter-spacing:.24em;text-transform:uppercase;opacity:.95}
+
+  .back{display:block;max-width:1320px;margin:24px auto 0;padding:0 8vw;font-family:var(--display);font-style:italic;font-size:14px;color:var(--rubis)}
+
+  /* Hero plein cadre */
+  .hero{position:relative;margin:20px auto 0;max-width:1500px;height:min(70vh,640px);overflow:hidden}
+  .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.10),transparent 30%)}
+
+  /* Récit centré */
+  .story-wrap{max-width:780px;margin:0 auto;padding:58px 8vw 30px;text-align:center}
+  .story-wrap h1{font-family:var(--display);font-weight:500;font-size:clamp(46px,6.5vw,82px);line-height:1;letter-spacing:-.01em}
+  .orn{display:flex;align-items:center;justify-content:center;gap:22px;color:rgba(184,0,73,.5);margin:18px auto 14px;max-width:560px}
+  .orn .line{height:1px;flex:1;background:currentColor}
+  .orn .flower{width:30px;height:30px;flex:none;background:var(--rubis);-webkit-mask:url(/brand/picto-shape.png) center/contain no-repeat;mask:url(/brand/picto-shape.png) center/contain no-repeat}
+  .tag{font-family:var(--display);font-style:italic;font-size:clamp(18px,2.2vw,24px);color:var(--rubis)}
+  .price{font-family:var(--display);font-style:italic;font-size:20px;color:rgba(18,94,94,.7);margin-top:6px}
+  .desc{font-size:17px;line-height:1.75;color:rgba(18,94,94,.92);margin:26px auto 0;max-width:60ch}
+
+  .specs{max-width:880px;margin:8px auto 0;padding:34px 8vw 0;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+  .specs .label{font-family:var(--display);font-style:italic;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--rubis);display:block;margin-bottom:12px}
+  .specs .val{font-size:14px;line-height:1.65;color:rgba(18,94,94,.92)}
+  .specs .story-txt{font-family:var(--display);font-style:italic;font-size:16px;line-height:1.55}
+  .cta-wrap{text-align:center;padding:44px 8vw 56px}
+  .btn{display:inline-block;background:var(--canard);color:var(--poudre);font-family:var(--display);font-size:12px;letter-spacing:.3em;text-transform:uppercase;padding:16px 44px;text-decoration:none;transition:background .3s}
+  .btn:hover{background:var(--canard-90)}
+
+  @media(max-width:880px){
+    .specs{grid-template-columns:1fr;gap:26px;text-align:left}
+    .ctx-nav .links{display:none}
+  }
+</style>
+</head>
+<body>
+  <div class="badge">Fiche produit · B — Image héroïque</div>
+
+  <nav class="ctx-nav"><span class="logo">Précieuse</span><span class="links"><a>À propos</a><a>Collection</a><a>Le Carnet</a><a>Contact</a></span><span class="cta">Sur-mesure</span></nav>
+
+  <a class="back" href="#">← retour à la collection</a>
+
+  <div class="hero"><img src="/images/real/buste-thelma-louise.webp" alt="Bague Louise portée — atelier Précieuse, Bordeaux" /></div>
+
+  <div class="story-wrap">
+    <h1>Louise</h1>
+    <div class="orn"><span class="line"></span><span class="flower"></span><span class="line"></span></div>
+    <p class="tag">L'éternelle alliance</p>
+    <p class="price">Sur devis</p>
+    <p class="desc">Louise est une alliance, mais pas n'importe laquelle&nbsp;: un demi-tour de diamants pavés, un confort millimétré, une finition main qui se lit à la lumière. À porter seule ou en duo avec une autre pièce de la collection.</p>
+  </div>
+
+  <div class="specs">
+    <div><span class="label">Matières</span><p class="val">Or 18 carats · Pavage demi-tour diamants certifiés GIA/HRD · Largeur 2 ou 3 mm au choix</p></div>
+    <div><span class="label">L'histoire</span><p class="val story-txt">Le modèle le plus discret de la collection, et pourtant celui qui revient le plus souvent dans les commandes&nbsp;: la preuve que l'évidence ne se démode pas.</p></div>
+  </div>
+
+  <div class="cta-wrap"><a class="btn" href="#">Demander cette pièce →</a></div>
+
+  <footer class="ctx-foot">Précieuse · Joaillerie artisanale · Bordeaux</footer>
+</body>
+</html>
