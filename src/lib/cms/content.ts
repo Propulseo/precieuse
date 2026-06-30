@@ -535,7 +535,8 @@ export async function getHomePage(
       etabliOverline, etabliTitle, collectionTitle, collectionSubtitle,
       testimonialsTitleLine1, testimonialsTitleLine2,
       leadCaptureTitle, leadCaptureSubtitle,
-      leadCaptureConsentPrefix, leadCaptureConsentLink, leadCaptureConsentSuffix
+      leadCaptureConsentPrefix, leadCaptureConsentLink, leadCaptureConsentSuffix,
+      newsletterEyebrow, newsletterTitle, newsletterSubtitle
     }`,
   )
   if (!data) return fb
@@ -614,6 +615,11 @@ export async function getHomePage(
         consentPrefix: s(data.leadCaptureConsentPrefix, fb.sections.leadCapture.consentPrefix),
         consentLink: s(data.leadCaptureConsentLink, fb.sections.leadCapture.consentLink),
         consentSuffix: s(data.leadCaptureConsentSuffix, fb.sections.leadCapture.consentSuffix),
+      },
+      newsletter: {
+        eyebrow: s(data.newsletterEyebrow, fb.sections.newsletter.eyebrow),
+        title: s(data.newsletterTitle, fb.sections.newsletter.title),
+        subtitle: s(data.newsletterSubtitle, fb.sections.newsletter.subtitle),
       },
     },
   }

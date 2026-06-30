@@ -90,6 +90,9 @@ export const homePage = defineType({
     defineField({ name: 'leadCaptureConsentPrefix', title: 'Formulaire — consentement (avant le lien)', type: 'localizedString', group: 'sections' }),
     defineField({ name: 'leadCaptureConsentLink', title: 'Formulaire — libellé du lien confidentialité', type: 'localizedString', group: 'sections' }),
     defineField({ name: 'leadCaptureConsentSuffix', title: 'Formulaire — consentement (après le lien)', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'newsletterEyebrow', title: 'Newsletter — sur-titre', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'newsletterTitle', title: 'Newsletter — titre', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'newsletterSubtitle', title: 'Newsletter — sous-titre', type: 'localizedString', group: 'sections' }),
   ],
   preview: {
     prepare: () => ({ title: "Page d'accueil" }),

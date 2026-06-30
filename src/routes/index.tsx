@@ -89,6 +89,7 @@ function Home() {
         isOpen={newsletter.isOpen}
         onClose={newsletter.close}
         onSubmit={newsletter.submit}
+        content={home.sections.newsletter}
       />
     </>
   )

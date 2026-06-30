@@ -5,9 +5,10 @@ interface Props {
   isOpen: boolean
   onClose: () => void
   onSubmit: (email: string) => void
+  content: { eyebrow: string; title: string; subtitle: string }
 }
 
-export function NewsletterB({ isOpen, onClose, onSubmit }: Props) {
+export function NewsletterB({ isOpen, onClose, onSubmit, content }: Props) {
   const [email, setEmail] = useState('')
 
   return (
@@ -32,15 +33,15 @@ export function NewsletterB({ isOpen, onClose, onSubmit }: Props) {
       </button>
 
       <span className="font-display text-[10px] tracking-[0.35em] uppercase text-canard/55">
-        {m.newsletter_eyebrow()}
+        {content.eyebrow}
       </span>
 
       <h3 id="nl-b-title" className="mt-2 font-display text-[22px] leading-tight text-canard">
-        {m.newsletter_title()}
+        {content.title}
       </h3>
 
       <p className="mt-2 font-display text-[13px] text-canard/70 leading-relaxed">
-        {m.newsletter_short_subtitle()}
+        {content.subtitle}
       </p>
 
       <form

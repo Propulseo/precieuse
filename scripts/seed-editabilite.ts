@@ -254,6 +254,9 @@ async function seedHomePage() {
     leadCaptureConsentPrefix: L('leadcapture_consent_prefix'),
     leadCaptureConsentLink: L('leadcapture_consent_link'),
     leadCaptureConsentSuffix: L('leadcapture_consent_suffix'),
+    newsletterEyebrow: L('newsletter_eyebrow'),
+    newsletterTitle: L('newsletter_title'),
+    newsletterSubtitle: L('newsletter_short_subtitle'),
   })
   console.log("✓ Page d'accueil : héro + avant-propos + en-têtes de section seedés")
 }

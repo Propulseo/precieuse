@@ -92,7 +92,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <SplashScreen />
+        <SplashScreen tagline={site.baseline} />
         <ConvexProvider>
           <BrandProvider>
             <ContactDrawerProvider>

@@ -41,6 +41,7 @@ export type HomePageData = {
       consentLink: string
       consentSuffix: string
     }
+    newsletter: { eyebrow: string; title: string; subtitle: string }
   }
 }
 
@@ -111,6 +112,11 @@ export function homePageFallback(): HomePageData {
         consentPrefix: m.leadcapture_consent_prefix(),
         consentLink: m.leadcapture_consent_link(),
         consentSuffix: m.leadcapture_consent_suffix(),
+      },
+      newsletter: {
+        eyebrow: m.newsletter_eyebrow(),
+        title: m.newsletter_title(),
+        subtitle: m.newsletter_short_subtitle(),
       },
     },
   }
