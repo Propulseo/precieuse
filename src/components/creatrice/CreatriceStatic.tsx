@@ -49,10 +49,21 @@ export function CreatriceStatic() {
         </p>
       </EditorialHeader>
 
-      <section className="bg-poudre px-8 pb-6 pt-3 lg:px-16 lg:pt-4">
+      <section className="overflow-hidden bg-poudre px-8 pb-6 pt-3 lg:px-16 lg:pt-4">
         <div className="mx-auto max-w-[680px]">
           {/* Portrait encadré + légende — visible dès l'arrivée (au-dessus de la ligne de flottaison). */}
-          <figure className="mb-12 flex flex-col items-center">
+          <figure className="relative mb-12 flex flex-col items-center">
+            {/* Feuilles de la marque en filigrane pâle, de part et d'autre du portrait (décor des marges). */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-y-1/2 lg:block"
+              style={{ width: 360, height: 360, marginLeft: -560, opacity: 0.07, ...maskStyle(BRAND_PICTO_MASK, 'var(--canard)') }}
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-y-1/2 -scale-x-100 lg:block"
+              style={{ width: 360, height: 360, marginLeft: 200, opacity: 0.07, ...maskStyle(BRAND_PICTO_MASK, 'var(--canard)') }}
+            />
             <div className="relative aspect-[3/4] w-[240px] max-w-[64vw] overflow-hidden border border-canard/30">
               <img
                 src="/images/emeline-portrait.jpg"
