@@ -14,6 +14,9 @@ const navLinks = [
   { label: () => m.nav_journal(), href: '/carnet' },
 ]
 
+// Pages à hero plein écran : le Nav y démarre transparent (puis opaque au scroll).
+const HERO_ROUTES = new Set(['/', '/sur-mesure'])
+
 const SCROLL_THRESHOLD = 60
 
 /**
@@ -61,10 +64,10 @@ function LangList({
  * qui ouvre un petit panneau déroulant. Remplace l'ancienne rangée FR·EN·PT.
  */
 function LangMenu({
-  isHomeTop,
+  isHeroTop,
   shadow,
 }: {
-  isHomeTop: boolean
+  isHeroTop: boolean
   shadow: string
 }) {
   const [open, setOpen] = useState(false)
@@ -80,7 +83,7 @@ function LangMenu({
     return () => document.removeEventListener('mousedown', onDown)
   }, [open])
 
-  const triggerColor = isHomeTop
+  const triggerColor = isHeroTop
     ? 'text-poudre/90 hover:text-poudre'
     : 'text-canard/80 hover:text-canard'
 
@@ -147,16 +150,16 @@ export function Nav() {
   }, [menuOpen])
 
   /**
-   * Mode "transparent" uniquement sur la home (qui a un hero plein écran),
+   * Mode "transparent" sur les pages à hero plein écran (home, sur-mesure),
    * et seulement quand on est tout en haut. Sur les autres pages, et dès que le
    * menu mobile est ouvert : toujours opaque (lisibilité).
    */
-  const isHomeTop = pathname === '/' && !scrolled
-  const barOpaque = !isHomeTop || menuOpen
-  const burgerColor = isHomeTop && !menuOpen ? 'text-poudre' : 'text-canard'
+  const isHeroTop = HERO_ROUTES.has(pathname) && !scrolled
+  const barOpaque = !isHeroTop || menuOpen
+  const burgerColor = isHeroTop && !menuOpen ? 'text-poudre' : 'text-canard'
   // Ombre portée pour garder texte/icônes lisibles par-dessus le hero (le voile
   // teinté a été retiré). Neutre, uniquement quand la barre est transparente.
-  const homeTopShadow = isHomeTop
+  const homeTopShadow = isHeroTop
     ? 'drop-shadow-[0_1px_4px_rgba(0,0,0,0.45)]'
     : ''
 
@@ -185,7 +188,7 @@ export function Nav() {
               aspectRatio: '8284 / 2955',
               ...maskStyle(
                 BRAND_LOCKUP_MASK,
-                isHomeTop ? '#ffffff' : 'var(--brand-accent)',
+                isHeroTop ? '#ffffff' : 'var(--brand-accent)',
               ),
             }}
           />
@@ -195,7 +198,7 @@ export function Nav() {
         <div className="hidden items-center justify-self-center gap-10 md:flex">
           {navLinks.map((l) => {
             const isActive = pathname.startsWith(l.href)
-            const baseColor = isHomeTop
+            const baseColor = isHeroTop
               ? isActive
                 ? 'text-poudre'
                 : 'text-poudre/85 hover:text-poudre'
@@ -216,7 +219,7 @@ export function Nav() {
             type="button"
             onClick={openContact}
             className={`font-display text-[14px] transition-colors duration-300 ${
-              isHomeTop
+              isHeroTop
                 ? 'text-poudre/85 hover:text-poudre'
                 : 'text-canard/70 hover:text-canard'
             } ${homeTopShadow}`}
@@ -230,7 +233,7 @@ export function Nav() {
           <Link
             to="/sur-mesure"
             className={`hidden md:inline-flex font-display text-[13px] tracking-[0.15em] uppercase px-5 py-2 border transition-colors duration-300 ${homeTopShadow} ${
-              isHomeTop
+              isHeroTop
                 ? 'border-poudre/60 text-poudre hover:bg-poudre hover:text-canard'
                 : 'border-canard/40 text-canard hover:bg-canard hover:text-poudre'
             }`}
@@ -239,7 +242,7 @@ export function Nav() {
           </Link>
 
           <div className="hidden md:block">
-            <LangMenu isHomeTop={isHomeTop} shadow={homeTopShadow} />
+            <LangMenu isHeroTop={isHeroTop} shadow={homeTopShadow} />
           </div>
 
           {/* Bouton menu mobile */}
