@@ -24,7 +24,7 @@ export function CarnetHero({ articles = ARTICLES }: { articles?: Article[] }) {
 
       {/* Article à la une */}
       {featured ? (
-        <section className="bg-poudre px-8 pb-14 pt-10 lg:px-16 lg:pb-16 lg:pt-12">
+        <section className="bg-poudre px-8 pb-14 pt-5 lg:px-16 lg:pb-16 lg:pt-6">
           <article className="mx-auto grid max-w-[1320px] grid-cols-1 items-center gap-8 lg:grid-cols-[1.45fr_1fr] lg:gap-16">
             <a
               href={`/carnet/${featured.slug}`}
