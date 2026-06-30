@@ -4,12 +4,8 @@ import { m } from '#/paraglide/messages'
 import { BRAND_LOCKUP_MASK, maskStyle } from '../brand/brand'
 import { ContactForm } from './ContactForm'
 import { useContactDrawer } from './ContactDrawerProvider'
-
-const FAQ = [
-  { q: () => m.contact_faq_q1(), a: () => m.contact_faq_a1() },
-  { q: () => m.contact_faq_q2(), a: () => m.contact_faq_a2() },
-  { q: () => m.contact_faq_q3(), a: () => m.contact_faq_a3() },
-]
+import { contactFallback } from '../../lib/content/contact'
+import type { ContactContent } from '../../lib/content/contact'
 
 const kCls = 'font-display text-[9px] tracking-[0.24em] uppercase text-canard/90 mb-px'
 
@@ -17,8 +13,16 @@ const kCls = 'font-display text-[9px] tracking-[0.24em] uppercase text-canard/90
  * Drawer Contact — ambiance « Épure » (panneau droit ~420 px). Voile + aside
  * qui glisse depuis la droite, verrou de scroll, Échap, focus entrant/sortant.
  * Sans scroll au repos ; la FAQ (accordéon mono-ouverture) défile sa réponse.
+ * Le contenu éditorial (sur-titre, titre, accroche, réassurance, FAQ, succès)
+ * vient de Sanity (`contact`, repli i18n) ; coordonnées via `site` (siteSettings).
  */
-export function ContactDrawer({ site }: { site: { email: string; whatsapp: string } }) {
+export function ContactDrawer({
+  site,
+  contact = contactFallback(),
+}: {
+  site: { email: string; whatsapp: string }
+  contact?: ContactContent
+}) {
   const { isOpen, close } = useContactDrawer()
   const panelRef = useRef<HTMLElement>(null)
   const lastFocused = useRef<HTMLElement | null>(null)
@@ -67,7 +71,7 @@ export function ContactDrawer({ site }: { site: { email: string; whatsapp: strin
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label={m.contact_title()}
+        aria-label={contact.title}
         tabIndex={-1}
         className={`fixed top-0 right-0 z-[95] h-screen w-[420px] max-w-[94vw] bg-poudre text-canard shadow-[-30px_0_60px_-30px_rgba(13,71,71,0.5)] outline-none transition-transform duration-500 ease-[cubic-bezier(.4,0,.1,1)] ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
@@ -95,21 +99,21 @@ export function ContactDrawer({ site }: { site: { email: string; whatsapp: strin
             }}
           />
           <p className="mt-4 font-display text-[11px] tracking-[0.4em] uppercase text-framboise">
-            {m.contact_eyebrow()}
+            {contact.eyebrow}
           </p>
           <h2 className="mt-2.5 font-display text-[30px] leading-[1.04] text-canard">
-            {m.contact_title()}
+            {contact.title}
           </h2>
           <p className="mt-2 max-w-[40ch] font-display text-[14px] italic leading-[1.45] text-canard/75">
-            {m.contact_lede()}
+            {contact.lede}
           </p>
 
           {/* Formulaire */}
-          <ContactForm />
+          <ContactForm success={{ title: contact.successTitle, body: contact.successBody }} />
 
           {/* Réassurance */}
           <p className="mt-[18px] font-display text-[11.5px] leading-[1.6] text-canard/65">
-            {m.contact_reassurance()}
+            {contact.reassurance}
           </p>
 
           {/* Coordonnées */}
@@ -144,7 +148,7 @@ export function ContactDrawer({ site }: { site: { email: string; whatsapp: strin
 
           {/* FAQ — accordéon mono-ouverture, réponse révélée en douceur */}
           <div className="mt-3.5">
-            {FAQ.map((item, i) => (
+            {contact.faq.map((item, i) => (
               <details
                 key={i}
                 name="contact-faq"
@@ -152,11 +156,11 @@ export function ContactDrawer({ site }: { site: { email: string; whatsapp: strin
                 className="border-t border-canard/15 py-2"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3.5 font-display text-[13.5px] [&::-webkit-details-marker]:hidden">
-                  {item.q()}
+                  {item.q}
                   <span className="text-[16px] opacity-60">+</span>
                 </summary>
                 <p className="max-w-[40ch] pt-1.5 font-display text-[12.5px] italic leading-[1.55] text-canard/75">
-                  {item.a()}
+                  {item.a}
                 </p>
               </details>
             ))}

@@ -300,6 +300,29 @@ async function seedSiteSettings() {
   console.log('✓ Paramètres du site : coordonnées + libellé WhatsApp seedés')
 }
 
+// ---------------------------------------------------------------------------
+// 6) Contact — singleton contact (drawer + bandeau de clôture partagé)
+// ---------------------------------------------------------------------------
+async function seedContact() {
+  await client.createOrReplace({
+    _id: 'contact',
+    _type: 'contact',
+    eyebrow: L('contact_eyebrow'),
+    title: L('contact_title'),
+    lede: L('contact_lede', 'localizedText'),
+    reassurance: L('contact_reassurance', 'localizedText'),
+    faq: [1, 2, 3].map((n) => ({
+      _key: `faq${n}`,
+      _type: 'faqItem',
+      q: L(`contact_faq_q${n}`),
+      a: L(`contact_faq_a${n}`, 'localizedText'),
+    })),
+    successTitle: L('contact_success_title'),
+    successBody: L('contact_success_body'),
+  })
+  console.log('✓ Contact : drawer (sur-titre, titre, accroche, réassurance, FAQ, succès) seedé')
+}
+
 async function main() {
   console.log(`Seed sur projet ${projectId} / dataset ${dataset}…`)
   await seedTemoignagePhotos()
@@ -307,6 +330,7 @@ async function main() {
   await seedHomePage()
   await seedFooter()
   await seedSiteSettings()
+  await seedContact()
   console.log('✅ Seed terminé.')
 }
 

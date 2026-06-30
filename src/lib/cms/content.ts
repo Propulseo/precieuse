@@ -47,6 +47,8 @@ import { SITE } from '../content/site'
 import { CREATION_TYPES, BUDGETS } from '../content/sur-mesure'
 import { footerFallback } from '../content/footer'
 import type { FooterContent } from '../content/footer'
+import { contactFallback } from '../content/contact'
+import type { ContactContent } from '../content/contact'
 import { getStaticLegal } from '../content/legal'
 
 /**
@@ -416,6 +418,48 @@ export async function getFooter(
     responseLine2: s(data.responseLine2, fb.responseLine2),
     copyright: s(data.copyright, fb.copyright),
     atelierStamp: s(data.atelierStamp, fb.atelierStamp),
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Contact (drawer + bandeau de clôture partagé)
+// ---------------------------------------------------------------------------
+
+/**
+ * Contenu du drawer Contact (et, par partage, du bandeau `ClosingInvite`),
+ * fusionné par-dessus le repli i18n (`contactFallback`). Chaque champ vide
+ * retombe sur le repli → aucune régression tant que le document n'est pas rempli.
+ * Libellés de champs, chips de sujet et coordonnées restent gérés par Paraglide.
+ */
+export async function getContact(
+  locale: Locale = DEFAULT_LOCALE,
+): Promise<ContactContent> {
+  const fb = contactFallback()
+  if (!isSanityConfigured) return fb
+  const data = await cmsFetch<Record<string, unknown> | null>(
+    `*[_type == "contact"][0]{
+      eyebrow, title, lede, reassurance,
+      faq[]{ q, a }, successTitle, successBody
+    }`,
+  )
+  if (!data) return fb
+  const s = (v: unknown, fallback: string): string =>
+    pickLocale(v as never, locale) || fallback
+  const faqRaw = (data.faq as Array<Record<string, unknown>> | undefined) ?? []
+  const faq = faqRaw.length
+    ? faqRaw.map((it, i) => ({
+        q: s(it.q, fb.faq[i]?.q ?? ''),
+        a: s(it.a, fb.faq[i]?.a ?? ''),
+      }))
+    : fb.faq
+  return {
+    eyebrow: s(data.eyebrow, fb.eyebrow),
+    title: s(data.title, fb.title),
+    lede: s(data.lede, fb.lede),
+    reassurance: s(data.reassurance, fb.reassurance),
+    faq,
+    successTitle: s(data.successTitle, fb.successTitle),
+    successBody: s(data.successBody, fb.successBody),
   }
 }
 

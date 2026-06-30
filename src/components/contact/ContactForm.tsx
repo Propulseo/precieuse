@@ -19,8 +19,13 @@ const labelCls =
   'block font-display text-[10px] tracking-[0.28em] uppercase text-canard/90 mb-1.5'
 
 /** Formulaire du drawer Contact (ambiance Épure) : nom, email, sujet en chips,
- *  message. Envoi via la server fn `sendLead` (kind contact, sujet → creationType). */
-export function ContactForm() {
+ *  message. Envoi via la server fn `sendLead` (kind contact, sujet → creationType).
+ *  Le message de succès est piloté par Sanity (repli i18n) via la prop `success`. */
+export function ContactForm({
+  success = { title: m.contact_success_title(), body: m.contact_success_body() },
+}: {
+  success?: { title: string; body: string }
+} = {}) {
   const [sent, setSent] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(false)
@@ -56,10 +61,10 @@ export function ContactForm() {
     return (
       <div className="flex flex-col items-start gap-2 py-4">
         <span className="font-display text-[24px] text-canard">
-          {m.contact_success_title()}
+          {success.title}
         </span>
         <p className="font-display italic text-[16px] text-framboise">
-          {m.contact_success_body()}
+          {success.body}
         </p>
       </div>
     )

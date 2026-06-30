@@ -12,7 +12,7 @@ import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
-import { getSite, getFooter } from '../lib/cms'
+import { getSite, getFooter, getContact } from '../lib/cms'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
 import { SplashScreen } from '../components/SplashScreen'
@@ -44,8 +44,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   // avec repli sur les constantes/Paraglide si Sanity n'est pas configuré.
   loader: async () => {
     const locale = getLocale()
-    const [site, footer] = await Promise.all([getSite(locale), getFooter(locale)])
-    return { site, footer }
+    const [site, footer, contact] = await Promise.all([
+      getSite(locale),
+      getFooter(locale),
+      getContact(locale),
+    ])
+    return { site, footer, contact }
   },
 
   head: () => ({
@@ -75,7 +79,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { site, footer } = Route.useLoaderData()
+  const { site, footer, contact } = Route.useLoaderData()
   return (
     <html
       suppressHydrationWarning
@@ -100,7 +104,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               <main className="pt-16 min-h-screen">{children}</main>
               <Footer footer={footer} />
               <WhatsAppButton href={site.whatsapp} label={site.whatsappLabel} />
-              <ContactDrawer site={site} />
+              <ContactDrawer site={site} contact={contact} />
               {/* Sélecteur de design réservé au dev : jamais exposé en prod. */}
               {import.meta.env.DEV && <BrandToggle />}
               <TanStackDevtools

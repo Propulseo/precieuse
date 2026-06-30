@@ -12,6 +12,7 @@ import { surMesurePage } from './documents/surMesurePage'
 import { creatricePage } from './documents/creatricePage'
 import { legalPage } from './documents/legalPage'
 import { footer } from './documents/footer'
+import { contact } from './documents/contact'
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Shared localized field object types (FR/EN/PT)
@@ -28,4 +29,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   creatricePage,
   legalPage,
   footer,
+  contact,
 ]
