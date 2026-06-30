@@ -43,14 +43,7 @@ import { BESPOKE_VOICES, BESPOKE_PIECES } from '../content/bespoke'
 import type { BespokeVoice, BespokePiece } from '../content/bespoke'
 import { SITE, BESPOKE_PROCESS  } from '../content/site'
 import type {ProcessStep} from '../content/site';
-import {
-  METAMORPHOSE,
-  PROMESSES,
-  CREATION_TYPES,
-  BUDGETS
-  
-} from '../content/sur-mesure'
-import type {MetamorphoseStep} from '../content/sur-mesure';
+import { CREATION_TYPES, BUDGETS } from '../content/sur-mesure'
 import { FOOTER_DATA } from '../content/footer'
 import { getStaticLegal } from '../content/legal'
 
@@ -263,51 +256,6 @@ export async function getBespokeProcess(
     number: String(d.number ?? ''),
     title: pickLocale(d.title as never, locale),
     description: pickLocale(d.description as never, locale),
-  }))
-}
-
-// ---------------------------------------------------------------------------
-// Page sur-mesure — métamorphose + promesses
-// ---------------------------------------------------------------------------
-
-export async function getMetamorphose(
-  locale: Locale = DEFAULT_LOCALE,
-): Promise<MetamorphoseStep[]> {
-  if (!isSanityConfigured) return METAMORPHOSE
-  const data = await cmsFetch<Record<string, unknown> | null>(
-    `*[_type == "surMesurePage"][0]{
-      metamorphose[]{ roman, title, annotation, detail, ${IMAGE_FIELDS} }
-    }`,
-  )
-  const items = (data?.metamorphose as Array<Record<string, unknown>> | undefined) ?? []
-  if (!items.length) return METAMORPHOSE
-  return items.map((d) => ({
-    roman: String(d.roman ?? ''),
-    title: pickLocale(d.title as never, locale),
-    annotation: pickLocale(d.annotation as never, locale),
-    detail: pickLocale(d.detail as never, locale),
-    image: String(d.image ?? ''),
-    imageAlt: pickLocale(d.imageAlt as never, locale),
-    imagePosition: hotspotToPosition(d.imageHotspot),
-  }))
-}
-
-export async function getPromesses(
-  locale: Locale = DEFAULT_LOCALE,
-): Promise<typeof PROMESSES> {
-  if (!isSanityConfigured) return PROMESSES
-  const data = await cmsFetch<Record<string, unknown> | null>(
-    `*[_type == "surMesurePage"][0]{
-      promesses[]{ titre, detail, ${IMAGE_FIELDS} }
-    }`,
-  )
-  const items = (data?.promesses as Array<Record<string, unknown>> | undefined) ?? []
-  if (!items.length) return PROMESSES
-  return items.map((d) => ({
-    titre: pickLocale(d.titre as never, locale),
-    detail: pickLocale(d.detail as never, locale),
-    image: String(d.image ?? ''),
-    imageAlt: pickLocale(d.imageAlt as never, locale),
   }))
 }
 
