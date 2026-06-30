@@ -10,7 +10,9 @@ const dataset = process.env.VITE_SANITY_DATASET || 'production'
 
 export default defineCliConfig({
   api: { projectId, dataset },
-  // Hôte du Studio déployé → https://precieuse.sanity.studio
-  // (doit être unique ; si pris, `sanity deploy` proposera d'en choisir un autre)
-  studioHost: 'precieuse',
+  // Hôte du Studio déployé → https://precieuse-joaillerie.sanity.studio
+  // (« precieuse » seul était déjà pris globalement chez Sanity ; hostname unique)
+  studioHost: 'precieuse-joaillerie',
+  // Application déployée (évite le prompt d'appId aux prochains `sanity deploy`).
+  deployment: { appId: 'qbhxg48x5z8bi7v1jnnfefu3' },
 })
