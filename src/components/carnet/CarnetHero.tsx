@@ -1,7 +1,6 @@
 import { ARTICLES, type Article } from '../../lib/content/carnet'
 import { m } from '#/paraglide/messages'
-import { BRAND_PICTO_MASK, maskStyle } from '../brand/brand'
-import { BrilliantCutScheme } from '../ornaments'
+import { EditorialHeader } from '../editorial/EditorialHeader'
 import { objectPositionStyle } from '../framing/framing'
 
 /**
@@ -15,31 +14,13 @@ export function CarnetHero({ articles = ARTICLES }: { articles?: Article[] }) {
 
   return (
     <>
-      {/* Manchette — même taille que la page Collection, avec le texte d'intro
-          à la place de la liste de pièces. */}
-      <header className="bg-poudre px-6 py-3 text-center lg:px-10 lg:py-4">
-        <div
-          role="img"
-          aria-label="Précieuse"
-          className="mx-auto"
-          style={{
-            width: 'min(9vw, 40px)',
-            aspectRatio: '1 / 1',
-            ...maskStyle(BRAND_PICTO_MASK),
-          }}
-        />
-        <h1 className="mt-1.5 font-headline text-[clamp(22px,3vw,38px)] leading-none text-canard [text-wrap:balance]">
-          {m.carnet_title()}
-        </h1>
-        <div className="mx-auto mt-3 mb-2 flex max-w-[1320px] items-center gap-4 text-framboise/50">
-          <span className="h-px flex-1 bg-current" />
-          <BrilliantCutScheme className="h-4 w-4 shrink-0" stroke="currentColor" strokeWidth={1} />
-          <span className="h-px flex-1 bg-current" />
-        </div>
+      {/* Manchette — composant partagé (cohérent avec Collection et Créatrice),
+          avec le texte d'intro à la place de la liste de pièces. */}
+      <EditorialHeader title={m.carnet_title()}>
         <p className="mx-auto max-w-[54ch] font-body italic font-light text-[clamp(14px,1.4vw,17px)] leading-[1.4] text-canard-90 [text-wrap:pretty]">
           {m.carnet_intro()}
         </p>
-      </header>
+      </EditorialHeader>
 
       {/* Article à la une */}
       {featured ? (
