@@ -171,6 +171,26 @@ export function isCollectionLayout(value: unknown): value is CollectionLayout {
   )
 }
 
+// ─── Fond de l'eyebrow de la hero : 4 traitements au choix ───
+// Piloté par `data-heroEyebrow` sur <html>, persisté indépendamment. « actuel »
+// = le cartouche translucide (patch) ; les trois autres retirent le fond.
+export type HeroEyebrow = 'actuel' | 'filets' | 'nu' | 'losanges'
+
+export const HERO_EYEBROWS: HeroEyebrow[] = ['actuel', 'filets', 'nu', 'losanges']
+export const DEFAULT_HERO_EYEBROW: HeroEyebrow = 'actuel'
+export const HERO_EYEBROW_STORAGE_KEY = 'precieuse-hero-eyebrow'
+
+export const HERO_EYEBROW_LABELS: Record<HeroEyebrow, string> = {
+  actuel: 'Actuel',
+  filets: 'Filets',
+  nu: 'Texte nu',
+  losanges: 'Losanges',
+}
+
+export function isHeroEyebrow(value: unknown): value is HeroEyebrow {
+  return typeof value === 'string' && (HERO_EYEBROWS as string[]).includes(value)
+}
+
 // ─── Couleurs personnalisables (aperçu dev) : 3 niveaux pilotés en direct ───
 // Chaque niveau écrit UNE variable CSS sur <html> (style inline, qui l'emporte
 // sur les tokens de styles.css) et persiste son hex en localStorage. Le no-flash

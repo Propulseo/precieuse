@@ -11,6 +11,8 @@ import {
   COLOR_SLOTS_ORDER,
   FILIGRANE_VARIANT_LABELS,
   FILIGRANE_VARIANTS,
+  HERO_EYEBROW_LABELS,
+  HERO_EYEBROWS,
   HERO_MARK_LABELS,
   HERO_MARKS,
   SEAL_VARIANT_LABELS,
@@ -165,6 +167,8 @@ export function BrandToggle() {
     setCarouselMode,
     collectionLayout,
     setCollectionLayout,
+    heroEyebrow,
+    setHeroEyebrow,
     colors,
     resetColors,
   } = useBrand()
@@ -176,7 +180,7 @@ export function BrandToggle() {
         <div
           role="region"
           aria-label="Réglages d'apparence"
-          className="flex w-[264px] flex-col gap-4 rounded-2xl border border-canard/20 bg-poudre/95 p-4 shadow-[0_8px_30px_rgba(0,0,0,0.16)] backdrop-blur-md"
+          className="flex max-h-[calc(100vh-6.5rem)] w-[264px] flex-col gap-4 overflow-y-auto overscroll-contain rounded-2xl border border-canard/20 bg-poudre/95 p-4 shadow-[0_8px_30px_rgba(0,0,0,0.16)] backdrop-blur-md"
         >
           <div className="flex items-center justify-between">
             <span className="font-display text-[11px] uppercase tracking-[0.2em] text-canard">
@@ -222,6 +226,19 @@ export function BrandToggle() {
               current={heroMark}
               labels={HERO_MARK_LABELS}
               onSelect={setHeroMark}
+            />
+          </Field>
+
+          <Field
+            label="Fond de l'eyebrow (hero)"
+            hint="« Joaillerie artisanale · Bordeaux » : le cartouche actuel ou un traitement sans fond."
+          >
+            <PillGroup
+              ariaLabel="Fond de l'eyebrow de la hero"
+              values={HERO_EYEBROWS}
+              current={heroEyebrow}
+              labels={HERO_EYEBROW_LABELS}
+              onSelect={setHeroEyebrow}
             />
           </Field>
 

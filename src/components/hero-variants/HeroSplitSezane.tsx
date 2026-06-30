@@ -10,6 +10,48 @@ import type { HomePageData } from '../../lib/content/home'
  * Photos + promesse pilotées par Sanity (homePage) via getHomePage ; les
  * libellés d'UI (sur-titre, boutons) restent en i18n.
  */
+/**
+ * Eyebrow de la hero — 4 traitements (toggle « Fond de l'eyebrow »). « actuel »
+ * garde le cartouche translucide ; les autres retirent le fond (filets, texte
+ * nu, losanges) avec une ombre renforcée pour rester lisible sur l'image.
+ */
+function HeroEyebrowMark({ text }: { text: string }) {
+  const { heroEyebrow } = useBrand()
+  const base =
+    'mb-5 font-display font-bold text-[12px] tracking-[0.4em] uppercase text-poudre'
+  const shadow = '[text-shadow:0_1px_5px_rgba(0,0,0,0.55)]'
+
+  if (heroEyebrow === 'filets') {
+    return (
+      <span className={`inline-flex items-center gap-4 ${base} ${shadow}`}>
+        <span aria-hidden className="h-px w-8 bg-current opacity-60" />
+        {text}
+        <span aria-hidden className="h-px w-8 bg-current opacity-60" />
+      </span>
+    )
+  }
+  if (heroEyebrow === 'losanges') {
+    return (
+      <span className={`inline-flex items-center gap-3.5 ${base} ${shadow}`}>
+        <span aria-hidden className="h-[7px] w-[7px] rotate-45 bg-current opacity-70" />
+        {text}
+        <span aria-hidden className="h-[7px] w-[7px] rotate-45 bg-current opacity-70" />
+      </span>
+    )
+  }
+  if (heroEyebrow === 'nu') {
+    return <span className={`inline-block ${base} ${shadow}`}>{text}</span>
+  }
+  // actuel : cartouche translucide (patch)
+  return (
+    <span
+      className={`inline-block bg-poudre/10 px-3 py-1 [text-shadow:0_1px_3px_rgba(0,0,0,0.28)] ${base}`}
+    >
+      {text}
+    </span>
+  )
+}
+
 export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
   const { heroMark } = useBrand()
 
@@ -42,9 +84,7 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
 
       <div className="absolute inset-0 flex items-center justify-center px-6">
         <div className="mx-auto flex w-full max-w-[640px] flex-col items-center text-center text-poudre">
-          <span className="mb-5 inline-block bg-poudre/10 px-3 py-1 font-display text-[12px] tracking-[0.4em] uppercase text-lie-de-vin backdrop-blur-[2px] [text-shadow:0_1px_3px_rgba(0,0,0,0.28)]">
-            {hero.eyebrow}
-          </span>
+          <HeroEyebrowMark text={hero.eyebrow} />
 
           {/* Marque de la hero : soit le logo (masque CSS), soit le mot écrit
               « Précieuse. ». Les deux suivent la couleur via --brand-accent. */}
