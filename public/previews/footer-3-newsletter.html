@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Footer — Newsletter d'abord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--canard-10:#e6eded;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard)}
+  a{color:inherit;text-decoration:none}
+  .badge{position:fixed;top:16px;right:16px;z-index:20;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+
+  /* ─── Bande newsletter (invitation) ─── */
+  .news{background:var(--canard);color:var(--poudre);text-align:center;padding:78px 8vw}
+  .news .k{font-family:var(--display);font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--rubis);filter:brightness(1.7) saturate(1.2);margin-bottom:14px}
+  .news h2{font-family:var(--display);font-weight:500;font-size:clamp(28px,3.6vw,46px);line-height:1.1;letter-spacing:-.01em;max-width:18ch;margin:0 auto 14px}
+  .news p{font-style:italic;font-size:17px;color:rgba(234,220,211,.7);max-width:46ch;margin:0 auto 30px}
+  .form{display:flex;gap:12px;max-width:480px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+  .form input{flex:1;min-width:220px;background:transparent;border:none;border-bottom:1px solid rgba(234,220,211,.4);color:var(--poudre);font-family:var(--display);font-size:16px;padding:12px 4px;transition:border-color .3s}
+  .form input::placeholder{color:rgba(234,220,211,.45)}
+  .form input:focus{outline:none;border-color:var(--poudre)}
+  .form button{background:var(--poudre);color:var(--canard);font-family:var(--display);font-size:12px;letter-spacing:.26em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:999px;cursor:pointer;transition:background .3s,color .3s}
+  .form button:hover{background:var(--rubis);color:var(--poudre)}
+
+  /* ─── Footer compact ─── */
+  footer{background:var(--poudre-dark);color:var(--canard)}
+  .bar{max-width:1320px;margin:0 auto;padding:40px 8vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px}
+  .mark{height:30px;width:170px;background:var(--canard);-webkit-mask:url(/brand/lockup-teal.png) left center/contain no-repeat;mask:url(/brand/lockup-teal.png) left center/contain no-repeat}
+  .bar nav{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--display);font-size:15px}
+  .bar nav a{color:rgba(18,94,94,.85);transition:color .3s}
+  .bar nav a:hover{color:var(--canard-90)}
+  .social{display:flex;gap:16px;font-family:var(--display);font-size:14px;color:rgba(18,94,94,.7)}
+  .legal{border-top:1px solid rgba(18,94,94,.12)}
+  .legal .in{max-width:1320px;margin:0 auto;padding:20px 8vw;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;font-family:var(--display);font-size:12px;color:rgba(18,94,94,.55)}
+  .legal nav{display:flex;gap:18px}
+  .legal a:hover{color:var(--canard)}
+  @media (max-width:760px){.bar{flex-direction:column;align-items:flex-start;gap:18px}}
+</style>
+</head>
+<body>
+  <div class="badge">Aperçu footer · dans la page</div>
+
+  <section class="news">
+    <p class="k">La lettre de l'atelier</p>
+    <h2>Recevez nos nouveautés et les coulisses de l'atelier</h2>
+    <p>Premières pièces, gestes du métier, rendez-vous. Quelques lettres par an, jamais plus.</p>
+    <form class="form" onsubmit="return false">
+      <input type="email" placeholder="Votre adresse e-mail" aria-label="Votre adresse e-mail" />
+      <button type="submit">S'inscrire</button>
+    </form>
+  </section>
+
+  <footer>
+    <div class="bar">
+      <a href="/" class="mark" aria-label="Précieuse"></a>
+      <nav>
+        <a href="/collection">La Collection</a>
+        <a href="/carnet">Le Carnet</a>
+        <a href="/creatrice">L'Atelier</a>
+        <a href="/sur-mesure">Sur-Mesure</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      <div class="social">
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="legal">
+      <div class="in">
+        <nav>
+          <a href="/mentions-legales">Mentions légales</a>
+          <a href="/confidentialite">Confidentialité</a>
+          <a href="/cgv">CGV</a>
+        </nav>
+        <span>© Précieuse · Joaillerie artisanale, Bordeaux, France</span>
+        <a href="https://propulseo.fr" target="_blank" rel="noreferrer">Fait avec passion par Propul'SEO</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

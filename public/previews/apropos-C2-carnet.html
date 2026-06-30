@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>À propos — C2 · Le carnet d'atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Ysabeau+Office:ital,wght@0,300;0,400;1,300&family=Petit+Formal+Script&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --paper:#f3ece3;--display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif;--script:'Petit Formal Script',cursive}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:#cdb9a9;color:var(--canard);font-weight:300}
+  img{display:block}
+  .badge{position:fixed;top:16px;right:16px;z-index:40;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  a{color:inherit}
+
+  .ctx-nav{display:flex;align-items:center;justify-content:space-between;padding:22px 8vw;background:var(--poudre);border-bottom:1px solid rgba(18,94,94,.14)}
+  .ctx-nav .logo{font-family:var(--display);font-size:20px;letter-spacing:.18em;text-transform:uppercase}
+  .ctx-nav .links{display:flex;gap:26px;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.6}
+  .ctx-foot{background:var(--canard);color:var(--poudre);text-align:center;padding:54px 8vw;font-family:var(--display);font-size:12px;letter-spacing:.24em;text-transform:uppercase}
+
+  .desk{padding:64px 5vw 110px;background:radial-gradient(140% 70% at 50% -10%,rgba(255,255,255,.16),transparent 55%),#cdb9a9}
+
+  /* le carnet : marge + reliure */
+  .book{position:relative;max-width:1000px;margin:0 auto;background:var(--paper);
+    background-image:
+      linear-gradient(90deg,transparent 0 96px,rgba(184,0,73,.16) 96px 97px,transparent 97px),
+      repeating-linear-gradient(0deg,transparent 0 33px,rgba(18,94,94,.07) 33px 34px);
+    box-shadow:0 34px 80px -34px rgba(13,71,71,.5);
+    padding:56px clamp(28px,5vw,70px) 70px 112px}
+  .book::before{content:"";position:absolute;top:0;bottom:0;left:0;width:30px;
+    background:linear-gradient(90deg,rgba(13,71,71,.16),transparent);}
+  /* trous de reliure */
+  .book::after{content:"";position:absolute;top:0;bottom:0;left:50px;width:10px;
+    background-image:radial-gradient(circle,rgba(13,71,71,.22) 0 4px,transparent 5px);
+    background-size:10px 64px;background-repeat:repeat-y}
+
+  .tab{position:absolute;top:-1px;right:40px;background:var(--rubis);color:var(--paper);
+    font-family:var(--display);font-size:11px;letter-spacing:.26em;text-transform:uppercase;padding:8px 16px 10px;border-radius:0 0 4px 4px}
+
+  .kicker{font-family:var(--script);font-size:23px;color:rgba(18,94,94,.65);transform:rotate(-1.5deg)}
+  h1.title{font-family:var(--display);font-weight:500;font-size:clamp(34px,5.2vw,58px);line-height:1.02;margin:6px 0 8px}
+  .sub{font-family:var(--display);font-style:italic;font-size:18px;color:rgba(18,94,94,.7);max-width:46ch}
+
+  /* feuillet : texte + marge annotée */
+  .leaf{position:relative;margin-top:46px;display:grid;grid-template-columns:1fr 210px;gap:38px;align-items:start}
+  .leaf .num{font-family:var(--display);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:rgba(18,94,94,.45);margin-bottom:10px}
+  .leaf h2{font-family:var(--display);font-weight:500;font-size:clamp(24px,3vw,32px);line-height:1.08;margin-bottom:16px}
+  .leaf p{font-size:17px;line-height:1.9;color:rgba(18,94,94,.85);margin-bottom:16px}
+  .leaf p:first-of-type:first-letter{font-family:var(--display);font-size:48px;line-height:.8;float:left;padding:6px 9px 0 0;color:var(--rubis)}
+  em{font-style:italic;color:var(--canard)}
+
+  /* annotation manuscrite en marge */
+  .note{font-family:var(--script);font-size:18px;line-height:1.35;color:rgba(184,0,73,.85);transform:rotate(-2deg)}
+  .note .arrow{display:block;font-size:24px;opacity:.6;margin-top:4px}
+
+  /* polaroid scotché */
+  .polaroid{background:#fff;padding:10px 10px 34px;box-shadow:0 16px 34px -16px rgba(13,71,71,.55);transform:rotate(3deg);position:relative;width:100%}
+  .polaroid img{width:100%;height:170px;object-fit:cover;filter:grayscale(.1)}
+  .polaroid figcaption{font-family:var(--script);font-size:16px;color:rgba(18,94,94,.7);text-align:center;margin-top:8px}
+  .tape{position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(-4deg);width:78px;height:24px;background:rgba(18,94,94,.16);border-left:1px dashed rgba(18,94,94,.25);border-right:1px dashed rgba(18,94,94,.25)}
+
+  .reveal{opacity:0;transform:translateY(12px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* cachets en marge basse */
+  .stamps{display:flex;flex-wrap:wrap;gap:12px;margin:30px 0 0 0}
+  .stamp{border:1.5px solid rgba(184,0,73,.5);color:rgba(184,0,73,.85);border-radius:6px;padding:8px 14px;font-family:var(--display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-3deg)}
+  .stamp:nth-child(2){transform:rotate(2deg)}
+
+  .pull{font-family:var(--display);font-style:italic;font-size:clamp(22px,3vw,30px);line-height:1.45;text-align:center;color:var(--canard);margin:50px auto;max-width:24ch}
+
+  .close{margin-top:30px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;border-top:1px dashed rgba(18,94,94,.3);padding-top:26px}
+  .signature{font-family:var(--script);font-size:48px;color:var(--canard);clip-path:inset(0 100% 0 0);transition:clip-path 1.3s cubic-bezier(.2,.7,.2,1)}
+  .signature.in{clip-path:inset(0 0 0 0)}
+  .role{font-family:var(--display);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:rgba(18,94,94,.55);margin-top:6px}
+  .btn{display:inline-block;background:var(--canard);color:var(--paper);font-family:var(--display);font-size:12px;letter-spacing:.26em;text-transform:uppercase;padding:14px 30px;border-radius:999px;text-decoration:none;transition:background .3s}
+  .btn:hover{background:var(--canard-90)}
+
+  @media(max-width:760px){
+    .book{padding:48px 26px 60px 56px;background-image:repeating-linear-gradient(0deg,transparent 0 33px,rgba(18,94,94,.06) 33px 34px)}
+    .book::after{left:22px}
+    .leaf{grid-template-columns:1fr;gap:22px}
+    .note{transform:none}.polaroid{transform:rotate(1deg);max-width:300px}
+  }
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important}.signature{clip-path:none!important}}
+</style>
+</head>
+<body>
+  <div class="badge">À propos · C2 — Carnet · texte brouillon</div>
+  <nav class="ctx-nav"><span class="logo">Précieuse</span><span class="links"><a>Collection</a><a>Sur-mesure</a><a>À propos</a><a>Contact</a></span></nav>
+
+  <div class="desk">
+    <article class="book">
+      <span class="tab">À propos</span>
+      <span class="kicker">le carnet d'Emeline</span>
+      <h1 class="title">Une main, un atelier, du temps.</h1>
+      <p class="sub">Quelques pages sur celle qui dessine, fond et sertit chaque pièce Précieuse, à Bordeaux.</p>
+
+      <!-- Feuillet 1 -->
+      <div class="leaf reveal">
+        <div>
+          <div class="num">Feuillet I · les débuts</div>
+          <h2>Le geste avant les mots</h2>
+          <p>Je suis venue à la joaillerie comme on retrouve une langue maternelle qu'on aurait oubliée : sans pouvoir l'expliquer, mais sans le moindre doute. J'avais besoin de mes mains, de matière, de quelque chose qui résiste un peu.</p>
+          <p>On m'a appris le métier auprès d'artisans qui ne transigent sur rien. La patience avant la technique.</p>
+        </div>
+        <aside>
+          <figure class="polaroid"><span class="tape"></span><img src="/images/stitch/journal-sketches-etabli.jpg" alt="Croquis" /><figcaption>premiers croquis</figcaption></figure>
+          <p class="note">une pièce ratée se refond, un geste pressé ne se rattrape pas.<span class="arrow">↘</span></p>
+        </aside>
+      </div>
+
+      <!-- Feuillet 2 -->
+      <div class="leaf reveal">
+        <div>
+          <div class="num">Feuillet II · l'atelier</div>
+          <h2>À Bordeaux, dans une pièce</h2>
+          <p>J'ai posé mes outils ici. Mon atelier tient dans une pièce, et c'est voulu. J'y dessine, j'y fonds <em>l'or 18 carats</em>, j'y choisis chaque pierre et j'ajuste chaque serti à l'œil et à la lime.</p>
+          <p>Tout est fait à la main, en France, sans chaîne ni intermédiaire. Cela prend plus de temps. C'est exactement le temps qu'il faut.</p>
+          <div class="stamps"><span class="stamp">Or 18 ct</span><span class="stamp">Fait main · France</span></div>
+        </div>
+        <aside>
+          <figure class="polaroid" style="transform:rotate(-3deg)"><span class="tape"></span><img src="/images/emeline/emeline-atelier.jpg" alt="L'atelier" /><figcaption>l'établi, aujourd'hui</figcaption></figure>
+          <p class="note" style="transform:rotate(2deg)">tout tient ici. c'est voulu.</p>
+        </aside>
+      </div>
+
+      <!-- Feuillet 3 -->
+      <div class="leaf reveal">
+        <div>
+          <div class="num">Feuillet III · ma façon de faire</div>
+          <h2>Une trace, pas un objet</h2>
+          <p>Je ne crée jamais deux fois la même pièce. On part de votre histoire, d'une transmission, d'une promesse, d'un anniversaire, et j'en dessine la trace.</p>
+          <p>Un bijou n'est pas un objet de plus. C'est quelque chose qui se transmet, qui survit à celui qui l'offre.</p>
+          <div class="stamps"><span class="stamp">Pièce unique</span><span class="stamp">Bordeaux · MMXXVI</span></div>
+        </div>
+        <aside>
+          <p class="note">on part toujours d'une histoire.<span class="arrow">↓</span></p>
+        </aside>
+      </div>
+
+      <p class="pull">« Je ne fais pas des bijoux pour qu'on les remarque. J'en fais pour qu'on les garde. »</p>
+
+      <div class="close">
+        <div>
+          <div class="signature">Emeline</div>
+          <div class="role">Créatrice & joaillère · Précieuse</div>
+        </div>
+        <a class="btn" href="#">Parlons de votre projet →</a>
+      </div>
+    </article>
+  </div>
+
+  <footer class="ctx-foot">Précieuse · Joaillerie artisanale · Atelier à Bordeaux · Or 18 carats</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');const s=e.target.querySelector('.signature');if(s)s.classList.add('in');io.unobserve(e.target);}});},{threshold:.25});
+  document.querySelectorAll('.reveal,.close').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

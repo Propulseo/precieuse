@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>À propos — B · Atelier / Documentaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Ysabeau+Office:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard);font-weight:300}
+  img{display:block}
+  .badge{position:fixed;top:16px;right:16px;z-index:30;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+
+  .ctx-nav{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:22px 8vw}
+  .ctx-nav .logo{font-family:var(--display);font-size:20px;letter-spacing:.18em;text-transform:uppercase;color:var(--poudre)}
+  .ctx-nav .links{display:flex;gap:26px;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--poudre);opacity:.75}
+  .ctx-foot{background:var(--canard);color:var(--poudre);text-align:center;padding:54px 8vw;font-family:var(--display);font-size:12px;letter-spacing:.24em;text-transform:uppercase;opacity:.95}
+
+  .eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--rubis)}
+
+  /* ── HERO immersif (bande canard, photo + scrim) ── */
+  .hero{position:relative;min-height:88vh;display:grid;align-items:end;overflow:hidden;color:var(--poudre)}
+  .hero .bg{position:absolute;inset:0;background:center/cover no-repeat;background-image:url('/images/stitch/hero-atelier-dusk.jpg');transform:scale(1.06);will-change:transform}
+  .hero.live .bg{animation:ken 26s ease-in-out infinite alternate}
+  @keyframes ken{from{transform:scale(1.06)}to{transform:scale(1.16) translate(-2%,-1%)}}
+  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,71,71,.5),rgba(13,71,71,.2) 38%,rgba(13,71,71,.86));mix-blend-mode:multiply}
+  .hero .inner{position:relative;z-index:2;padding:0 8vw 88px;max-width:1100px}
+  .hero h1{font-family:var(--display);font-weight:500;font-size:clamp(48px,8vw,104px);line-height:.92;letter-spacing:-.01em;margin-top:16px}
+  .hero .lede{font-family:var(--display);font-style:italic;font-size:clamp(18px,2.2vw,24px);line-height:1.5;color:rgba(234,220,211,.85);margin-top:24px;max-width:48ch}
+
+  /* sections claires */
+  .band{padding:96px 8vw}
+  .wrap{max-width:1100px;margin:0 auto}
+  .band h2{font-family:var(--display);font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1;margin:12px 0 0}
+
+  /* frise du parcours */
+  .timeline{margin-top:50px;border-left:1px solid rgba(18,94,94,.25);padding-left:34px;display:flex;flex-direction:column;gap:46px;max-width:680px}
+  .step{position:relative;opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
+  .step.in{opacity:1;transform:none}
+  .step::before{content:"";position:absolute;left:-40px;top:6px;width:9px;height:9px;border-radius:50%;background:var(--rubis)}
+  .step .when{font-family:var(--display);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:rgba(18,94,94,.55)}
+  .step h3{font-family:var(--display);font-weight:500;font-size:22px;margin:6px 0 8px}
+  .step p{font-size:16px;line-height:1.7;color:rgba(18,94,94,.8)}
+
+  /* bande atelier immersive */
+  .band-dark{position:relative;min-height:78vh;display:grid;place-items:center;overflow:hidden;color:var(--poudre);text-align:center}
+  .band-dark .bg{position:absolute;inset:0;background:center/cover no-repeat;background-image:url('/images/stitch/journal-fonte-or.jpg');transform:scale(1.06);will-change:transform}
+  .band-dark.live .bg{animation:ken 28s ease-in-out infinite alternate}
+  .band-dark .scrim{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 40%,rgba(13,71,71,.4),rgba(13,71,71,.9) 75%);mix-blend-mode:multiply}
+  .band-dark .inner{position:relative;z-index:2;max-width:760px;padding:0 8vw}
+  .band-dark h2{font-family:var(--display);font-weight:500;font-size:clamp(30px,4.4vw,52px);line-height:1.02;margin:12px 0 22px}
+  .band-dark p{font-size:17px;line-height:1.8;color:rgba(234,220,211,.85)}
+  .band-dark .eyebrow{filter:saturate(1.4) brightness(1.7)}
+
+  /* citation */
+  .quote{padding:104px 8vw;text-align:center}
+  .quote blockquote p{font-family:var(--display);font-style:italic;font-size:clamp(26px,3.4vw,40px);line-height:1.4;max-width:18ch;margin:0 auto;color:var(--canard)}
+  .quote cite{display:block;margin-top:22px;font-family:var(--display);font-style:normal;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:rgba(18,94,94,.55)}
+
+  .cta{padding:96px 8vw;text-align:center;background:var(--poudre-dark)}
+  .cta h2{font-family:var(--display);font-weight:500;font-size:clamp(32px,4.4vw,56px);line-height:1;margin-bottom:30px}
+  .btn{display:inline-block;background:var(--canard);color:var(--poudre);font-family:var(--display);font-size:12px;letter-spacing:.28em;text-transform:uppercase;padding:16px 38px;border-radius:999px;text-decoration:none;transition:background .3s}
+  .btn:hover{background:var(--canard-90)}
+
+  @media(prefers-reduced-motion:reduce){.bg{animation:none!important}.step{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+  <div class="badge">À propos · B — Atelier · texte brouillon</div>
+
+  <nav class="ctx-nav"><span class="logo">Précieuse</span><span class="links"><a>Collection</a><a>Sur-mesure</a><a>À propos</a><a>Contact</a></span></nav>
+
+  <!-- HERO immersif -->
+  <header class="hero" id="hero">
+    <div class="bg"></div><div class="scrim"></div>
+    <div class="inner">
+      <span class="eyebrow">La créatrice</span>
+      <h1>Emeline Le Ray</h1>
+      <p class="lede">Derrière chaque pièce Précieuse, une seule main : celle qui dessine, fond et sertit dans l'atelier bordelais.</p>
+    </div>
+  </header>
+
+  <!-- PARCOURS — frise -->
+  <section class="band">
+    <div class="wrap">
+      <span class="eyebrow">Le parcours</span>
+      <h2>Comment on en arrive là</h2>
+      <div class="timeline">
+        <div class="step"><span class="when">Les débuts</span><h3>Le geste avant les mots</h3><p>Emeline découvre la joaillerie comme on retrouve une langue maternelle oubliée : une évidence. Elle apprend le métier auprès d'artisans qui ne transigent sur rien.</p></div>
+        <div class="step"><span class="when">L'installation</span><h3>Un atelier à Bordeaux</h3><p>Elle pose ses outils dans un atelier à taille humaine, où chaque bague est pensée, façonnée et finie sur place. Pas de chaîne, pas d'intermédiaire.</p></div>
+        <div class="step"><span class="when">Aujourd'hui</span><h3>Le temps qu'il faut</h3><p>Cinq modèles, et autant de pièces uniques nées d'une histoire. Le sur-mesure comme manière de faire, jamais comme option.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ATELIER immersif -->
+  <section class="band-dark" id="atelier">
+    <div class="bg"></div><div class="scrim"></div>
+    <div class="inner">
+      <span class="eyebrow">L'atelier, à Bordeaux</span>
+      <h2>Fait à la main, en France</h2>
+      <p>L'or 18 carats est travaillé à la main, les pierres choisies une à une, les sertis ajustés à l'œil et à la lime. On part de votre histoire, d'une transmission, d'une promesse, pour dessiner une pièce qui n'existait pas encore.</p>
+    </div>
+  </section>
+
+  <!-- CITATION -->
+  <section class="quote">
+    <blockquote>
+      <p>« Je ne fais pas des bijoux pour qu'on les remarque. J'en fais pour qu'on les garde. »</p>
+      <cite>Emeline Le Ray</cite>
+    </blockquote>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Parlons de votre projet</h2>
+    <a class="btn" href="#">Demander le sur-mesure →</a>
+  </section>
+
+  <footer class="ctx-foot">Précieuse · Joaillerie artisanale · Atelier à Bordeaux · Or 18 carats</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('live','in');}});},{threshold:.25});
+  document.querySelectorAll('#hero,#atelier,.step').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

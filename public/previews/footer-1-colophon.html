@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Footer — Colophon canard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard)}
+  a{color:inherit;text-decoration:none}
+  .badge{position:fixed;top:16px;right:16px;z-index:20;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  .pageend{background:var(--poudre);padding:80px 8vw 96px;text-align:center}
+  .pageend .k{font-family:var(--display);font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--rubis);margin-bottom:10px}
+  .pageend h3{font-family:var(--display);font-weight:500;font-size:clamp(26px,3.4vw,40px);color:var(--canard);margin-bottom:8px}
+  .pageend p{font-style:italic;color:rgba(18,94,94,.65)}
+
+  /* ─── FOOTER : bloc canard de clôture (le « moment » sombre de fin) ─── */
+  footer{background:var(--canard);color:var(--poudre)}
+  .top{max-width:1320px;margin:0 auto;padding:84px 8vw 56px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.1fr;gap:56px}
+  .brandcol .mark{height:38px;width:200px;background:var(--poudre);
+    -webkit-mask:url(/brand/lockup-teal.png) left center/contain no-repeat;mask:url(/brand/lockup-teal.png) left center/contain no-repeat;opacity:.95}
+  .brandcol .sig{margin-top:22px;font-family:var(--display);font-size:15px;line-height:1.6;color:rgba(234,220,211,.7);max-width:24ch}
+  .brandcol .seal{margin-top:26px;display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:rgba(234,220,211,.55)}
+  .brandcol .seal::before{content:"";width:26px;height:1px;background:var(--rubis);filter:brightness(1.6)}
+  .eyebrow{font-family:var(--display);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--rubis);filter:brightness(1.7) saturate(1.2);margin-bottom:20px}
+  .col nav,.col .stack{display:flex;flex-direction:column;gap:13px}
+  .col a{font-family:var(--display);font-size:15px;color:rgba(234,220,211,.86);transition:color .3s,transform .3s;width:fit-content}
+  .col a:hover{color:#fff;transform:translateX(5px)}
+  .col .sub{font-family:var(--display);font-size:13px;color:rgba(234,220,211,.5)}
+  .write a.email{font-size:15px;color:var(--poudre)}
+  .write .resp{margin-top:14px;font-size:13px;line-height:1.6;color:rgba(234,220,211,.55);max-width:22ch}
+  .legal{border-top:1px solid rgba(234,220,211,.14)}
+  .legal .in{max-width:1320px;margin:0 auto;padding:22px 8vw;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 22px;font-family:var(--display);font-size:12px;color:rgba(234,220,211,.55)}
+  .legal nav{display:flex;gap:18px}
+  .legal a:hover{color:var(--poudre)}
+  @media (max-width:860px){.top{grid-template-columns:1fr 1fr;gap:38px;padding:60px 7vw 44px}.brandcol{grid-column:1/-1}}
+</style>
+</head>
+<body>
+  <div class="badge">Aperçu footer · dans la page</div>
+  <section class="pageend">
+    <p class="k">Précieuse</p>
+    <h3>Parlons de votre projet</h3>
+    <p>Emeline vous répond personnellement.</p>
+  </section>
+
+  <footer>
+    <div class="top">
+      <div class="brandcol">
+        <a href="/" class="mark" aria-label="Précieuse"></a>
+        <p class="sig">Fait à la main à Bordeaux, porté partout.</p>
+        <span class="seal">Atelier · Bordeaux · MMXXVI</span>
+      </div>
+      <div class="col">
+        <p class="eyebrow">Naviguer</p>
+        <nav>
+          <a href="/collection">La Collection</a>
+          <a href="/carnet">Le Carnet</a>
+          <a href="/creatrice">L'Atelier</a>
+          <a href="/sur-mesure">Sur-Mesure</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
+      <div class="col">
+        <p class="eyebrow">Suivre</p>
+        <div class="stack">
+          <a href="#">Instagram <span class="sub">@precieusejoaillerie</span></a>
+          <a href="#">Facebook <span class="sub">Précieuse</span></a>
+          <a href="#">LinkedIn <span class="sub">Emeline Le Ray</span></a>
+        </div>
+      </div>
+      <div class="col write">
+        <p class="eyebrow">Écrire</p>
+        <a class="email" href="mailto:contact@precieuse-joaillerie.com">contact@precieuse-joaillerie.com</a>
+        <p class="resp">Réponse sous 48 h, du lundi au vendredi.</p>
+      </div>
+    </div>
+    <div class="legal">
+      <div class="in">
+        <nav>
+          <a href="/mentions-legales">Mentions légales</a>
+          <a href="/confidentialite">Confidentialité</a>
+          <a href="/cgv">CGV</a>
+        </nav>
+        <span>© Précieuse · Joaillerie artisanale, Bordeaux, France</span>
+        <a href="https://propulseo.fr" target="_blank" rel="noreferrer">Fait avec passion par Propul'SEO</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

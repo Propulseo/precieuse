@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>À propos — C3 · La lettre typographique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Ysabeau+Office:ital,wght@0,300;0,400;1,300&family=Petit+Formal+Script&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif;--script:'Petit Formal Script',cursive}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard);font-weight:300}
+  img{display:block}
+  .badge{position:fixed;top:16px;right:16px;z-index:40;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  a{color:inherit}
+
+  .ctx-nav{position:absolute;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;justify-content:space-between;padding:22px 7vw}
+  .ctx-nav .logo{font-family:var(--display);font-size:20px;letter-spacing:.18em;text-transform:uppercase}
+  .ctx-nav .links{display:flex;gap:26px;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+  .ctx-foot{background:var(--canard);color:var(--poudre);text-align:center;padding:54px 8vw;font-family:var(--display);font-size:12px;letter-spacing:.24em;text-transform:uppercase}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 7vw}
+
+  /* ouverture typographique */
+  .open{min-height:96vh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 70px}
+  .open .eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--rubis);margin-bottom:30px}
+  .open h1{font-family:var(--display);font-weight:300;font-size:clamp(34px,6vw,80px);line-height:1.06;letter-spacing:-.015em;max-width:18ch}
+  .open h1 b{font-weight:500;font-style:italic}
+  .open h1 .accent{color:var(--rubis)}
+  .open .by{margin-top:40px;display:flex;align-items:center;gap:18px;font-family:var(--display);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:rgba(18,94,94,.6)}
+  .open .by .l{height:1px;width:54px;background:rgba(18,94,94,.4)}
+
+  /* portrait duotone plein large, scrolle */
+  .figure{position:relative;height:78vh;overflow:hidden;margin:20px 0}
+  .figure img{position:absolute;inset:0;width:100%;height:118%;object-fit:cover;object-position:50% 30%;
+    filter:grayscale(1) contrast(1.05) sepia(.25);mix-blend-mode:multiply}
+  .figure .tint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,94,94,.16),rgba(18,94,94,.42));mix-blend-mode:screen}
+  .figure figcaption{position:absolute;left:7vw;bottom:30px;font-family:var(--script);font-size:22px;color:var(--poudre);text-shadow:0 1px 12px rgba(13,71,71,.6)}
+
+  /* corps : grandes lignes, beaucoup d'air */
+  .body{padding:90px 0}
+  .stanza{max-width:760px;margin:0 auto 78px}
+  .stanza .mk{font-family:var(--display);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--rubis);margin-bottom:18px;opacity:0;transform:translateY(8px);transition:.7s}
+  .stanza p{font-family:var(--display);font-weight:300;font-size:clamp(21px,2.6vw,30px);line-height:1.55;color:var(--canard);opacity:0;transform:translateY(14px);filter:blur(3px);transition:opacity 1s ease,transform 1s ease,filter 1s ease}
+  .stanza p+p{margin-top:22px}
+  .stanza.in .mk{opacity:1;transform:none}
+  .stanza.in p{opacity:1;transform:none;filter:none}
+  .stanza p .accent{color:var(--rubis);font-style:italic}
+  .stanza em{font-style:italic}
+
+  /* bandeau preuves typographique */
+  .proof{border-top:1px solid rgba(18,94,94,.2);border-bottom:1px solid rgba(18,94,94,.2);padding:40px 7vw;display:flex;flex-wrap:wrap;gap:30px 60px;justify-content:center;align-items:center}
+  .proof .it{font-family:var(--display);font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:rgba(18,94,94,.7)}
+  .proof .it b{display:block;font-size:26px;letter-spacing:0;text-transform:none;color:var(--canard);font-weight:500;margin-bottom:4px}
+
+  /* citation pleine page */
+  .quote{padding:120px 7vw;text-align:center}
+  .quote p{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(28px,4.4vw,52px);line-height:1.32;max-width:20ch;margin:0 auto;color:var(--canard)}
+  .quote .line{height:2px;width:90px;background:var(--rubis);margin:0 auto 40px;transform:scaleX(0);transform-origin:center;transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+  .quote.in .line{transform:scaleX(1)}
+
+  /* clôture : signature qui se trace */
+  .sign{padding:40px 7vw 110px;text-align:center}
+  .sign .signature{font-family:var(--script);font-size:clamp(54px,9vw,96px);line-height:.9;color:var(--canard);display:inline-block;clip-path:inset(0 100% 0 0);transition:clip-path 1.6s cubic-bezier(.2,.7,.2,1)}
+  .sign.in .signature{clip-path:inset(0 0 0 0)}
+  .sign .role{font-family:var(--display);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:rgba(18,94,94,.55);margin:14px 0 36px}
+  .btn{display:inline-block;background:var(--canard);color:var(--poudre);font-family:var(--display);font-size:12px;letter-spacing:.28em;text-transform:uppercase;padding:16px 38px;border-radius:999px;text-decoration:none;transition:background .3s}
+  .btn:hover{background:var(--canard-90)}
+
+  @media(prefers-reduced-motion:reduce){.stanza p,.stanza .mk{opacity:1!important;transform:none!important;filter:none!important}.signature{clip-path:none!important}.quote .line{transform:scaleX(1)!important}}
+</style>
+</head>
+<body>
+  <div class="badge">À propos · C3 — Typographique · texte brouillon</div>
+  <nav class="ctx-nav"><span class="logo">Précieuse</span><span class="links"><a>Collection</a><a>Sur-mesure</a><a>À propos</a><a>Contact</a></span></nav>
+
+  <!-- ouverture -->
+  <header class="open wrap">
+    <span class="eyebrow">La créatrice</span>
+    <h1>Je suis venue à la joaillerie comme on retrouve une langue <b>maternelle</b> qu'on aurait <span class="accent">oubliée.</span></h1>
+    <div class="by"><span class="l"></span>Une lettre d'Emeline Le Ray</div>
+  </header>
+
+  <!-- portrait duotone -->
+  <figure class="figure">
+    <img src="/images/stitch/creatrice-emeline-portrait.jpg" alt="Emeline dans son atelier" />
+    <div class="tint"></div>
+    <figcaption>à l'atelier, Bordeaux</figcaption>
+  </figure>
+
+  <!-- corps -->
+  <section class="body">
+    <div class="stanza">
+      <div class="mk">Les débuts</div>
+      <p>J'avais besoin de mes mains, de matière, de quelque chose qui résiste un peu. <span class="accent">L'or a résisté juste ce qu'il fallait.</span></p>
+      <p>On m'a appris le métier auprès d'artisans qui ne transigent sur rien : la patience avant la technique. Une pièce ratée se refond ; un geste pressé ne se rattrape pas.</p>
+    </div>
+
+    <div class="stanza">
+      <div class="mk">L'atelier, à Bordeaux</div>
+      <p>Mon atelier tient dans une pièce, et c'est voulu. J'y dessine, j'y fonds <em>l'or 18 carats</em>, j'y choisis chaque pierre et j'ajuste chaque serti à l'œil et à la lime.</p>
+      <p>Tout est fait à la main, en France, sans chaîne ni intermédiaire. Cela prend plus de temps. <span class="accent">C'est exactement le temps qu'il faut.</span></p>
+    </div>
+
+    <div class="stanza">
+      <div class="mk">Ma façon de faire</div>
+      <p>Je ne crée jamais deux fois la même pièce. On part de votre histoire, d'une transmission, d'une promesse, d'un anniversaire, et j'en dessine la trace.</p>
+      <p>Un bijou n'est pas un objet de plus. C'est quelque chose qui se transmet, qui survit à celui qui l'offre.</p>
+    </div>
+  </section>
+
+  <!-- preuves -->
+  <section class="proof">
+    <span class="it"><b>18 ct</b>or, jamais moins</span>
+    <span class="it"><b>100 %</b>fait main, en France</span>
+    <span class="it"><b>Unique</b>une pièce, une histoire</span>
+    <span class="it"><b>Bordeaux</b>l'atelier, depuis MMXXVI</span>
+  </section>
+
+  <!-- citation -->
+  <section class="quote">
+    <span class="line"></span>
+    <p>« Je ne fais pas des bijoux pour qu'on les remarque. J'en fais pour qu'on les garde. »</p>
+  </section>
+
+  <!-- signature -->
+  <section class="sign">
+    <span class="signature">Emeline</span>
+    <div class="role">Créatrice & joaillère · Précieuse</div>
+    <a class="btn" href="#">Parlons de votre projet →</a>
+  </section>
+
+  <footer class="ctx-foot">Précieuse · Joaillerie artisanale · Atelier à Bordeaux · Or 18 carats</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.35});
+  document.querySelectorAll('.stanza,.quote,.sign').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

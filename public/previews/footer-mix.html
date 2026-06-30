@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Footer — Mix 3+4 (toggle variante + couleur)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --accent:#125e5e;--accent-strong:#0d4747;
+    --poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--accent)}
+  a{color:inherit;text-decoration:none}
+
+  /* ─── Barre de contrôle (toggles) ─── */
+  .controls{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center;justify-content:center;
+    background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid rgba(18,94,94,.12);padding:11px 18px;font-family:var(--display)}
+  .controls .grp{display:flex;align-items:center;gap:8px}
+  .controls .lbl{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(18,94,94,.5);margin-right:4px}
+  .vbtn{font-size:12px;letter-spacing:.06em;color:var(--accent);background:transparent;border:1px solid rgba(18,94,94,.25);border-radius:999px;padding:6px 13px;cursor:pointer;transition:all .25s}
+  .vbtn:hover{border-color:var(--accent)}
+  .vbtn.on{background:var(--accent);color:var(--poudre);border-color:var(--accent)}
+  .swatch{width:22px;height:22px;border-radius:999px;border:1px solid rgba(0,0,0,.12);cursor:pointer;padding:0;transition:transform .2s}
+  .swatch:hover{transform:scale(1.12)}
+  .swatch.on{outline:2px solid var(--accent);outline-offset:2px}
+
+  .pageend{padding:120px 8vw 84px;text-align:center}
+  .pageend .k{font-family:var(--display);font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--rubis);margin-bottom:10px}
+  .pageend h3{font-family:var(--display);font-weight:500;font-size:clamp(26px,3.4vw,40px)}
+
+  /* ─── Surfaces : poudre (clair) vs accent (coloré) ─── */
+  .surface{--mark:var(--accent);position:relative;overflow:hidden}
+  .surface.accent{--mark:var(--poudre);background:var(--accent);color:var(--poudre)}
+  .surface.light{background:var(--poudre-dark)}
+  .center{text-align:center}
+
+  .picto{display:inline-block;width:54px;height:54px;background:var(--mark);
+    -webkit-mask:url(/brand/picto-teal.png) center/contain no-repeat;mask:url(/brand/picto-teal.png) center/contain no-repeat}
+  .word{display:inline-block;width:210px;height:38px;background:var(--mark);
+    -webkit-mask:url(/brand/logo-teal.png) center/contain no-repeat;mask:url(/brand/logo-teal.png) center/contain no-repeat}
+
+  .eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--rubis);margin-bottom:12px}
+  .accent .eyebrow{color:var(--poudre);opacity:.85}
+  .nl{padding:74px 8vw 70px}
+  .nl h2{font-family:var(--display);font-weight:500;font-size:clamp(28px,3.6vw,46px);line-height:1.1;letter-spacing:-.01em;max-width:18ch;margin:0 auto 14px}
+  .nl p.sub{font-style:italic;font-size:17px;opacity:.72;max-width:46ch;margin:0 auto 28px}
+  .form{display:flex;gap:12px;max-width:480px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+  .form input{flex:1;min-width:220px;background:transparent;border:none;border-bottom:1px solid currentColor;color:inherit;font-family:var(--display);font-size:16px;padding:12px 4px;opacity:.9}
+  .form input::placeholder{color:currentColor;opacity:.5}
+  .form input:focus{outline:none;opacity:1}
+  .form button{font-family:var(--display);font-size:12px;letter-spacing:.26em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:999px;cursor:pointer;transition:background .3s,color .3s}
+  .accent .form button{background:var(--poudre);color:var(--accent)}
+  .accent .form button:hover{background:var(--rubis);color:var(--poudre)}
+  .light .form button,.surface:not(.accent) .form button{background:var(--accent);color:var(--poudre)}
+  .surface:not(.accent) .form button:hover{background:var(--accent-strong)}
+
+  .sig{font-family:var(--display);font-style:italic;font-size:18px;opacity:.72;margin-top:16px}
+  .sep{width:42px;height:1px;background:currentColor;opacity:.28;margin:26px auto}
+  .navline{display:flex;flex-wrap:wrap;justify-content:center;gap:9px 24px;font-family:var(--display);font-size:15px}
+  .navline a{opacity:.9;transition:color .3s,opacity .3s}
+  .navline a:hover{color:var(--rubis);opacity:1}
+  .accent .navline a:hover{color:var(--poudre);opacity:1}
+  .contact{margin-top:22px;font-family:var(--display);font-size:16px}
+  .contact a{border-bottom:1px solid currentColor;padding-bottom:2px}
+  .social{margin-top:18px;display:flex;justify-content:center;gap:18px;font-family:var(--display);font-size:13px;opacity:.7}
+  .atelier{margin-top:26px;font-family:var(--display);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--rubis)}
+  .accent .atelier{color:var(--poudre);opacity:.8}
+
+  .foot{padding:70px 8vw 30px}
+  .legal{border-top:1px solid currentColor}
+  .legal{border-color:rgba(127,127,127,.18)}
+  .legal .in{max-width:1100px;margin:0 auto;padding:20px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 18px;font-family:var(--display);font-size:12px;opacity:.62}
+  .legal nav{display:flex;gap:16px}
+
+  .medallion{display:inline-flex;align-items:center;justify-content:center;width:96px;height:96px;border-radius:999px;border:1px solid currentColor;margin-bottom:26px;opacity:.95}
+  .medallion .picto{width:46px;height:46px}
+
+  /* Filigrane : grand picto en watermark */
+  .filigrane .water{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:420px;height:420px;background:var(--mark);opacity:.06;
+    -webkit-mask:url(/brand/picto-teal.png) center/contain no-repeat;mask:url(/brand/picto-teal.png) center/contain no-repeat;pointer-events:none}
+  .filigrane .inner{position:relative;z-index:1}
+
+  /* ─── Variante Bandeau : pleine largeur, compacte, fleur en filigrane ─── */
+  .foot-band{padding:26px 5vw 10px}
+  .foot-band .brandlogo{display:block;height:144px;width:auto;flex-shrink:0}
+  .water-side{position:absolute;right:-34px;top:50%;transform:translateY(-50%) scaleX(-1);width:228px;height:228px;background:var(--mark);opacity:.09;
+    -webkit-mask:url(/brand/picto-teal.png) center/contain no-repeat;mask:url(/brand/picto-teal.png) center/contain no-repeat;pointer-events:none;z-index:0}
+  .band-row{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:14px 44px;align-items:flex-start;justify-content:space-between}
+  .band-col{min-width:148px}
+  .band-brand{display:flex;align-items:center;gap:24px;max-width:520px}
+  .brand-text .sig{margin-top:0;max-width:26ch}
+  .band-col .sig{font-size:13px;margin-top:12px;line-height:1.45}
+  .band-brand .seal{display:block;margin-top:16px;padding-left:15px;border-left:1px solid rgba(234,220,211,.35);font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.24em;line-height:1.62;text-transform:uppercase;color:rgba(234,220,211,.82)}
+  .bnav{display:flex;flex-direction:column;gap:9px;font-family:var(--display);font-size:15px}
+  .bnav a{opacity:.9;transition:color .3s,transform .3s;width:fit-content}
+  .bnav a:hover{color:var(--poudre);opacity:1;transform:translateX(4px)}
+  .form-inline{display:flex;flex-direction:column;gap:12px;max-width:230px}
+  .form-inline input{background:transparent;border:none;border-bottom:1px solid currentColor;color:inherit;font-family:var(--display);font-size:15px;padding:8px 2px;opacity:.9}
+  .form-inline input::placeholder{color:currentColor;opacity:.5}
+  .form-inline input:focus{outline:none;opacity:1}
+  .form-inline button{align-self:flex-start;font-family:var(--display);font-size:11px;letter-spacing:.22em;text-transform:uppercase;padding:10px 22px;border:none;border-radius:999px;cursor:pointer;background:var(--poudre);color:var(--accent);transition:background .3s,color .3s}
+  .form-inline button:hover{background:var(--rubis);color:var(--poudre)}
+  .foot-band .legal{margin-top:12px}
+  .foot-band .legal .in{max-width:none;justify-content:space-between;padding:12px 0}
+
+  @media (max-width:600px){.nl{padding:54px 6vw 50px}.foot{padding:52px 6vw 26px}.water-side{opacity:.05;right:-90px;width:200px;height:200px}}
+</style>
+</head>
+<body>
+  <div class="controls">
+    <div class="grp"><span class="lbl">Variante</span><span id="vgroup"></span></div>
+    <div class="grp"><span class="lbl">Couleur</span><span id="cgroup"></span></div>
+  </div>
+
+  <section class="pageend">
+    <p class="k">Précieuse</p>
+    <h3>Parlons de votre projet</h3>
+  </section>
+
+  <div id="slot"></div>
+
+<script>
+  const NAV = [
+    ['La Collection','/collection'],['Le Carnet','/carnet'],["L'Atelier",'/creatrice'],
+    ['Sur-Mesure','/sur-mesure'],['Contact','/contact'],
+  ];
+  const navHTML = NAV.map(([l,h])=>`<a href="${h}">${l}</a>`).join('');
+  const socialHTML = `<a href="#">Instagram</a><a href="#">Facebook</a><a href="#">LinkedIn</a>`;
+  const legalHTML = `<div class="legal"><div class="in">
+      <span>© Précieuse · Joaillerie artisanale, Bordeaux, France</span>
+      <a href="https://propulseo-site.com" target="_blank" rel="noreferrer">Fait avec passion par Propul'SEO</a>
+      <nav><a href="/mentions-legales">Mentions légales</a><a href="/confidentialite">Confidentialité</a><a href="/cgv">CGV</a></nav>
+    </div></div>`;
+  const NL = (accent)=>`
+    <p class="eyebrow">La lettre de l'atelier</p>
+    <h2>Recevez nos nouveautés et les coulisses de l'atelier</h2>
+    <p class="sub">Premières pièces, gestes du métier, rendez-vous. Quelques lettres par an.</p>
+    <form class="form" onsubmit="return false">
+      <input type="email" placeholder="Votre adresse e-mail" aria-label="Votre adresse e-mail" />
+      <button type="submit">S'inscrire</button>
+    </form>`;
+
+  const VARIANTS = {
+    bandeau: ()=>`
+      <section class="surface accent foot-band">
+        <span class="water-side"></span>
+        <div class="band-row">
+          <div class="band-col band-brand">
+            <img class="brandlogo" src="/images/Photo%20Precieus/Precieuse_logo-picto-shape_RVB_poudre_300dpi.png" alt="Précieuse" />
+            <div class="brand-text">
+              <p class="sig">Fait à la main à Bordeaux, porté partout.</p>
+              <span class="seal">Atelier<br>Bordeaux<br>MMXXVI</span>
+            </div>
+          </div>
+          <div class="band-col">
+            <p class="eyebrow">Naviguer</p>
+            <nav class="bnav">${navHTML}</nav>
+          </div>
+          <div class="band-col">
+            <p class="eyebrow">Écrire</p>
+            <nav class="bnav"><a href="mailto:contact@precieuse-joaillerie.com">contact@precieuse-joaillerie.com</a></nav>
+            <p class="sig" style="max-width:20ch">Réponse sous 48 h, du lundi au vendredi.</p>
+          </div>
+          <div class="band-col">
+            <p class="eyebrow">Suivre</p>
+            <nav class="bnav">${socialHTML}</nav>
+          </div>
+        </div>
+        ${legalHTML}
+      </section>`,
+
+    medaillon: ()=>`
+      <section class="surface accent nl center">
+        <span class="medallion"><span class="picto"></span></span>
+        ${NL(true)}
+      </section>
+      <section class="surface light foot center">
+        <span class="word" role="img" aria-label="Précieuse"></span>
+        <nav class="navline" style="margin-top:22px">${navHTML}</nav>
+        <div class="social">${socialHTML}</div>
+        <p class="atelier">Atelier · Bordeaux · MMXXVI</p>
+        <div style="margin-top:26px">${legalHTML}</div>
+      </section>`,
+
+    centre: ()=>`
+      <section class="surface accent nl center">${NL(true)}</section>
+      <section class="surface light foot center">
+        <span class="picto"></span>
+        <div style="margin-top:16px"><span class="word" role="img" aria-label="Précieuse"></span></div>
+        <p class="sig">Fait à la main à Bordeaux, porté partout.</p>
+        <span class="sep"></span>
+        <nav class="navline">${navHTML}</nav>
+        <p class="contact"><a href="mailto:contact@precieuse-joaillerie.com">contact@precieuse-joaillerie.com</a></p>
+        <div class="social">${socialHTML}</div>
+        <p class="atelier">Atelier · Bordeaux · MMXXVI</p>
+        <div style="margin-top:26px">${legalHTML}</div>
+      </section>`,
+
+    filigrane: ()=>`
+      <section class="surface light foot center filigrane">
+        <span class="water"></span>
+        <div class="inner">
+          <span class="picto"></span>
+          <div style="margin-top:20px">${NL(false)}</div>
+          <nav class="navline" style="margin-top:34px">${navHTML}</nav>
+          <p class="atelier">Atelier · Bordeaux · MMXXVI</p>
+          <div style="margin-top:26px">${legalHTML}</div>
+        </div>
+      </section>`,
+
+    drape: ()=>`
+      <section class="surface accent foot center" style="padding-top:78px">
+        <span class="picto"></span>
+        <div style="margin-top:16px"><span class="word" role="img" aria-label="Précieuse"></span></div>
+        <div style="margin-top:30px">${NL(true)}</div>
+        <span class="sep"></span>
+        <nav class="navline">${navHTML}</nav>
+        <div class="social">${socialHTML}</div>
+        <p class="atelier">Atelier · Bordeaux · MMXXVI</p>
+        <div style="margin-top:26px">${legalHTML}</div>
+      </section>`,
+
+    double: ()=>`
+      <section class="surface light foot center">
+        <span class="picto"></span>
+        <div style="margin-top:16px"><span class="word" role="img" aria-label="Précieuse"></span></div>
+        <p class="sig">Fait à la main à Bordeaux, porté partout.</p>
+        <nav class="navline" style="margin-top:26px">${navHTML}</nav>
+        <div class="social">${socialHTML}</div>
+      </section>
+      <section class="surface accent nl center">${NL(true)}</section>
+      <section class="surface accent center" style="padding:0 8vw 8px">${legalHTML}</section>`,
+  };
+
+  const V_LABELS = {bandeau:'Bandeau',medaillon:'Médaillon',centre:'Centré',filigrane:'Filigrane',drape:'Drapé',double:'Double'};
+  const COLORS = {
+    Canard:['#125e5e','#0d4747'], Rubis:['#b80049','#8e0039'],
+    'Lie-de-vin':['#7a2e3e','#5e222f'], Prune:['#72106b','#560b52'], Nuit:['#2f3e4d','#232f3a'],
+  };
+
+  const slot=document.getElementById('slot'), vgroup=document.getElementById('vgroup'), cgroup=document.getElementById('cgroup');
+  let curV='bandeau';
+
+  function render(){ slot.innerHTML = VARIANTS[curV](); }
+  Object.keys(VARIANTS).forEach(k=>{
+    const b=document.createElement('button'); b.className='vbtn'+(k===curV?' on':''); b.textContent=V_LABELS[k];
+    b.onclick=()=>{curV=k; [...vgroup.children].forEach(x=>x.classList.remove('on')); b.classList.add('on'); render();};
+    vgroup.appendChild(b);
+  });
+  Object.entries(COLORS).forEach(([name,[c,s]],i)=>{
+    const b=document.createElement('button'); b.className='swatch'+(i===0?' on':''); b.style.background=c; b.title=name; b.setAttribute('aria-label',name);
+    b.onclick=()=>{document.documentElement.style.setProperty('--accent',c);document.documentElement.style.setProperty('--accent-strong',s);[...cgroup.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');};
+    cgroup.appendChild(b);
+  });
+  render();
+</script>
+</body>
+</html>

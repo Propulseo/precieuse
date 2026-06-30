@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sur-mesure · Précieuse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Ysabeau+Office:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --canard:#125e5e; --canard-90:#0d4747; --poudre:#eadcd3; --poudre-dark:#d9c7b8; --rubis:#b80049;
+    --display:'Spectral',Georgia,serif; --body:'Ysabeau Office',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);font-weight:300;background:var(--poudre);color:var(--canard);overflow-x:hidden}
+  img{display:block}
+  a{color:inherit;text-decoration:none}
+  a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--rubis);outline-offset:3px;border-radius:2px}
+  h1,h2,h3,h4{font-family:var(--display);font-weight:500;line-height:1.06;letter-spacing:-.01em}
+  i,em{font-style:italic}
+  ::selection{background:var(--rubis);color:var(--poudre)}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 8vw}
+  .eyebrow{font-family:var(--display);font-weight:400;font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--rubis)}
+
+  /* masques de logo / picto */
+  .word{display:inline-block;width:148px;height:30px;background:var(--mark,var(--canard));
+    -webkit-mask:url(/brand/logo-teal.png) center/contain no-repeat;mask:url(/brand/logo-teal.png) center/contain no-repeat}
+  .picto{display:inline-block;width:48px;height:48px;background:var(--mark,var(--canard));
+    -webkit-mask:url(/brand/picto-teal.png) center/contain no-repeat;mask:url(/brand/picto-teal.png) center/contain no-repeat}
+
+  /* CTA plein : canard sur poudre, hover rubis */
+  .btn-fill{display:inline-block;font-family:var(--display);font-weight:500;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+    background:var(--canard);color:var(--poudre);padding:15px 30px;border-radius:999px;border:none;cursor:pointer;transition:background .3s,transform .3s}
+  .btn-fill:hover{background:var(--rubis);transform:translateY(-1px)}
+  .link-r{display:inline-flex;align-items:center;gap:7px;font-family:var(--display);font-size:14px;letter-spacing:.04em;
+    color:var(--canard);border-bottom:1px solid var(--rubis);padding-bottom:3px;transition:color .3s}
+  .link-r .arr{display:inline-block;transition:transform .3s}
+  .link-r:hover{color:var(--rubis)}
+  .link-r:hover .arr{transform:translateX(5px)}
+
+  /* reveals */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .85s ease,transform .85s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  /* --- NAV --- */
+  .nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:24px;
+    height:72px;padding:0 8vw;background:rgba(234,220,211,.86);backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(18,94,94,.12)}
+  .nav .brand{display:flex;align-items:center}
+  .nav .links{display:flex;gap:30px;font-family:var(--display);font-size:14px;letter-spacing:.02em}
+  .nav .links a{position:relative;padding:4px 0;transition:color .3s}
+  .nav .links a::after{content:"";position:absolute;left:0;bottom:-1px;width:100%;height:1px;background:var(--rubis);
+    transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  .nav .links a:hover{color:var(--rubis)}
+  .nav .links a:hover::after{transform:scaleX(1)}
+  .nav .nav-cta{font-size:12px;padding:11px 22px}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px}
+  .burger span{display:block;width:24px;height:1.5px;background:var(--canard)}
+  @media (max-width:900px){
+    .nav .links,.nav .nav-cta{display:none}
+    .burger{display:flex}
+  }
+
+  /* --- MENU MOBILE --- */
+  .mobile-menu{position:fixed;inset:0;z-index:80;background:var(--canard);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:30px;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
+  body.menu-open .mobile-menu{opacity:1;visibility:visible}
+  body.menu-open{overflow:hidden}
+  .mobile-menu .mm-close{position:absolute;top:18px;right:8vw;background:none;border:none;cursor:pointer;
+    font-family:var(--display);font-size:38px;line-height:1;color:var(--poudre)}
+  .mobile-menu .mm-links{display:flex;flex-direction:column;align-items:center;gap:22px;font-family:var(--display);font-size:24px}
+  .mobile-menu .mm-links a{color:var(--poudre);transition:color .3s}
+  .mobile-menu .mm-links a:hover{color:var(--rubis)}
+  .mobile-menu .mm-cta{background:var(--poudre);color:var(--canard);font-size:13px}
+  .mobile-menu .mm-cta:hover{background:var(--rubis);color:var(--poudre)}
+
+  /* --- HÉRO --- */
+  .hero{position:relative;min-height:100dvh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .hero .split{position:absolute;inset:0}
+  .hero .split>div{position:absolute;top:0;bottom:0;width:50%;overflow:hidden}
+  .hero .split .vid{left:0;border-right:1px solid rgba(234,220,211,.14);background:var(--canard-90) url('/images/real/bague-pierre-precieuse-perle.webp') center/cover}
+  .hero .split .img2{right:0}
+  .hero .split video,.hero .split img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;filter:brightness(.8) saturate(1.06)}
+  @media (prefers-reduced-motion:reduce){.hero .split video{display:none}}
+  @media (max-width:680px){.hero .split .img2{display:none}.hero .split .vid{width:100%;border-right:none}}
+  .hero .veil{position:absolute;inset:0;pointer-events:none;background:
+    linear-gradient(to bottom,rgba(13,71,71,.5) 0%,rgba(13,71,71,.2) 36%,rgba(13,71,71,.2) 62%,rgba(13,71,71,.56) 100%)}
+  .hero .inner{position:relative;z-index:2;width:100%;max-width:640px;padding:0 24px;text-align:center;color:var(--poudre)}
+  .hero .kicker{display:inline-block;margin-bottom:22px;background:rgba(234,220,211,.12);backdrop-filter:blur(2px);
+    padding:6px 14px;font-family:var(--display);font-size:12px;letter-spacing:.36em;text-transform:uppercase;
+    color:var(--poudre);text-shadow:0 1px 4px rgba(0,0,0,.35)}
+  .hero h1{font-size:clamp(42px,6.4vw,82px);font-weight:400;color:var(--poudre);line-height:.98;
+    max-width:18ch;margin:0 auto;text-shadow:0 3px 20px rgba(13,71,71,.55)}
+  .hero h1 i{color:var(--rubis);font-weight:500;text-shadow:0 2px 10px rgba(0,0,0,.35)}
+  .hero p.sub{font-family:var(--display);font-style:italic;font-size:clamp(16px,1.8vw,21px);color:rgba(234,220,211,.92);
+    max-width:40ch;margin:22px auto 32px;text-shadow:0 2px 14px rgba(13,71,71,.55)}
+  .hero .btn-fill{background:var(--poudre);color:var(--canard);border:1px solid var(--poudre)}
+  .hero .btn-fill:hover{background:transparent;color:var(--poudre)}
+
+  /* --- MARQUEE --- */
+  .marquee{background:var(--poudre);border-top:1px solid rgba(18,94,94,.15);border-bottom:1px solid rgba(18,94,94,.15);
+    overflow:hidden;padding:16px 0}
+  .marquee .track{display:flex;width:max-content;gap:0;animation:scroll-x 30s linear infinite}
+  .marquee:hover .track{animation-play-state:paused}
+  .marquee .item{display:inline-flex;align-items:center;font-family:var(--display);font-size:13px;letter-spacing:.3em;
+    text-transform:uppercase;color:var(--canard);white-space:nowrap;padding:0 4px}
+  .marquee .dot{display:inline-block;width:7px;height:7px;margin:0 26px;transform:rotate(45deg);background:var(--rubis);flex-shrink:0}
+  @keyframes scroll-x{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.marquee .track{animation:none;flex-wrap:wrap;justify-content:center;width:100%}}
+
+  /* --- MANIFESTE --- */
+  .manifesto{text-align:center;padding:64px 8vw 56px}
+  .manifesto .eyebrow{display:block;margin-bottom:26px}
+  .manifesto h2{font-size:clamp(28px,3.7vw,50px);font-weight:400;max-width:22ch;margin:0 auto;line-height:1.16}
+  .manifesto h2 i{color:var(--rubis)}
+  .ornament{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:46px}
+  .ornament .rule{height:1px;width:88px;background:var(--rubis);opacity:.55}
+  .ornament .picto{width:42px;height:42px}
+
+  /* --- SPLIT croquis --- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,80px);align-items:center;
+    padding:24px 8vw 64px;max-width:1240px;margin:0 auto}
+  .split .copy h2{font-size:clamp(28px,3.6vw,46px);font-weight:400;max-width:14ch}
+  .split .copy h2 i{color:var(--rubis)}
+  .split .copy p{font-size:17px;line-height:1.7;max-width:44ch;margin:22px 0 26px;color:var(--canard)}
+  .split .shot{position:relative;overflow:hidden;border:1px solid rgba(18,94,94,.14);aspect-ratio:4/5}
+  .split .shot img{width:100%;height:100%;object-fit:cover;transition:transform 1s ease}
+  .split .shot:hover img{transform:scale(1.04)}
+  @media (max-width:768px){.split{grid-template-columns:1fr;gap:34px;padding-bottom:74px}.split .copy{order:1}.split .shot{order:2}}
+
+  /* --- PROCÉDÉ --- */
+  .process{padding:60px 8vw 64px;background:var(--poudre-dark)}
+  .process .head{text-align:center;margin-bottom:62px}
+  .process .head .eyebrow{display:block;margin-bottom:16px}
+  .process .head h2{font-size:clamp(26px,3.3vw,42px);font-weight:400}
+  .steps{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:30px;max-width:1080px;margin:0 auto}
+  .steps::before{content:"";position:absolute;top:50px;left:12%;right:12%;height:1px;background:rgba(184,0,73,.3);z-index:0}
+  .step{position:relative;z-index:1;text-align:center}
+  .step .ic{height:100px;display:flex;align-items:flex-end;justify-content:center;margin:0 auto 16px;padding:0 18px;background:var(--poudre-dark)}
+  .step .ic img{height:88px;width:auto;display:block}
+  .step .num{display:block;font-family:var(--display);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--rubis);margin-bottom:8px}
+  .step h3{font-family:var(--display);font-weight:500;font-size:20px;margin-bottom:10px}
+  .step p{font-size:14px;line-height:1.6;color:var(--canard);max-width:25ch;margin:0 auto}
+  @media (max-width:768px){
+    .steps{grid-template-columns:repeat(2,1fr);gap:42px 26px}
+    .steps::before{display:none}
+  }
+  @media (max-width:460px){.steps{grid-template-columns:1fr}}
+
+  /* --- CHOIX DE LA PIERRE (sombre canard) --- */
+  .stone{background:var(--canard);color:var(--poudre)}
+  .stone .grid{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch}
+  .stone .shot{position:relative;overflow:hidden;min-height:62vh}
+  .stone .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .stone .copy{padding:clamp(48px,7vw,96px) clamp(36px,6vw,84px);display:flex;flex-direction:column;justify-content:center}
+  .stone .copy .rule{width:54px;height:1px;background:var(--rubis);margin-bottom:24px}
+  .stone .copy h2{font-size:clamp(28px,3.6vw,46px);font-weight:400;color:var(--poudre);max-width:16ch}
+  .stone .copy p{font-size:17px;line-height:1.7;color:rgba(234,220,211,.86);max-width:44ch;margin:24px 0 30px}
+  .stone .links{display:flex;flex-wrap:wrap;gap:14px 28px}
+  .stone .link-c{font-family:var(--display);font-size:14px;letter-spacing:.04em;color:var(--poudre);
+    border-bottom:1px solid var(--rubis);padding-bottom:3px;transition:color .3s}
+  .stone .link-c:hover{color:var(--rubis)}
+  @media (max-width:768px){.stone .grid{grid-template-columns:1fr}.stone .shot{min-height:54vh}}
+
+  /* --- GARANTIE --- */
+  .guarantee{position:relative;background:var(--poudre-dark);padding:56px 8vw 60px}
+  .guarantee .card{position:relative;z-index:1;background:var(--poudre);max-width:880px;margin:0 auto;
+    padding:clamp(44px,6vw,72px);text-align:center;border:1px solid rgba(18,94,94,.12);
+    box-shadow:0 26px 64px rgba(13,71,71,.13)}
+  .guarantee .lead{font-family:var(--body);font-style:italic;font-size:15px;color:var(--canard);margin-bottom:16px}
+  .guarantee .seal-circ{position:relative;width:120px;height:120px;margin:0 auto 24px;display:flex;align-items:center;justify-content:center}
+  .guarantee .seal-circ svg{position:absolute;inset:0;width:100%;height:100%;animation:spin 30s linear infinite}
+  .guarantee .seal-circ text{font-family:var(--display);font-size:8.2px;letter-spacing:.1em;fill:var(--rubis);text-transform:uppercase}
+  .guarantee .seal-circ .picto{width:40px;height:40px;--mark:var(--canard)}
+  @media (prefers-reduced-motion:reduce){.guarantee .seal-circ svg{animation:none}}
+  .guarantee h2{font-size:clamp(24px,3vw,38px);font-weight:400;max-width:20ch;margin:0 auto 26px}
+
+  /* --- ATELIER / EMELINE --- */
+  .about{padding:64px 8vw 68px;overflow:hidden}
+  .about .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(40px,6vw,80px);align-items:center;max-width:1240px;margin:0 auto}
+  .about .copy h2{font-size:clamp(30px,4vw,54px);font-weight:400;max-width:15ch}
+  .about .copy h2 i{color:var(--rubis)}
+  .about .copy p{font-size:17px;line-height:1.7;color:var(--canard);max-width:46ch;margin:24px 0 28px}
+  .gallery{position:relative;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:16px}
+  .gallery .g{overflow:hidden;border:1px solid rgba(18,94,94,.14)}
+  .gallery .g img{width:100%;height:100%;object-fit:cover;transition:transform 1s ease}
+  .gallery .g:hover img{transform:scale(1.04)}
+  .gallery .g1{aspect-ratio:3/4}
+  .gallery .g2{aspect-ratio:3/4;margin-top:38px}
+  .gallery .g3{grid-column:1 / -1;aspect-ratio:16/9}
+  .badge-circ{position:absolute;left:-26px;bottom:24px;width:124px;height:124px;z-index:3;
+    display:flex;align-items:center;justify-content:center}
+  .badge-circ .disc{position:absolute;inset:0;background:var(--rubis);border-radius:999px}
+  .badge-circ .picto{width:40px;height:40px;--mark:var(--poudre);position:relative;z-index:1}
+  .badge-circ svg{position:absolute;inset:0;width:100%;height:100%}
+  .badge-circ text{font-family:var(--display);font-size:9.2px;letter-spacing:.26em;fill:var(--poudre);text-transform:uppercase}
+  .badge-circ.spin svg{animation:spin 26s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.badge-circ.spin svg{animation:none}}
+  @media (max-width:768px){
+    .about .grid{grid-template-columns:1fr;gap:46px}
+    .gallery .g2{margin-top:0}
+    .badge-circ{left:auto;right:14px;bottom:14px;width:104px;height:104px}
+  }
+
+  /* --- RÉALISATIONS --- */
+  .real{padding:60px 8vw 64px;max-width:1180px;margin:0 auto}
+  .real .head{text-align:center;margin-bottom:54px}
+  .real .head .eyebrow{display:block;margin-bottom:14px}
+  .real .head h2{font-size:clamp(28px,3.6vw,44px);font-weight:400}
+  .real .head p{font-family:var(--display);font-style:italic;font-size:16px;color:rgba(18,94,94,.6);margin:14px auto 0;max-width:48ch}
+  .piece{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;margin-bottom:26px}
+  .piece .shot{position:relative;overflow:hidden;border:1px solid rgba(18,94,94,.16);aspect-ratio:4/5}
+  .piece .shot img{width:100%;height:100%;object-fit:cover;transition:transform .85s ease}
+  .piece:hover .shot img{transform:scale(1.03)}
+  .piece .shot .tag{position:absolute;left:12px;top:12px;font-family:var(--display);font-size:10px;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--poudre);background:rgba(13,71,71,.55);padding:5px 10px;backdrop-filter:blur(2px)}
+  .piece .meta{grid-column:1 / -1;display:flex;align-items:center;gap:18px;margin:8px 0 26px;color:rgba(18,94,94,.4)}
+  .piece .meta::before,.piece .meta::after{content:"";height:1px;flex:1;background:currentColor}
+  .piece .meta h3{font-family:var(--display);font-weight:500;font-size:24px;color:var(--canard);line-height:1;text-align:center}
+  .piece .meta .mat{font-family:var(--display);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--canard);margin-top:6px;text-align:center;display:block}
+  @media (max-width:680px){.piece{grid-template-columns:1fr}}
+
+  /* --- TÉMOIGNAGES --- */
+  .voices{background:var(--poudre-dark);padding:60px 8vw 64px}
+  .voices .head{text-align:center;margin-bottom:54px}
+  .voices .head h2{font-size:clamp(26px,3.3vw,42px);font-weight:400}
+  .voices .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;max-width:1180px;margin:0 auto}
+  .voice{background:var(--poudre);border:1px solid rgba(18,94,94,.12);padding:40px 34px;display:flex;flex-direction:column}
+  .voice .q{font-family:var(--display);font-style:italic;font-size:19px;line-height:1.55;color:var(--canard)}
+  .voice .who{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:26px}
+  .voice .med{width:44px;height:44px;border-radius:999px;background:var(--canard);color:var(--poudre);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:16px;flex-shrink:0}
+  .voice .name{font-family:var(--display);font-size:14px;letter-spacing:.04em;color:var(--canard)}
+  .voice .loc{font-family:var(--display);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--canard);margin-top:2px}
+  @media (max-width:880px){.voices .grid{grid-template-columns:1fr;max-width:520px}}
+
+  /* --- INVITATION (formulaire) --- */
+  .invite{padding:64px 8vw 72px}
+  .invite .grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:clamp(36px,5vw,72px);align-items:start;max-width:1180px;margin:0 auto}
+  .invite .presence h2{font-size:clamp(28px,3.4vw,44px);font-weight:400;max-width:14ch}
+  .invite .presence p{font-size:16px;line-height:1.7;color:var(--canard);max-width:40ch;margin:22px 0 0}
+  .invite .presence .reply{display:inline-block;margin-top:26px;font-family:var(--display);font-style:italic;font-size:17px;color:var(--canard)}
+  .invite .presence .sig{font-family:var(--display);font-style:italic;font-size:30px;color:var(--canard);margin-top:18px}
+  .invite .presence .reach{margin-top:24px;display:flex;flex-direction:column;gap:10px;font-family:var(--display);font-size:15px}
+  .invite .presence .reach a{border-bottom:1px solid var(--rubis);padding-bottom:2px;width:fit-content;transition:color .3s}
+  .invite .presence .reach a:hover{color:var(--rubis)}
+  .invite .presence .loc{margin-top:18px;font-family:var(--display);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--canard)}
+
+  .formcard{background:var(--poudre-dark);border:1px solid rgba(18,94,94,.14);padding:clamp(32px,4vw,46px)}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px 22px}
+  .field{display:flex;flex-direction:column;gap:8px}
+  .field.full{grid-column:1 / -1}
+  .field label{font-family:var(--display);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--canard)}
+  .field label .opt{color:var(--canard);letter-spacing:.06em}
+  .field input,.field select,.field textarea{font-family:var(--body);font-weight:300;font-size:16px;color:var(--canard);
+    background:var(--poudre);border:1px solid rgba(18,94,94,.2);border-radius:0;padding:13px 14px;transition:border-color .3s}
+  .field textarea{resize:vertical;min-height:118px}
+  .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23125e5e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--rubis);box-shadow:0 0 0 3px rgba(184,0,73,.25)}
+  .field input::placeholder,.field textarea::placeholder{color:rgba(18,94,94,.42)}
+  .formcard .submit{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;gap:18px 24px}
+  .formcard .submit .btn-fill{font-size:13px;padding:16px 34px}
+  .formcard .legal{font-family:var(--display);font-size:12px;color:var(--canard);max-width:30ch;line-height:1.5}
+  .formcard .legal a{border-bottom:1px solid var(--rubis);padding-bottom:1px}
+  @media (max-width:880px){.invite .grid{grid-template-columns:1fr;gap:48px}}
+  @media (max-width:520px){.fgrid{grid-template-columns:1fr}}
+
+  /* --- FOOTER --- */
+  .footer{background:var(--canard);color:var(--poudre)}
+  .footer .top{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:34px 44px;padding:52px 8vw 32px;max-width:1240px;margin:0 auto}
+  .footer .brand .word{--mark:var(--poudre);width:170px;height:34px}
+  .footer .brand p{font-family:var(--display);font-style:italic;font-size:15px;color:rgba(234,220,211,.92);margin-top:16px;max-width:24ch}
+  .footer .col h4{font-family:var(--display);font-weight:400;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--rubis);margin-bottom:16px}
+  .footer .col nav{display:flex;flex-direction:column;gap:10px;font-family:var(--display);font-size:15px}
+  .footer .col nav a{color:rgba(234,220,211,.9);transition:color .3s,transform .3s;width:fit-content}
+  .footer .col nav a:hover{color:var(--poudre);transform:translateX(4px)}
+  .footer .col .loc{font-family:var(--display);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:rgba(234,220,211,.92)}
+  .footer .legal{border-top:1px solid rgba(234,220,211,.18);padding:20px 8vw 30px}
+  .footer .legal .in{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    gap:10px 18px;font-family:var(--display);font-size:12px;color:rgba(234,220,211,.92)}
+  .footer .legal nav{display:flex;gap:16px}
+  .footer .legal nav a{transition:color .3s}
+  .footer .legal nav a:hover{color:var(--poudre)}
+  @media (max-width:680px){.footer .top{flex-direction:column}}
+
+  /* --- HEADER (Nav du site) --- */
+  .site-nav{position:fixed;top:0;left:0;right:0;z-index:90;background:transparent;border-bottom:1px solid transparent;
+    --nav-fg:var(--poudre);--nav-bd:rgba(234,220,211,.6);--nav-sh:0 1px 4px rgba(0,0,0,.45);transition:background-color .4s ease,border-color .4s ease}
+  .site-nav.solid{background:rgba(234,220,211,.95);backdrop-filter:blur(8px);border-bottom-color:rgba(18,94,94,.15);
+    --nav-fg:var(--canard);--nav-bd:rgba(18,94,94,.4);--nav-sh:none}
+  .site-nav .nav-in{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 8vw}
+  .site-nav .nav-logo{justify-self:start;display:block}
+  .site-nav .lockup{display:block;height:38px;aspect-ratio:8284/2955;background:var(--nav-fg);transition:background-color .4s ease;
+    -webkit-mask:url(/brand/lockup-teal.png) center/contain no-repeat;mask:url(/brand/lockup-teal.png) center/contain no-repeat}
+  .site-nav .nav-links{justify-self:center;display:flex;gap:36px;font-family:var(--display);font-size:14px}
+  .site-nav .nav-links a{color:var(--nav-fg);text-shadow:var(--nav-sh);transition:color .3s}
+  .site-nav .nav-links a:hover{color:var(--rubis);text-shadow:none}
+  .site-nav .nav-right{justify-self:end;display:flex;align-items:center;gap:20px}
+  .site-nav .nav-bespoke{font-family:var(--display);font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--nav-fg);
+    border:1px solid var(--nav-bd);padding:8px 18px;text-shadow:var(--nav-sh);transition:all .3s}
+  .site-nav .nav-bespoke:hover{background:var(--poudre);color:var(--canard);border-color:var(--poudre);text-shadow:none}
+  .site-nav .nav-lang{font-family:var(--display);font-size:13px;letter-spacing:.18em;color:var(--nav-fg);text-shadow:var(--nav-sh)}
+  .site-nav .burger-s{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+  .site-nav .burger-s span{width:24px;height:1.5px;background:var(--nav-fg);display:block}
+  @media (max-width:880px){.site-nav .nav-links,.site-nav .nav-bespoke,.site-nav .nav-lang{display:none}.site-nav .burger-s{display:flex}}
+
+  /* --- déclaration sous la frise du procédé --- */
+  .process .statement{text-align:center;margin:54px auto 0;max-width:780px}
+  .process .statement h2{font-size:clamp(26px,3.4vw,46px);font-weight:400;line-height:1.16;max-width:22ch;margin:0 auto}
+  .process .statement h2 i{color:var(--rubis)}
+
+  /* --- footer : compléments réel --- */
+  .footer .brand{display:flex;align-items:center;gap:22px;max-width:520px}
+  .footer .flogo{height:108px;width:auto;flex-shrink:0}
+  .footer .bsig p{font-family:var(--display);font-size:13px;line-height:1.45;color:rgba(234,220,211,.72);max-width:24ch}
+  .footer .bsig .seal{margin-top:14px;display:block;border-left:1px solid rgba(234,220,211,.35);padding-left:14px;
+    font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.22em;line-height:1.6;text-transform:uppercase;color:rgba(234,220,211,.8)}
+  .footer .frep{margin-top:10px;font-family:var(--display);font-size:13px;line-height:1.45;color:rgba(234,220,211,.55);max-width:22ch}
+  .footer .legal .in a{color:rgba(234,220,211,.6);transition:color .3s}
+  .footer .legal .in a:hover{color:var(--poudre)}
+
+  .badge-fx{position:fixed;bottom:14px;left:14px;z-index:70;background:rgba(18,94,94,.92);color:var(--poudre);
+    font-family:var(--display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  @media (max-width:600px){.badge-fx{display:none}}
+</style>
+</head>
+<body>
+  <div class="badge-fx">Sur-mesure · Précieuse</div>
+
+  <!-- HEADER (réplique du Nav global : transparent sur le héro, opaque au scroll) -->
+  <header class="site-nav" id="siteNav">
+    <div class="nav-in">
+      <a class="nav-logo" href="/" aria-label="Précieuse, accueil"><span class="lockup"></span></a>
+      <nav class="nav-links">
+        <a href="/creatrice">L'Atelier</a>
+        <a href="/collection">La Collection</a>
+        <a href="/carnet">Le Carnet</a>
+        <a href="/previews/contact.html">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a class="nav-bespoke" href="/sur-mesure">Sur-Mesure</a>
+        <span class="nav-lang">FR</span>
+        <button class="burger-s" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HÉRO -->
+  <section class="hero">
+    <div class="split">
+      <div class="vid">
+        <video autoplay muted loop playsinline poster="/images/real/bague-pierre-precieuse-perle.webp" aria-hidden="true">
+          <source src="/images/video/ring-box.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="img2"><img src="/images/real/bague-main-chaise-thelma.webp" alt="Bague Précieuse en or 18 carats portée à la main" fetchpriority="high" /></div>
+    </div>
+    <div class="veil"></div>
+    <div class="inner">
+      <span class="kicker">Création sur-mesure · Bordeaux</span>
+      <h1>Votre bijou n'existe <i>pas encore.</i></h1>
+      <p class="sub">Une pièce dessinée avec vous, coulée à la main à Bordeaux, faite pour traverser le temps.</p>
+      <a class="btn-fill" href="/previews/contact.html">Commencer votre projet</a>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="track" id="track"></div>
+  </div>
+
+  <!-- PARTIE 2 : L'ATELIER / EMELINE -->
+  <section class="about" id="about">
+    <div class="grid">
+      <div class="copy reveal">
+        <h2>Créatrice. Joaillière. <i>Un peu</i> lectrice de pensées.</h2>
+        <p>Derrière chaque pièce, une approche profondément humaine et des mains expertes. Emeline écoute, dessine, façonne. Tout est fabriqué en France, dans son atelier bordelais, où elle coule l'or 18 carats à la cire perdue.</p>
+        <a class="link-r" href="/creatrice">Rencontrer Emeline <span class="arr">&rsaquo;</span></a>
+      </div>
+      <div class="gallery reveal">
+        <div class="g g1"><img loading="lazy" src="/images/emeline/emeline-atelier.jpg" alt="Emeline à l'établi, dans son atelier de Bordeaux" /></div>
+        <div class="g g2"><img loading="lazy" src="/images/atelier/bague-en-fabrication.jpg" alt="Bague en cours de fabrication, fixée à l'étau" /></div>
+        <div class="g g3"><img loading="lazy" src="/images/real/main-poche-josephine.webp" alt="Bague Joséphine portée, main glissée dans la poche" /></div>
+        <div class="badge-circ spin">
+          <span class="disc"></span>
+          <svg viewBox="0 0 124 124">
+            <defs><path id="circ" d="M62,62 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" /></defs>
+            <text><textPath href="#circ" startOffset="0">Précieuse · Atelier · Bordeaux · </textPath></text>
+          </svg>
+          <span class="picto"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LE PROCÉDÉ (frise 4 étapes + manifeste dessous) -->
+  <section class="process" id="process">
+    <div class="steps reveal">
+      <div class="step">
+        <span class="ic"><img src="/images/process/etape-1.svg" alt="" aria-hidden="true" /></span>
+        <span class="num">Étape 1</span>
+        <h3>Exploration du style</h3>
+        <p>On parle de vous, de l'occasion, de ce qui vous fait vibrer.</p>
+      </div>
+      <div class="step">
+        <span class="ic"><img src="/images/process/etape-2.svg" alt="" aria-hidden="true" /></span>
+        <span class="num">Étape 2</span>
+        <h3>Croquis &amp; dessin</h3>
+        <p>Deux ou trois esquisses à la main, affinées ensemble.</p>
+      </div>
+      <div class="step">
+        <span class="ic"><img src="/images/process/etape-3.svg" alt="" aria-hidden="true" /></span>
+        <span class="num">Étape 3</span>
+        <h3>Détails, peaufinés</h3>
+        <p>Pierre, volumes, finitions : chaque détail validé avec vous.</p>
+      </div>
+      <div class="step">
+        <span class="ic"><img src="/images/process/etape-4.svg" alt="" aria-hidden="true" /></span>
+        <span class="num">Étape 4</span>
+        <h3>Façonnage du bijou</h3>
+        <p>Cire perdue, or 18 carats, sertissage à la main, à Bordeaux.</p>
+      </div>
+    </div>
+    <div class="statement reveal">
+      <h2>Je ne vends pas des bijoux. Je vous aide à créer le vôtre. Dessiné sur mesure, façonné à la main, fait pour <i>compter</i>.</h2>
+      <div class="ornament"><span class="rule"></span><span class="picto"></span><span class="rule"></span></div>
+    </div>
+  </section>
+
+  <!-- SPLIT du croquis à votre main -->
+  <section class="split">
+    <div class="copy reveal">
+      <span class="eyebrow" style="display:block;margin-bottom:16px">Du croquis à la promesse</span>
+      <h2>Je le fais <i>unique</i>. Vous le rendez vôtre.</h2>
+      <p>Tout commence par une conversation : votre histoire, votre style. Ensemble, on esquisse, on dessine, on ajuste, jusqu'à une pièce unique, prête à porter (et à émouvoir).</p>
+      <a class="link-r" href="#process">En savoir plus <span class="arr">&rsaquo;</span></a>
+    </div>
+    <div class="shot reveal">
+      <img loading="lazy" src="/images/atelier/esquisses-amethyste.jpg" alt="Esquisses au crayon d'une bague améthyste posées sur l'établi" />
+    </div>
+  </section>
+
+  <!-- RÉALISATIONS -->
+  <section class="real" id="realisations">
+    <div class="head reveal">
+      <span class="eyebrow">Réalisations</span>
+      <h2>La pièce, et la vie qu'elle prend</h2>
+      <p>Chaque création photographiée à l'atelier, puis portée par celle pour qui elle est née.</p>
+    </div>
+
+    <div class="piece reveal">
+      <div class="shot"><span class="tag">À l'atelier</span><img loading="lazy" src="/images/real/bague-entouree-josephine.webp" alt="Bague Joséphine photographiée à l'atelier" /></div>
+      <div class="shot"><span class="tag">Portée</span><img loading="lazy" src="/images/real/main-chaise-josephine.webp" alt="Bague Joséphine portée, main posée sur une chaise" /></div>
+      <div class="meta"><span class="lbl"><h3>Joséphine</h3><span class="mat">Or 18 ct · diamants</span></span></div>
+    </div>
+
+    <div class="piece reveal">
+      <div class="shot"><span class="tag">À l'atelier</span><img loading="lazy" src="/images/real/bague-pierre-aurore.webp" alt="Bague Aurore photographiée à l'atelier" /></div>
+      <div class="shot"><span class="tag">Portée</span><img loading="lazy" src="/images/real/bague-main-chaise-aurore.webp" alt="Bague Aurore portée, main posée sur une chaise" /></div>
+      <div class="meta"><span class="lbl"><h3>Aurore</h3><span class="mat">Or 18 ct · pierre de couleur</span></span></div>
+    </div>
+
+    <div class="piece reveal">
+      <div class="shot"><span class="tag">À l'atelier</span><img loading="lazy" src="/images/real/bague-boule-thelma.webp" alt="Bague Thelma photographiée à l'atelier" /></div>
+      <div class="shot"><span class="tag">Portée</span><img loading="lazy" src="/images/real/mains-poche-thelma.webp" alt="Bague Thelma portée, mains glissées dans les poches" /></div>
+      <div class="meta"><span class="lbl"><h3>Thelma</h3><span class="mat">Or 18 ct · perle</span></span></div>
+    </div>
+  </section>
+
+  <!-- TÉMOIGNAGES -->
+  <section class="voices" id="voices">
+    <div class="head reveal">
+      <h2>Ce qu'elles en disent</h2>
+    </div>
+    <div class="grid">
+      <article class="voice reveal">
+        <p class="q">Emeline est tout simplement une artiste. Le résultat est au-delà de ce que j'avais imaginé. Je suis émue et enthousiasmée.</p>
+        <div class="who">
+          <span class="med">M</span>
+          <span><span class="name">Martine B.</span><br><span class="loc">Bordeaux</span></span>
+        </div>
+      </article>
+      <article class="voice reveal">
+        <p class="q">Très contente de votre création pour ma bague. Professionnelle, agréable. Je recommande sans hésiter.</p>
+        <div class="who">
+          <span class="med">S</span>
+          <span><span class="name">Sandrine L.</span><br><span class="loc">Lyon</span></span>
+        </div>
+      </article>
+      <article class="voice reveal">
+        <p class="q">On sent dans chaque pièce le temps passé, la précision, l'amour du métier. Toujours aussi belle deux ans après.</p>
+        <div class="who">
+          <span class="med">C</span>
+          <span><span class="name">Camille R.</span><br><span class="loc">Paris</span></span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="top">
+      <div class="brand">
+        <img class="flogo" src="/images/Photo%20Precieus/Precieuse_logo-picto-shape_RVB_poudre_300dpi.png" alt="Précieuse" loading="lazy" />
+        <div class="bsig">
+          <p>Fait à la main à Bordeaux, porté partout.</p>
+          <span class="seal">Atelier<br>Bordeaux<br>MMXXVI</span>
+        </div>
+      </div>
+      <div class="col">
+        <h4>Naviguer</h4>
+        <nav>
+          <a href="/collection">La Collection</a>
+          <a href="/carnet">Le Carnet</a>
+          <a href="/creatrice">L'Atelier</a>
+          <a href="/sur-mesure">Sur-Mesure</a>
+        </nav>
+      </div>
+      <div class="col">
+        <h4>Écrire</h4>
+        <nav>
+          <a href="mailto:contact@precieuse-joaillerie.com">contact@precieuse-joaillerie.com</a>
+        </nav>
+        <p class="frep">Réponse sous 48 h,<br>du lundi au vendredi.</p>
+      </div>
+      <div class="col">
+        <h4>Suivre</h4>
+        <nav>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+        </nav>
+      </div>
+    </div>
+    <div class="legal">
+      <div class="in">
+        <span>© Précieuse · Joaillerie artisanale, Bordeaux, France</span>
+        <a href="https://propulseo-site.com" target="_blank" rel="noreferrer">Fait avec passion par Propul'SEO</a>
+        <nav>
+          <a href="/mentions-legales">Mentions légales</a>
+          <a href="/confidentialite">Confidentialité</a>
+          <a href="/cgv">CGV</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  // Marquee : items dupliqués pour une boucle continue, losange rubis entre chaque
+  const ITEMS = ['Introuvable en boutique','Or 18 carats tracé','Satisfaction garantie','Croquis à la main','Fait main à Bordeaux'];
+  const unit = ITEMS.map(t => `<span class="item">${t}</span><span class="dot"></span>`).join('');
+  document.getElementById('track').innerHTML = unit + unit;
+
+  // Reveals au scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.16 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Header : transparent sur le héro, opaque dès qu'on scrolle (comme le Nav du site)
+  const siteNav = document.getElementById('siteNav');
+  const onNavScroll = () => siteNav.classList.toggle('solid', window.scrollY > 60);
+  onNavScroll();
+  window.addEventListener('scroll', onNavScroll, { passive: true });
+</script>
+</body>
+</html>

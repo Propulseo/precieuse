@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Footer — Minimal éditorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard)}
+  a{color:inherit;text-decoration:none}
+  .badge{position:fixed;top:16px;right:16px;z-index:20;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  .pageend{background:var(--poudre);padding:80px 8vw 90px;text-align:center}
+  .pageend .k{font-family:var(--display);font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--rubis);margin-bottom:10px}
+  .pageend h3{font-family:var(--display);font-weight:500;font-size:clamp(26px,3.4vw,40px);color:var(--canard)}
+
+  /* ─── FOOTER : poudre, aéré, éditorial ─── */
+  footer{background:var(--poudre-dark);color:var(--canard)}
+  .wrap{max-width:1200px;margin:0 auto;padding:90px 8vw 40px}
+  .statement{font-family:var(--display);font-weight:500;font-size:clamp(30px,5vw,64px);line-height:1.04;letter-spacing:-.015em;max-width:16ch;color:var(--canard)}
+  .statement em{font-style:italic;color:var(--rubis)}
+  .rule{height:1px;background:rgba(18,94,94,.18);margin:50px 0 26px;transform-origin:left;animation:draw 1s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .row{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:32px}
+  .group .lab{font-family:var(--display);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--rubis);margin-bottom:14px}
+  .group nav{display:flex;flex-wrap:wrap;gap:6px 20px;max-width:340px}
+  .group a{font-family:var(--display);font-size:15px;color:rgba(18,94,94,.85);transition:color .3s}
+  .group a:hover{color:var(--canard-90)}
+  .group .email{font-size:17px}
+  .group .resp{margin-top:8px;font-style:italic;font-size:13px;color:rgba(18,94,94,.55)}
+  .social{display:flex;gap:18px}
+  .legal{max-width:1200px;margin:0 auto;padding:22px 8vw 40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 22px;font-family:var(--display);font-size:12px;color:rgba(18,94,94,.55);border-top:1px solid rgba(18,94,94,.12);margin-top:40px}
+  .legal nav{display:flex;gap:18px}
+  .legal a:hover{color:var(--canard)}
+  @media (max-width:680px){.row{flex-direction:column;gap:26px}}
+</style>
+</head>
+<body>
+  <div class="badge">Aperçu footer · dans la page</div>
+  <section class="pageend">
+    <p class="k">Précieuse</p>
+    <h3>Parlons de votre projet</h3>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <h2 class="statement">Fait à la main à Bordeaux, <em>porté partout.</em></h2>
+      <div class="rule"></div>
+      <div class="row">
+        <div class="group">
+          <p class="lab">Naviguer</p>
+          <nav>
+            <a href="/collection">La Collection</a>
+            <a href="/carnet">Le Carnet</a>
+            <a href="/creatrice">L'Atelier</a>
+            <a href="/sur-mesure">Sur-Mesure</a>
+            <a href="/contact">Contact</a>
+          </nav>
+        </div>
+        <div class="group">
+          <p class="lab">Écrire</p>
+          <a class="email" href="mailto:contact@precieuse-joaillerie.com">contact@precieuse-joaillerie.com</a>
+          <p class="resp">Réponse sous 48 h, du lundi au vendredi.</p>
+        </div>
+        <div class="group">
+          <p class="lab">Suivre</p>
+          <nav class="social">
+            <a href="#">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">LinkedIn</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <nav>
+        <a href="/mentions-legales">Mentions légales</a>
+        <a href="/confidentialite">Confidentialité</a>
+        <a href="/cgv">CGV</a>
+      </nav>
+      <span>© Précieuse · Joaillerie artisanale, Bordeaux, France</span>
+      <a href="https://propulseo.fr" target="_blank" rel="noreferrer">Fait avec passion par Propul'SEO</a>
+    </div>
+  </footer>
+</body>
+</html>

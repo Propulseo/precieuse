@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Réalisations — 3 · Galerie duo (studio + portée)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard);font-weight:300}
+  img{display:block}
+  a{color:inherit}
+  .badge{position:fixed;top:16px;right:16px;z-index:40;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  .ctx-foot{background:var(--canard);color:var(--poudre);text-align:center;padding:54px 8vw;font-family:var(--display);font-size:12px;letter-spacing:.24em;text-transform:uppercase}
+
+  .ctx{padding:60px 8vw 0;text-align:center}
+  .ctx .sig{font-family:var(--display);font-style:italic;font-size:40px;color:var(--canard)}
+  .ctx .role{font-family:var(--display);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(18,94,94,.5);margin-top:6px}
+
+  .real{padding:72px 8vw 90px;max-width:1180px;margin:0 auto}
+  .head{text-align:center;margin-bottom:50px}
+  .eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--rubis)}
+  .head h2{font-family:var(--display);font-weight:500;font-size:clamp(28px,3.6vw,42px);line-height:1.05;margin-top:12px}
+  .head p{font-family:var(--display);font-style:italic;font-size:16px;color:rgba(18,94,94,.6);margin-top:14px;max-width:48ch;margin-left:auto;margin-right:auto}
+
+  .piece{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;margin-bottom:24px;
+    opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s ease}
+  .piece.in{opacity:1;transform:none}
+  .piece .shot{position:relative;overflow:hidden;border:1px solid rgba(18,94,94,.16);aspect-ratio:4/5}
+  .piece .shot img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+  .piece:hover .shot img{transform:scale(1.03)}
+  .piece .shot .tag{position:absolute;left:12px;top:12px;font-family:var(--display);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--poudre);background:rgba(13,71,71,.55);padding:5px 10px;backdrop-filter:blur(2px)}
+
+  /* la légende centrale, entre les deux prises */
+  .meta{grid-column:1 / -1;display:flex;align-items:center;gap:18px;margin:6px 0 30px;color:rgba(18,94,94,.4)}
+  .meta::before,.meta::after{content:"";height:1px;flex:1;background:currentColor}
+  .meta .lbl{text-align:center}
+  .meta h3{font-family:var(--display);font-weight:500;font-size:24px;color:var(--canard);line-height:1}
+  .meta .mat{font-family:var(--display);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(18,94,94,.55);margin-top:6px}
+
+  .cta{text-align:center;margin-top:30px}
+  .btn{display:inline-block;font-family:var(--display);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--canard);border-bottom:1px solid var(--rubis);padding-bottom:5px;text-decoration:none;transition:color .3s}
+  .btn:hover{color:var(--rubis)}
+
+  @media(max-width:680px){.piece{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){.piece{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+  <div class="badge">Réalisations · 3 — Duo (studio + portée)</div>
+
+  <div class="ctx">
+    <div class="sig">Emeline</div>
+    <div class="role">Créatrice & joaillière · Précieuse</div>
+  </div>
+
+  <section class="real">
+    <div class="head">
+      <span class="eyebrow">Réalisations</span>
+      <h2>La pièce, et la vie qu'elle prend</h2>
+      <p>Chaque création photographiée à l'atelier, puis portée par celle pour qui elle est née.</p>
+    </div>
+
+    <!-- Joséphine -->
+    <div class="piece">
+      <div class="shot"><span class="tag">À l'atelier</span><img src="/images/real/bague-entouree-josephine.webp" alt="Joséphine, studio" /></div>
+      <div class="shot"><span class="tag">Portée</span><img src="/images/real/main-chaise-josephine.webp" alt="Joséphine, portée" /></div>
+      <div class="meta"><span class="lbl"><h3>Joséphine</h3><span class="mat">Or 18 ct · diamants</span></span></div>
+    </div>
+
+    <!-- Aurore -->
+    <div class="piece">
+      <div class="shot"><span class="tag">À l'atelier</span><img src="/images/real/bague-pierre-aurore.webp" alt="Aurore, studio" /></div>
+      <div class="shot"><span class="tag">Portée</span><img src="/images/real/bague-main-chaise-aurore.webp" alt="Aurore, portée" /></div>
+      <div class="meta"><span class="lbl"><h3>Aurore</h3><span class="mat">Or 18 ct · pierre de couleur</span></span></div>
+    </div>
+
+    <!-- Thelma -->
+    <div class="piece">
+      <div class="shot"><span class="tag">À l'atelier</span><img src="/images/real/bague-boule-thelma.webp" alt="Thelma, studio" /></div>
+      <div class="shot"><span class="tag">Portée</span><img src="/images/real/mains-poche-thelma.webp" alt="Thelma, portée" /></div>
+      <div class="meta"><span class="lbl"><h3>Thelma</h3><span class="mat">Or 18 ct · perle</span></span></div>
+    </div>
+
+    <div class="cta"><a class="btn" href="#">Voir toute la collection →</a></div>
+  </section>
+
+  <footer class="ctx-foot">Précieuse · Joaillerie artisanale · Atelier à Bordeaux · Or 18 carats</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.2});
+  document.querySelectorAll('.piece').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

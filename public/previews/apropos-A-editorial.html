@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>À propos — A · Éditorial / Magazine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Ysabeau+Office:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard);font-weight:300}
+  img{display:block}
+  .badge{position:fixed;top:16px;right:16px;z-index:30;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  .mark{font-family:var(--display);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:rgba(18,94,94,.4);text-align:center;padding:18px}
+
+  /* ── nav / footer factices pour le contexte ── */
+  .ctx-nav{display:flex;align-items:center;justify-content:space-between;padding:22px 8vw;border-bottom:1px solid rgba(18,94,94,.14)}
+  .ctx-nav .logo{font-family:var(--display);font-size:20px;letter-spacing:.18em;text-transform:uppercase}
+  .ctx-nav .links{display:flex;gap:26px;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.6}
+  .ctx-foot{background:var(--canard);color:var(--poudre);text-align:center;padding:54px 8vw;font-family:var(--display);font-size:12px;letter-spacing:.24em;text-transform:uppercase;opacity:.95}
+
+  .wrap{max-width:1240px;margin:0 auto;padding:0 8vw}
+  .eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--rubis)}
+  .fil{display:block;width:78px;height:22px;margin:18px 0;color:var(--rubis);opacity:.7}
+
+  /* Intro */
+  .intro{padding:96px 0 72px;display:grid;grid-template-columns:2fr 3fr;gap:64px;align-items:center}
+  .portrait{position:relative;width:100%;max-width:440px;aspect-ratio:3/4;border:1px solid rgba(18,94,94,.3);overflow:hidden}
+  .portrait img{width:100%;height:100%;object-fit:cover;filter:grayscale(.12) contrast(1.02)}
+  .intro h1{font-family:var(--display);font-weight:500;font-size:clamp(46px,7vw,88px);line-height:.95;letter-spacing:-.01em;margin-top:14px}
+  .intro .lede{font-family:var(--display);font-style:italic;font-size:clamp(18px,2.1vw,23px);line-height:1.5;color:rgba(18,94,94,.78);margin-top:26px;max-width:46ch}
+
+  .rule{height:1px;background:rgba(18,94,94,.15);margin:0 8vw}
+
+  /* Parcours */
+  .parcours{padding:78px 0;display:grid;grid-template-columns:3fr 2fr;gap:64px;align-items:center}
+  .parcours h2{font-family:var(--display);font-weight:500;font-size:clamp(30px,3.6vw,44px);line-height:1;margin:10px 0 26px}
+  .body p{font-size:17px;line-height:1.75;color:rgba(18,94,94,.82);max-width:54ch}
+  .body p+p{margin-top:20px}
+  .body.lettrine p:first-of-type:first-letter{float:left;font-family:var(--display);font-size:74px;line-height:.72;padding:6px 12px 0 0;color:var(--rubis)}
+  .parcours .img{position:relative;aspect-ratio:3/4;overflow:hidden;border:1px solid rgba(18,94,94,.2)}
+  .parcours .img img{width:100%;height:100%;object-fit:cover;filter:grayscale(.12)}
+
+  /* Atelier */
+  .atelier{padding:78px 0;display:grid;grid-template-columns:2fr 3fr;gap:64px;align-items:center}
+  .atelier .img{position:relative;aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(18,94,94,.2)}
+  .atelier .img img{width:100%;height:100%;object-fit:cover;filter:grayscale(.1)}
+  .atelier h2{font-family:var(--display);font-weight:500;font-size:clamp(30px,3.6vw,44px);line-height:1;margin:10px 0 26px}
+  .pull{margin:30px 0 0;border-left:2px solid rgba(184,0,73,.55);padding-left:22px;font-family:var(--display);font-style:italic;font-size:22px;line-height:1.45;color:var(--canard)}
+
+  /* Philosophie */
+  .philo{padding:90px 8vw;text-align:center;border-top:1px solid rgba(18,94,94,.15)}
+  .philo .inner{max-width:760px;margin:0 auto}
+  .philo h2{font-family:var(--display);font-weight:500;font-size:clamp(28px,3.4vw,40px);margin:8px 0 24px}
+  .philo p{font-size:17px;line-height:1.8;color:rgba(18,94,94,.82)}
+  .philo blockquote{margin-top:44px}
+  .philo blockquote p{font-family:var(--display);font-style:italic;font-size:clamp(24px,3vw,34px);line-height:1.4;color:var(--canard)}
+  .philo blockquote cite{display:block;margin-top:18px;font-family:var(--display);font-style:normal;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:rgba(18,94,94,.55)}
+
+  /* CTA */
+  .cta{padding:96px 8vw;text-align:center;background:var(--poudre-dark)}
+  .cta h2{font-family:var(--display);font-weight:500;font-size:clamp(32px,4.4vw,56px);line-height:1;margin-bottom:30px}
+  .btn{display:inline-block;background:var(--canard);color:var(--poudre);font-family:var(--display);font-size:12px;letter-spacing:.28em;text-transform:uppercase;padding:16px 38px;border-radius:999px;text-decoration:none;transition:background .3s}
+  .btn:hover{background:var(--canard-90)}
+
+  .pageno{display:flex;justify-content:flex-end;max-width:1240px;margin:0 auto;padding:0 8vw 22px}
+  .pageno span{font-family:var(--display);font-size:13px;color:var(--rubis)}
+
+  @media(max-width:880px){
+    .intro,.parcours,.atelier{grid-template-columns:1fr;gap:34px}
+    .parcours .img,.atelier .img{order:-1;max-width:420px}
+    .portrait{margin:0 auto}
+  }
+</style>
+</head>
+<body>
+  <div class="badge">À propos · A — Éditorial · texte brouillon</div>
+
+  <!-- nav factice -->
+  <nav class="ctx-nav"><span class="logo">Précieuse</span><span class="links"><a>Collection</a><a>Sur-mesure</a><a>À propos</a><a>Contact</a></span></nav>
+
+  <!-- INTRO -->
+  <section class="intro wrap">
+    <div class="portrait"><img src="/images/stitch/creatrice-emeline-portrait.jpg" alt="Emeline, dans son atelier" /></div>
+    <div>
+      <span class="eyebrow">La créatrice</span>
+      <h1>Emeline<br>Le Ray</h1>
+      <p class="lede">Derrière chaque pièce Précieuse, une seule main. Celle d'Emeline, qui dessine, fond et sertit dans son atelier bordelais.</p>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- PARCOURS -->
+  <section class="parcours wrap">
+    <div>
+      <span class="eyebrow">Le parcours</span>
+      <svg class="fil" viewBox="0 0 80 24" fill="none"><line x1="6" y1="12" x2="34" y2="12" stroke="currentColor" stroke-width=".6"/><rect x="36" y="8" width="8" height="8" stroke="currentColor" stroke-width=".6" transform="rotate(45 40 12)"/><line x1="46" y1="12" x2="74" y2="12" stroke="currentColor" stroke-width=".6"/></svg>
+      <h2>Le geste avant les mots</h2>
+      <div class="body lettrine">
+        <p>Emeline découvre la joaillerie comme on retrouve une langue maternelle oubliée : une évidence. Après des années à apprendre le métier auprès d'artisans qui ne transigent sur rien, elle pose ses outils à Bordeaux.</p>
+        <p>Elle y ouvre un atelier à taille humaine, où chaque bague est pensée, façonnée et finie sur place. Pas de chaîne, pas d'intermédiaire, juste le temps qu'il faut pour faire bien.</p>
+      </div>
+    </div>
+    <div class="img"><img src="/images/stitch/journal-sketches-etabli.jpg" alt="Croquis et outils sur l'établi" /></div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ATELIER -->
+  <section class="atelier wrap">
+    <div class="img"><img src="/images/emeline/emeline-atelier.jpg" alt="Emeline à l'établi" /></div>
+    <div>
+      <span class="eyebrow">L'atelier, à Bordeaux</span>
+      <h2>Fait à la main, en France</h2>
+      <div class="body">
+        <p>Tout est fabriqué ici même. L'or 18 carats est travaillé à la main, les pierres choisies une à une, les sertis ajustés à l'œil et à la lime.</p>
+      </div>
+      <p class="pull">Le sur-mesure n'est pas une option : c'est la manière de faire. On part de votre histoire pour dessiner une pièce qui n'existait pas encore.</p>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHIE -->
+  <section class="philo">
+    <div class="inner">
+      <span class="eyebrow">Ma façon de voir</span>
+      <h2>Une trace, pas un objet</h2>
+      <p>Un bijou n'est pas un objet de plus. C'est une trace, quelque chose qui se transmet, qui survit à celui qui l'offre. Mon travail, c'est de rendre cette trace juste : ni trop, ni faux.</p>
+      <blockquote>
+        <p>« Je ne fais pas des bijoux pour qu'on les remarque. J'en fais pour qu'on les garde. »</p>
+        <cite>Emeline Le Ray</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <div class="pageno"><span>p. 02</span></div>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Parlons de votre projet</h2>
+    <a class="btn" href="#">Demander le sur-mesure →</a>
+  </section>
+
+  <!-- footer factice -->
+  <footer class="ctx-foot">Précieuse · Joaillerie artisanale · Atelier à Bordeaux · Or 18 carats</footer>
+</body>
+</html>
