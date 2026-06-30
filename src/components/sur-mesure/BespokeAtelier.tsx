@@ -25,7 +25,7 @@ export function BespokeAtelier() {
             </p>
             <Link
               to="/creatrice"
-              className="group inline-flex items-center gap-[7px] border-b border-framboise pb-[3px] font-display text-[14px] tracking-[0.04em] text-canard transition-colors duration-300 hover:text-framboise"
+              className="group inline-flex items-center gap-[7px] border-b border-framboise pb-[3px] font-display text-[14px] tracking-[0.04em] text-canard transition-colors duration-300 hover:text-framboise focus-visible:[outline:2px_solid_var(--framboise)] focus-visible:[outline-offset:3px]"
             >
               {m.sm_about_link()}
               <span className="transition-transform duration-300 group-hover:translate-x-[5px]">›</span>
@@ -43,7 +43,7 @@ export function BespokeAtelier() {
                 loading="lazy"
               />
             </div>
-            <div className="mt-[38px] overflow-hidden border border-canard/15 aspect-[3/4] md:mt-[38px] max-md:mt-0">
+            <div className="mt-[38px] overflow-hidden border border-canard/15 aspect-[3/4] max-md:mt-0">
               <img
                 className="h-full w-full object-cover transition-transform duration-[1s] hover:scale-[1.04]"
                 src="/images/atelier/bague-en-fabrication.jpg"
@@ -61,7 +61,10 @@ export function BespokeAtelier() {
             </div>
 
             {/* Médaillon tournant */}
-            <div className="sm-badge absolute bottom-6 left-[-26px] z-[3] flex h-[124px] w-[124px] items-center justify-center max-md:bottom-[14px] max-md:left-auto max-md:right-[14px] max-md:h-[104px] max-md:w-[104px]">
+            <div
+              aria-hidden="true"
+              className="sm-badge absolute bottom-6 left-[-26px] z-[3] flex h-[124px] w-[124px] items-center justify-center max-md:bottom-[14px] max-md:left-auto max-md:right-[14px] max-md:h-[104px] max-md:w-[104px]"
+            >
               <style>{`
                 @keyframes sm-spin { to { transform: rotate(360deg) } }
                 .sm-badge svg { transform-origin: center; animation: sm-spin 26s linear infinite; }

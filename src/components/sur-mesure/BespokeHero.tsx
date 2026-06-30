@@ -19,6 +19,7 @@ export function BespokeHero() {
             muted
             loop
             playsInline
+            preload="metadata"
             poster="/images/real/bague-pierre-precieuse-perle.webp"
             aria-hidden="true"
           >
@@ -56,7 +57,7 @@ export function BespokeHero() {
         <button
           type="button"
           onClick={openContact}
-          className="inline-block rounded-full border border-poudre bg-poudre px-[30px] py-[15px] font-display text-[13px] font-medium uppercase tracking-[0.16em] text-canard transition-colors duration-300 hover:bg-transparent hover:text-poudre"
+          className="inline-block rounded-full border border-poudre bg-poudre px-[30px] py-[15px] font-display text-[13px] font-medium uppercase tracking-[0.16em] text-canard transition-colors duration-300 hover:bg-transparent hover:text-poudre focus-visible:[outline:2px_solid_var(--framboise)] focus-visible:[outline-offset:3px]"
         >
           {m.sm_hero_cta()}
         </button>

@@ -25,7 +25,7 @@ export function BespokeMarquee() {
       `}</style>
       <div className="sm-marquee-track flex w-max">
         {unit.map((text, i) => (
-          <span key={i} className="inline-flex items-center">
+          <span key={`${i}-${text}`} className="inline-flex items-center">
             <span className="whitespace-nowrap px-1 font-display text-[13px] uppercase tracking-[0.3em] text-canard">
               {text}
             </span>
