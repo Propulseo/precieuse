@@ -1,11 +1,12 @@
+import { m } from '#/paraglide/messages'
 import type { CreatriceContent } from '../../lib/cms'
 import { EditorialHeader } from '../editorial/EditorialHeader'
-import { CreatriceRealisations } from './CreatriceRealisations'
+import { ClosingInvite } from '../ClosingInvite'
 
 /**
  * Page Créatrice pilotée par Sanity (document `creatricePage`) — affichée dès
  * qu'Emeline a rempli le document. Charte poudre/canard : manchette éditoriale
- * partagée, sections à image alternée, citation, puis CTA structurel (Paraglide).
+ * partagée, sections à image alternée, puis citation.
  */
 export function CreatriceCms({ content }: { content: CreatriceContent }) {
   return (
@@ -85,8 +86,7 @@ export function CreatriceCms({ content }: { content: CreatriceContent }) {
         </section>
       ) : null}
 
-      {/* Réalisations — remplace l'ancien appel « On se rencontre ? ». */}
-      <CreatriceRealisations realisations={content.realisations} />
+      <ClosingInvite title={m.creatrice_cta_title()} cta={m.creatrice_cta_button()} />
     </>
   )
 }

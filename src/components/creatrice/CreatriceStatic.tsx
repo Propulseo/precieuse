@@ -1,34 +1,7 @@
 import { m } from '#/paraglide/messages'
 import { EditorialHeader } from '../editorial/EditorialHeader'
 import { BRAND_PICTO_MASK, maskStyle } from '../brand/brand'
-import { CreatriceRealisations } from './CreatriceRealisations'
-import type { CreatriceRealisation } from '../../lib/cms'
-
-/**
- * Réalisations de repli (charte poudre) tant qu'Emeline n'a pas renseigné ses
- * pièces dans Sanity (champ `realisations` de `creatricePage`). Placeholder :
- * son contenu réel + ses traductions priment dès qu'il est rempli.
- */
-const STATIC_REALISATIONS: CreatriceRealisation[] = [
-  {
-    title: 'Joséphine',
-    material: 'Or 18 carats · diamants',
-    studio: { url: '/images/real/bague-entouree-josephine.webp', alt: 'Bague Joséphine, à l’atelier' },
-    worn: { url: '/images/real/main-chaise-josephine.webp', alt: 'Bague Joséphine, portée' },
-  },
-  {
-    title: 'Aurore',
-    material: 'Or 18 carats · pierre de couleur',
-    studio: { url: '/images/real/bague-pierre-aurore.webp', alt: 'Bague Aurore, à l’atelier' },
-    worn: { url: '/images/real/bague-main-chaise-aurore.webp', alt: 'Bague Aurore, portée' },
-  },
-  {
-    title: 'Thelma',
-    material: 'Or 18 carats · perle',
-    studio: { url: '/images/real/bague-boule-thelma.webp', alt: 'Bague Thelma, à l’atelier' },
-    worn: { url: '/images/real/mains-poche-thelma.webp', alt: 'Bague Thelma, portée' },
-  },
-]
+import { ClosingInvite } from '../ClosingInvite'
 
 /** Filigrane losange — séparateur éditorial entre les mouvements de la lettre. */
 function Filigrane() {
@@ -118,15 +91,6 @@ export function CreatriceStatic() {
             </p>
           </blockquote>
 
-          {/* Provenance / réassurance */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-display text-[12px] uppercase tracking-[0.26em] text-canard/60">
-            <span>{m.creatrice_proof_gold()}</span>
-            <span className="text-framboise">·</span>
-            <span>{m.creatrice_proof_handmade()}</span>
-            <span className="text-framboise">·</span>
-            <span>{m.creatrice_proof_unique()}</span>
-          </div>
-
           {/* Clôture : cachet + signature */}
           <div className="mt-12 flex flex-wrap items-center justify-center gap-8 border-t border-canard/15 pt-8">
             <Seal />
@@ -140,8 +104,7 @@ export function CreatriceStatic() {
         </div>
       </section>
 
-      {/* Réalisations — remplace l'ancien appel « On se rencontre ? ». */}
-      <CreatriceRealisations realisations={STATIC_REALISATIONS} />
+      <ClosingInvite title={m.creatrice_cta_title()} cta={m.creatrice_cta_button()} />
     </>
   )
 }

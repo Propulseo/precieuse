@@ -42,28 +42,6 @@ export const creatricePage = defineType({
       ],
     }),
     defineField({ name: 'quote', title: 'Citation', type: 'localizedText' }),
-    defineField({
-      name: 'realisations',
-      title: 'Réalisations',
-      description: 'Pièces présentées en bas de la page : chacune en photo « à l’atelier » et photo « portée ».',
-      type: 'array',
-      of: [
-        defineField({
-          name: 'realisation',
-          title: 'Réalisation',
-          type: 'object',
-          fields: [
-            defineField({ name: 'title', title: 'Nom de la pièce', type: 'localizedString' }),
-            defineField({ name: 'material', title: 'Matière', type: 'localizedString' }),
-            localizedImage({ name: 'studio', title: 'Photo à l’atelier' }),
-            localizedImage({ name: 'worn', title: 'Photo portée' }),
-          ],
-          preview: {
-            select: { title: 'title.fr', subtitle: 'material.fr', media: 'studio' },
-          },
-        }),
-      ],
-    }),
   ],
   preview: {
     prepare: () => ({ title: 'Page Créatrice' }),
