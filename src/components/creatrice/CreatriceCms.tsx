@@ -1,43 +1,37 @@
-import { Link } from '@tanstack/react-router'
-import { m } from '#/paraglide/messages'
 import type { CreatriceContent } from '../../lib/cms'
+import { EditorialHeader } from '../editorial/EditorialHeader'
+import { CreatriceRealisations } from './CreatriceRealisations'
 
 /**
  * Page Créatrice pilotée par Sanity (document `creatricePage`) — affichée dès
- * qu'Emeline a rempli le document. Le CTA final reste structurel (Paraglide).
- * Les sections alternent l'image gauche/droite automatiquement.
+ * qu'Emeline a rempli le document. Charte poudre/canard : manchette éditoriale
+ * partagée, sections à image alternée, citation, puis CTA structurel (Paraglide).
  */
 export function CreatriceCms({ content }: { content: CreatriceContent }) {
   return (
     <>
-      {/* Intro — portrait + accroche */}
-      <section className="relative bg-cream py-20 px-8 lg:px-16">
-        <div className="mx-auto max-w-[1320px] grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20 items-center">
+      <EditorialHeader title={content.title}>
+        {content.intro ? (
+          <p className="mx-auto max-w-[54ch] font-body italic font-light text-[clamp(14px,1.4vw,17px)] leading-[1.5] text-canard-90 [text-wrap:pretty]">
+            {content.intro}
+          </p>
+        ) : null}
+      </EditorialHeader>
+
+      <section className="bg-poudre px-8 pb-6 pt-8 lg:px-16 lg:pt-12">
+        <div className="mx-auto max-w-[680px]">
           {content.portrait.url ? (
-            <div className="relative w-full max-w-[460px] aspect-[3/4] border border-ink/30 overflow-hidden mx-auto lg:mx-0">
-              <img
-                src={content.portrait.url}
-                alt={content.portrait.alt}
-                style={{ objectPosition: content.portrait.position }}
-                className="absolute inset-0 w-full h-full object-cover luxe-grayscale"
-              />
-            </div>
+            <figure className="mb-6 flex flex-col items-center">
+              <div className="relative aspect-[3/4] w-[280px] max-w-[72vw] overflow-hidden border border-canard/30">
+                <img
+                  src={content.portrait.url}
+                  alt={content.portrait.alt}
+                  style={{ objectPosition: content.portrait.position }}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            </figure>
           ) : null}
-          <div>
-            {content.overline ? (
-              <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
-                {content.overline}
-              </span>
-            ) : null}
-            <h1 className="font-headline text-[clamp(48px,7vw,90px)] text-ink leading-[0.95]">
-              {content.title}
-            </h1>
-            {content.intro ? (
-              <p className="font-display italic text-[20px] text-ink/75 mt-8 leading-relaxed max-w-prose">
-                {content.intro}
-              </p>
-            ) : null}
-          </div>
         </div>
       </section>
 
@@ -45,31 +39,31 @@ export function CreatriceCms({ content }: { content: CreatriceContent }) {
       {content.sections.map((section, i) => (
         <section
           key={`${section.title}-${i}`}
-          className="relative bg-cream py-20 px-8 lg:px-16 border-t border-ink/15"
+          className="relative border-t border-canard/15 bg-poudre px-8 py-16 lg:px-16 lg:py-20"
         >
-          <div className="mx-auto max-w-[1320px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="mx-auto grid max-w-[1320px] grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             {section.image.url ? (
               <div
-                className={`relative aspect-[3/4] overflow-hidden ${i % 2 === 0 ? 'order-2 lg:order-1' : 'order-2'}`}
+                className={`relative aspect-[3/4] overflow-hidden border border-canard/20 ${i % 2 === 0 ? 'order-2 lg:order-1' : 'order-2'}`}
               >
                 <img
                   src={section.image.url}
                   alt={section.image.alt}
                   style={{ objectPosition: section.image.position }}
-                  className="absolute inset-0 w-full h-full object-cover luxe-grayscale"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
             ) : null}
             <div className={i % 2 === 0 ? 'order-1 lg:order-2' : 'order-1'}>
               {section.overline ? (
-                <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
+                <span className="mb-3 block font-display text-[12px] uppercase tracking-[0.35em] text-framboise">
                   {section.overline}
                 </span>
               ) : null}
-              <h2 className="font-headline text-[40px] text-ink leading-none mb-8">
+              <h2 className="mb-8 font-headline text-[40px] leading-none text-canard">
                 {section.title}
               </h2>
-              <div className="space-y-6 font-sans text-[15px] text-ink/80 leading-relaxed max-w-prose">
+              <div className="max-w-prose space-y-6 font-display text-[18px] leading-[1.9] text-canard/85">
                 {section.body.map((p, j) => (
                   <p key={j}>{p}</p>
                 ))}
@@ -81,27 +75,18 @@ export function CreatriceCms({ content }: { content: CreatriceContent }) {
 
       {/* Citation */}
       {content.quote ? (
-        <section className="relative bg-cream py-20 px-8 lg:px-16 border-t border-ink/15">
-          <div className="mx-auto max-w-[800px]">
-            <blockquote className="border-l-2 border-raspberry/40 pl-6">
-              <p className="font-display italic text-[26px] text-ink leading-snug">
-                {content.quote}
-              </p>
-            </blockquote>
-          </div>
+        <section className="border-t border-canard/15 bg-poudre px-8 py-20 lg:px-16">
+          <blockquote className="relative mx-auto max-w-[560px] text-center">
+            <span aria-hidden className="mx-auto mb-6 block h-0.5 w-16 bg-framboise" />
+            <p className="font-display italic text-[clamp(23px,3.2vw,31px)] leading-[1.45] text-canard">
+              {content.quote}
+            </p>
+          </blockquote>
         </section>
       ) : null}
 
-      {/* CTA (structurel) */}
-      <section className="relative bg-cream py-24 px-8 lg:px-16 border-t border-ink/15 text-center">
-        <h2 className="font-headline text-[48px] text-ink leading-none mb-10">{m.creatrice_cta_title()}</h2>
-        <Link
-          to="/contact"
-          className="inline-block font-display italic text-[18px] text-ink border border-ink/30 px-8 py-3 hover:bg-ink hover:text-cream transition-all duration-300"
-        >
-          {m.creatrice_cta_button()} →
-        </Link>
-      </section>
+      {/* Réalisations — remplace l'ancien appel « On se rencontre ? ». */}
+      <CreatriceRealisations realisations={content.realisations} />
     </>
   )
 }
