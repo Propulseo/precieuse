@@ -429,53 +429,6 @@ export const ETABLI_TRANSLATIONS: Record<
 }
 
 // ---------------------------------------------------------------------------
-// Parcours sur-mesure — clé : step.number (string "01".."05")
-// ---------------------------------------------------------------------------
-export const BESPOKE_TRANSLATIONS: Record<
-  string,
-  {
-    title: T
-    description: T
-  }
-> = {
-  '01': {
-    title: { en: 'You get in touch', pt: 'Entra em contacto comigo' },
-    description: {
-      en: 'We discuss your vision, your preferences, your budget, your timeline. A privileged moment, with no commitment.',
-      pt: 'Conversamos sobre a sua visão, as suas preferências, o seu orçamento, o seu prazo. Um momento privilegiado, sem compromisso.',
-    },
-  },
-  '02': {
-    title: { en: 'I draw', pt: 'Eu desenho' },
-    description: {
-      en: 'I create two or three sketches based on your wishes. Each drawing explores a different direction.',
-      pt: 'Crio dois ou três esboços a partir dos seus desejos. Cada esboço explora uma direção diferente.',
-    },
-  },
-  '03': {
-    title: { en: 'You approve', pt: 'Você valida' },
-    description: {
-      en: 'You choose a sketch, and together we refine the details: final stone, size, finishes. I then give you a precise quotation, with no surprises.',
-      pt: 'Escolhe um esboço e afinamos juntos os detalhes: pedra final, tamanho, acabamentos. Entrego-lhe então um orçamento preciso, sem surpresas.',
-    },
-  },
-  '04': {
-    title: { en: 'I make it', pt: 'Eu fabrico' },
-    description: {
-      en: 'Full handmaking in Bordeaux, by lost-wax casting, following artisanal techniques. Four to eight weeks.',
-      pt: 'Fabrico completo à mão em Bordeaux, por fundição por cera perdida, segundo as técnicas artesanais. De quatro a oito semanas.',
-    },
-  },
-  '05': {
-    title: { en: 'You receive it', pt: 'Você recebe' },
-    description: {
-      en: 'Secure delivery, accompanied by a certificate of authenticity and care advice.',
-      pt: 'Entrega segura, acompanhada de um certificado de autenticidade e de conselhos de manutenção.',
-    },
-  },
-}
-
-// ---------------------------------------------------------------------------
 // Métamorphose (page Sur-Mesure) — clé : index du tableau (0..n)
 // ---------------------------------------------------------------------------
 export const METAMORPHOSE_TRANSLATIONS: Record<
