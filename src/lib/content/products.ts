@@ -62,7 +62,8 @@ export const PRODUCTS: Product[] = [
     image: '/images/real/bague-pierre-aurore.webp',
     imageAlt:
       'Bague Aurore en or 18 carats, solitaire posé sur pierre — atelier Précieuse, Bordeaux',
-    photoPortee: '/images/carnet/aurore-portee.jpg',
+    photoPortee: '/images/real/bague-main-chaise-aurore.webp',
+    photoPorteePosition: '56% 46%',
     packshot: '/images/bijoux-detoures/aurore.png',
   },
   {
