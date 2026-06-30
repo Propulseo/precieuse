@@ -64,7 +64,7 @@ function Home() {
           uniforme. min-h-screen : remplit au moins un écran sans jamais rogner. */}
       <div className="flex min-h-screen flex-col justify-center">
         <Reveal delay={60}>
-          <AvantPropos />
+          <AvantPropos apropos={home.avantPropos} />
         </Reveal>
       </div>
       <div className="flex min-h-screen flex-col justify-center">
