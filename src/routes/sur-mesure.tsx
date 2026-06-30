@@ -25,10 +25,11 @@ export const Route = createFileRoute('/sur-mesure')({
     ])
     return { page, contact }
   },
-  head: () =>
+  // SEO (titre/description) piloté par le doc Sanity surMesurePage, repli i18n.
+  head: ({ loaderData }) =>
     seo({
-      title: m.seo_surmesure_title(),
-      description: m.seo_surmesure_desc(),
+      title: loaderData?.page.seo.title ?? m.seo_surmesure_title(),
+      description: loaderData?.page.seo.description ?? m.seo_surmesure_desc(),
       path: '/sur-mesure',
     }),
 })

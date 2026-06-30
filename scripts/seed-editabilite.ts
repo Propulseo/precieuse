@@ -190,6 +190,8 @@ async function seedSurMesurePage() {
       name: v.name,
       city: v.city,
     })),
+    seoTitle: L('seo_surmesure_title'),
+    seoDescription: L('seo_surmesure_desc', 'localizedText'),
   }
 
   // Supprime l'ancien doc (ancien schéma metamorphose/promesses) puis recrée.
@@ -259,6 +261,8 @@ async function seedHomePage() {
     newsletterEyebrow: L('newsletter_eyebrow'),
     newsletterTitle: L('newsletter_title'),
     newsletterSubtitle: L('newsletter_short_subtitle'),
+    seoTitle: L('seo_home_title'),
+    seoDescription: L('seo_home_desc', 'localizedText'),
   })
   console.log("✓ Page d'accueil : héro + avant-propos + en-têtes de section seedés")
 }

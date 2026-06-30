@@ -43,6 +43,8 @@ export type HomePageData = {
     }
     newsletter: { eyebrow: string; title: string; subtitle: string }
   }
+  /** Métadonnées SEO (titre + description) de la page, éditables par page. */
+  seo: { title: string; description: string }
 }
 
 /**
@@ -119,5 +121,6 @@ export function homePageFallback(): HomePageData {
         subtitle: m.newsletter_short_subtitle(),
       },
     },
+    seo: { title: m.seo_home_title(), description: m.seo_home_desc() },
   }
 }

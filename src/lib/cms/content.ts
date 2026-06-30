@@ -590,7 +590,8 @@ export async function getHomePage(
       testimonialsTitleLine1, testimonialsTitleLine2,
       leadCaptureTitle, leadCaptureSubtitle,
       leadCaptureConsentPrefix, leadCaptureConsentLink, leadCaptureConsentSuffix,
-      newsletterEyebrow, newsletterTitle, newsletterSubtitle
+      newsletterEyebrow, newsletterTitle, newsletterSubtitle,
+      seoTitle, seoDescription
     }`,
   )
   if (!data) return fb
@@ -676,6 +677,10 @@ export async function getHomePage(
         subtitle: s(data.newsletterSubtitle, fb.sections.newsletter.subtitle),
       },
     },
+    seo: {
+      title: s(data.seoTitle, fb.seo.title),
+      description: s(data.seoDescription, fb.seo.description),
+    },
   }
 }
 
@@ -709,7 +714,8 @@ export async function getBespokePage(
         "porteeSrc": portee.asset->url, "porteeAlt": portee.alt, "porteeHotspot": portee.hotspot
       },
       voicesTitle,
-      "voices": voices[]{ initial, quote, name, city }
+      "voices": voices[]{ initial, quote, name, city },
+      seoTitle, seoDescription
     }`,
   )
   if (!data) return fb
@@ -821,5 +827,9 @@ export async function getBespokePage(
       pieces,
     },
     voices: { title: s(data.voicesTitle, fb.voices.title), items: voices },
+    seo: {
+      title: s(data.seoTitle, fb.seo.title),
+      description: s(data.seoDescription, fb.seo.description),
+    },
   }
 }

@@ -27,6 +27,7 @@ export const surMesurePage = defineType({
     { name: 'split', title: 'Du croquis' },
     { name: 'real', title: 'Réalisations' },
     { name: 'voices', title: 'Témoignages' },
+    { name: 'seo', title: 'SEO' },
   ],
   fields: [
     // ---------------------------------------------------------------- Héro
@@ -150,6 +151,10 @@ export const surMesurePage = defineType({
         },
       ],
     }),
+
+    // ------------------------------------------------------------------- SEO
+    defineField({ name: 'seoTitle', title: 'SEO — titre (onglet & Google)', type: 'localizedString', group: 'seo' }),
+    defineField({ name: 'seoDescription', title: 'SEO — description', type: 'localizedText', group: 'seo' }),
   ],
   preview: {
     prepare: () => ({ title: 'Page Sur-Mesure' }),

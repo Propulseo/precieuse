@@ -81,6 +81,8 @@ export type BespokePageData = {
     pieces: BespokePiece[]
   }
   voices: { title: string; items: BespokeVoice[] }
+  /** Métadonnées SEO (titre + description) de la page, éditables par page. */
+  seo: { title: string; description: string }
 }
 
 /**
@@ -206,5 +208,6 @@ export function bespokePageFallback(): BespokePageData {
         { initial: 'C', quote: m.sm_voice3_quote(), name: 'Camille R.', city: 'Paris' },
       ],
     },
+    seo: { title: m.seo_surmesure_title(), description: m.seo_surmesure_desc() },
   }
 }

@@ -16,6 +16,7 @@ export const homePage = defineType({
     { name: 'hero', title: 'Héro' },
     { name: 'avantPropos', title: 'Avant-propos' },
     { name: 'sections', title: 'En-têtes de section' },
+    { name: 'seo', title: 'SEO' },
   ],
   fields: [
     localizedImage({ name: 'heroImageLeft', title: 'Photo de gauche', group: 'hero' }),
@@ -93,6 +94,10 @@ export const homePage = defineType({
     defineField({ name: 'newsletterEyebrow', title: 'Newsletter — sur-titre', type: 'localizedString', group: 'sections' }),
     defineField({ name: 'newsletterTitle', title: 'Newsletter — titre', type: 'localizedString', group: 'sections' }),
     defineField({ name: 'newsletterSubtitle', title: 'Newsletter — sous-titre', type: 'localizedString', group: 'sections' }),
+
+    // ------------------------------------------------------------------- SEO
+    defineField({ name: 'seoTitle', title: 'SEO — titre (onglet & Google)', type: 'localizedString', group: 'seo' }),
+    defineField({ name: 'seoDescription', title: 'SEO — description', type: 'localizedText', group: 'seo' }),
   ],
   preview: {
     prepare: () => ({ title: "Page d'accueil" }),

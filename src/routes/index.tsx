@@ -28,12 +28,6 @@ import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/')({
   component: Home,
-  head: () =>
-    seo({
-      title: m.seo_home_title(),
-      description: m.seo_home_desc(),
-      path: '/',
-    }),
   // Lit Sanity quand configuré, sinon le contenu statique (fallback des getters).
   loader: async () => {
     const locale = getLocale()
@@ -48,6 +42,14 @@ export const Route = createFileRoute('/')({
       ])
     return { products, matieres, lettres, etabliSteps, bespokeSteps, home }
   },
+  // head après loader : TanStack n'infère `loaderData` que si loader est déclaré
+  // avant. Le SEO (titre/description) vient du doc Sanity homePage, repli i18n.
+  head: ({ loaderData }) =>
+    seo({
+      title: loaderData?.home.seo.title ?? m.seo_home_title(),
+      description: loaderData?.home.seo.description ?? m.seo_home_desc(),
+      path: '/',
+    }),
 })
 
 function Home() {
