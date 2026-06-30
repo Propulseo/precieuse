@@ -1,13 +1,10 @@
-import { BESPOKE_MARQUEE, bespokeMessage } from '../../lib/content/bespoke'
-
 /**
- * Bande défilante Sur-mesure — items de réassurance séparés par un losange
- * framboise, boucle continue (piste dupliquée), pause au survol. Keyframes en
- * `<style>` scoped (on ne touche pas styles.css). Figée en reduced-motion.
- * Décorative : aria-hidden.
+ * Bande défilante Sur-mesure — items de réassurance (pilotés par Sanity) séparés
+ * par un losange framboise, boucle continue (piste dupliquée), pause au survol.
+ * Keyframes en `<style>` scoped (on ne touche pas styles.css). Figée en
+ * reduced-motion. Décorative : aria-hidden.
  */
-export function BespokeMarquee() {
-  const items = BESPOKE_MARQUEE.map((key) => bespokeMessage(key))
+export function BespokeMarquee({ items }: { items: string[] }) {
   const unit = [...items, ...items] // dupliqué pour une boucle sans couture
 
   return (

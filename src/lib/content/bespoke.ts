@@ -1,73 +1,204 @@
 import { m } from '#/paraglide/messages'
 
 /**
- * Données structurées de la page Sur-mesure. Les libellés user-facing sont des
- * CLÉS Paraglide (résolues au rendu via `bespokeMessage(key)`) ; seuls les `alt`
- * restent FR (convention `etabli.ts`). Voix et pièces servent aussi de repli
- * statique au loader CMS (cf. route /sur-mesure).
+ * Contrat de données de la page Sur-mesure. Les composants `Bespoke*` sont
+ * présentationnels : ils reçoivent une tranche de `BespokePageData` et la
+ * rendent. Le contenu vient de Sanity (`surMesurePage`) quand il est rempli,
+ * sinon du repli `bespokePageFallback()` ci-dessous — qui lit les clés Paraglide
+ * (donc traduites FR/EN/PT) + les photos par défaut. Cf. `getBespokePage`.
  */
 
-/** Résout une clé de message Paraglide sans paramètre (titres, corps courts). */
+/** Résout une clé de message Paraglide sans paramètre (utilisé par le repli). */
 export function bespokeMessage(key: string): string {
   const table = m as unknown as Record<string, (() => string) | undefined>
   const fn = table[key]
   return typeof fn === 'function' ? fn() : key
 }
 
-export type BespokeStep = { svg: string; titleKey: string; bodyKey: string }
-export const BESPOKE_STEPS: BespokeStep[] = [
-  { svg: '/images/process/etape-1.svg', titleKey: 'sm_step1_title', bodyKey: 'sm_step1_body' },
-  { svg: '/images/process/etape-2.svg', titleKey: 'sm_step2_title', bodyKey: 'sm_step2_body' },
-  { svg: '/images/process/etape-3.svg', titleKey: 'sm_step3_title', bodyKey: 'sm_step3_body' },
-  { svg: '/images/process/etape-4.svg', titleKey: 'sm_step4_title', bodyKey: 'sm_step4_body' },
-]
-
-export type BespokePiece = {
-  atelierSrc: string
-  atelierAlt: string
-  porteeSrc: string
-  porteeAlt: string
-  name: string
-  matKey: string
-}
-export const BESPOKE_PIECES: BespokePiece[] = [
-  {
-    atelierSrc: '/images/real/bague-entouree-josephine.webp',
-    atelierAlt: "Bague Joséphine photographiée à l'atelier",
-    porteeSrc: '/images/real/main-chaise-josephine.webp',
-    porteeAlt: 'Bague Joséphine portée, main posée sur une chaise',
-    name: 'Joséphine',
-    matKey: 'sm_real_mat_josephine',
-  },
-  {
-    atelierSrc: '/images/real/bague-pierre-aurore.webp',
-    atelierAlt: "Bague Aurore photographiée à l'atelier",
-    porteeSrc: '/images/real/bague-main-chaise-aurore.webp',
-    porteeAlt: 'Bague Aurore portée, main posée sur une chaise',
-    name: 'Aurore',
-    matKey: 'sm_real_mat_aurore',
-  },
-  {
-    atelierSrc: '/images/real/bague-boule-thelma.webp',
-    atelierAlt: "Bague Thelma photographiée à l'atelier",
-    porteeSrc: '/images/real/mains-poche-thelma.webp',
-    porteeAlt: 'Bague Thelma portée, mains glissées dans les poches',
-    name: 'Thelma',
-    matKey: 'sm_real_mat_thelma',
-  },
-]
-
-export type BespokeVoice = { initial: string; quoteKey: string; name: string; city: string }
-export const BESPOKE_VOICES: BespokeVoice[] = [
-  { initial: 'M', quoteKey: 'sm_voice1_quote', name: 'Martine B.', city: 'Bordeaux' },
-  { initial: 'S', quoteKey: 'sm_voice2_quote', name: 'Sandrine L.', city: 'Lyon' },
-  { initial: 'C', quoteKey: 'sm_voice3_quote', name: 'Camille R.', city: 'Paris' },
-]
-
-export const BESPOKE_MARQUEE = [
-  'sm_marquee_1',
-  'sm_marquee_2',
-  'sm_marquee_3',
-  'sm_marquee_4',
-  'sm_marquee_5',
+/** Icônes (SVG) des 4 étapes du procédé — structurelles, non éditables. */
+export const BESPOKE_STEP_SVGS = [
+  '/images/process/etape-1.svg',
+  '/images/process/etape-2.svg',
+  '/images/process/etape-3.svg',
+  '/images/process/etape-4.svg',
 ] as const
+
+export type BespokeImg = { src: string; alt: string; position?: string }
+export type BespokeStepData = { title: string; body: string }
+export type BespokePiece = {
+  name: string
+  material: string
+  atelier: BespokeImg
+  portee: BespokeImg
+}
+export type BespokeVoice = {
+  initial: string
+  quote: string
+  name: string
+  city: string
+}
+
+export type BespokePageData = {
+  hero: {
+    kicker: string
+    title: string
+    titleAccent: string
+    sub: string
+    cta: string
+    photo: BespokeImg
+  }
+  marquee: string[]
+  atelier: {
+    titleLead: string
+    titleAccent: string
+    titleTail: string
+    body: string
+    link: string
+    badge: string
+    images: BespokeImg[]
+  }
+  steps: BespokeStepData[]
+  manifeste: { lead: string; accent: string }
+  split: {
+    eyebrow: string
+    titleLead: string
+    titleAccent: string
+    titleTail: string
+    body: string
+    link: string
+    image: BespokeImg
+  }
+  realisations: {
+    eyebrow: string
+    title: string
+    intro: string
+    tagAtelier: string
+    tagPortee: string
+    pieces: BespokePiece[]
+  }
+  voices: { title: string; items: BespokeVoice[] }
+}
+
+/**
+ * Repli statique de la page Sur-mesure : valeurs i18n (Paraglide, traduites
+ * FR/EN/PT) + photos par défaut. Servi tel quel tant que le document Sanity
+ * `surMesurePage` n'est pas rempli ; sinon `getBespokePage` fusionne Sanity
+ * par-dessus, champ par champ. Conserve EXACTEMENT le contenu actuel des
+ * composants (zéro régression).
+ */
+export function bespokePageFallback(): BespokePageData {
+  return {
+    hero: {
+      kicker: m.sm_hero_kicker(),
+      title: m.sm_hero_title(),
+      titleAccent: m.sm_hero_title_accent(),
+      sub: m.sm_hero_sub(),
+      cta: m.sm_hero_cta(),
+      photo: {
+        src: '/images/real/bague-main-chaise-thelma.webp',
+        alt: m.sm_hero_photo_alt(),
+      },
+    },
+    marquee: [
+      m.sm_marquee_1(),
+      m.sm_marquee_2(),
+      m.sm_marquee_3(),
+      m.sm_marquee_4(),
+      m.sm_marquee_5(),
+    ],
+    atelier: {
+      titleLead: m.sm_about_title_lead(),
+      titleAccent: m.sm_about_title_accent(),
+      titleTail: m.sm_about_title_tail(),
+      body: m.sm_about_body(),
+      link: m.sm_about_link(),
+      badge: m.sm_about_badge(),
+      images: [
+        {
+          src: '/images/emeline/emeline-atelier.jpg',
+          alt: "Emeline à l'établi, dans son atelier de Bordeaux",
+        },
+        {
+          src: '/images/atelier/bague-en-fabrication.jpg',
+          alt: "Bague en cours de fabrication, fixée à l'étau",
+        },
+        {
+          src: '/images/real/main-poche-josephine.webp',
+          alt: 'Bague Joséphine portée, main glissée dans la poche',
+        },
+      ],
+    },
+    steps: [
+      { title: m.sm_step1_title(), body: m.sm_step1_body() },
+      { title: m.sm_step2_title(), body: m.sm_step2_body() },
+      { title: m.sm_step3_title(), body: m.sm_step3_body() },
+      { title: m.sm_step4_title(), body: m.sm_step4_body() },
+    ],
+    manifeste: { lead: m.sm_manifeste_lead(), accent: m.sm_manifeste_accent() },
+    split: {
+      eyebrow: m.sm_split_eyebrow(),
+      titleLead: m.sm_split_title_lead(),
+      titleAccent: m.sm_split_title_accent(),
+      titleTail: m.sm_split_title_tail(),
+      body: m.sm_split_body(),
+      link: m.sm_split_link(),
+      image: {
+        src: '/images/atelier/esquisses-amethyste.jpg',
+        alt: m.sm_split_img_alt(),
+      },
+    },
+    realisations: {
+      eyebrow: m.sm_real_eyebrow(),
+      title: m.sm_real_title(),
+      intro: m.sm_real_intro(),
+      tagAtelier: m.sm_real_tag_atelier(),
+      tagPortee: m.sm_real_tag_portee(),
+      pieces: [
+        {
+          name: 'Joséphine',
+          material: m.sm_real_mat_josephine(),
+          atelier: {
+            src: '/images/real/bague-entouree-josephine.webp',
+            alt: "Bague Joséphine photographiée à l'atelier",
+          },
+          portee: {
+            src: '/images/real/main-chaise-josephine.webp',
+            alt: 'Bague Joséphine portée, main posée sur une chaise',
+          },
+        },
+        {
+          name: 'Aurore',
+          material: m.sm_real_mat_aurore(),
+          atelier: {
+            src: '/images/real/bague-pierre-aurore.webp',
+            alt: "Bague Aurore photographiée à l'atelier",
+          },
+          portee: {
+            src: '/images/real/bague-main-chaise-aurore.webp',
+            alt: 'Bague Aurore portée, main posée sur une chaise',
+          },
+        },
+        {
+          name: 'Thelma',
+          material: m.sm_real_mat_thelma(),
+          atelier: {
+            src: '/images/real/bague-boule-thelma.webp',
+            alt: "Bague Thelma photographiée à l'atelier",
+          },
+          portee: {
+            src: '/images/real/mains-poche-thelma.webp',
+            alt: 'Bague Thelma portée, mains glissées dans les poches',
+          },
+        },
+      ],
+    },
+    voices: {
+      title: m.sm_voices_title(),
+      items: [
+        { initial: 'M', quote: m.sm_voice1_quote(), name: 'Martine B.', city: 'Bordeaux' },
+        { initial: 'S', quote: m.sm_voice2_quote(), name: 'Sandrine L.', city: 'Lyon' },
+        { initial: 'C', quote: m.sm_voice3_quote(), name: 'Camille R.', city: 'Paris' },
+      ],
+    },
+  }
+}

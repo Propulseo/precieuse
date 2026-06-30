@@ -39,8 +39,8 @@ import { LETTRES  } from '../content/lettres'
 import type {Lettre} from '../content/lettres';
 import { ETABLI_STEPS  } from '../content/etabli'
 import type {EtabliStep} from '../content/etabli';
-import { BESPOKE_VOICES, BESPOKE_PIECES } from '../content/bespoke'
-import type { BespokeVoice, BespokePiece } from '../content/bespoke'
+import { bespokePageFallback } from '../content/bespoke'
+import type { BespokePageData, BespokeImg } from '../content/bespoke'
 import { SITE, BESPOKE_PROCESS  } from '../content/site'
 import type {ProcessStep} from '../content/site';
 import { CREATION_TYPES, BUDGETS } from '../content/sur-mesure'
@@ -460,15 +460,143 @@ export async function getCreatrice(
 }
 
 /**
- * Seam CMS de la page Sur-mesure : voix (témoignages) et pièces (réalisations)
- * pilotables par Emeline. Repli statique aujourd'hui (la copie des voix vit en
- * i18n via les clés) ; brancher une requête Sanity dédiée quand le schéma
- * existera. Signatures stables pour le loader de la route /sur-mesure.
+ * Page Sur-mesure : contenu complet (héro, bandeau, atelier, procédé, croquis,
+ * réalisations, voix), résolu depuis le singleton Sanity `surMesurePage` et
+ * fusionné par-dessus le repli i18n/photos (`bespokePageFallback`). Chaque champ
+ * vide côté Sanity retombe sur le repli → aucune régression tant que le document
+ * n'est pas rempli par Emeline.
  */
-export async function getBespokeVoices(): Promise<BespokeVoice[]> {
-  return BESPOKE_VOICES
-}
+export async function getBespokePage(
+  locale: Locale = DEFAULT_LOCALE,
+): Promise<BespokePageData> {
+  const fb = bespokePageFallback()
+  if (!isSanityConfigured) return fb
+  const data = await cmsFetch<Record<string, unknown> | null>(
+    `*[_type == "surMesurePage"][0]{
+      heroKicker, heroTitle, heroTitleAccent, heroSub, heroCta,
+      "heroSrc": heroImage.asset->url, "heroAlt": heroImage.alt, "heroHotspot": heroImage.hotspot,
+      marquee,
+      atelierTitleLead, atelierTitleAccent, atelierTitleTail, atelierBody, atelierLink, atelierBadge,
+      "atelierImages": atelierImages[]{ "src": img.asset->url, "alt": img.alt, "hotspot": img.hotspot },
+      "steps": steps[]{ title, body },
+      manifesteLead, manifesteAccent,
+      splitEyebrow, splitTitleLead, splitTitleAccent, splitTitleTail, splitBody, splitLink,
+      "splitSrc": splitImage.asset->url, "splitAlt": splitImage.alt, "splitHotspot": splitImage.hotspot,
+      realEyebrow, realTitle, realIntro, realTagAtelier, realTagPortee,
+      "pieces": pieces[]{ name, material,
+        "atelierSrc": atelier.asset->url, "atelierAlt": atelier.alt, "atelierHotspot": atelier.hotspot,
+        "porteeSrc": portee.asset->url, "porteeAlt": portee.alt, "porteeHotspot": portee.hotspot
+      },
+      voicesTitle,
+      "voices": voices[]{ initial, quote, name, city }
+    }`,
+  )
+  if (!data) return fb
 
-export async function getBespokePieces(): Promise<BespokePiece[]> {
-  return BESPOKE_PIECES
+  const s = (v: unknown, fallback: string): string =>
+    pickLocale(v as never, locale) || fallback
+  const img = (
+    src: unknown,
+    alt: unknown,
+    hotspot: unknown,
+    fallback: BespokeImg,
+  ): BespokeImg =>
+    src
+      ? {
+          src: String(src),
+          alt: pickLocale(alt as never, locale) || fallback.alt,
+          position: hotspotToPosition(hotspot),
+        }
+      : fallback
+
+  const marqueeRaw = (data.marquee as unknown[] | undefined) ?? []
+  const marquee = marqueeRaw.length
+    ? marqueeRaw.map((mq) => pickLocale(mq as never, locale)).filter(Boolean)
+    : fb.marquee
+
+  const atelierImgsRaw =
+    (data.atelierImages as Array<Record<string, unknown>> | undefined) ?? []
+  const atelierImages = atelierImgsRaw.length
+    ? atelierImgsRaw.map((im, i) =>
+        img(im.src, im.alt, im.hotspot, fb.atelier.images[i] ?? fb.atelier.images[0]),
+      )
+    : fb.atelier.images
+
+  const stepsRaw = (data.steps as Array<Record<string, unknown>> | undefined) ?? []
+  const steps = stepsRaw.length
+    ? stepsRaw.map((st, i) => ({
+        title: s(st.title, fb.steps[i]?.title ?? ''),
+        body: s(st.body, fb.steps[i]?.body ?? ''),
+      }))
+    : fb.steps
+
+  const piecesRaw = (data.pieces as Array<Record<string, unknown>> | undefined) ?? []
+  const pieces = piecesRaw.length
+    ? piecesRaw.map((p, i) => {
+        const f = fb.realisations.pieces[i] ?? fb.realisations.pieces[0]
+        return {
+          name: String(p.name ?? f.name),
+          material: s(p.material, f.material),
+          atelier: img(p.atelierSrc, p.atelierAlt, p.atelierHotspot, f.atelier),
+          portee: img(p.porteeSrc, p.porteeAlt, p.porteeHotspot, f.portee),
+        }
+      })
+    : fb.realisations.pieces
+
+  const voicesRaw = (data.voices as Array<Record<string, unknown>> | undefined) ?? []
+  const voices = voicesRaw.length
+    ? voicesRaw.map((v, i) => {
+        const f = fb.voices.items[i] ?? fb.voices.items[0]
+        return {
+          initial: String(v.initial ?? f.initial),
+          quote: s(v.quote, f.quote),
+          name: String(v.name ?? f.name),
+          city: String(v.city ?? f.city),
+        }
+      })
+    : fb.voices.items
+
+  return {
+    hero: {
+      kicker: s(data.heroKicker, fb.hero.kicker),
+      title: s(data.heroTitle, fb.hero.title),
+      titleAccent: s(data.heroTitleAccent, fb.hero.titleAccent),
+      sub: s(data.heroSub, fb.hero.sub),
+      cta: s(data.heroCta, fb.hero.cta),
+      photo: img(data.heroSrc, data.heroAlt, data.heroHotspot, fb.hero.photo),
+    },
+    marquee,
+    atelier: {
+      titleLead: s(data.atelierTitleLead, fb.atelier.titleLead),
+      titleAccent: s(data.atelierTitleAccent, fb.atelier.titleAccent),
+      titleTail: s(data.atelierTitleTail, fb.atelier.titleTail),
+      body: s(data.atelierBody, fb.atelier.body),
+      link: s(data.atelierLink, fb.atelier.link),
+      badge: s(data.atelierBadge, fb.atelier.badge),
+      images: atelierImages,
+    },
+    steps,
+    manifeste: {
+      lead: s(data.manifesteLead, fb.manifeste.lead),
+      accent: s(data.manifesteAccent, fb.manifeste.accent),
+    },
+    split: {
+      eyebrow: s(data.splitEyebrow, fb.split.eyebrow),
+      titleLead: s(data.splitTitleLead, fb.split.titleLead),
+      titleAccent: s(data.splitTitleAccent, fb.split.titleAccent),
+      titleTail: s(data.splitTitleTail, fb.split.titleTail),
+      body: s(data.splitBody, fb.split.body),
+      link: s(data.splitLink, fb.split.link),
+      image: img(data.splitSrc, data.splitAlt, data.splitHotspot, fb.split.image),
+    },
+    realisations: {
+      eyebrow: s(data.realEyebrow, fb.realisations.eyebrow),
+      title: s(data.realTitle, fb.realisations.title),
+      intro: s(data.realIntro, fb.realisations.intro),
+      tagAtelier: s(data.realTagAtelier, fb.realisations.tagAtelier),
+      tagPortee: s(data.realTagPortee, fb.realisations.tagPortee),
+      pieces,
+    },
+    voices: { title: s(data.voicesTitle, fb.voices.title), items: voices },
+  }
 }

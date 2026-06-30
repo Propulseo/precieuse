@@ -68,12 +68,17 @@ export const localizedPortableText = defineType({
  * Champ image (hotspot) avec texte alternatif localisé (FR/EN/PT). Partagé par
  * tous les documents pour ne pas redéclarer le bloc image+alt à chaque schéma.
  */
-export function localizedImage(options?: { name?: string; title?: string }) {
+export function localizedImage(options?: {
+  name?: string
+  title?: string
+  group?: string
+}) {
   return defineField({
     name: options?.name ?? 'image',
     title: options?.title ?? 'Image',
     type: 'image',
     options: { hotspot: true },
+    ...(options?.group ? { group: options.group } : {}),
     fields: [
       defineField({ name: 'alt', title: 'Texte alternatif', type: 'localizedString' }),
     ],
