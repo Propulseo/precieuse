@@ -37,7 +37,21 @@ export const piece = defineType({
     }),
     defineField({ name: 'materials', title: 'Matières', type: 'localizedText' }),
     defineField({ name: 'story', title: 'Histoire', type: 'localizedText' }),
-    localizedImage(),
+    localizedImage({ title: 'Image principale (défilé + fiche)' }),
+    localizedImage({
+      name: 'photoPortee',
+      title: 'Photo portée (grille /collection)',
+    }),
+    localizedImage({
+      name: 'packshot',
+      title: 'Packshot détouré (grille /collection)',
+    }),
+    defineField({
+      name: 'imageZoom',
+      title: 'Zoom de cadrage (défilé accueil)',
+      type: 'number',
+      description: '1 = aucun zoom. Ex. 1.35 = +35 % sur la photo du défilé d’accueil.',
+    }),
     defineField({ name: 'order', title: "Ordre d'affichage", type: 'number' }),
   ],
   orderings: [

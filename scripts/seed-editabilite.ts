@@ -1,8 +1,9 @@
 /**
- * Seed des contenus rendus éditables cette session :
+ * Seed des contenus rendus éditables :
  *  - photos des témoignages (champ `image` ajouté au schéma temoignage)
- *  - page Sur-mesure (singleton `surMesurePage` réécrit : héro, bandeau, atelier,
- *    procédé, croquis, réalisations, voix)
+ *  - page Sur-mesure (singleton `surMesurePage` : héro + vidéo/poster, bandeau,
+ *    atelier, procédé, croquis, réalisations, voix)
+ *  - page d'accueil (singleton `homePage` : héro 2 photos + promesse)
  *
  * Lit FR/EN/PT depuis messages/*.json. Idempotent : Sanity dédoublonne les assets
  * par hash, et on fait createOrReplace/patch sur des _id déterministes.
@@ -65,6 +66,19 @@ async function uploadImage(publicPath: string): Promise<string> {
 async function imageField(publicPath: string, alt: { _type: string; fr: string }) {
   const ref = await uploadImage(publicPath)
   return { _type: 'image', asset: { _type: 'reference', _ref: ref }, alt }
+}
+/** Image sans alt — visuels décoratifs (poster vidéo, aria-hidden). */
+async function imagePlain(publicPath: string) {
+  const ref = await uploadImage(publicPath)
+  return { _type: 'image', asset: { _type: 'reference', _ref: ref } }
+}
+/** Upload d'un fichier non-image (vidéo) → asset._id. */
+async function uploadFile(publicPath: string): Promise<string> {
+  const abs = join('public', publicPath.replace(/^\//, ''))
+  const asset = await client.assets.upload('file', readFileSync(abs), {
+    filename: basename(abs),
+  })
+  return asset._id
 }
 
 // ---------------------------------------------------------------------------
@@ -129,6 +143,11 @@ async function seedSurMesurePage() {
     heroSub: L('sm_hero_sub', 'localizedText'),
     heroCta: L('sm_hero_cta'),
     heroImage: hero,
+    heroVideo: {
+      _type: 'file',
+      asset: { _type: 'reference', _ref: await uploadFile('/images/video/ring-box.mp4') },
+    },
+    heroPoster: await imagePlain('/images/real/bague-pierre-precieuse-perle.webp'),
     marquee: ['sm_marquee_1', 'sm_marquee_2', 'sm_marquee_3', 'sm_marquee_4', 'sm_marquee_5'].map(
       (k, i) => ({ _key: `mq${i}`, ...L(k) }),
     ),
@@ -182,10 +201,31 @@ async function seedSurMesurePage() {
   console.log('✓ Page Sur-mesure : singleton seedé (héro, atelier, procédé, croquis, réalisations, voix)')
 }
 
+// ---------------------------------------------------------------------------
+// 3) Page d'accueil — singleton homePage (héro : 2 photos + promesse)
+// ---------------------------------------------------------------------------
+async function seedHomePage() {
+  const [left, right] = await Promise.all([
+    imageField('/images/real/bague-main-josephine.webp', L('hero_alt_josephine')),
+    imageField('/images/real/buste-thelma-louise.webp', L('hero_alt_thelma_louise')),
+  ])
+  await client.createOrReplace({
+    _id: 'homePage',
+    _type: 'homePage',
+    heroImageLeft: left,
+    heroImageRight: right,
+    heroTaglineLead: L('hero_tagline_lead'),
+    heroTaglineAccent: L('hero_tagline_accent'),
+    heroSubline: L('hero_subline', 'localizedText'),
+  })
+  console.log("✓ Page d'accueil : héro seedé (2 photos + promesse)")
+}
+
 async function main() {
   console.log(`Seed sur projet ${projectId} / dataset ${dataset}…`)
   await seedTemoignagePhotos()
   await seedSurMesurePage()
+  await seedHomePage()
   console.log('✅ Seed terminé.')
 }
 

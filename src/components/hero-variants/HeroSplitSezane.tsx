@@ -1,13 +1,16 @@
 import { m } from '#/paraglide/messages'
 import { BRAND_WORDMARK_MASK, maskStyle } from '../brand/brand'
 import { useBrand } from '../brand/BrandProvider'
+import type { HomePageData } from '../../lib/content/home'
 
 /**
  * Hero A — Split 50/50 strict (style Sézane).
  * Macro produit à gauche + portrait/main portée à droite.
  * Texte centré à cheval sur les 2 images, 1 seul CTA.
+ * Photos + promesse pilotées par Sanity (homePage) via getHomePage ; les
+ * libellés d'UI (sur-titre, boutons) restent en i18n.
  */
-export function HeroSplitSezane() {
+export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
   const { heroMark } = useBrand()
 
   return (
@@ -15,16 +18,18 @@ export function HeroSplitSezane() {
       <div className="grid grid-cols-2 h-full">
         <div className="relative overflow-hidden">
           <img
-            src="/images/real/bague-main-josephine.webp"
-            alt={m.hero_alt_josephine()}
+            src={hero.imageLeft.src}
+            alt={hero.imageLeft.alt}
+            style={hero.imageLeft.position ? { objectPosition: hero.imageLeft.position } : undefined}
             fetchPriority="high"
             className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
         <div className="relative overflow-hidden">
           <img
-            src="/images/real/buste-thelma-louise.webp"
-            alt={m.hero_alt_thelma_louise()}
+            src={hero.imageRight.src}
+            alt={hero.imageRight.alt}
+            style={hero.imageRight.position ? { objectPosition: hero.imageRight.position } : undefined}
             fetchPriority="high"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -74,22 +79,22 @@ export function HeroSplitSezane() {
           )}
 
           <p className="font-display text-[clamp(20px,2.6vw,30px)] text-poudre mb-3 max-w-[24ch] leading-snug drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
-            {m.hero_tagline_lead()}{' '}
-            <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">{m.hero_tagline_accent()}</span>
+            {hero.taglineLead}{' '}
+            <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">{hero.taglineAccent}</span>
           </p>
           <p className="font-display text-[clamp(14px,1.7vw,18px)] text-poudre/85 mb-10 max-w-[36ch] leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
-            {m.hero_subline()}
+            {hero.subline}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="/collection"
-              className="inline-flex items-center justify-center w-[260px] font-display text-[12px] tracking-[0.35em] uppercase border border-poudre/80 px-9 py-3.5 hover:bg-poudre hover:text-canard transition-colors duration-300"
+              className="inline-flex items-center justify-center min-w-[260px] whitespace-nowrap font-display text-[12px] tracking-[0.25em] uppercase border border-poudre/80 px-7 py-3.5 hover:bg-poudre hover:text-canard transition-colors duration-300"
             >
               {m.hero_cta_collection()}
             </a>
             <a
               href="/sur-mesure"
-              className="inline-flex items-center justify-center w-[260px] font-display text-[12px] tracking-[0.35em] uppercase bg-poudre text-canard border border-poudre px-9 py-3.5 hover:bg-transparent hover:text-poudre transition-colors duration-300"
+              className="inline-flex items-center justify-center min-w-[260px] whitespace-nowrap font-display text-[12px] tracking-[0.25em] uppercase bg-poudre text-canard border border-poudre px-7 py-3.5 hover:bg-transparent hover:text-poudre transition-colors duration-300"
             >
               {m.hero_cta_bespoke()}
             </a>

@@ -13,54 +13,19 @@ import { CollectionIntro } from './collection-intro'
  * se fait à chaque rangée. Charte Précieuse conservée (poudre/canard).
  */
 
-// Couple d'images par pièce, propre à cette présentation (porté + packshot).
-// `position` cale le point focal de la photo portée.
-type Pair = { worn: string; wornPosition?: string; packshot: string }
+// Les images de la grille (photo portée + packshot détouré) sont désormais
+// pilotées par Sanity via `getProducts` (champs `photoPortee` / `packshot`), avec
+// repli sur les chemins statiques de `products.ts`. Plus de map codée en dur ici.
 
-const PAIRS: Partial<Record<string, Pair>> = {
-  josephine: {
-    worn: '/images/real/main-chaise-josephine.webp',
-    wornPosition: '50% 40%',
-    packshot: '/images/bijoux-detoures/josephine.png',
-  },
-  aurore: {
-    worn: '/images/carnet/aurore-portee.jpg',
-    packshot: '/images/bijoux-detoures/aurore.png',
-  },
-  eugenie: {
-    // Pas de photo portée (pièce dessinée) → placeholder pour le grand visuel,
-    // en attendant qu'Emeline fournisse la vraie photo. Le packshot garde le dessin.
-    worn: '/images/placeholder-piece.svg',
-    packshot: '/images/bijoux-detoures/eugenie.png',
-  },
-  thelma: {
-    worn: '/images/real/mains-poche-thelma.webp',
-    wornPosition: '50% 45%',
-    packshot: '/images/bijoux-detoures/thelma.png',
-  },
-  louise: {
-    worn: '/images/real/buste-thelma-louise.webp',
-    wornPosition: '50% 35%',
-    packshot: '/images/bijoux-detoures/louise.png',
-  },
-}
-
-function WornCell({
-  pair,
-  product,
-  reversed,
-}: {
-  pair: Pair
-  product: Product
-  reversed: boolean
-}) {
+function WornCell({ product, reversed }: { product: Product; reversed: boolean }) {
+  const worn = product.photoPortee ?? '/images/placeholder-piece.svg'
   return (
     <div className={`flex items-center justify-center bg-poudre p-6 lg:p-10 ${reversed ? 'lg:order-2' : ''}`}>
       <div className="relative aspect-[4/5] w-full max-w-[420px] overflow-hidden bg-canard-10">
         <img
-          src={pair.worn}
-          alt={product.imageAlt}
-          style={objectPositionStyle(pair.wornPosition)}
+          src={worn}
+          alt={product.photoPorteeAlt ?? product.imageAlt}
+          style={objectPositionStyle(product.photoPorteePosition)}
           className="absolute inset-0 h-full w-full object-cover"
         />
       </div>
@@ -68,15 +33,7 @@ function WornCell({
   )
 }
 
-function InfoCell({
-  pair,
-  product,
-  reversed,
-}: {
-  pair: Pair
-  product: Product
-  reversed: boolean
-}) {
+function InfoCell({ product, reversed }: { product: Product; reversed: boolean }) {
   return (
     <div className={`flex flex-col items-center justify-center bg-poudre px-8 py-12 text-center lg:px-14 ${reversed ? 'lg:order-1' : ''}`}>
       <h2 className="font-display text-[clamp(32px,3.2vw,48px)] text-canard leading-[1.05]">
@@ -91,8 +48,8 @@ function InfoCell({
 
       <div className="my-8 flex h-[150px] w-full items-center justify-center lg:my-9 lg:h-[190px]">
         <img
-          src={pair.packshot}
-          alt={`${product.name} — ${product.tagline}`}
+          src={product.packshot}
+          alt={product.packshotAlt ?? `${product.name} — ${product.tagline}`}
           className="max-h-full max-w-[190px] object-contain"
         />
       </div>
@@ -114,8 +71,9 @@ export function CollectionGemmyo({ products = PRODUCTS }: { products?: Product[]
       <CollectionIntro products={products} />
 
       {products.map((product, i) => {
-        const pair = PAIRS[product.slug]
-        if (!pair) return null
+        // Grille = photo portée + packshot détouré : sans packshot, on n'affiche
+        // pas la rangée (évite une cellule info vide).
+        if (!product.packshot) return null
         const reversed = i % 2 === 1
         return (
           <div
@@ -123,8 +81,8 @@ export function CollectionGemmyo({ products = PRODUCTS }: { products?: Product[]
             id={`piece-${product.slug}`}
             className="grid scroll-mt-20 grid-cols-1 lg:min-h-[62vh] lg:grid-cols-2"
           >
-            <WornCell pair={pair} product={product} reversed={reversed} />
-            <InfoCell pair={pair} product={product} reversed={reversed} />
+            <WornCell product={product} reversed={reversed} />
+            <InfoCell product={product} reversed={reversed} />
           </div>
         )
       })}

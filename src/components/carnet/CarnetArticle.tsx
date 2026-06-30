@@ -110,7 +110,7 @@ export function CarnetArticle({
                 </p>
               )}
 
-              {/* Citation de clôture (signature d'Emeline, éditable dans Sanity). */}
+              {/* Citation de clôture (signature d'Emeline) — éditable dans Sanity (repli statique). */}
               {article.closingQuote ? (
                 <figure className="mt-16 border-t border-canard/15 pt-10 text-center">
                   <p className="mx-auto max-w-[48ch] font-headline text-[clamp(24px,3vw,36px)] italic leading-snug text-canard [text-wrap:pretty]">

@@ -21,10 +21,10 @@ export function BespokeHero({ hero }: { hero: BespokePageData['hero'] }) {
             loop
             playsInline
             preload="metadata"
-            poster="/images/real/bague-pierre-precieuse-perle.webp"
+            poster={hero.poster}
             aria-hidden="true"
           >
-            <source src="/images/video/ring-box.mp4" type="video/mp4" />
+            <source src={hero.video} type="video/mp4" />
           </video>
         </div>
         {/* Photo (moitié droite) */}

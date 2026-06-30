@@ -46,6 +46,10 @@ export type BespokePageData = {
     sub: string
     cta: string
     photo: BespokeImg
+    /** Vidéo plein cadre (moitié gauche du héro). URL de l'asset. */
+    video: string
+    /** Image de remplacement de la vidéo (poster, visible en reduced-motion). */
+    poster: string
   }
   marquee: string[]
   atelier: {
@@ -98,6 +102,8 @@ export function bespokePageFallback(): BespokePageData {
         src: '/images/real/bague-main-chaise-thelma.webp',
         alt: m.sm_hero_photo_alt(),
       },
+      video: '/images/video/ring-box.mp4',
+      poster: '/images/real/bague-pierre-precieuse-perle.webp',
     },
     marquee: [
       m.sm_marquee_1(),

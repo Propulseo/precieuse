@@ -12,6 +12,14 @@ export type Product = {
   imagePosition?: string
   /** Zoom de cadrage (scale) sur l'image dans le défilé Collection. Défaut 1. */
   imageZoom?: number
+  /** Photo « portée » plein cadre de la grille /collection (CollectionGemmyo). */
+  photoPortee?: string
+  photoPorteeAlt?: string
+  /** Point focal CSS de la photo portée. */
+  photoPorteePosition?: string
+  /** Packshot détouré (PNG transparent) de la cellule info de la grille. */
+  packshot?: string
+  packshotAlt?: string
 }
 
 export const PRODUCTS: Product[] = [
@@ -31,6 +39,9 @@ export const PRODUCTS: Product[] = [
       "Bague Joséphine en or 18 carats, pierre centrale entourée d'un halo de diamants — atelier Précieuse, Bordeaux",
     imagePosition: '61% 54%',
     imageZoom: 1.35,
+    photoPortee: '/images/real/main-chaise-josephine.webp',
+    photoPorteePosition: '50% 40%',
+    packshot: '/images/bijoux-detoures/josephine.png',
   },
   {
     slug: 'aurore',
@@ -45,6 +56,8 @@ export const PRODUCTS: Product[] = [
     image: '/images/real/bague-pierre-aurore.webp',
     imageAlt:
       'Bague Aurore en or 18 carats, solitaire posé sur pierre — atelier Précieuse, Bordeaux',
+    photoPortee: '/images/carnet/aurore-portee.jpg',
+    packshot: '/images/bijoux-detoures/aurore.png',
   },
   {
     slug: 'eugenie',
@@ -60,6 +73,10 @@ export const PRODUCTS: Product[] = [
     image: '/images/real/eugenie-dessin.png',
     imageAlt:
       'Dessin de la bague Eugénie, trilogie à pierre marquise et griffes fines — atelier Précieuse, Bordeaux',
+    // Pas de photo « portée » (pièce dessinée) → placeholder, non seedé dans Sanity
+    // tant qu'Emeline n'a pas fourni la vraie photo. Le packshot garde le dessin.
+    photoPortee: '/images/placeholder-piece.svg',
+    packshot: '/images/bijoux-detoures/eugenie.png',
   },
   {
     slug: 'thelma',
@@ -75,6 +92,9 @@ export const PRODUCTS: Product[] = [
     image: '/images/real/bague-boule-thelma.webp',
     imageAlt:
       'Bague Thelma en or 18 carats, pierre centrale généreuse à la monture sculpturale — atelier Précieuse, Bordeaux',
+    photoPortee: '/images/real/mains-poche-thelma.webp',
+    photoPorteePosition: '50% 45%',
+    packshot: '/images/bijoux-detoures/thelma.png',
   },
   {
     slug: 'louise',
@@ -90,5 +110,8 @@ export const PRODUCTS: Product[] = [
     image: '/images/real/buste-thelma-louise.webp',
     imageAlt:
       'Bague Louise en or 18 carats portée — atelier Précieuse, Bordeaux',
+    photoPortee: '/images/real/buste-thelma-louise.webp',
+    photoPorteePosition: '50% 35%',
+    packshot: '/images/bijoux-detoures/louise.png',
   },
 ]

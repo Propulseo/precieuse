@@ -34,15 +34,16 @@ import type {Product} from '../content/products';
 import { MATIERES  } from '../content/matieres'
 import type {Matiere} from '../content/matieres';
 import { ARTICLES, CATEGORIES  } from '../content/carnet'
-import type {Article} from '../content/carnet';
+import type {Article, ArticleBlock} from '../content/carnet';
 import { LETTRES  } from '../content/lettres'
 import type {Lettre} from '../content/lettres';
 import { ETABLI_STEPS  } from '../content/etabli'
 import type {EtabliStep} from '../content/etabli';
 import { bespokePageFallback } from '../content/bespoke'
-import type { BespokePageData, BespokeImg } from '../content/bespoke'
-import { SITE, BESPOKE_PROCESS  } from '../content/site'
-import type {ProcessStep} from '../content/site';
+import type { BespokePageData, BespokeImg, BespokeStepData } from '../content/bespoke'
+import { homePageFallback } from '../content/home'
+import type { HomePageData, HomeImg } from '../content/home'
+import { SITE } from '../content/site'
 import { CREATION_TYPES, BUDGETS } from '../content/sur-mesure'
 import { FOOTER_DATA } from '../content/footer'
 import { getStaticLegal } from '../content/legal'
@@ -94,23 +95,42 @@ export async function getProducts(locale: Locale = DEFAULT_LOCALE): Promise<Prod
   const data = await cmsFetch<Array<Record<string, unknown>>>(
     `*[_type == "piece"] | order(order asc){
       "slug": slug.current, name, tagline, priceLabel, description,
-      materials, story, ${IMAGE_FIELDS}
+      materials, story, imageZoom, ${IMAGE_FIELDS},
+      "photoPortee": photoPortee.asset->url, "photoPorteeAlt": photoPortee.alt, "photoPorteeHotspot": photoPortee.hotspot,
+      "packshot": packshot.asset->url, "packshotAlt": packshot.alt
     }`,
   )
   if (!data?.length) return PRODUCTS
-  return data.map((d) => ({
-    slug: String(d.slug ?? ''),
-    name: String(d.name ?? ''),
-    tagline: pickLocale(d.tagline as never, locale),
-    price: pickLocale(d.priceLabel as never, locale) || 'Sur devis',
-    description: pickLocale(d.description as never, locale),
-    materials: pickLocale(d.materials as never, locale),
-    story: pickLocale(d.story as never, locale),
-    image: String(d.image ?? ''),
-    imageAlt: pickLocale(d.imageAlt as never, locale),
-    // Point focal piloté par le hotspot Sanity (réglé par Emeline dans le Studio).
-    imagePosition: hotspotToPosition(d.imageHotspot),
-  }))
+  return data.map((d) => {
+    const slug = String(d.slug ?? '')
+    // Repli statique par slug : si un champ image de grille n'est pas (encore)
+    // rempli dans Sanity, on retombe sur le chemin codé dans PRODUCTS → jamais
+    // de grille vide tant qu'Emeline n'a pas seedé les nouvelles photos.
+    const fb = PRODUCTS.find((p) => p.slug === slug)
+    return {
+      slug,
+      name: String(d.name ?? ''),
+      tagline: pickLocale(d.tagline as never, locale),
+      price: pickLocale(d.priceLabel as never, locale) || 'Sur devis',
+      description: pickLocale(d.description as never, locale),
+      materials: pickLocale(d.materials as never, locale),
+      story: pickLocale(d.story as never, locale),
+      image: String(d.image ?? ''),
+      imageAlt: pickLocale(d.imageAlt as never, locale),
+      // Point focal piloté par le hotspot Sanity (réglé par Emeline dans le Studio).
+      imagePosition: hotspotToPosition(d.imageHotspot),
+      // Zoom du défilé d'accueil (Sanity prime, repli statique).
+      imageZoom: typeof d.imageZoom === 'number' ? d.imageZoom : fb?.imageZoom,
+      // Grille /collection : photo portée + packshot (Sanity prime, repli statique).
+      photoPortee: d.photoPortee ? String(d.photoPortee) : fb?.photoPortee,
+      photoPorteeAlt: d.photoPorteeAlt
+        ? pickLocale(d.photoPorteeAlt as never, locale)
+        : fb?.photoPorteeAlt,
+      photoPorteePosition: hotspotToPosition(d.photoPorteeHotspot) ?? fb?.photoPorteePosition,
+      packshot: d.packshot ? String(d.packshot) : fb?.packshot,
+      packshotAlt: d.packshotAlt ? pickLocale(d.packshotAlt as never, locale) : fb?.packshotAlt,
+    }
+  })
 }
 
 export async function getProduct(
@@ -151,6 +171,40 @@ export async function getMatieres(locale: Locale = DEFAULT_LOCALE): Promise<Mati
 // Carnet — articles
 // ---------------------------------------------------------------------------
 
+/**
+ * Convertit le corps d'un article modélisé dans Sanity (array d'objets
+ * paragraph/heading/quote/list) vers le type `ArticleBlock` rendu par
+ * `ArticleBlocks`. Carnet FR-only → champs texte simples (non localisés).
+ */
+function mapArticleBody(raw: unknown): ArticleBlock[] {
+  if (!Array.isArray(raw)) return []
+  const blocks: ArticleBlock[] = []
+  for (const b of raw as Array<Record<string, unknown>>) {
+    switch (String(b._type ?? '')) {
+      case 'heading':
+        blocks.push({ kind: 'h2', text: String(b.text ?? '') })
+        break
+      case 'quote':
+        blocks.push({
+          kind: 'quote',
+          text: String(b.text ?? ''),
+          cite: b.cite ? String(b.cite) : undefined,
+        })
+        break
+      case 'list':
+        blocks.push({
+          kind: 'list',
+          items: Array.isArray(b.items) ? (b.items as unknown[]).map(String) : [],
+        })
+        break
+      case 'paragraph':
+        blocks.push({ kind: 'p', text: String(b.text ?? '') })
+        break
+    }
+  }
+  return blocks
+}
+
 export async function getArticles(_locale: Locale = DEFAULT_LOCALE): Promise<Article[]> {
   // Carnet FR-only pour l'instant : le corps des articles n'est pas encore
   // traduit, on sert donc tout le contenu en français (DEFAULT_LOCALE) pour
@@ -160,16 +214,22 @@ export async function getArticles(_locale: Locale = DEFAULT_LOCALE): Promise<Art
   const data = await cmsFetch<Array<Record<string, unknown>>>(
     `*[_type == "article"] | order(order asc){
       "slug": slug.current, title, excerpt, category, date, readTime,
-      ${IMAGE_FIELDS}, featured
+      ${IMAGE_FIELDS}, featured,
+      lede, body[]{ _type, text, cite, items }, closingQuote{ text, cite }
     }`,
   )
   if (!data?.length) return ARTICLES
   return data.map((d) => {
     const slug = String(d.slug ?? '')
-    // Le corps riche (lede/body/citation de clôture) n'est pas encore modélisé
-    // dans Sanity : on le récupère du contenu statique par slug. La méta et
-    // l'image restent éditables depuis Sanity.
+    // Le corps (chapô / body / citation de clôture) est désormais éditable dans
+    // Sanity ; on retombe sur le contenu statique par slug champ par champ tant
+    // qu'un article n'est pas (encore) rempli côté CMS → aucune régression.
     const fallback = ARTICLES.find((a) => a.slug === slug)
+    const bodySanity = mapArticleBody(d.body)
+    const cqRaw = d.closingQuote as Record<string, unknown> | null | undefined
+    const cqSanity = cqRaw?.text
+      ? { text: String(cqRaw.text), cite: cqRaw.cite ? String(cqRaw.cite) : undefined }
+      : undefined
     return {
       slug,
       title: pickLocale(d.title as never, DEFAULT_LOCALE),
@@ -181,9 +241,9 @@ export async function getArticles(_locale: Locale = DEFAULT_LOCALE): Promise<Art
       imageAlt: pickLocale(d.imageAlt as never, DEFAULT_LOCALE),
       imagePosition: hotspotToPosition(d.imageHotspot),
       featured: Boolean(d.featured),
-      lede: fallback?.lede,
-      body: fallback?.body,
-      closingQuote: fallback?.closingQuote,
+      lede: (typeof d.lede === 'string' && d.lede ? d.lede : undefined) ?? fallback?.lede,
+      body: bodySanity.length ? bodySanity : fallback?.body,
+      closingQuote: cqSanity ?? fallback?.closingQuote,
     }
   })
 }
@@ -248,18 +308,18 @@ export async function getEtabliSteps(
 // Parcours sur-mesure (process)
 // ---------------------------------------------------------------------------
 
-export async function getBespokeProcess(
+export async function getBespokeSteps(
   locale: Locale = DEFAULT_LOCALE,
-): Promise<ProcessStep[]> {
-  if (!isSanityConfigured) return BESPOKE_PROCESS
+): Promise<BespokeStepData[]> {
+  const fb = bespokePageFallback().steps
+  if (!isSanityConfigured) return fb
   const data = await cmsFetch<Array<Record<string, unknown>>>(
-    `*[_type == "etapeSurMesure"] | order(number asc){ number, title, description }`,
+    `*[_type == "surMesurePage"][0].steps[]{ title, body }`,
   )
-  if (!data?.length) return BESPOKE_PROCESS
-  return data.map((d) => ({
-    number: String(d.number ?? ''),
-    title: pickLocale(d.title as never, locale),
-    description: pickLocale(d.description as never, locale),
+  if (!data?.length) return fb
+  return data.map((d, i) => ({
+    title: pickLocale(d.title as never, locale) || fb[i]?.title || '',
+    body: pickLocale(d.body as never, locale) || fb[i]?.body || '',
   }))
 }
 
@@ -376,12 +436,6 @@ export type CreatriceSection = {
   body: string[]
   image: CreatriceImage
 }
-export type CreatriceRealisation = {
-  title: string
-  material: string
-  studio: CreatriceImage
-  worn: CreatriceImage
-}
 export type CreatriceContent = {
   overline: string
   title: string
@@ -389,7 +443,6 @@ export type CreatriceContent = {
   portrait: CreatriceImage
   sections: CreatriceSection[]
   quote: string
-  realisations: CreatriceRealisation[]
 }
 
 /**
@@ -409,12 +462,7 @@ export async function getCreatrice(
         overline, title, body,
         "image": image.asset->url, "imageAlt": image.alt, "imageHotspot": image.hotspot
       },
-      quote,
-      realisations[]{
-        title, material,
-        "studioUrl": studio.asset->url, "studioAlt": studio.alt, "studioHotspot": studio.hotspot,
-        "wornUrl": worn.asset->url, "wornAlt": worn.alt, "wornHotspot": worn.hotspot
-      }
+      quote
     }`,
   )
   if (!data) return null
@@ -430,20 +478,6 @@ export async function getCreatrice(
       position: hotspotToPosition(s.imageHotspot),
     },
   }))
-  const realisations = ((data.realisations as Array<Record<string, unknown>> | undefined) ?? []).map((r) => ({
-    title: pickLocale(r.title as never, locale),
-    material: pickLocale(r.material as never, locale),
-    studio: {
-      url: String(r.studioUrl ?? ''),
-      alt: pickLocale(r.studioAlt as never, locale),
-      position: hotspotToPosition(r.studioHotspot),
-    },
-    worn: {
-      url: String(r.wornUrl ?? ''),
-      alt: pickLocale(r.wornAlt as never, locale),
-      position: hotspotToPosition(r.wornHotspot),
-    },
-  }))
   return {
     overline: pickLocale(data.overline as never, locale),
     title: pickLocale(data.title as never, locale),
@@ -455,7 +489,75 @@ export async function getCreatrice(
     },
     sections,
     quote: pickLocale(data.quote as never, locale),
-    realisations,
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Page d'accueil (héro)
+// ---------------------------------------------------------------------------
+
+/**
+ * Héro d'accueil (2 photos + promesse) résolu depuis le singleton Sanity
+ * `homePage`, fusionné par-dessus le repli i18n/photos (`homePageFallback`).
+ * Chaque champ vide retombe sur le repli → aucune régression tant que le
+ * document n'est pas rempli par Emeline.
+ */
+export async function getHomePage(
+  locale: Locale = DEFAULT_LOCALE,
+): Promise<HomePageData> {
+  const fb = homePageFallback()
+  if (!isSanityConfigured) return fb
+  const data = await cmsFetch<Record<string, unknown> | null>(
+    `*[_type == "homePage"][0]{
+      "leftSrc": heroImageLeft.asset->url, "leftAlt": heroImageLeft.alt, "leftHotspot": heroImageLeft.hotspot,
+      "rightSrc": heroImageRight.asset->url, "rightAlt": heroImageRight.alt, "rightHotspot": heroImageRight.hotspot,
+      heroTaglineLead, heroTaglineAccent, heroSubline,
+      "aproposSrc": aproposPortrait.asset->url, "aproposAlt": aproposPortrait.alt, "aproposHotspot": aproposPortrait.hotspot,
+      aproposName, aproposPlace,
+      "manifesto": aproposManifesto[]{ pas, mais },
+      aproposQualification, aproposFounder
+    }`,
+  )
+  if (!data) return fb
+  const s = (v: unknown, fallback: string): string =>
+    pickLocale(v as never, locale) || fallback
+  const img = (
+    src: unknown,
+    alt: unknown,
+    hotspot: unknown,
+    fallback: HomeImg,
+  ): HomeImg =>
+    src
+      ? {
+          src: String(src),
+          alt: pickLocale(alt as never, locale) || fallback.alt,
+          position: hotspotToPosition(hotspot),
+        }
+      : fallback
+  const manifestoRaw =
+    (data.manifesto as Array<Record<string, unknown>> | undefined) ?? []
+  const manifesto = manifestoRaw.length
+    ? manifestoRaw.map((p, i) => ({
+        pas: s(p.pas, fb.avantPropos.manifesto[i]?.pas ?? ''),
+        mais: s(p.mais, fb.avantPropos.manifesto[i]?.mais ?? ''),
+      }))
+    : fb.avantPropos.manifesto
+  return {
+    hero: {
+      imageLeft: img(data.leftSrc, data.leftAlt, data.leftHotspot, fb.hero.imageLeft),
+      imageRight: img(data.rightSrc, data.rightAlt, data.rightHotspot, fb.hero.imageRight),
+      taglineLead: s(data.heroTaglineLead, fb.hero.taglineLead),
+      taglineAccent: s(data.heroTaglineAccent, fb.hero.taglineAccent),
+      subline: s(data.heroSubline, fb.hero.subline),
+    },
+    avantPropos: {
+      portrait: img(data.aproposSrc, data.aproposAlt, data.aproposHotspot, fb.avantPropos.portrait),
+      name: String(data.aproposName ?? fb.avantPropos.name),
+      place: String(data.aproposPlace ?? fb.avantPropos.place),
+      manifesto,
+      qualification: s(data.aproposQualification, fb.avantPropos.qualification),
+      founder: s(data.aproposFounder, fb.avantPropos.founder),
+    },
   }
 }
 
@@ -475,6 +577,7 @@ export async function getBespokePage(
     `*[_type == "surMesurePage"][0]{
       heroKicker, heroTitle, heroTitleAccent, heroSub, heroCta,
       "heroSrc": heroImage.asset->url, "heroAlt": heroImage.alt, "heroHotspot": heroImage.hotspot,
+      "heroVideo": heroVideo.asset->url, "heroPoster": heroPoster.asset->url,
       marquee,
       atelierTitleLead, atelierTitleAccent, atelierTitleTail, atelierBody, atelierLink, atelierBadge,
       "atelierImages": atelierImages[]{ "src": img.asset->url, "alt": img.alt, "hotspot": img.hotspot },
@@ -564,6 +667,8 @@ export async function getBespokePage(
       sub: s(data.heroSub, fb.hero.sub),
       cta: s(data.heroCta, fb.hero.cta),
       photo: img(data.heroSrc, data.heroAlt, data.heroHotspot, fb.hero.photo),
+      video: data.heroVideo ? String(data.heroVideo) : fb.hero.video,
+      poster: data.heroPoster ? String(data.heroPoster) : fb.hero.poster,
     },
     marquee,
     atelier: {

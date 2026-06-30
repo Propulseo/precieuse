@@ -19,7 +19,8 @@ import {
   getMatieres,
   getLettres,
   getEtabliSteps,
-  getBespokeProcess,
+  getBespokeSteps,
+  getHomePage,
 } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
@@ -36,26 +37,27 @@ export const Route = createFileRoute('/')({
   // Lit Sanity quand configuré, sinon le contenu statique (fallback des getters).
   loader: async () => {
     const locale = getLocale()
-    const [products, matieres, lettres, etabliSteps, bespokeProcess] =
+    const [products, matieres, lettres, etabliSteps, bespokeSteps, home] =
       await Promise.all([
         getProducts(locale),
         getMatieres(locale),
         getLettres(locale),
         getEtabliSteps(locale),
-        getBespokeProcess(locale),
+        getBespokeSteps(locale),
+        getHomePage(locale),
       ])
-    return { products, matieres, lettres, etabliSteps, bespokeProcess }
+    return { products, matieres, lettres, etabliSteps, bespokeSteps, home }
   },
 })
 
 function Home() {
-  const { products, matieres, lettres, etabliSteps, bespokeProcess } =
+  const { products, matieres, lettres, etabliSteps, bespokeSteps, home } =
     Route.useLoaderData()
   const newsletter = useNewsletterTrigger()
 
   return (
     <>
-      <Hero />
+      <Hero home={home} />
       <CollectionSection products={products} />
       <Reassurance />
       {/* Sections éditoriales calées à ~1 écran (min-h, centrées) pour un rythme
@@ -73,19 +75,15 @@ function Home() {
           <Etabli steps={etabliSteps} />
         </Reveal>
       </div>
-      <div className="flex min-h-screen flex-col justify-center">
-        <Reveal delay={60}>
-          <SurMesure process={bespokeProcess} />
-        </Reveal>
-      </div>
+      <Reveal delay={60}>
+        <SurMesure steps={bespokeSteps} />
+      </Reveal>
       <Reveal delay={60}>
         <Testimonials lettres={lettres} />
       </Reveal>
-      <div className="flex min-h-screen flex-col justify-center">
-        <Reveal delay={60}>
-          <LeadCaptureA />
-        </Reveal>
-      </div>
+      <Reveal delay={60}>
+        <LeadCaptureA />
+      </Reveal>
 
       <NewsletterB
         isOpen={newsletter.isOpen}

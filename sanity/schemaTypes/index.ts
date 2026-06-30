@@ -2,11 +2,11 @@ import type { SchemaTypeDefinition } from 'sanity'
 
 import { localizedTypes } from '../lib/i18n'
 import { siteSettings } from './documents/siteSettings'
+import { homePage } from './documents/homePage'
 import { piece } from './documents/piece'
 import { matiere } from './documents/matiere'
 import { article } from './documents/article'
 import { temoignage } from './documents/temoignage'
-import { etapeSurMesure } from './documents/etapeSurMesure'
 import { etapeEtabli } from './documents/etapeEtabli'
 import { surMesurePage } from './documents/surMesurePage'
 import { creatricePage } from './documents/creatricePage'
@@ -18,11 +18,11 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   ...localizedTypes,
   // Documents
   siteSettings,
+  homePage,
   piece,
   matiere,
   article,
   temoignage,
-  etapeSurMesure,
   etapeEtabli,
   surMesurePage,
   creatricePage,

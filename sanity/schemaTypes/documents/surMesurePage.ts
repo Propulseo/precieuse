@@ -37,6 +37,20 @@ export const surMesurePage = defineType({
     defineField({ name: 'heroCta', title: 'Bouton', type: 'localizedString', group: 'hero' }),
     localizedImage({ name: 'heroImage', title: 'Photo (moitié droite)', group: 'hero' }),
     defineField({
+      name: 'heroVideo',
+      title: 'Vidéo (moitié gauche)',
+      type: 'file',
+      options: { accept: 'video/mp4' },
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroPoster',
+      title: 'Poster vidéo (image de remplacement)',
+      type: 'image',
+      options: { hotspot: true },
+      group: 'hero',
+    }),
+    defineField({
       name: 'marquee',
       title: 'Bandeau défilant (items)',
       type: 'array',

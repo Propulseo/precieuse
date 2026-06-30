@@ -25,6 +25,59 @@ export const article = defineType({
     }),
     defineField({ name: 'excerpt', title: 'Extrait', type: 'localizedText' }),
     defineField({
+      name: 'lede',
+      title: 'Chapô (intro mise en avant)',
+      type: 'text',
+      rows: 3,
+      description: 'Carnet en français uniquement pour l’instant.',
+    }),
+    defineField({
+      name: 'body',
+      title: "Corps de l'article",
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'paragraph',
+          title: 'Paragraphe',
+          fields: [{ name: 'text', title: 'Texte', type: 'text', rows: 4 }],
+          preview: { select: { title: 'text' } },
+        },
+        {
+          type: 'object',
+          name: 'heading',
+          title: 'Sous-titre (H2)',
+          fields: [{ name: 'text', title: 'Texte', type: 'string' }],
+          preview: { select: { title: 'text' } },
+        },
+        {
+          type: 'object',
+          name: 'quote',
+          title: 'Citation',
+          fields: [
+            { name: 'text', title: 'Texte', type: 'text', rows: 3 },
+            { name: 'cite', title: 'Signature', type: 'string' },
+          ],
+          preview: { select: { title: 'text', subtitle: 'cite' } },
+        },
+        {
+          type: 'object',
+          name: 'list',
+          title: 'Liste à puces',
+          fields: [{ name: 'items', title: 'Éléments', type: 'array', of: [{ type: 'string' }] }],
+        },
+      ],
+    }),
+    defineField({
+      name: 'closingQuote',
+      title: 'Citation de clôture (signature)',
+      type: 'object',
+      fields: [
+        { name: 'text', title: 'Texte', type: 'text', rows: 2 },
+        { name: 'cite', title: 'Signature', type: 'string' },
+      ],
+    }),
+    defineField({
       name: 'category',
       title: 'Catégorie',
       type: 'string',

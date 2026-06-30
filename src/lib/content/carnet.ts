@@ -23,7 +23,7 @@ export type Article = {
   /** Corps de l'article. Vide = page « en cours de rédaction ». */
   body?: ArticleBlock[]
   /** Citation de clôture (signature d'Emeline) affichée en fin d'article.
-   *  Éditable dans Sanity. */
+   *  Éditable dans Sanity (champ `closingQuote`) ; ce contenu statique sert de repli. */
   closingQuote?: { text: string; cite?: string }
 }
 
