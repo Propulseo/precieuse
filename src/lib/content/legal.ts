@@ -6,9 +6,13 @@
  * aussi de base au seed Sanity (scripts/seed-legal.ts) pour rendre ces pages
  * éditables par Emeline dans le Studio.
  *
- * Entité légale : Mundenfeitado Unipessoal LDA (marque « Précieuse »).
- * ⚠️ Rédaction de départ — à faire valider par un juriste (notamment CGV /
- * droit de rétractation sur le sur-mesure).
+ * Entité légale : « Précieuse », atelier de joaillerie artisanale établi à
+ * Bordeaux (France).
+ * ⚠️ Cadre juridique FRANÇAIS posé, mais les mentions obligatoires (dénomination
+ * sociale, forme juridique, SIRET, TVA intracommunautaire, adresse de l'atelier,
+ * téléphone) sont encore des marqueurs « [à compléter] » → Emeline les renseigne
+ * dans le Studio. À faire valider par un juriste (notamment CGV / droit de
+ * rétractation sur le sur-mesure).
  */
 
 export type PortableSpan = { _type: 'span'; _key: string; text: string; marks: string[] }
@@ -45,13 +49,14 @@ const MENTIONS: LegalDoc = {
     ['h2', 'Informations légales'],
     [
       'p',
-      'Le site www.precieuse-joaillerie.com est édité par la société Mundenfeitado Unipessoal LDA, exerçant sous la marque « Précieuse », entreprise de joaillerie artisanale.',
+      'Le site www.precieuse-joaillerie.com est édité par « Précieuse », atelier de joaillerie artisanale établi à Bordeaux (France).',
     ],
-    ['li', 'Dénomination sociale : Mundenfeitado Unipessoal LDA'],
-    ['li', 'Siège social : Avenida das Descobertas, 53, 2 esq, 2670-385 Loures, Portugal'],
-    ['li', 'NIF : 518690288'],
-    ['li', 'TVA intracommunautaire : PT518690288'],
-    ['li', 'Téléphone : +351 939 198 334'],
+    ['li', 'Dénomination sociale : [à compléter]'],
+    ['li', 'Forme juridique : [à compléter]'],
+    ['li', "Siège social / atelier : [adresse à compléter], Bordeaux, France"],
+    ['li', 'SIRET : [à compléter]'],
+    ['li', 'TVA intracommunautaire : [à compléter]'],
+    ['li', 'Téléphone : [à compléter]'],
     ['li', 'Email : contact@precieuse-joaillerie.com'],
     ['li', 'Responsable de la publication : Emeline Le Ray'],
     ['h2', 'Hébergement'],
@@ -84,16 +89,16 @@ const CONFIDENTIALITE: LegalDoc = {
     ['h2', '1. Introduction'],
     [
       'p',
-      "La présente politique de confidentialité a pour but de vous informer de manière claire et transparente sur la manière dont Mundenfeitado Unipessoal LDA, société immatriculée au Portugal, collecte, utilise et protège vos données personnelles lorsque vous utilisez le site www.precieuse-joaillerie.com.",
+      "La présente politique de confidentialité a pour but de vous informer de manière claire et transparente sur la manière dont « Précieuse » (atelier de joaillerie artisanale établi à Bordeaux, France ; dénomination sociale et SIRET [à compléter]) collecte, utilise et protège vos données personnelles lorsque vous utilisez le site www.precieuse-joaillerie.com.",
     ],
     [
       'p',
       "En accédant à ce site, vous acceptez la présente politique. Elle peut être mise à jour à tout moment, en fonction des évolutions législatives ou techniques.",
     ],
     ['h2', '2. Identité du responsable du traitement'],
-    ['li', 'Mundenfeitado Unipessoal LDA'],
-    ['li', 'Siège social : Avenida das Descobertas, 53, 2 esq, 2670-385 Loures, Portugal'],
-    ['li', 'NIF : 518690288'],
+    ['li', 'Précieuse — dénomination sociale : [à compléter]'],
+    ['li', 'Siège social / atelier : [adresse à compléter], Bordeaux, France'],
+    ['li', 'SIRET : [à compléter]'],
     ['li', 'Email : contact@precieuse-joaillerie.com'],
     ['li', 'Responsable du traitement : Emeline Le Ray'],
     ['h2', '3. Données collectées'],
@@ -136,7 +141,7 @@ const CONFIDENTIALITE: LegalDoc = {
     ['h2', '8. Destinataires des données'],
     [
       'p',
-      'Les données collectées sont destinées exclusivement à Mundenfeitado Unipessoal LDA et à ses prestataires de confiance (hébergement, paiement, logistique), strictement dans le cadre de leurs missions.',
+      'Les données collectées sont destinées exclusivement à « Précieuse » et à ses prestataires de confiance (hébergement, paiement, logistique), strictement dans le cadre de leurs missions.',
     ],
     ['p', 'Nous ne vendons, ne louons et ne cédons jamais vos données à des tiers à des fins commerciales.'],
     ['h2', '9. Sécurité'],
@@ -154,7 +159,7 @@ const CONFIDENTIALITE: LegalDoc = {
     ['li', 'Droit de retirer votre consentement à tout moment'],
     [
       'p',
-      'Vous pouvez exercer ces droits en nous contactant à contact@precieuse-joaillerie.com. Vous avez également le droit d’introduire une réclamation auprès de la CNPD (Commission Nationale de Protection des Données — Portugal) si vous estimez que vos droits ne sont pas respectés.',
+      'Vous pouvez exercer ces droits en nous contactant à contact@precieuse-joaillerie.com. Vous avez également le droit d’introduire une réclamation auprès de la CNIL (Commission Nationale de l’Informatique et des Libertés — France, www.cnil.fr) si vous estimez que vos droits ne sont pas respectés.',
     ],
     ['h2', '11. Contact'],
     [
@@ -171,7 +176,7 @@ const CGV: LegalDoc = {
     ['h2', '1. Objet'],
     [
       'p',
-      "Les présentes conditions générales de vente (CGV) régissent les ventes de bijoux et créations sur-mesure proposés par Mundenfeitado Unipessoal LDA, exerçant sous la marque « Précieuse ». Toute commande implique l'acceptation pleine et entière des présentes CGV.",
+      "Les présentes conditions générales de vente (CGV) régissent les ventes de bijoux et créations sur-mesure proposés par « Précieuse », atelier de joaillerie artisanale établi à Bordeaux (dénomination sociale [à compléter]). Toute commande implique l'acceptation pleine et entière des présentes CGV.",
     ],
     ['h2', '2. Produits et créations sur-mesure'],
     [
@@ -220,12 +225,12 @@ const CGV: LegalDoc = {
     ['h2', '10. Droit applicable et litiges'],
     [
       'p',
-      "Les présentes CGV sont soumises au droit portugais. En cas de litige, une solution amiable sera recherchée en priorité ; à défaut, les juridictions compétentes pourront être saisies.",
+      "Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée en priorité ; à défaut, les juridictions françaises compétentes pourront être saisies. Conformément à la réglementation, le client peut recourir gratuitement à un médiateur de la consommation [médiateur à désigner — à compléter].",
     ],
     ['h2', '11. Contact'],
     [
       'p',
-      'Pour toute question relative à votre commande : contact@precieuse-joaillerie.com — +351 939 198 334.',
+      'Pour toute question relative à votre commande : contact@precieuse-joaillerie.com — téléphone [à compléter].',
     ],
   ]),
 }
