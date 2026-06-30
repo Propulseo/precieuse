@@ -60,7 +60,7 @@ export function LeadCaptureA() {
           {m.leadcapture_title()}
         </h2>
 
-        <p className="font-display text-[14px] text-canard/70 leading-relaxed max-w-[440px] mb-6">
+        <p className="font-display text-[14px] text-canard/90 leading-relaxed max-w-[440px] mb-6">
           {m.leadcapture_subtitle()}
         </p>
 
@@ -72,15 +72,11 @@ export function LeadCaptureA() {
               className="flex items-center gap-2.5 cursor-pointer font-display text-[15px] text-canard"
             >
               <span
-                className={`w-4 h-4 border border-canard/40 rounded-sm flex items-center justify-center transition-colors ${
-                  civility === c ? 'bg-canard border-canard' : ''
+                className={`w-4 h-4 border rounded-full flex items-center justify-center transition-colors ${
+                  civility === c ? 'border-canard' : 'border-canard/40'
                 }`}
               >
-                {civility === c && (
-                  <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden>
-                    <path d="M2 5 L4.2 7.2 L8 3" stroke="#eadcd3" strokeWidth="1.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
+                {civility === c && <span className="w-2 h-2 rounded-full bg-canard" />}
               </span>
               <input
                 type="radio"
@@ -113,7 +109,7 @@ export function LeadCaptureA() {
           <p className="font-display text-[13px] text-alerte mt-3">{m.form_error()}</p>
         )}
 
-        <p className="font-display text-[11px] text-canard/55 mt-5 max-w-[420px]">
+        <p className="font-display text-[11px] text-canard/90 mt-5 max-w-[420px]">
           {m.leadcapture_consent_prefix()}{' '}
           <a href="/confidentialite" className="underline underline-offset-2 hover:text-canard">
             {m.leadcapture_consent_link()}
@@ -140,10 +136,10 @@ function FieldA({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="font-display text-[12px] text-canard/55 tracking-wide">{label}</span>
+      <span className="font-display text-[12px] text-canard/90 tracking-wide">{label}</span>
       <div className="flex items-center border-b border-canard/30 focus-within:border-canard transition-colors">
         {prefix && (
-          <span className="font-display text-[14px] text-canard/55 pr-2 border-r border-canard/15 mr-2">
+          <span className="font-display text-[14px] text-canard/90 pr-2 border-r border-canard/15 mr-2">
             {prefix}
           </span>
         )}
@@ -151,7 +147,7 @@ function FieldA({
           type={type}
           name={name}
           required={required}
-          className="flex-1 bg-transparent py-2 font-display text-[16px] text-canard placeholder:text-canard/30 focus:outline-none"
+          className="flex-1 bg-transparent py-2 font-display text-[16px] text-canard placeholder:text-canard/55 focus:outline-none"
         />
       </div>
     </label>

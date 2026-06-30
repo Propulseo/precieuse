@@ -14,9 +14,9 @@ const SUBJECTS = [
 type SubjectId = (typeof SUBJECTS)[number]['id']
 
 const inputCls =
-  'w-full bg-transparent border-b border-canard/30 py-1.5 font-sans text-[16px] text-canard placeholder:text-canard/40 focus:outline-none focus:border-framboise transition-colors'
+  'w-full bg-transparent border-b border-canard/30 py-1.5 font-body text-[16px] text-canard placeholder:text-canard/55 focus:outline-none focus:border-framboise transition-colors'
 const labelCls =
-  'block font-display text-[10px] tracking-[0.28em] uppercase text-canard/60 mb-1.5'
+  'block font-display text-[10px] tracking-[0.28em] uppercase text-canard/90 mb-1.5'
 
 /** Formulaire du drawer Contact (ambiance Épure) : nom, email, sujet en chips,
  *  message. Envoi via la server fn `sendLead` (kind contact, sujet → creationType). */
@@ -102,7 +102,7 @@ export function ContactForm() {
               className={`font-display text-[11.5px] rounded-full px-3 py-1.5 border transition-colors ${
                 subject === s.id
                   ? 'bg-canard text-poudre border-canard'
-                  : 'border-canard/40 text-canard/70 hover:text-canard'
+                  : 'border-canard/40 text-canard/85 hover:text-canard'
               }`}
             >
               {s.label()}
@@ -131,7 +131,7 @@ export function ContactForm() {
       </button>
 
       {error && (
-        <p className="font-sans text-[13px] text-framboise">{m.form_error()}</p>
+        <p role="alert" className="font-body text-[13px] text-framboise">{m.form_error()}</p>
       )}
     </form>
   )

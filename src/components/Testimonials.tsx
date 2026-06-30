@@ -4,7 +4,6 @@ import type {
   TouchEvent as ReactTouchEvent,
 } from 'react'
 import { m } from '#/paraglide/messages'
-import { Eyebrow } from './Eyebrow'
 import { LETTRES, type Lettre } from '../lib/content/lettres'
 
 const INTERVAL_MS = 7000
@@ -96,7 +95,7 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
     <section
       ref={sectionRef}
       id="testimonials"
-      className="scroll-mt-20 relative bg-poudre py-16 lg:py-20 px-4 lg:px-8"
+      className="scroll-mt-20 relative bg-poudre py-8 lg:py-10 px-4 lg:px-8"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -104,7 +103,6 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
     >
       <div className="mx-auto max-w-[1180px]">
         <div className="text-center mb-7 lg:mb-9">
-          <Eyebrow className="mb-2">{m.testimonials_overline()}</Eyebrow>
           <h2 className="font-headline text-[clamp(28px,4vw,46px)] leading-[1.06] text-canard">
             {m.testimonials_title_line1()} {m.testimonials_title_line2()}
           </h2>

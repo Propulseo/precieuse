@@ -6,6 +6,7 @@ import { BespokeProcess } from '../components/sur-mesure/BespokeProcess'
 import { BespokeSplit } from '../components/sur-mesure/BespokeSplit'
 import { BespokeRealisations } from '../components/sur-mesure/BespokeRealisations'
 import { BespokeVoices } from '../components/sur-mesure/BespokeVoices'
+import { ClosingInvite } from '../components/ClosingInvite'
 import { getBespokePage } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
@@ -36,6 +37,7 @@ function SurMesurePage() {
       <BespokeSplit split={page.split} />
       <BespokeRealisations realisations={page.realisations} />
       <BespokeVoices voices={page.voices} />
+      <ClosingInvite cta={m.surmesure_cta()} />
     </div>
   )
 }

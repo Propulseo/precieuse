@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import type { SyntheticEvent } from 'react'
-import { Link } from '@tanstack/react-router'
 import { m } from '#/paraglide/messages'
 import { BRAND_LOCKUP_MASK, maskStyle } from '../brand/brand'
 import { ContactForm } from './ContactForm'
@@ -12,7 +11,7 @@ const FAQ = [
   { q: () => m.contact_faq_q3(), a: () => m.contact_faq_a3() },
 ]
 
-const kCls = 'font-display text-[9px] tracking-[0.24em] uppercase text-canard/55 mb-px'
+const kCls = 'font-display text-[9px] tracking-[0.24em] uppercase text-canard/90 mb-px'
 
 /**
  * Drawer Contact — ambiance « Épure » (panneau droit ~420 px). Voile + aside
@@ -142,18 +141,6 @@ export function ContactDrawer({ site }: { site: { email: string; whatsapp: strin
               </span>
             </div>
           </div>
-
-          {/* Renvoi sur-mesure */}
-          <p className="mt-3.5 font-display text-[12.5px] text-canard/85">
-            {m.contact_renvoi()}{' '}
-            <Link
-              to="/sur-mesure"
-              onClick={close}
-              className="border-b border-framboise text-framboise"
-            >
-              {m.contact_renvoi_link()}
-            </Link>
-          </p>
 
           {/* FAQ — accordéon mono-ouverture, réponse révélée en douceur */}
           <div className="mt-3.5">

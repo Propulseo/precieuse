@@ -50,7 +50,7 @@ export function CarnetHero({ articles = ARTICLES }: { articles?: Article[] }) {
                   {featured.title}
                 </h2>
               </a>
-              <p className="mt-4 max-w-[44ch] font-body font-light text-[16px] leading-relaxed text-canard/75 [text-wrap:pretty]">
+              <p className="mt-4 max-w-[44ch] font-body font-light text-[16px] leading-relaxed text-canard/90 [text-wrap:pretty]">
                 {featured.excerpt}
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-2">

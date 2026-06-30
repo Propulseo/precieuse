@@ -10,6 +10,15 @@ export function Reveal({ children, delay = 0 }: RevealProps) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
+    // Respect de prefers-reduced-motion : on affiche tout de suite, sans animation.
+    // Idem si IntersectionObserver est indisponible (vieux navigateur) — le contenu
+    // ne doit jamais rester bloqué en opacity-0.
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduce || typeof IntersectionObserver === 'undefined') {
+      setVisible(true)
+      return
+    }
+
     const el = ref.current
     if (!el) return
 
@@ -30,7 +39,7 @@ export function Reveal({ children, delay = 0 }: RevealProps) {
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${
+      className={`motion-safe:transition-all motion-safe:duration-700 motion-safe:ease-out ${
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
     >

@@ -77,7 +77,7 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
                   </h3>
                 </a>
 
-                <p className="mt-2.5 flex-1 font-body font-light text-[14px] leading-relaxed text-canard/70 [text-wrap:pretty]">
+                <p className="mt-2.5 flex-1 font-body font-light text-[14px] leading-relaxed text-canard/90 [text-wrap:pretty]">
                   {article.excerpt}
                 </p>
 
