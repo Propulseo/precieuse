@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { localizedImage } from '../../lib/i18n'
 
 /**
  * Témoignage / Lettre — correspond au type `Lettre` de
@@ -48,6 +49,10 @@ export const temoignage = defineType({
       type: 'localizedString',
       description: "Ex. « Création sur-mesure » ou le nom d'un modèle.",
     }),
+    localizedImage({
+      name: 'image',
+      title: 'Photo (bague portée)',
+    }),
     defineField({ name: 'order', title: "Ordre d'affichage", type: 'number' }),
   ],
   orderings: [
@@ -58,6 +63,6 @@ export const temoignage = defineType({
     },
   ],
   preview: {
-    select: { title: 'auteur', subtitle: 'citation.fr' },
+    select: { title: 'auteur', subtitle: 'citation.fr', media: 'image' },
   },
 })

@@ -200,7 +200,7 @@ export async function getLettres(locale: Locale = DEFAULT_LOCALE): Promise<Lettr
   if (!isSanityConfigured) return LETTRES
   const data = await cmsFetch<Array<Record<string, unknown>>>(
     `*[_type == "temoignage"] | order(order asc){
-      citation, auteur, initiale, ville, date, piece
+      citation, auteur, initiale, ville, date, piece, ${IMAGE_FIELDS}
     }`,
   )
   if (!data?.length) return LETTRES
@@ -211,6 +211,10 @@ export async function getLettres(locale: Locale = DEFAULT_LOCALE): Promise<Lettr
     ville: String(d.ville ?? ''),
     date: String(d.date ?? ''),
     piece: pickLocale(d.piece as never, locale),
+    // Photo « bague portée » de la galerie témoignages, pilotée par Emeline.
+    image: d.image ? String(d.image) : undefined,
+    imageAlt: d.imageAlt ? pickLocale(d.imageAlt as never, locale) : undefined,
+    imagePosition: hotspotToPosition(d.imageHotspot),
   }))
 }
 
