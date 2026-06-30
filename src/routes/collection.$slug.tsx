@@ -81,7 +81,14 @@ function ProductPage() {
   const { open: openContact } = useContactDrawer()
   const [zoom, setZoom] = useState<GalleryPhoto | null>(null)
   const photos = buildGallery(product)
-  const [main, ...rest] = photos
+  const [active, setActive] = useState(0)
+  const safeActive = Math.min(active, Math.max(0, photos.length - 1))
+  const current = photos[safeActive]
+
+  // Repartir de la 1ʳᵉ photo quand on change de pièce (le composant reste monté).
+  useEffect(() => {
+    setActive(0)
+  }, [product.slug])
 
   // Lightbox : Échap ferme, scroll de fond verrouillé tant qu'elle est ouverte.
   useEffect(() => {
@@ -108,61 +115,41 @@ function ProductPage() {
           ← {m.product_back_to_collection()}
         </Link>
 
-        {/* Manchette ornementale : nom centré + cartouche de la marque entre deux filets. */}
-        <header className="pt-1 text-center">
-          <h1 className="font-display text-[clamp(40px,5.2vw,68px)] leading-none text-canard [text-wrap:balance]">
-            {product.name}
-          </h1>
-          <div className="mx-auto mb-1 mt-4 flex max-w-[680px] items-center gap-6 text-framboise/50">
-            <span className="h-px flex-1 bg-current" />
-            <span
-              role="img"
-              aria-label="Précieuse"
-              className="shrink-0"
-              style={{
-                width: 'clamp(80px,11vw,108px)',
-                aspectRatio: '1 / 1',
-                ...maskStyle('/brand/picto-shape.png', 'var(--framboise)'),
-              }}
-            />
-            <span className="h-px flex-1 bg-current" />
-          </div>
-        </header>
-
-        <div className="grid grid-cols-1 items-start gap-12 pt-4 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-          {/* Galerie cliquable (lightbox) */}
+        <div className="grid grid-cols-1 items-start gap-12 pt-3 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          {/* Galerie : grande image carrée (cadrage uniforme) + miniatures cliquables, lightbox au clic. */}
           <div className="grid gap-3.5">
-            {main ? (
+            {current ? (
               <button
                 type="button"
-                onClick={() => setZoom(main)}
+                onClick={() => setZoom(current)}
                 aria-label={`Agrandir la photo de ${product.name}`}
-                className="group relative aspect-[4/5] cursor-zoom-in overflow-hidden border border-canard/20"
+                className={`group relative aspect-square cursor-zoom-in overflow-hidden border border-canard/20 ${current.contain ? 'bg-poudre-dark' : ''}`}
               >
                 <img
-                  src={main.src}
-                  alt={main.alt}
-                  style={main.pos ? objectPositionStyle(main.pos) : undefined}
-                  className={`absolute inset-0 h-full w-full ${main.contain ? 'object-contain p-[10%]' : 'object-cover'} ${imgMotion}`}
+                  src={current.src}
+                  alt={current.alt}
+                  style={current.pos ? objectPositionStyle(current.pos) : undefined}
+                  className={`absolute inset-0 h-full w-full ${current.contain ? 'object-contain p-[10%]' : 'object-cover'} ${imgMotion}`}
                 />
               </button>
             ) : null}
 
-            {rest.length > 0 ? (
-              <div className={`grid gap-3.5 ${rest.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
-                {rest.map((p) => (
+            {photos.length > 1 ? (
+              <div className="flex gap-3.5">
+                {photos.map((p, i) => (
                   <button
                     key={p.src}
                     type="button"
-                    onClick={() => setZoom(p)}
-                    aria-label={`Agrandir la photo de ${product.name}`}
-                    className={`group relative cursor-zoom-in overflow-hidden border border-canard/20 ${p.contain ? 'bg-poudre-dark' : ''} ${rest.length === 1 ? 'aspect-[16/10]' : 'aspect-square'}`}
+                    onClick={() => setActive(i)}
+                    aria-label={`Voir la photo ${i + 1} de ${product.name}`}
+                    aria-current={i === safeActive}
+                    className={`relative aspect-square w-full max-w-[110px] flex-1 overflow-hidden border transition-colors ${i === safeActive ? 'border-transparent outline outline-2 outline-framboise' : 'border-canard/20 hover:border-canard/40'} ${p.contain ? 'bg-poudre-dark' : ''}`}
                   >
                     <img
                       src={p.src}
                       alt={p.alt}
                       style={p.pos ? objectPositionStyle(p.pos) : undefined}
-                      className={`absolute inset-0 h-full w-full ${p.contain ? 'object-contain p-[14%]' : 'object-cover'} ${imgMotion}`}
+                      className={`absolute inset-0 h-full w-full ${p.contain ? 'object-contain p-[14%]' : 'object-cover'}`}
                     />
                   </button>
                 ))}
@@ -172,6 +159,26 @@ function ProductPage() {
 
           {/* Spécifications */}
           <div>
+            {/* Titre à côté de l'image : nom centré au-dessus du cartouche. */}
+            <header className="mb-6 text-center">
+              <h1 className="font-display text-[clamp(30px,3.6vw,46px)] leading-[1.02] text-canard [text-wrap:balance]">
+                {product.name}
+              </h1>
+              <div className="mt-5 mb-2 flex items-center gap-6 text-framboise/50">
+                <span className="h-px flex-1 bg-current" />
+                <span
+                  role="img"
+                  aria-label="Précieuse"
+                  className="shrink-0"
+                  style={{
+                    width: 'clamp(76px,8vw,96px)',
+                    aspectRatio: '1 / 1',
+                    ...maskStyle('/brand/picto-shape.png', 'var(--framboise)'),
+                  }}
+                />
+                <span className="h-px flex-1 bg-current" />
+              </div>
+            </header>
             <p className="font-display text-[clamp(18px,2vw,23px)] italic text-framboise">
               {product.tagline}
             </p>
