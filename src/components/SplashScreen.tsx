@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { m } from '#/paraglide/messages'
 
 const STORAGE_KEY = 'precieuse_splash_shown'
-const DURATION_MS = 5500
+const DURATION_MS = 4000
 
 export function SplashScreen({ tagline }: { tagline?: string }) {
   const [phase, setPhase] = useState<'showing' | 'fading' | 'hidden'>('showing')
