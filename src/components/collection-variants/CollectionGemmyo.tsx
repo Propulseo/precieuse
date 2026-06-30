@@ -21,7 +21,7 @@ function WornCell({ product, reversed }: { product: Product; reversed: boolean }
   const worn = product.photoPortee ?? '/images/placeholder-piece.svg'
   return (
     <div className={`flex items-center justify-center bg-poudre p-4 lg:p-6 ${reversed ? 'lg:order-2' : ''}`}>
-      <div className="relative aspect-[4/5] w-full max-w-[380px] overflow-hidden bg-canard-10">
+      <div className="relative aspect-[4/5] w-full max-w-[340px] overflow-hidden bg-canard-10">
         <img
           src={worn}
           alt={product.photoPorteeAlt ?? product.imageAlt}
