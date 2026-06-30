@@ -177,7 +177,7 @@ export function isCollectionLayout(value: unknown): value is CollectionLayout {
 export type HeroEyebrow = 'actuel' | 'filets' | 'nu' | 'losanges'
 
 export const HERO_EYEBROWS: HeroEyebrow[] = ['actuel', 'filets', 'nu', 'losanges']
-export const DEFAULT_HERO_EYEBROW: HeroEyebrow = 'actuel'
+export const DEFAULT_HERO_EYEBROW: HeroEyebrow = 'nu'
 export const HERO_EYEBROW_STORAGE_KEY = 'precieuse-hero-eyebrow'
 
 export const HERO_EYEBROW_LABELS: Record<HeroEyebrow, string> = {
