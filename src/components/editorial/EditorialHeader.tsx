@@ -18,13 +18,13 @@ export function EditorialHeader({
   children?: ReactNode
 }) {
   return (
-    <header className={cn('bg-poudre px-6 py-4 text-center lg:px-10 lg:py-5', className)}>
+    <header className={cn('bg-poudre px-6 py-3 text-center lg:px-10 lg:py-3.5', className)}>
       <h1 className="font-headline text-[clamp(22px,3vw,38px)] leading-none text-canard [text-wrap:balance]">
         {title}
       </h1>
 
       {/* Séparateur : filets framboise + fleur de la marque (suit --brand-accent). */}
-      <div className="mx-auto mt-3 mb-3 flex max-w-[1320px] items-center gap-5 text-framboise/50">
+      <div className="mx-auto mt-2 mb-2.5 flex max-w-[1320px] items-center gap-5 text-framboise/50">
         <span className="h-px flex-1 bg-current" />
         <span
           role="img"
