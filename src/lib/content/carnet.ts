@@ -480,5 +480,3 @@ export const ARTICLES: Article[] = [
     },
   },
 ]
-
-export const CATEGORIES = ['Tous', 'Atelier', 'Matières', 'Guides'] as const

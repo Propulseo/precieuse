@@ -33,7 +33,7 @@ import { PRODUCTS  } from '../content/products'
 import type {Product} from '../content/products';
 import { MATIERES  } from '../content/matieres'
 import type {Matiere} from '../content/matieres';
-import { ARTICLES, CATEGORIES  } from '../content/carnet'
+import { ARTICLES  } from '../content/carnet'
 import type {Article, ArticleBlock} from '../content/carnet';
 import { LETTRES  } from '../content/lettres'
 import type {Lettre} from '../content/lettres';
@@ -263,10 +263,6 @@ export async function getArticles(_locale: Locale = DEFAULT_LOCALE): Promise<Art
       closingQuote: cqSanity ?? fallback?.closingQuote,
     }
   })
-}
-
-export function getCarnetCategories(): typeof CATEGORIES {
-  return CATEGORIES
 }
 
 // ---------------------------------------------------------------------------

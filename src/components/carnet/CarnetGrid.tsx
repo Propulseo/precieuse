@@ -1,18 +1,23 @@
 import { useState } from 'react'
-import { ARTICLES, CATEGORIES, type Article } from '../../lib/content/carnet'
+import { ARTICLES, type Article } from '../../lib/content/carnet'
 import { m } from '#/paraglide/messages'
 import { objectPositionStyle } from '../framing/framing'
+
+/** Filtre « tous les articles » (sentinelle ; Carnet FR-only pour l'instant). */
+const ALL = 'Tous'
 
 /**
  * Index des articles du Carnet : filtre par catégorie + grille éditoriale
  * (rythme magazine — la une est portée par CarnetHero, ici les autres pièces).
- * Accent framboise sur catégories et survols, état vide géré.
+ * Accent framboise sur catégories et survols, état vide géré. Les catégories
+ * sont dérivées des articles (donc éditables dans Sanity, jamais désynchronisées).
  */
 export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
   const rest = articles.filter((a) => !a.featured)
-  const [filter, setFilter] = useState<string>('Tous')
+  const categories = [ALL, ...new Set(articles.map((a) => a.category))]
+  const [filter, setFilter] = useState<string>(ALL)
   const filtered =
-    filter === 'Tous' ? rest : rest.filter((a) => a.category === filter)
+    filter === ALL ? rest : rest.filter((a) => a.category === filter)
 
   return (
     <section className="bg-poudre px-8 pb-24 lg:px-16 lg:pb-32">
@@ -23,7 +28,7 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
           role="group"
           aria-label={m.carnet_eyebrow()}
         >
-          {CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <button
               key={cat}
               type="button"
