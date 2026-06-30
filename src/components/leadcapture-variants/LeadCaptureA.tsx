@@ -4,7 +4,17 @@ import { m } from '#/paraglide/messages'
 import { getLocale } from '#/paraglide/runtime'
 import { sendLead } from '../../lib/leads'
 
-export function LeadCaptureA() {
+export function LeadCaptureA({
+  header,
+}: {
+  header: {
+    title: string
+    subtitle: string
+    consentPrefix: string
+    consentLink: string
+    consentSuffix: string
+  }
+}) {
   const [civility, setCivility] = useState<'M' | 'Mme' | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
@@ -57,11 +67,11 @@ export function LeadCaptureA() {
         />
 
         <h2 className="font-headline text-[22px] sm:text-[26px] text-canard mt-4 mb-3">
-          {m.leadcapture_title()}
+          {header.title}
         </h2>
 
         <p className="font-display text-[14px] text-canard/90 leading-relaxed max-w-[440px] mb-6">
-          {m.leadcapture_subtitle()}
+          {header.subtitle}
         </p>
 
         <fieldset className="flex items-center gap-6 mb-5">
@@ -110,11 +120,11 @@ export function LeadCaptureA() {
         )}
 
         <p className="font-display text-[11px] text-canard/90 mt-5 max-w-[420px]">
-          {m.leadcapture_consent_prefix()}{' '}
+          {header.consentPrefix}{' '}
           <a href="/confidentialite" className="underline underline-offset-2 hover:text-canard">
-            {m.leadcapture_consent_link()}
+            {header.consentLink}
           </a>
-          {m.leadcapture_consent_suffix()}
+          {header.consentSuffix}
         </p>
       </form>
     </section>

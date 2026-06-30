@@ -130,7 +130,13 @@ function CoverflowStage({
   )
 }
 
-export function Series({ products = PRODUCTS }: { products?: Product[] }) {
+export function Series({
+  products = PRODUCTS,
+  header,
+}: {
+  products?: Product[]
+  header: { title: string; subtitle: string }
+}) {
   const N = products.length
   const { carouselMode } = useBrand()
   const [current, setCurrent] = useState(0)
@@ -215,8 +221,8 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
       <div className="mx-auto max-w-[1440px] px-0 lg:px-12 w-full">
         <div className="mb-4 px-8 lg:px-0 flex items-end justify-between">
           <div>
-            <h2 className="font-headline text-[clamp(28px,5vw,40px)] text-canard leading-none mb-1">{m.series_title()}</h2>
-            <p className="font-body italic font-light text-[18px] text-framboise">{m.series_subtitle()}</p>
+            <h2 className="font-headline text-[clamp(28px,5vw,40px)] text-canard leading-none mb-1">{header.title}</h2>
+            <p className="font-body italic font-light text-[18px] text-framboise">{header.subtitle}</p>
           </div>
           <span className="font-display text-[13px] text-framboise hidden md:block">p. 04</span>
         </div>

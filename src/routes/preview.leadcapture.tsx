@@ -6,6 +6,7 @@ import { LeadCaptureB } from '../components/leadcapture-variants/LeadCaptureB'
 import { LeadCaptureC } from '../components/leadcapture-variants/LeadCaptureC'
 import { LeadCaptureD } from '../components/leadcapture-variants/LeadCaptureD'
 import { LeadCaptureE } from '../components/leadcapture-variants/LeadCaptureE'
+import { homePageFallback } from '../lib/content/home'
 
 const VARIANTS = [
   { id: 'A', label: 'Formulaire classique', Component: LeadCaptureA },
@@ -21,7 +22,6 @@ export const Route = createFileRoute('/preview/leadcapture')({ component: LeadCa
 
 function LeadCapturePreview() {
   const [active, setActive] = useState<VariantId>('A')
-  const ActiveComponent = VARIANTS.find((v) => v.id === active)?.Component ?? LeadCaptureA
 
   return (
     <div className="min-h-screen bg-cream">
@@ -48,7 +48,12 @@ function LeadCapturePreview() {
         </div>
       </header>
 
-      <ActiveComponent />
+      {/* Preview dev : la variante A (réelle) reçoit le repli statique du formulaire. */}
+      {active === 'A' && <LeadCaptureA header={homePageFallback().sections.leadCapture} />}
+      {active === 'B' && <LeadCaptureB />}
+      {active === 'C' && <LeadCaptureC />}
+      {active === 'D' && <LeadCaptureD />}
+      {active === 'E' && <LeadCaptureE />}
     </div>
   )
 }

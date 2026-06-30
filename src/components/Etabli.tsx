@@ -14,7 +14,13 @@ function BrushUnderline() {
   )
 }
 
-export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
+export function Etabli({
+  steps = ETABLI_STEPS,
+  header,
+}: {
+  steps?: EtabliStep[]
+  header: { overline: string; title: string }
+}) {
   const [active, setActive] = useState(0)
   const stepRefs = useRef<(HTMLDivElement | null)[]>([])
 
@@ -47,8 +53,8 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
             className="hidden lg:block top-[-30px] right-[40px] h-[420px] w-[420px] opacity-[0.08]"
           />
           <div className="relative z-10">
-            <Eyebrow className="mb-3">{m.etabli_overline()}</Eyebrow>
-            <h2 className="font-headline text-[clamp(32px,6vw,56px)] text-canard leading-[0.95]">{m.etabli_title()}</h2>
+            <Eyebrow className="mb-3">{header.overline}</Eyebrow>
+            <h2 className="font-headline text-[clamp(32px,6vw,56px)] text-canard leading-[0.95]">{header.title}</h2>
           </div>
         </div>
       </header>

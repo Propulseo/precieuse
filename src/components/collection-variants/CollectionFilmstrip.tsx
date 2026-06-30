@@ -99,15 +99,23 @@ function FilmstripCard({ product, className }: { product: Product; className: st
   )
 }
 
-function Header({ hint }: { hint: string }) {
+function Header({
+  hint,
+  title,
+  subtitle,
+}: {
+  hint: string
+  title: string
+  subtitle: string
+}) {
   return (
     <div className="flex items-end justify-between gap-6">
       <div>
         <h2 className="font-headline text-[clamp(28px,3.4vw,46px)] leading-[1.04] text-canard">
-          {m.series_title()}
+          {title}
         </h2>
         <p className="mt-2 font-body italic font-light text-[clamp(15px,1.7vw,20px)] text-framboise">
-          {m.series_subtitle()}
+          {subtitle}
         </p>
       </div>
       <p
@@ -120,7 +128,13 @@ function Header({ hint }: { hint: string }) {
   )
 }
 
-export function CollectionFilmstrip({ products = PRODUCTS }: { products?: Product[] }) {
+export function CollectionFilmstrip({
+  products = PRODUCTS,
+  header,
+}: {
+  products?: Product[]
+  header: { title: string; subtitle: string }
+}) {
   const N = products.length
   const [reducedMotion, setReducedMotion] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
@@ -192,7 +206,7 @@ export function CollectionFilmstrip({ products = PRODUCTS }: { products?: Produc
       >
         <div className="sticky top-0 flex h-screen flex-col overflow-hidden pb-8 pt-[84px]">
           <header className="mx-auto w-full max-w-[1440px] px-6 lg:px-16">
-            <Header hint="défilez ↓" />
+            <Header hint="défilez ↓" title={header.title} subtitle={header.subtitle} />
             <div aria-hidden="true" className="mt-5 h-px w-full overflow-hidden bg-canard/15">
               <div
                 className="h-px bg-framboise"
@@ -221,12 +235,12 @@ export function CollectionFilmstrip({ products = PRODUCTS }: { products?: Produc
   return (
     <section className="w-full bg-poudre py-12 lg:py-20">
       <header className="mx-auto max-w-[1440px] px-6 lg:px-16">
-        <Header hint="glissez →" />
+        <Header hint="glissez →" title={header.title} subtitle={header.subtitle} />
       </header>
       <div
         className="mt-9 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-pl-6 px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         role="list"
-        aria-label={m.series_title()}
+        aria-label={header.title}
       >
         {products.map((product) => (
           <div role="listitem" key={product.slug} className="contents">

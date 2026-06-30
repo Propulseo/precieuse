@@ -25,7 +25,13 @@ function mod(n: number, base: number): number {
  * 1 photo = 1 bague. Lecture auto (en vue, hors survol), swipe tactile, points
  * de navigation, `prefers-reduced-motion` respecté.
  */
-export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
+export function Testimonials({
+  lettres = LETTRES,
+  header,
+}: {
+  lettres?: Lettre[]
+  header: { line1: string; line2: string }
+}) {
   const N = lettres.length
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -104,7 +110,7 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
       <div className="mx-auto max-w-[1180px]">
         <div className="text-center mb-7 lg:mb-9">
           <h2 className="font-headline text-[clamp(28px,4vw,46px)] leading-[1.06] text-canard">
-            {m.testimonials_title_line1()} {m.testimonials_title_line2()}
+            {header.line1} {header.line2}
           </h2>
         </div>
 

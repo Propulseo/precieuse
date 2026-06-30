@@ -243,6 +243,17 @@ async function seedHomePage() {
     bespokeIntro: L('surmesure_intro_paragraph', 'localizedText'),
     bespokeTagline: L('surmesure_intro_tagline'),
     bespokeMeta: L('surmesure_meta'),
+    etabliOverline: L('etabli_overline'),
+    etabliTitle: L('etabli_title'),
+    collectionTitle: L('series_title'),
+    collectionSubtitle: L('series_subtitle'),
+    testimonialsTitleLine1: L('testimonials_title_line1'),
+    testimonialsTitleLine2: L('testimonials_title_line2'),
+    leadCaptureTitle: L('leadcapture_title'),
+    leadCaptureSubtitle: L('leadcapture_subtitle', 'localizedText'),
+    leadCaptureConsentPrefix: L('leadcapture_consent_prefix'),
+    leadCaptureConsentLink: L('leadcapture_consent_link'),
+    leadCaptureConsentSuffix: L('leadcapture_consent_suffix'),
   })
   console.log("✓ Page d'accueil : héro + avant-propos + en-têtes de section seedés")
 }

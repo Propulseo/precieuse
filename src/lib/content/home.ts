@@ -31,6 +31,16 @@ export type HomePageData = {
     reassurance: string[]
     matieres: { title: string; subtitle: string; marginNote: string }
     bespoke: { title: string; intro: string; tagline: string; meta: string }
+    etabli: { overline: string; title: string }
+    collection: { title: string; subtitle: string }
+    testimonials: { line1: string; line2: string }
+    leadCapture: {
+      title: string
+      subtitle: string
+      consentPrefix: string
+      consentLink: string
+      consentSuffix: string
+    }
   }
 }
 
@@ -88,6 +98,19 @@ export function homePageFallback(): HomePageData {
         intro: m.surmesure_intro_paragraph(),
         tagline: m.surmesure_intro_tagline(),
         meta: m.surmesure_meta(),
+      },
+      etabli: { overline: m.etabli_overline(), title: m.etabli_title() },
+      collection: { title: m.series_title(), subtitle: m.series_subtitle() },
+      testimonials: {
+        line1: m.testimonials_title_line1(),
+        line2: m.testimonials_title_line2(),
+      },
+      leadCapture: {
+        title: m.leadcapture_title(),
+        subtitle: m.leadcapture_subtitle(),
+        consentPrefix: m.leadcapture_consent_prefix(),
+        consentLink: m.leadcapture_consent_link(),
+        consentSuffix: m.leadcapture_consent_suffix(),
       },
     },
   }

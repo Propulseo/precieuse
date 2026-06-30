@@ -531,7 +531,11 @@ export async function getHomePage(
       "manifesto": aproposManifesto[]{ pas, mais },
       aproposQualification, aproposFounder,
       reassurance, matieresTitle, matieresSubtitle, matieresMarginNote,
-      bespokeTitle, bespokeIntro, bespokeTagline, bespokeMeta
+      bespokeTitle, bespokeIntro, bespokeTagline, bespokeMeta,
+      etabliOverline, etabliTitle, collectionTitle, collectionSubtitle,
+      testimonialsTitleLine1, testimonialsTitleLine2,
+      leadCaptureTitle, leadCaptureSubtitle,
+      leadCaptureConsentPrefix, leadCaptureConsentLink, leadCaptureConsentSuffix
     }`,
   )
   if (!data) return fb
@@ -591,6 +595,25 @@ export async function getHomePage(
         intro: s(data.bespokeIntro, fb.sections.bespoke.intro),
         tagline: s(data.bespokeTagline, fb.sections.bespoke.tagline),
         meta: s(data.bespokeMeta, fb.sections.bespoke.meta),
+      },
+      etabli: {
+        overline: s(data.etabliOverline, fb.sections.etabli.overline),
+        title: s(data.etabliTitle, fb.sections.etabli.title),
+      },
+      collection: {
+        title: s(data.collectionTitle, fb.sections.collection.title),
+        subtitle: s(data.collectionSubtitle, fb.sections.collection.subtitle),
+      },
+      testimonials: {
+        line1: s(data.testimonialsTitleLine1, fb.sections.testimonials.line1),
+        line2: s(data.testimonialsTitleLine2, fb.sections.testimonials.line2),
+      },
+      leadCapture: {
+        title: s(data.leadCaptureTitle, fb.sections.leadCapture.title),
+        subtitle: s(data.leadCaptureSubtitle, fb.sections.leadCapture.subtitle),
+        consentPrefix: s(data.leadCaptureConsentPrefix, fb.sections.leadCapture.consentPrefix),
+        consentLink: s(data.leadCaptureConsentLink, fb.sections.leadCapture.consentLink),
+        consentSuffix: s(data.leadCaptureConsentSuffix, fb.sections.leadCapture.consentSuffix),
       },
     },
   }

@@ -58,7 +58,7 @@ function Home() {
   return (
     <>
       <Hero home={home} />
-      <CollectionSection products={products} />
+      <CollectionSection products={products} header={home.sections.collection} />
       <Reassurance items={home.sections.reassurance} />
       {/* Sections éditoriales calées à ~1 écran (min-h, centrées) pour un rythme
           uniforme. min-h-screen : remplit au moins un écran sans jamais rogner. */}
@@ -72,17 +72,17 @@ function Home() {
       </div>
       <div className="flex min-h-screen flex-col justify-center">
         <Reveal delay={60}>
-          <Etabli steps={etabliSteps} />
+          <Etabli steps={etabliSteps} header={home.sections.etabli} />
         </Reveal>
       </div>
       <Reveal delay={60}>
         <SurMesure steps={bespokeSteps} header={home.sections.bespoke} />
       </Reveal>
       <Reveal delay={60}>
-        <Testimonials lettres={lettres} />
+        <Testimonials lettres={lettres} header={home.sections.testimonials} />
       </Reveal>
       <Reveal delay={60}>
-        <LeadCaptureA />
+        <LeadCaptureA header={home.sections.leadCapture} />
       </Reveal>
 
       <NewsletterB
@@ -98,11 +98,17 @@ function Home() {
  * Section 2 (Collection) : défilé plein écran (validé) ou carrousel de base,
  * au choix dans le toggle « Apparence » (réglage `collectionLayout`, défaut défilé).
  */
-function CollectionSection({ products }: { products: Product[] }) {
+function CollectionSection({
+  products,
+  header,
+}: {
+  products: Product[]
+  header: { title: string; subtitle: string }
+}) {
   const { collectionLayout } = useBrand()
   return collectionLayout === 'carrousel' ? (
-    <Series products={products} />
+    <Series products={products} header={header} />
   ) : (
-    <CollectionFilmstrip products={products} />
+    <CollectionFilmstrip products={products} header={header} />
   )
 }
