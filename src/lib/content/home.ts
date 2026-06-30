@@ -12,6 +12,7 @@ export type HomePageData = {
   hero: {
     imageLeft: HomeImg
     imageRight: HomeImg
+    eyebrow: string
     taglineLead: string
     taglineAccent: string
     subline: string
@@ -24,6 +25,12 @@ export type HomePageData = {
     manifesto: { pas: string; mais: string }[]
     qualification: string
     founder: string
+  }
+  sections: {
+    /** Bandeau réassurance : liste de garanties (retours, mise à taille…). */
+    reassurance: string[]
+    matieres: { title: string; subtitle: string; marginNote: string }
+    bespoke: { title: string; intro: string; tagline: string; meta: string }
   }
 }
 
@@ -43,6 +50,7 @@ export function homePageFallback(): HomePageData {
         src: '/images/real/buste-thelma-louise.webp',
         alt: m.hero_alt_thelma_louise(),
       },
+      eyebrow: m.hero_eyebrow(),
       taglineLead: m.hero_tagline_lead(),
       taglineAccent: m.hero_tagline_accent(),
       subline: m.hero_subline(),
@@ -62,6 +70,25 @@ export function homePageFallback(): HomePageData {
       ],
       qualification: m.avantpropos_credits_qualification(),
       founder: m.avantpropos_credits_founder(),
+    },
+    sections: {
+      reassurance: [
+        m.reassurance_returns(),
+        m.reassurance_resizing(),
+        m.reassurance_whatsapp(),
+        m.reassurance_certificate(),
+      ],
+      matieres: {
+        title: m.matieres_section_title(),
+        subtitle: m.matieres_section_subtitle(),
+        marginNote: m.matieres_margin_note(),
+      },
+      bespoke: {
+        title: m.surmesure_title(),
+        intro: m.surmesure_intro_paragraph(),
+        tagline: m.surmesure_intro_tagline(),
+        meta: m.surmesure_meta(),
+      },
     },
   }
 }

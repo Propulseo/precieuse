@@ -205,20 +205,46 @@ async function seedSurMesurePage() {
 // 3) Page d'accueil — singleton homePage (héro : 2 photos + promesse)
 // ---------------------------------------------------------------------------
 async function seedHomePage() {
-  const [left, right] = await Promise.all([
+  const [left, right, portrait] = await Promise.all([
     imageField('/images/real/bague-main-josephine.webp', L('hero_alt_josephine')),
     imageField('/images/real/buste-thelma-louise.webp', L('hero_alt_thelma_louise')),
+    imageField('/images/emeline-portrait.jpg', L('avantpropos_portrait_alt')),
   ])
   await client.createOrReplace({
     _id: 'homePage',
     _type: 'homePage',
     heroImageLeft: left,
     heroImageRight: right,
+    heroEyebrow: L('hero_eyebrow'),
     heroTaglineLead: L('hero_tagline_lead'),
     heroTaglineAccent: L('hero_tagline_accent'),
     heroSubline: L('hero_subline', 'localizedText'),
+    aproposPortrait: portrait,
+    aproposName: 'Emeline Le Ray',
+    aproposPlace: 'Bordeaux · MMXXVI',
+    aproposManifesto: [1, 2, 3, 4].map((n) => ({
+      _key: `pair${n}`,
+      _type: 'pair',
+      pas: L(`avantpropos_pair${n}_pas`),
+      mais: L(`avantpropos_pair${n}_mais`),
+    })),
+    aproposQualification: L('avantpropos_credits_qualification'),
+    aproposFounder: L('avantpropos_credits_founder'),
+    reassurance: [
+      'reassurance_returns',
+      'reassurance_resizing',
+      'reassurance_whatsapp',
+      'reassurance_certificate',
+    ].map((k, i) => ({ _key: `r${i}`, ...L(k) })),
+    matieresTitle: L('matieres_section_title'),
+    matieresSubtitle: L('matieres_section_subtitle'),
+    matieresMarginNote: L('matieres_margin_note'),
+    bespokeTitle: L('surmesure_title'),
+    bespokeIntro: L('surmesure_intro_paragraph', 'localizedText'),
+    bespokeTagline: L('surmesure_intro_tagline'),
+    bespokeMeta: L('surmesure_meta'),
   })
-  console.log("✓ Page d'accueil : héro seedé (2 photos + promesse)")
+  console.log("✓ Page d'accueil : héro + avant-propos + en-têtes de section seedés")
 }
 
 async function main() {

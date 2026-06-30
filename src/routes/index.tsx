@@ -59,7 +59,7 @@ function Home() {
     <>
       <Hero home={home} />
       <CollectionSection products={products} />
-      <Reassurance />
+      <Reassurance items={home.sections.reassurance} />
       {/* Sections éditoriales calées à ~1 écran (min-h, centrées) pour un rythme
           uniforme. min-h-screen : remplit au moins un écran sans jamais rogner. */}
       <div className="flex min-h-screen flex-col justify-center">
@@ -68,7 +68,7 @@ function Home() {
         </Reveal>
       </div>
       <div className="flex min-h-screen flex-col justify-center">
-        <Matieres matieres={matieres} />
+        <Matieres matieres={matieres} header={home.sections.matieres} />
       </div>
       <div className="flex min-h-screen flex-col justify-center">
         <Reveal delay={60}>
@@ -76,7 +76,7 @@ function Home() {
         </Reveal>
       </div>
       <Reveal delay={60}>
-        <SurMesure steps={bespokeSteps} />
+        <SurMesure steps={bespokeSteps} header={home.sections.bespoke} />
       </Reveal>
       <Reveal delay={60}>
         <Testimonials lettres={lettres} />

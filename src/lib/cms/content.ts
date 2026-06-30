@@ -525,11 +525,13 @@ export async function getHomePage(
     `*[_type == "homePage"][0]{
       "leftSrc": heroImageLeft.asset->url, "leftAlt": heroImageLeft.alt, "leftHotspot": heroImageLeft.hotspot,
       "rightSrc": heroImageRight.asset->url, "rightAlt": heroImageRight.alt, "rightHotspot": heroImageRight.hotspot,
-      heroTaglineLead, heroTaglineAccent, heroSubline,
+      heroTaglineLead, heroTaglineAccent, heroSubline, heroEyebrow,
       "aproposSrc": aproposPortrait.asset->url, "aproposAlt": aproposPortrait.alt, "aproposHotspot": aproposPortrait.hotspot,
       aproposName, aproposPlace,
       "manifesto": aproposManifesto[]{ pas, mais },
-      aproposQualification, aproposFounder
+      aproposQualification, aproposFounder,
+      reassurance, matieresTitle, matieresSubtitle, matieresMarginNote,
+      bespokeTitle, bespokeIntro, bespokeTagline, bespokeMeta
     }`,
   )
   if (!data) return fb
@@ -556,10 +558,15 @@ export async function getHomePage(
         mais: s(p.mais, fb.avantPropos.manifesto[i]?.mais ?? ''),
       }))
     : fb.avantPropos.manifesto
+  const reassuranceRaw = (data.reassurance as unknown[] | undefined) ?? []
+  const reassurance = reassuranceRaw.length
+    ? reassuranceRaw.map((r) => pickLocale(r as never, locale)).filter(Boolean)
+    : fb.sections.reassurance
   return {
     hero: {
       imageLeft: img(data.leftSrc, data.leftAlt, data.leftHotspot, fb.hero.imageLeft),
       imageRight: img(data.rightSrc, data.rightAlt, data.rightHotspot, fb.hero.imageRight),
+      eyebrow: s(data.heroEyebrow, fb.hero.eyebrow),
       taglineLead: s(data.heroTaglineLead, fb.hero.taglineLead),
       taglineAccent: s(data.heroTaglineAccent, fb.hero.taglineAccent),
       subline: s(data.heroSubline, fb.hero.subline),
@@ -571,6 +578,20 @@ export async function getHomePage(
       manifesto,
       qualification: s(data.aproposQualification, fb.avantPropos.qualification),
       founder: s(data.aproposFounder, fb.avantPropos.founder),
+    },
+    sections: {
+      reassurance,
+      matieres: {
+        title: s(data.matieresTitle, fb.sections.matieres.title),
+        subtitle: s(data.matieresSubtitle, fb.sections.matieres.subtitle),
+        marginNote: s(data.matieresMarginNote, fb.sections.matieres.marginNote),
+      },
+      bespoke: {
+        title: s(data.bespokeTitle, fb.sections.bespoke.title),
+        intro: s(data.bespokeIntro, fb.sections.bespoke.intro),
+        tagline: s(data.bespokeTagline, fb.sections.bespoke.tagline),
+        meta: s(data.bespokeMeta, fb.sections.bespoke.meta),
+      },
     },
   }
 }

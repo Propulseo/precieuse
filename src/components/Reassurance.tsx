@@ -1,28 +1,20 @@
-import { m } from '#/paraglide/messages'
-
-const ITEMS = [
-  () => m.reassurance_returns(),
-  () => m.reassurance_resizing(),
-  () => m.reassurance_whatsapp(),
-  () => m.reassurance_certificate(),
-]
-
 /**
  * Bandeau réassurance — version éditoriale : 4 garanties réparties sur toute
  * la largeur, séparées par des losanges framboise posés au milieu de chaque
  * intervalle (espaces réguliers). Texte gras serif (Spectral 600).
+ * Garanties éditables par Emeline (homePage.reassurance, repli i18n).
  */
-export function Reassurance() {
+export function Reassurance({ items }: { items: string[] }) {
   return (
     <div className="bg-canard px-6 py-3.5 lg:px-14">
       <ul className="mx-auto flex max-w-[1320px] flex-col items-center gap-2.5 sm:flex-row sm:justify-between sm:gap-0">
-        {ITEMS.flatMap((text, i) => {
+        {items.flatMap((text, i) => {
           const item = (
             <li
               key={i}
               className="font-display text-[14px] font-semibold tracking-[0.06em] text-poudre"
             >
-              {text()}
+              {text}
             </li>
           )
           if (i === 0) return [item]

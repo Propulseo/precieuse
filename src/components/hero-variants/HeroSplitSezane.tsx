@@ -43,7 +43,7 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
       <div className="absolute inset-0 flex items-center justify-center px-6">
         <div className="mx-auto flex w-full max-w-[640px] flex-col items-center text-center text-poudre">
           <span className="mb-5 inline-block bg-poudre/10 px-3 py-1 font-display text-[12px] tracking-[0.4em] uppercase text-lie-de-vin backdrop-blur-[2px] [text-shadow:0_1px_3px_rgba(0,0,0,0.28)]">
-            {m.hero_eyebrow()}
+            {hero.eyebrow}
           </span>
 
           {/* Marque de la hero : soit le logo (masque CSS), soit le mot écrit

@@ -1,12 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-import { m } from '#/paraglide/messages'
 import { MATIERES, type Matiere } from '../lib/content/matieres'
 import { objectPositionStyle } from './framing/framing'
 
 /** Stagger delay between each card in ms */
 const STAGGER_MS = 200
 
-export function Matieres({ matieres = MATIERES }: { matieres?: Matiere[] }) {
+export function Matieres({
+  matieres = MATIERES,
+  header,
+}: {
+  matieres?: Matiere[]
+  header: { title: string; subtitle: string; marginNote: string }
+}) {
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
 
@@ -33,14 +38,14 @@ export function Matieres({ matieres = MATIERES }: { matieres?: Matiere[] }) {
       <div className="mx-auto mb-7 sm:mb-8 max-w-[1440px] px-6 sm:px-10 lg:px-16 flex items-end justify-between">
         <div>
           <h2 className="font-headline text-[48px] sm:text-[56px] lg:text-[64px] text-framboise leading-none mb-3">
-            {m.matieres_section_title()}
+            {header.title}
           </h2>
           <p className="font-body italic font-light text-[20px] sm:text-[22px] text-canard-90">
-            {m.matieres_section_subtitle()}
+            {header.subtitle}
           </p>
         </div>
         <span className="font-body italic font-light text-[13px] text-canard-90/40 hidden md:block -rotate-[0.5deg]">
-          {m.matieres_margin_note()}
+          {header.marginNote}
         </span>
       </div>
 

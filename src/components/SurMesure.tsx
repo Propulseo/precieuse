@@ -11,22 +11,24 @@ import type { BespokeStepData } from '../lib/content/bespoke'
  */
 export function SurMesure({
   steps = bespokePageFallback().steps,
+  header,
 }: {
   steps?: BespokeStepData[]
+  header: { title: string; intro: string; tagline: string; meta: string }
 }) {
   return (
     <section className="relative bg-poudre pt-10 lg:pt-14 pb-6 lg:pb-7 px-6 lg:px-16">
       <div className="mx-auto max-w-[1440px]">
         <div className="max-w-[720px] mx-auto text-center mb-10">
           <h2 className="font-headline text-[clamp(32px,4.5vw,56px)] text-canard leading-[1] mb-2">
-            {m.surmesure_title()}
+            {header.title}
           </h2>
           <div className="w-12 h-[2px] bg-lie-de-vin mx-auto mb-6" />
           <p className="font-display text-[16px] lg:text-[18px] text-canard/75 leading-relaxed">
-            {m.surmesure_intro_paragraph()}
+            {header.intro}
           </p>
           <p className="font-body italic font-light text-[20px] text-canard-90 mt-4">
-            {m.surmesure_intro_tagline()}
+            {header.tagline}
           </p>
         </div>
 
@@ -63,7 +65,7 @@ export function SurMesure({
             {m.surmesure_cta()}
           </a>
           <span className="font-display text-[13px] text-canard/55">
-            {m.surmesure_meta()}
+            {header.meta}
           </span>
         </div>
       </div>

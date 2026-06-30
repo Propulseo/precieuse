@@ -15,6 +15,7 @@ export const homePage = defineType({
   groups: [
     { name: 'hero', title: 'Héro' },
     { name: 'avantPropos', title: 'Avant-propos' },
+    { name: 'sections', title: 'En-têtes de section' },
   ],
   fields: [
     localizedImage({ name: 'heroImageLeft', title: 'Photo de gauche', group: 'hero' }),
@@ -37,6 +38,7 @@ export const homePage = defineType({
       type: 'localizedText',
       group: 'hero',
     }),
+    defineField({ name: 'heroEyebrow', title: 'Sur-titre (au-dessus du logo)', type: 'localizedString', group: 'hero' }),
 
     // ----------------------------------------------------------- Avant-propos
     localizedImage({ name: 'aproposPortrait', title: "Portrait d'Emeline", group: 'avantPropos' }),
@@ -61,6 +63,22 @@ export const homePage = defineType({
     }),
     defineField({ name: 'aproposQualification', title: 'Qualification', type: 'localizedString', group: 'avantPropos' }),
     defineField({ name: 'aproposFounder', title: 'Mention fondatrice', type: 'localizedString', group: 'avantPropos' }),
+
+    // ----------------------------------------------------- En-têtes de section
+    defineField({
+      name: 'reassurance',
+      title: 'Bandeau réassurance (garanties)',
+      type: 'array',
+      of: [{ type: 'localizedString' }],
+      group: 'sections',
+    }),
+    defineField({ name: 'matieresTitle', title: 'Matières — titre', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'matieresSubtitle', title: 'Matières — sous-titre', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'matieresMarginNote', title: 'Matières — note de marge', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'bespokeTitle', title: 'Bloc sur-mesure — titre', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'bespokeIntro', title: 'Bloc sur-mesure — paragraphe', type: 'localizedText', group: 'sections' }),
+    defineField({ name: 'bespokeTagline', title: 'Bloc sur-mesure — accroche', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'bespokeMeta', title: 'Bloc sur-mesure — mention sous le bouton', type: 'localizedString', group: 'sections' }),
   ],
   preview: {
     prepare: () => ({ title: "Page d'accueil" }),
