@@ -20,7 +20,7 @@ import { CollectionIntro } from './collection-intro'
 function WornCell({ product, reversed }: { product: Product; reversed: boolean }) {
   const worn = product.photoPortee ?? '/images/placeholder-piece.svg'
   return (
-    <div className={`flex items-center justify-center bg-poudre p-6 lg:p-10 ${reversed ? 'lg:order-2' : ''}`}>
+    <div className={`flex items-center justify-center bg-poudre p-6 lg:p-8 ${reversed ? 'lg:order-2' : ''}`}>
       <div className="relative aspect-[4/5] w-full max-w-[420px] overflow-hidden bg-canard-10">
         <img
           src={worn}
@@ -35,7 +35,7 @@ function WornCell({ product, reversed }: { product: Product; reversed: boolean }
 
 function InfoCell({ product, reversed }: { product: Product; reversed: boolean }) {
   return (
-    <div className={`flex flex-col items-center justify-center bg-poudre px-8 py-12 text-center lg:px-14 ${reversed ? 'lg:order-1' : ''}`}>
+    <div className={`flex flex-col items-center justify-center bg-poudre px-8 py-8 text-center lg:px-14 ${reversed ? 'lg:order-1' : ''}`}>
       <h2 className="font-display text-[clamp(32px,3.2vw,48px)] text-canard leading-[1.05]">
         {product.name}
       </h2>
@@ -79,7 +79,7 @@ export function CollectionGemmyo({ products = PRODUCTS }: { products?: Product[]
           <div
             key={product.slug}
             id={`piece-${product.slug}`}
-            className="grid scroll-mt-20 grid-cols-1 lg:min-h-[62vh] lg:grid-cols-2"
+            className="grid scroll-mt-20 grid-cols-1 lg:min-h-[46vh] lg:grid-cols-2"
           >
             <WornCell product={product} reversed={reversed} />
             <InfoCell product={product} reversed={reversed} />
