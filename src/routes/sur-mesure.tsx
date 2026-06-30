@@ -1,39 +1,37 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { HeroBespoke } from '../components/sur-mesure/HeroBespoke'
-import { Metamorphose } from '../components/sur-mesure/Metamorphose'
-import { Promesses } from '../components/sur-mesure/Promesses'
-import { HistoireSandrine } from '../components/sur-mesure/HistoireSandrine'
-import { FormulaireInvitation } from '../components/sur-mesure/FormulaireInvitation'
-import { Reveal } from '../components/Reveal'
-import { getMetamorphose, getPromesses, getSite } from '../lib/cms'
-import { getLocale } from '#/paraglide/runtime'
+import { BespokeHero } from '../components/sur-mesure/BespokeHero'
+import { BespokeMarquee } from '../components/sur-mesure/BespokeMarquee'
+import { BespokeAtelier } from '../components/sur-mesure/BespokeAtelier'
+import { BespokeProcess } from '../components/sur-mesure/BespokeProcess'
+import { BespokeSplit } from '../components/sur-mesure/BespokeSplit'
+import { BespokeRealisations } from '../components/sur-mesure/BespokeRealisations'
+import { BespokeVoices } from '../components/sur-mesure/BespokeVoices'
+import { getBespokeVoices, getBespokePieces } from '../lib/cms'
 
 export const Route = createFileRoute('/sur-mesure')({
   component: SurMesurePage,
+  // Loader CMS : voix + réalisations pilotables (repli statique bespoke.ts).
   loader: async () => {
-    const locale = getLocale()
-    const [metamorphose, promesses, site] = await Promise.all([
-      getMetamorphose(locale),
-      getPromesses(locale),
-      getSite(locale),
+    const [voices, pieces] = await Promise.all([
+      getBespokeVoices(),
+      getBespokePieces(),
     ])
-    return { metamorphose, promesses, site }
+    return { voices, pieces }
   },
 })
 
 function SurMesurePage() {
-  const { metamorphose, promesses, site } = Route.useLoaderData()
+  const { voices, pieces } = Route.useLoaderData()
   return (
-    <>
-      <HeroBespoke />
-      <Metamorphose steps={metamorphose} />
-      <Reveal delay={60}>
-        <Promesses promesses={promesses} />
-      </Reveal>
-      <Reveal delay={60}>
-        <HistoireSandrine />
-      </Reveal>
-      <FormulaireInvitation whatsapp={site.whatsapp} />
-    </>
+    // -mt-16 : le héro passe en plein cadre sous le Nav fixe (pt-16 du <main>).
+    <div className="-mt-16">
+      <BespokeHero />
+      <BespokeMarquee />
+      <BespokeAtelier />
+      <BespokeProcess />
+      <BespokeSplit />
+      <BespokeRealisations pieces={pieces} />
+      <BespokeVoices voices={voices} />
+    </div>
   )
 }

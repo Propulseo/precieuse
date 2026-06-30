@@ -39,6 +39,8 @@ import { LETTRES  } from '../content/lettres'
 import type {Lettre} from '../content/lettres';
 import { ETABLI_STEPS  } from '../content/etabli'
 import type {EtabliStep} from '../content/etabli';
+import { BESPOKE_VOICES, BESPOKE_PIECES } from '../content/bespoke'
+import type { BespokeVoice, BespokePiece } from '../content/bespoke'
 import { SITE, BESPOKE_PROCESS  } from '../content/site'
 import type {ProcessStep} from '../content/site';
 import {
@@ -422,6 +424,12 @@ export type CreatriceSection = {
   body: string[]
   image: CreatriceImage
 }
+export type CreatriceRealisation = {
+  title: string
+  material: string
+  studio: CreatriceImage
+  worn: CreatriceImage
+}
 export type CreatriceContent = {
   overline: string
   title: string
@@ -429,6 +437,7 @@ export type CreatriceContent = {
   portrait: CreatriceImage
   sections: CreatriceSection[]
   quote: string
+  realisations: CreatriceRealisation[]
 }
 
 /**
@@ -448,7 +457,12 @@ export async function getCreatrice(
         overline, title, body,
         "image": image.asset->url, "imageAlt": image.alt, "imageHotspot": image.hotspot
       },
-      quote
+      quote,
+      realisations[]{
+        title, material,
+        "studioUrl": studio.asset->url, "studioAlt": studio.alt, "studioHotspot": studio.hotspot,
+        "wornUrl": worn.asset->url, "wornAlt": worn.alt, "wornHotspot": worn.hotspot
+      }
     }`,
   )
   if (!data) return null
@@ -464,6 +478,20 @@ export async function getCreatrice(
       position: hotspotToPosition(s.imageHotspot),
     },
   }))
+  const realisations = ((data.realisations as Array<Record<string, unknown>> | undefined) ?? []).map((r) => ({
+    title: pickLocale(r.title as never, locale),
+    material: pickLocale(r.material as never, locale),
+    studio: {
+      url: String(r.studioUrl ?? ''),
+      alt: pickLocale(r.studioAlt as never, locale),
+      position: hotspotToPosition(r.studioHotspot),
+    },
+    worn: {
+      url: String(r.wornUrl ?? ''),
+      alt: pickLocale(r.wornAlt as never, locale),
+      position: hotspotToPosition(r.wornHotspot),
+    },
+  }))
   return {
     overline: pickLocale(data.overline as never, locale),
     title: pickLocale(data.title as never, locale),
@@ -475,5 +503,20 @@ export async function getCreatrice(
     },
     sections,
     quote: pickLocale(data.quote as never, locale),
+    realisations,
   }
+}
+
+/**
+ * Seam CMS de la page Sur-mesure : voix (témoignages) et pièces (réalisations)
+ * pilotables par Emeline. Repli statique aujourd'hui (la copie des voix vit en
+ * i18n via les clés) ; brancher une requête Sanity dédiée quand le schéma
+ * existera. Signatures stables pour le loader de la route /sur-mesure.
+ */
+export async function getBespokeVoices(): Promise<BespokeVoice[]> {
+  return BESPOKE_VOICES
+}
+
+export async function getBespokePieces(): Promise<BespokePiece[]> {
+  return BESPOKE_PIECES
 }
