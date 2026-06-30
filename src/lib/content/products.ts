@@ -20,6 +20,12 @@ export type Product = {
   /** Packshot détouré (PNG transparent) de la cellule info de la grille. */
   packshot?: string
   packshotAlt?: string
+  /**
+   * Galerie de la fiche produit, alimentée par Emeline dans Sanity (champ
+   * `gallery`). Quand elle contient des photos, la fiche les affiche (cliquables,
+   * agrandissables) à la place du repli portée/studio/packshot.
+   */
+  gallery?: { src: string; alt: string; position?: string }[]
 }
 
 export const PRODUCTS: Product[] = [

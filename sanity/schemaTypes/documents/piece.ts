@@ -47,6 +47,22 @@ export const piece = defineType({
       title: 'Packshot détouré (grille /collection)',
     }),
     defineField({
+      name: 'gallery',
+      title: 'Galerie de la fiche produit',
+      description:
+        'Photos montrées sur la fiche de la pièce, cliquables (agrandissement). Ajoutez-en autant que vous voulez ; privilégiez des photos avec un vrai fond (portée, atelier, détails). Si vide, la fiche réutilise l’image principale et la photo portée.',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: 'alt', title: 'Texte alternatif', type: 'localizedString' }),
+          ],
+        },
+      ],
+    }),
+    defineField({
       name: 'imageZoom',
       title: 'Zoom de cadrage (défilé accueil)',
       type: 'number',

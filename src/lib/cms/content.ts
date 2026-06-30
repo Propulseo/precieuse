@@ -97,7 +97,8 @@ export async function getProducts(locale: Locale = DEFAULT_LOCALE): Promise<Prod
       "slug": slug.current, name, tagline, priceLabel, description,
       materials, story, imageZoom, ${IMAGE_FIELDS},
       "photoPortee": photoPortee.asset->url, "photoPorteeAlt": photoPortee.alt, "photoPorteeHotspot": photoPortee.hotspot,
-      "packshot": packshot.asset->url, "packshotAlt": packshot.alt
+      "packshot": packshot.asset->url, "packshotAlt": packshot.alt,
+      "gallery": gallery[]{ "src": asset->url, alt, hotspot }
     }`,
   )
   if (!data?.length) return PRODUCTS
@@ -129,6 +130,19 @@ export async function getProducts(locale: Locale = DEFAULT_LOCALE): Promise<Prod
       photoPorteePosition: hotspotToPosition(d.photoPorteeHotspot) ?? fb?.photoPorteePosition,
       packshot: d.packshot ? String(d.packshot) : fb?.packshot,
       packshotAlt: d.packshotAlt ? pickLocale(d.packshotAlt as never, locale) : fb?.packshotAlt,
+      // Galerie éditable par Emeline (Sanity) ; repli sur la galerie statique du
+      // contenu local si elle n'a rien rempli pour cette pièce.
+      gallery: (() => {
+        const raw = (d.gallery as Array<Record<string, unknown>> | undefined) ?? []
+        const mapped = raw
+          .filter((g) => g && g.src)
+          .map((g) => ({
+            src: String(g.src),
+            alt: pickLocale(g.alt as never, locale),
+            position: hotspotToPosition(g.hotspot),
+          }))
+        return mapped.length ? mapped : fb?.gallery
+      })(),
     }
   })
 }
