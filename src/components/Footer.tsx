@@ -1,139 +1,135 @@
 import { m } from '#/paraglide/messages'
 import { FOOTER_DATA } from '../lib/content/footer'
 import type { FooterCms } from '../lib/cms'
-import { BRAND_LOCKUP_MASK, maskStyle } from './brand/brand'
+import { BRAND_PICTO_MASK, maskStyle } from './brand/brand'
+
+// Logo poudre (picto + nom) — PNG fixe, lisible sur le fond canard.
+const BRAND_LOGO =
+  '/images/Photo%20Precieus/Precieuse_logo-picto-shape_RVB_poudre_300dpi.png'
 
 /**
- * `footer` vient de Sanity (getFooter) quand le document existe — Emeline pilote
- * alors liens, réseaux, email, signature, copyright. Sinon `null` => repli sur
- * les libellés Paraglide (traduits FR/EN/PT). Le crédit agence (Propul'SEO) reste
- * volontairement figé (Paraglide), non éditable par Emeline.
+ * Footer « Bandeau » — bloc canard plein de clôture (le moment sombre de fin),
+ * données en pleine largeur (Marque · Naviguer · Écrire · Suivre) + fleur de la
+ * marque en filigrane à droite. Le fond suit l'accent (--brand-accent → bg-canard) ;
+ * le logo poudre reste fixe. `footer` (Sanity) pilote réseaux/email/crédit, sinon
+ * repli statique ; libellés structurels via Paraglide (FR/EN/PT).
  */
 export function Footer({ footer }: { footer: FooterCms | null }) {
-  // Libellés structurels traduits par Paraglide (FR/EN/PT) — non éditables par Emeline.
   const navLinks = [
     { label: m.footer_nav_collection(), href: '/collection' },
     { label: m.footer_nav_journal(), href: '/carnet' },
     { label: m.footer_nav_atelier(), href: '/creatrice' },
     { label: m.footer_nav_bespoke(), href: '/sur-mesure' },
-    { label: m.footer_nav_contact(), href: '/contact' },
   ]
   const legalLinks = [
     { label: m.footer_legal_mentions(), href: '/mentions-legales' },
     { label: m.footer_legal_privacy(), href: '/confidentialite' },
     { label: m.footer_legal_terms(), href: '/cgv' },
   ]
-  // Réseaux sociaux + email : pilotés par Emeline via Sanity (repli statique).
   const social = footer?.social.length ? footer.social : FOOTER_DATA.social
   const email = footer?.email || FOOTER_DATA.email
-  const signature = m.footer_signature()
-  const copyright = m.footer_copyright()
+
+  const eyebrow =
+    'font-display text-[11px] tracking-[0.32em] uppercase text-poudre/85 mb-4'
+  const link =
+    'font-display text-[15px] text-poudre/90 hover:text-poudre transition-colors duration-300 w-fit'
 
   return (
-    <footer className="bg-poudre-dark">
-      {/* --- Grille principale --- */}
-      <div className="border-t border-canard/15 px-4 lg:px-8 pt-12 lg:pt-14 pb-8">
-        <div className="mx-auto max-w-[1440px] grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
-          {/* Atelier */}
-          <div className="col-span-2 md:col-span-1 flex flex-col items-start gap-4">
-            {/* Lockup recoloré via masque CSS : suit --brand-accent (toggle). */}
-            <span
-              role="img"
-              aria-label={m.footer_brand_aria()}
-              className="block h-10 w-auto opacity-90"
-              style={{
-                aspectRatio: '8284 / 2955',
-                ...maskStyle(BRAND_LOCKUP_MASK),
-              }}
-            />
-            <span className="font-display text-[14px] text-canard/75 leading-relaxed">
-              {signature}
-            </span>
+    <footer className="relative overflow-hidden bg-canard text-poudre">
+      {/* Fleur de la marque en filigrane (droite) */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 right-[-30px] -translate-y-1/2 -scale-x-100 h-[196px] w-[196px] opacity-[0.09]"
+        style={maskStyle(BRAND_PICTO_MASK, 'var(--poudre)')}
+      />
 
+      <div className="relative z-[1] px-5 lg:px-[5vw] pt-5 pb-2">
+        <div className="flex flex-wrap items-start justify-between gap-x-12 gap-y-8">
+          {/* Marque */}
+          <div className="flex items-center gap-6 max-w-[520px]">
+            <img
+              src={BRAND_LOGO}
+              alt={m.footer_brand_aria()}
+              loading="lazy"
+              decoding="async"
+              className="h-[94px] sm:h-[124px] w-auto shrink-0"
+            />
+            <div>
+              <p className="font-display text-[13px] leading-[1.45] text-poudre/70 max-w-[26ch]">
+                {m.footer_signature()}
+              </p>
+              <span className="mt-4 block border-l border-poudre/35 pl-4 font-display font-semibold text-[14px] tracking-[0.24em] uppercase leading-[1.62] text-poudre/80">
+                Atelier
+                <br />
+                Bordeaux
+                <br />
+                MMXXVI
+              </span>
+            </div>
           </div>
 
           {/* Naviguer */}
           <div>
-            <span className="font-display text-[11px] tracking-[0.35em] uppercase text-lie-de-vin block mb-4">
-              {m.footer_navigate()}
-            </span>
+            <p className={eyebrow}>{m.footer_navigate()}</p>
             <nav className="flex flex-col gap-2.5" aria-label={m.footer_nav_aria()}>
               {navLinks.map((l) => (
-                <a
-                  key={l.label}
-                  href={l.href}
-                  className="font-display text-[15px] text-canard/90 hover:text-canard-90 transition-colors duration-300 w-fit"
-                >
+                <a key={l.label} href={l.href} className={link}>
                   {l.label}
                 </a>
               ))}
             </nav>
           </div>
 
+          {/* Écrire */}
+          <div>
+            <p className={eyebrow}>{m.footer_write()}</p>
+            <a href={`mailto:${email}`} className={`${link} break-all`}>
+              {email}
+            </a>
+            <p className="mt-2 font-display text-[13px] leading-[1.45] text-poudre/55 max-w-[22ch]">
+              {m.footer_response_line1()}
+              <br />
+              {m.footer_response_line2()}
+            </p>
+          </div>
+
           {/* Suivre */}
           <div>
-            <span className="font-display text-[11px] tracking-[0.35em] uppercase text-lie-de-vin block mb-4">
-              {m.footer_follow()}
-            </span>
-            <div className="flex flex-col gap-3">
+            <p className={eyebrow}>{m.footer_follow()}</p>
+            <div className="flex flex-col gap-2.5">
               {social.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="group flex flex-col w-fit"
+                  className={link}
                 >
-                  <span className="font-display text-[14px] text-canard/70 group-hover:text-canard-90 transition-colors duration-300">
-                    {s.label}
-                  </span>
-                  <span className="font-display text-[12px] text-canard/55 group-hover:text-canard/75 transition-colors duration-300">
-                    {s.handle}
-                  </span>
+                  {s.label}
                 </a>
               ))}
             </div>
           </div>
-
-          {/* Écrire */}
-          <div>
-            <span className="font-display text-[11px] tracking-[0.35em] uppercase text-lie-de-vin block mb-4">
-              {m.footer_write()}
-            </span>
-            <a
-              href={`mailto:${email}`}
-              className="font-display text-[15px] text-canard/90 hover:text-canard-90 transition-colors duration-300 break-all"
-            >
-              {email}
-            </a>
-            <p className="mt-3 font-display text-[13px] text-canard/60 leading-relaxed max-w-[200px]">
-              {m.footer_response_line1()}
-              <br />
-              {m.footer_response_line2()}
-            </p>
-          </div>
         </div>
-      </div>
 
-      {/* --- Barre legale --- */}
-      <div className="border-t border-canard/10 px-4 lg:px-8 py-5">
-        <div className="mx-auto max-w-[1440px] flex items-center justify-between gap-x-6 gap-y-3 flex-wrap font-display text-[12px] text-canard/60">
-          <nav className="flex items-center gap-4" aria-label={m.footer_legal_aria()}>
-            {legalLinks.map((l) => (
-              <a key={l.label} href={l.href} className="hover:text-canard transition-colors duration-300">
-                {l.label}
-              </a>
-            ))}
-          </nav>
-          <span>{copyright}</span>
+        {/* Barre légale : © à gauche · crédit au milieu · liens à droite */}
+        <div className="mt-5 border-t border-poudre/15 pt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 font-display text-[12px] text-poudre/55">
+          <span>{m.footer_copyright()}</span>
           <a
             href={FOOTER_DATA.credit.href}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-canard-90 transition-colors duration-300"
+            className="hover:text-poudre transition-colors duration-300"
           >
             {m.footer_credit()}
           </a>
+          <nav className="flex items-center gap-4 flex-wrap" aria-label={m.footer_legal_aria()}>
+            {legalLinks.map((l) => (
+              <a key={l.label} href={l.href} className="hover:text-poudre transition-colors duration-300">
+                {l.label}
+              </a>
+            ))}
+          </nav>
         </div>
       </div>
     </footer>

@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { m } from '#/paraglide/messages'
 import { Eyebrow } from './Eyebrow'
-import { ETABLI_STEPS, type EtabliStep } from '../lib/content/etabli'
+import { Filigrane } from './Filigrane'
+import { ETABLI_STEPS } from '../lib/content/etabli'
+import type { EtabliStep } from '../lib/content/etabli'
 import { objectPositionStyle } from './framing/framing'
 
 function BrushUnderline() {
@@ -38,8 +40,13 @@ export function Etabli({ steps = ETABLI_STEPS }: { steps?: EtabliStep[] }) {
   return (
     <section className="relative bg-poudre">
       <header className="relative px-8 lg:px-16 pt-12 pb-8">
-        <div className="mx-auto max-w-[1440px] flex items-end justify-between flex-wrap gap-6">
-          <div>
+        <div className="relative mx-auto max-w-[1440px] flex items-end justify-between flex-wrap gap-6">
+          {/* Fleur de la marque en filigrane : habille le vide à droite du titre */}
+          <Filigrane
+            flip
+            className="hidden lg:block top-[-30px] right-[40px] h-[420px] w-[420px] opacity-[0.08]"
+          />
+          <div className="relative z-10">
             <Eyebrow className="mb-3">{m.etabli_overline()}</Eyebrow>
             <h2 className="font-headline text-[clamp(32px,6vw,56px)] text-canard leading-[0.95]">{m.etabli_title()}</h2>
           </div>
