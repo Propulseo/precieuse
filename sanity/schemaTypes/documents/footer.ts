@@ -13,9 +13,10 @@ const socialObject = defineField({
 })
 
 /**
- * Pied de page — partie éditable par Emeline : réseaux sociaux + email.
- * Les libellés de navigation, la signature et le copyright sont gérés par les
- * traductions (Paraglide, FR/EN/PT) ; le crédit agence est figé dans le code.
+ * Pied de page — éditable par Emeline : réseaux sociaux + email + textes
+ * éditoriaux (signature, ligne de réponse 48 h, copyright, cachet d'atelier).
+ * Les libellés de navigation/légaux et le crédit agence restent gérés par le
+ * code/Paraglide (FR/EN/PT). Repli i18n via `footerFallback()` tant que vide.
  */
 export const footer = defineType({
   name: 'footer',
@@ -29,6 +30,27 @@ export const footer = defineType({
       of: [socialObject],
     }),
     defineField({ name: 'email', title: 'Email de contact', type: 'string' }),
+    defineField({
+      name: 'signature',
+      title: 'Signature (à côté du logo)',
+      type: 'localizedText',
+    }),
+    defineField({
+      name: 'responseLine1',
+      title: 'Délai de réponse — ligne 1',
+      type: 'localizedString',
+    }),
+    defineField({
+      name: 'responseLine2',
+      title: 'Délai de réponse — ligne 2',
+      type: 'localizedString',
+    }),
+    defineField({ name: 'copyright', title: 'Copyright', type: 'localizedString' }),
+    defineField({
+      name: 'atelierStamp',
+      title: "Cachet d'atelier (un élément par ligne)",
+      type: 'localizedText',
+    }),
   ],
   preview: {
     prepare: () => ({ title: 'Pied de page' }),

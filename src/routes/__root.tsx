@@ -44,7 +44,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   // avec repli sur les constantes/Paraglide si Sanity n'est pas configuré.
   loader: async () => {
     const locale = getLocale()
-    const [site, footer] = await Promise.all([getSite(locale), getFooter()])
+    const [site, footer] = await Promise.all([getSite(locale), getFooter(locale)])
     return { site, footer }
   },
 

@@ -1,6 +1,6 @@
 import { m } from '#/paraglide/messages'
 import { FOOTER_DATA } from '../lib/content/footer'
-import type { FooterCms } from '../lib/cms'
+import type { FooterContent } from '../lib/content/footer'
 import { BRAND_PICTO_MASK, maskStyle } from './brand/brand'
 
 // Logo poudre (picto + nom) — PNG fixe, lisible sur le fond canard.
@@ -11,10 +11,11 @@ const BRAND_LOGO =
  * Footer « Bandeau » — bloc canard plein de clôture (le moment sombre de fin),
  * données en pleine largeur (Marque · Naviguer · Écrire · Suivre) + fleur de la
  * marque en filigrane à droite. Le fond suit l'accent (--brand-accent → bg-canard) ;
- * le logo poudre reste fixe. `footer` (Sanity) pilote réseaux/email/crédit, sinon
- * repli statique ; libellés structurels via Paraglide (FR/EN/PT).
+ * le logo poudre reste fixe. `footer` (Sanity, repli i18n) pilote réseaux/email +
+ * signature/réponse/copyright/cachet d'atelier ; libellés de nav/légaux, crédit
+ * agence et aria-labels restent structurels via Paraglide (FR/EN/PT).
  */
-export function Footer({ footer }: { footer: FooterCms | null }) {
+export function Footer({ footer }: { footer: FooterContent }) {
   const navLinks = [
     { label: m.footer_nav_collection(), href: '/collection' },
     { label: m.footer_nav_journal(), href: '/carnet' },
@@ -26,8 +27,8 @@ export function Footer({ footer }: { footer: FooterCms | null }) {
     { label: m.footer_legal_privacy(), href: '/confidentialite' },
     { label: m.footer_legal_terms(), href: '/cgv' },
   ]
-  const social = footer?.social.length ? footer.social : FOOTER_DATA.social
-  const email = footer?.email || FOOTER_DATA.email
+  const social = footer.social
+  const email = footer.email
 
   const eyebrow =
     'font-display text-[11px] tracking-[0.32em] uppercase text-poudre/85 mb-4'
@@ -56,14 +57,10 @@ export function Footer({ footer }: { footer: FooterCms | null }) {
             />
             <div>
               <p className="font-display text-[13px] leading-[1.45] text-poudre/70 max-w-[26ch]">
-                {m.footer_signature()}
+                {footer.signature}
               </p>
-              <span className="mt-4 block border-l border-poudre/35 pl-4 font-display font-semibold text-[14px] tracking-[0.24em] uppercase leading-[1.62] text-poudre/80">
-                Atelier
-                <br />
-                Bordeaux
-                <br />
-                MMXXVI
+              <span className="mt-4 block whitespace-pre-line border-l border-poudre/35 pl-4 font-display font-semibold text-[14px] tracking-[0.24em] uppercase leading-[1.62] text-poudre/80">
+                {footer.atelierStamp}
               </span>
             </div>
           </div>
@@ -87,9 +84,9 @@ export function Footer({ footer }: { footer: FooterCms | null }) {
               {email}
             </a>
             <p className="mt-2 font-display text-[13px] leading-[1.45] text-poudre/55 max-w-[22ch]">
-              {m.footer_response_line1()}
+              {footer.responseLine1}
               <br />
-              {m.footer_response_line2()}
+              {footer.responseLine2}
             </p>
           </div>
 
@@ -114,7 +111,7 @@ export function Footer({ footer }: { footer: FooterCms | null }) {
 
         {/* Barre légale : © à gauche · crédit au milieu · liens à droite */}
         <div className="mt-5 border-t border-poudre/15 pt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 font-display text-[12px] text-poudre/55">
-          <span>{m.footer_copyright()}</span>
+          <span>{footer.copyright}</span>
           <a
             href={FOOTER_DATA.credit.href}
             target="_blank"

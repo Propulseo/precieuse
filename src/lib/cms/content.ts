@@ -45,7 +45,8 @@ import { homePageFallback } from '../content/home'
 import type { HomePageData, HomeImg } from '../content/home'
 import { SITE } from '../content/site'
 import { CREATION_TYPES, BUDGETS } from '../content/sur-mesure'
-import { FOOTER_DATA } from '../content/footer'
+import { footerFallback } from '../content/footer'
+import type { FooterContent } from '../content/footer'
 import { getStaticLegal } from '../content/legal'
 
 /**
@@ -379,29 +380,41 @@ export async function getSite(locale: Locale = DEFAULT_LOCALE): Promise<typeof S
 // Footer
 // ---------------------------------------------------------------------------
 
-/** Contenu footer piloté par Emeline : réseaux sociaux + email (neutres en langue). */
-export type FooterCms = { social: typeof FOOTER_DATA.social; email: string }
-
 /**
- * Renvoie les réseaux sociaux + l'email du footer depuis Sanity, ou `null` si
- * non configuré / document absent. Volontairement limité à ces deux champs
- * (contenu qui change vraiment et indépendant de la langue) : les libellés de
- * navigation, la signature et le copyright restent gérés par Paraglide (traduits
- * FR/EN/PT) pour éviter toute régression i18n, et le crédit agence reste figé.
+ * Footer piloté par Emeline : réseaux + email (neutres en langue) ET textes
+ * éditoriaux localisés (signature, réponse 48 h, copyright, cachet d'atelier),
+ * fusionnés par-dessus le repli i18n (`footerFallback`). Chaque champ vide
+ * retombe sur le repli → aucune régression tant que le document n'est pas rempli.
+ * Les libellés de navigation/légaux, le crédit agence et les aria-labels restent
+ * gérés par Paraglide (structurels) directement dans le composant `Footer`.
  */
-export async function getFooter(): Promise<FooterCms | null> {
-  if (!isSanityConfigured) return null
+export async function getFooter(
+  locale: Locale = DEFAULT_LOCALE,
+): Promise<FooterContent> {
+  const fb = footerFallback()
+  if (!isSanityConfigured) return fb
   const data = await cmsFetch<Record<string, unknown> | null>(
-    `*[_type == "footer"][0]{ social[]{ label, handle, href }, email }`,
+    `*[_type == "footer"][0]{
+      social[]{ label, handle, href }, email,
+      signature, responseLine1, responseLine2, copyright, atelierStamp
+    }`,
   )
-  if (!data) return null
+  if (!data) return fb
+  const s = (v: unknown, fallback: string): string =>
+    pickLocale(v as never, locale) || fallback
+  const social = ((data.social as Array<Record<string, unknown>> | undefined) ?? []).map((it) => ({
+    label: String(it.label ?? ''),
+    handle: String(it.handle ?? ''),
+    href: String(it.href ?? ''),
+  }))
   return {
-    social: ((data.social as Array<Record<string, unknown>> | undefined) ?? []).map((s) => ({
-      label: String(s.label ?? ''),
-      handle: String(s.handle ?? ''),
-      href: String(s.href ?? ''),
-    })),
-    email: String(data.email ?? FOOTER_DATA.email),
+    social: social.length ? social : fb.social,
+    email: String(data.email ?? '') || fb.email,
+    signature: s(data.signature, fb.signature),
+    responseLine1: s(data.responseLine1, fb.responseLine1),
+    responseLine2: s(data.responseLine2, fb.responseLine2),
+    copyright: s(data.copyright, fb.copyright),
+    atelierStamp: s(data.atelierStamp, fb.atelierStamp),
   }
 }
 

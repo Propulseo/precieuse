@@ -23,6 +23,7 @@ try {
 }
 
 import { LETTRES } from '../src/lib/content/lettres'
+import { FOOTER_DATA } from '../src/lib/content/footer'
 
 const projectId = process.env.VITE_SANITY_PROJECT_ID
 const token = process.env.SANITY_WRITE_TOKEN
@@ -261,11 +262,30 @@ async function seedHomePage() {
   console.log("✓ Page d'accueil : héro + avant-propos + en-têtes de section seedés")
 }
 
+// ---------------------------------------------------------------------------
+// 4) Pied de page — singleton footer (réseaux/email + textes éditoriaux)
+// ---------------------------------------------------------------------------
+async function seedFooter() {
+  await client.createOrReplace({
+    _id: 'footer',
+    _type: 'footer',
+    social: FOOTER_DATA.social.map((s, i) => ({ _key: `social${i}`, ...s })),
+    email: FOOTER_DATA.email,
+    signature: L('footer_signature', 'localizedText'),
+    responseLine1: L('footer_response_line1'),
+    responseLine2: L('footer_response_line2'),
+    copyright: L('footer_copyright'),
+    atelierStamp: { _type: 'localizedText', fr: 'Atelier\nBordeaux\nMMXXVI' },
+  })
+  console.log('✓ Pied de page : réseaux/email + signature/réponse/copyright/cachet seedés')
+}
+
 async function main() {
   console.log(`Seed sur projet ${projectId} / dataset ${dataset}…`)
   await seedTemoignagePhotos()
   await seedSurMesurePage()
   await seedHomePage()
+  await seedFooter()
   console.log('✅ Seed terminé.')
 }
 
