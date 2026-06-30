@@ -4,6 +4,8 @@ export const SITE = {
   email: 'contact@precieuse-joaillerie.com',
   // TODO: remplacer par le vrai numéro WhatsApp français (+33) d'Emeline — placeholder pour l'instant.
   whatsapp: 'https://wa.me/33600000000',
+  // Libellé du bouton WhatsApp flottant (repli FR ; EN/PT via Sanity/Paraglide).
+  whatsappLabel: 'Échanger avec Emeline',
   instagram: 'https://instagram.com/precieusejoaillerie',
   address: {
     street: '[Adresse Bordeaux — à confirmer]',

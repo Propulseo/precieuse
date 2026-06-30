@@ -24,6 +24,7 @@ try {
 
 import { LETTRES } from '../src/lib/content/lettres'
 import { FOOTER_DATA } from '../src/lib/content/footer'
+import { SITE } from '../src/lib/content/site'
 
 const projectId = process.env.VITE_SANITY_PROJECT_ID
 const token = process.env.SANITY_WRITE_TOKEN
@@ -280,12 +281,32 @@ async function seedFooter() {
   console.log('✓ Pied de page : réseaux/email + signature/réponse/copyright/cachet seedés')
 }
 
+// ---------------------------------------------------------------------------
+// 5) Paramètres du site — singleton siteSettings (coordonnées + libellé WhatsApp)
+// ---------------------------------------------------------------------------
+async function seedSiteSettings() {
+  await client.createOrReplace({
+    _id: 'siteSettings',
+    _type: 'siteSettings',
+    brand: SITE.brand,
+    baseline: { _type: 'localizedString', fr: SITE.baseline },
+    email: SITE.email,
+    whatsapp: SITE.whatsapp,
+    whatsappLabel: L('wa_label'),
+    instagram: SITE.instagram,
+    hours: { _type: 'localizedString', fr: SITE.hours },
+    address: { ...SITE.address },
+  })
+  console.log('✓ Paramètres du site : coordonnées + libellé WhatsApp seedés')
+}
+
 async function main() {
   console.log(`Seed sur projet ${projectId} / dataset ${dataset}…`)
   await seedTemoignagePhotos()
   await seedSurMesurePage()
   await seedHomePage()
   await seedFooter()
+  await seedSiteSettings()
   console.log('✅ Seed terminé.')
 }
 

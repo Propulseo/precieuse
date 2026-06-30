@@ -355,7 +355,7 @@ export async function getSite(locale: Locale = DEFAULT_LOCALE): Promise<typeof S
   if (!isSanityConfigured) return SITE
   const data = await cmsFetch<Record<string, unknown> | null>(
     `*[_type == "siteSettings"][0]{
-      brand, baseline, email, whatsapp, instagram, address, hours
+      brand, baseline, email, whatsapp, whatsappLabel, instagram, address, hours
     }`,
   )
   if (!data) return SITE
@@ -365,6 +365,7 @@ export async function getSite(locale: Locale = DEFAULT_LOCALE): Promise<typeof S
     baseline: pickLocale(data.baseline as never, locale) || SITE.baseline,
     email: String(data.email ?? SITE.email),
     whatsapp: String(data.whatsapp ?? SITE.whatsapp),
+    whatsappLabel: pickLocale(data.whatsappLabel as never, locale) || SITE.whatsappLabel,
     instagram: String(data.instagram ?? SITE.instagram),
     address: {
       street: String(address.street ?? SITE.address.street),

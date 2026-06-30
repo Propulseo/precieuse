@@ -14,6 +14,11 @@ export const siteSettings = defineType({
     defineField({ name: 'baseline', title: 'Baseline', type: 'localizedString' }),
     defineField({ name: 'email', title: 'Email', type: 'string' }),
     defineField({ name: 'whatsapp', title: 'WhatsApp (URL)', type: 'url' }),
+    defineField({
+      name: 'whatsappLabel',
+      title: 'WhatsApp — libellé du bouton flottant',
+      type: 'localizedString',
+    }),
     defineField({ name: 'instagram', title: 'Instagram (URL)', type: 'url' }),
     defineField({
       name: 'hours',

@@ -99,7 +99,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               <Nav />
               <main className="pt-16 min-h-screen">{children}</main>
               <Footer footer={footer} />
-              <WhatsAppButton href={site.whatsapp} />
+              <WhatsAppButton href={site.whatsapp} label={site.whatsappLabel} />
               <ContactDrawer site={site} />
               {/* Sélecteur de design réservé au dev : jamais exposé en prod. */}
               {import.meta.env.DEV && <BrandToggle />}
