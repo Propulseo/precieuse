@@ -87,7 +87,7 @@ export function isHeroMark(value: unknown): value is HeroMark {
 export type SealVariant = 'rond' | 'octogone' | 'epure'
 
 export const SEAL_VARIANTS: SealVariant[] = ['rond', 'octogone', 'epure']
-export const DEFAULT_SEAL_VARIANT: SealVariant = 'rond'
+export const DEFAULT_SEAL_VARIANT: SealVariant = 'epure'
 export const SEAL_VARIANT_STORAGE_KEY = 'precieuse-seal'
 
 export const SEAL_VARIANT_LABELS: Record<SealVariant, string> = {
