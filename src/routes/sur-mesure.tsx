@@ -7,7 +7,7 @@ import { BespokeSplit } from '../components/sur-mesure/BespokeSplit'
 import { BespokeRealisations } from '../components/sur-mesure/BespokeRealisations'
 import { BespokeVoices } from '../components/sur-mesure/BespokeVoices'
 import { ClosingInvite } from '../components/ClosingInvite'
-import { getBespokePage } from '../lib/cms'
+import { getBespokePage, getContact } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
 import { seo } from '../lib/seo'
@@ -15,8 +15,16 @@ import { seo } from '../lib/seo'
 export const Route = createFileRoute('/sur-mesure')({
   component: SurMesurePage,
   // Page entièrement pilotable depuis Sanity (singleton surMesurePage),
-  // repli i18n/photos via bespokePageFallback().
-  loader: () => getBespokePage(getLocale()),
+  // repli i18n/photos via bespokePageFallback(). Le bandeau de clôture partage
+  // le contenu Contact (titre/accroche éditables une fois, cohérents partout).
+  loader: async () => {
+    const locale = getLocale()
+    const [page, contact] = await Promise.all([
+      getBespokePage(locale),
+      getContact(locale),
+    ])
+    return { page, contact }
+  },
   head: () =>
     seo({
       title: m.seo_surmesure_title(),
@@ -26,7 +34,7 @@ export const Route = createFileRoute('/sur-mesure')({
 })
 
 function SurMesurePage() {
-  const page = Route.useLoaderData()
+  const { page, contact } = Route.useLoaderData()
   return (
     // -mt-16 : le héro passe en plein cadre sous le Nav fixe (pt-16 du <main>).
     <div className="-mt-16">
@@ -37,7 +45,7 @@ function SurMesurePage() {
       <BespokeSplit split={page.split} />
       <BespokeRealisations realisations={page.realisations} />
       <BespokeVoices voices={page.voices} />
-      <ClosingInvite cta={m.surmesure_cta()} />
+      <ClosingInvite title={contact.title} lede={contact.lede} cta={m.surmesure_cta()} />
     </div>
   )
 }
