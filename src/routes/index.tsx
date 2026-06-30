@@ -22,9 +22,17 @@ import {
   getBespokeProcess,
 } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
+import { m } from '#/paraglide/messages'
+import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/')({
   component: Home,
+  head: () =>
+    seo({
+      title: m.seo_home_title(),
+      description: m.seo_home_desc(),
+      path: '/',
+    }),
   // Lit Sanity quand configuré, sinon le contenu statique (fallback des getters).
   loader: async () => {
     const locale = getLocale()

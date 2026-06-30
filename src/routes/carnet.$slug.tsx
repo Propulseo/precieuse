@@ -2,6 +2,7 @@ import { createFileRoute, notFound } from '@tanstack/react-router'
 import { CarnetArticle } from '../components/carnet/CarnetArticle'
 import { getArticles } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
+import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/carnet/$slug')({
   component: ArticlePage,
@@ -17,6 +18,17 @@ export const Route = createFileRoute('/carnet/$slug')({
     ].slice(0, 3)
     return { article, related }
   },
+  // head après loader : TanStack n'infère `loaderData` que si loader est déclaré avant.
+  head: ({ loaderData }) =>
+    loaderData?.article
+      ? seo({
+          title: `${loaderData.article.title} — Le Carnet · Précieuse`,
+          description: loaderData.article.excerpt,
+          path: `/carnet/${loaderData.article.slug}`,
+          image: loaderData.article.image,
+          type: 'article',
+        })
+      : {},
 })
 
 function ArticlePage() {

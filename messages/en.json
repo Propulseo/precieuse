@@ -238,5 +238,20 @@
   "leadcapture_submit": "Receive the photos",
   "leadcapture_consent_prefix": "By submitting, I agree to receive an email and I accept the",
   "leadcapture_consent_link": "privacy policy",
-  "leadcapture_consent_suffix": "."
+  "leadcapture_consent_suffix": ".",
+  "seo_home_title": "Précieuse — Handcrafted fine jewellery & bespoke pieces in Bordeaux",
+  "seo_home_desc": "Rings and jewellery in 18-carat gold, handcrafted in our Bordeaux atelier. Explore the collection or create your bespoke piece with Emeline.",
+  "seo_collection_title": "The Collection — Précieuse, 18-carat gold jewellery, Bordeaux",
+  "seo_collection_desc": "Five rings in 18-carat gold, handcrafted in Bordeaux and made to be passed on. Each piece carries a story; yours begins here.",
+  "seo_creatrice_title": "Emeline, designer & jeweller — Précieuse, Bordeaux",
+  "seo_creatrice_desc": "A craft jeweller in Bordeaux, Emeline handcrafts 18-carat gold jewellery. Twelve years of know-how, from sketch to setting.",
+  "seo_carnet_title": "The Journal — Atelier notebook · Précieuse, Bordeaux",
+  "seo_carnet_desc": "Sketches, making-of stories and material guides: behind the scenes of a craft jewellery atelier in Bordeaux.",
+  "seo_surmesure_title": "Bespoke jewellery — Custom creation in Bordeaux · Précieuse",
+  "seo_surmesure_desc": "Create a one-of-a-kind piece with Emeline: from sketch to 18-carat gold, handcrafted in Bordeaux. By quote, satisfaction guaranteed.",
+  "seo_legal_mentions_title": "Legal notice — Précieuse",
+  "seo_legal_privacy_title": "Privacy policy — Précieuse",
+  "seo_legal_terms_title": "Terms & conditions — Précieuse",
+  "seo_legal_desc": "Legal information for Précieuse, craft jewellery in Bordeaux.",
+  "seo_default_desc": "Craft jewellery in Bordeaux: rings and jewellery in 18-carat gold, handcrafted. Collection and bespoke creations."
 }

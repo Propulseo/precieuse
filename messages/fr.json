@@ -238,5 +238,20 @@
   "leadcapture_submit": "Recevoir les photos",
   "leadcapture_consent_prefix": "En validant, j'accepte de recevoir un email et j'approuve la",
   "leadcapture_consent_link": "politique de confidentialité",
-  "leadcapture_consent_suffix": "."
+  "leadcapture_consent_suffix": ".",
+  "seo_home_title": "Précieuse — Joaillerie artisanale & bijoux sur-mesure à Bordeaux",
+  "seo_home_desc": "Bagues et bijoux en or 18 carats façonnés à la main dans notre atelier à Bordeaux. Découvrez la collection ou créez votre pièce sur-mesure avec Emeline.",
+  "seo_collection_title": "La Collection — Précieuse, bijoux en or 18 carats à Bordeaux",
+  "seo_collection_desc": "Cinq bagues en or 18 carats façonnées à la main à Bordeaux, pensées pour se transmettre. Chaque pièce porte une histoire ; la vôtre commence ici.",
+  "seo_creatrice_title": "Emeline, créatrice & joaillière — Précieuse, Bordeaux",
+  "seo_creatrice_desc": "Joaillière artisanale à Bordeaux, Emeline façonne à la main des bijoux en or 18 carats. Douze ans de savoir-faire, du dessin au sertissage.",
+  "seo_carnet_title": "Le Carnet — Journal d'atelier joaillier · Précieuse, Bordeaux",
+  "seo_carnet_desc": "Croquis, récits de fabrication et guides matières : les coulisses d'un atelier de joaillerie artisanale à Bordeaux.",
+  "seo_surmesure_title": "Bijou sur-mesure — Création joaillière à Bordeaux · Précieuse",
+  "seo_surmesure_desc": "Créez un bijou unique avec Emeline : du croquis à la pièce en or 18 carats, façonnée à la main à Bordeaux. Sur devis, satisfaction garantie.",
+  "seo_legal_mentions_title": "Mentions légales — Précieuse",
+  "seo_legal_privacy_title": "Politique de confidentialité — Précieuse",
+  "seo_legal_terms_title": "Conditions générales de vente — Précieuse",
+  "seo_legal_desc": "Informations légales du site Précieuse, joaillerie artisanale à Bordeaux.",
+  "seo_default_desc": "Joaillerie artisanale à Bordeaux : bagues et bijoux en or 18 carats, façonnés à la main. Collection et créations sur-mesure."
 }

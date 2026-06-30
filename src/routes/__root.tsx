@@ -11,6 +11,7 @@ import ConvexProvider from '../integrations/convex/provider'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import { getLocale } from '#/paraglide/runtime'
+import { m } from '#/paraglide/messages'
 import { getSite, getFooter } from '../lib/cms'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
@@ -49,27 +50,25 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
   head: () => ({
     meta: [
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { title: 'Précieuse, Joaillerie artisanale, Bordeaux' },
+      // Valeurs SEO par défaut ; chaque route les écrase via seo() (src/lib/seo.ts).
+      { name: 'description', content: m.seo_default_desc() },
+      { name: 'theme-color', content: '#125e5e' },
+      { property: 'og:site_name', content: 'Précieuse' },
+      { property: 'og:type', content: 'website' },
       {
-        charSet: 'utf-8',
+        property: 'og:image',
+        content: 'https://precieuse-five.vercel.app/picto.png',
       },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'Précieuse, Joaillerie artisanale, Bordeaux',
-      },
+      { name: 'twitter:card', content: 'summary_large_image' },
     ],
     links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-      {
-        rel: 'icon',
-        type: 'image/png',
-        href: '/picto.png',
-      },
+      { rel: 'stylesheet', href: appCss },
+      { rel: 'icon', type: 'image/png', href: '/picto.png' },
+      { rel: 'apple-touch-icon', href: '/picto.png' },
+      { rel: 'manifest', href: '/manifest.json' },
     ],
   }),
   shellComponent: RootDocument,

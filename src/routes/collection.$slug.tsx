@@ -4,6 +4,7 @@ import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
 import { objectPositionStyle } from '../components/framing/framing'
 import { useContactDrawer } from '../components/contact/ContactDrawerProvider'
+import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/collection/$slug')({
   component: ProductPage,
@@ -13,6 +14,16 @@ export const Route = createFileRoute('/collection/$slug')({
     if (!product) throw notFound()
     return product
   },
+  // head après loader : TanStack n'infère `loaderData` que si loader est déclaré avant.
+  head: ({ loaderData, params }) =>
+    loaderData
+      ? seo({
+          title: `${loaderData.name} — Précieuse`,
+          description: loaderData.description,
+          path: `/collection/${params.slug}`,
+          image: loaderData.image,
+        })
+      : {},
 })
 
 function ProductPage() {
