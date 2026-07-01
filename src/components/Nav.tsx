@@ -173,10 +173,11 @@ export function Nav() {
     >
       <nav className="mx-auto grid max-w-[1440px] grid-cols-[1fr_auto_1fr] items-center px-8 py-3 lg:px-16">
         {/* Zone gauche : logo */}
+        {/* Mobile : logo centré (colonne du milieu). Desktop : logo à gauche. */}
         <Link
           to="/"
           aria-label={m.nav_home_aria()}
-          className="relative block justify-self-start transition-opacity hover:opacity-70"
+          className="col-start-2 block justify-self-center transition-opacity hover:opacity-70 md:col-start-1 md:justify-self-start"
         >
           {/* Lockup recoloré via masque CSS : suit --brand-accent (toggle),
               et passe en blanc par-dessus le hero plein écran (home, en haut). */}
@@ -195,7 +196,7 @@ export function Nav() {
         </Link>
 
         {/* Zone centre : liens de navigation (centrés) */}
-        <div className="hidden items-center justify-self-center gap-10 md:flex">
+        <div className="hidden items-center justify-self-center gap-10 md:col-start-2 md:flex">
           {navLinks.map((l) => {
             const isActive = pathname.startsWith(l.href)
             const baseColor = isHeroTop
@@ -229,7 +230,7 @@ export function Nav() {
         </div>
 
         {/* Zone droite : CTA Sur-mesure + langue (desktop) / burger (mobile) */}
-        <div className="flex items-center justify-self-end gap-6">
+        <div className="col-start-3 flex items-center justify-self-end gap-6">
           <Link
             to="/sur-mesure"
             className={`hidden md:inline-flex font-display text-[13px] tracking-[0.15em] uppercase px-5 py-2 border transition-colors duration-300 ${homeTopShadow} ${
