@@ -41,6 +41,7 @@ export const surMesurePage = defineType({
       name: 'heroVideo',
       title: 'Vidéo (moitié gauche)',
       type: 'file',
+      description: 'Vidéo courte en fond, format MP4. Facultatif : sans vidéo, le poster ci-dessous est affiché.',
       options: { accept: 'video/mp4' },
       group: 'hero',
     }),
@@ -48,6 +49,7 @@ export const surMesurePage = defineType({
       name: 'heroPoster',
       title: 'Poster vidéo (image de remplacement)',
       type: 'image',
+      description: 'Image affichée avant le chargement de la vidéo, ou à la place si pas de vidéo.',
       options: { hotspot: true },
       group: 'hero',
     }),
@@ -55,6 +57,7 @@ export const surMesurePage = defineType({
       name: 'marquee',
       title: 'Bandeau défilant (items)',
       type: 'array',
+      description: 'Courtes mentions qui défilent en boucle sous le héro, ex. « Fait main » , « Sur rendez-vous ».',
       of: [{ type: 'localizedString' }],
       group: 'hero',
     }),
@@ -65,11 +68,18 @@ export const surMesurePage = defineType({
     defineField({ name: 'atelierTitleTail', title: 'Titre — fin', type: 'localizedString', group: 'atelier' }),
     defineField({ name: 'atelierBody', title: 'Paragraphe', type: 'localizedText', group: 'atelier' }),
     defineField({ name: 'atelierLink', title: 'Libellé du lien', type: 'localizedString', group: 'atelier' }),
-    defineField({ name: 'atelierBadge', title: 'Texte du médaillon tournant', type: 'localizedString', group: 'atelier' }),
+    defineField({
+      name: 'atelierBadge',
+      title: 'Texte du médaillon tournant',
+      type: 'localizedString',
+      description: 'Court texte affiché dans le petit médaillon qui tourne, ex. « Fait main à Bordeaux ».',
+      group: 'atelier',
+    }),
     defineField({
       name: 'atelierImages',
       title: 'Photos (galerie, 3)',
       type: 'array',
+      description: 'Prévoir exactement 3 photos de l\'atelier pour un affichage équilibré.',
       of: [arrayImage('img', 'Photo')],
       group: 'atelier',
     }),
@@ -93,7 +103,13 @@ export const surMesurePage = defineType({
       ],
     }),
     defineField({ name: 'manifesteLead', title: 'Manifeste — phrase', type: 'localizedText', group: 'process' }),
-    defineField({ name: 'manifesteAccent', title: 'Manifeste — mot accentué', type: 'localizedString', group: 'process' }),
+    defineField({
+      name: 'manifesteAccent',
+      title: 'Manifeste — mot accentué',
+      type: 'localizedString',
+      description: 'Le mot ou groupe de mots mis en valeur dans la phrase du manifeste.',
+      group: 'process',
+    }),
 
     // -------------------------------------------------------------- Croquis
     defineField({ name: 'splitEyebrow', title: 'Sur-titre', type: 'localizedString', group: 'split' }),
@@ -108,12 +124,25 @@ export const surMesurePage = defineType({
     defineField({ name: 'realEyebrow', title: 'Sur-titre', type: 'localizedString', group: 'real' }),
     defineField({ name: 'realTitle', title: 'Titre', type: 'localizedString', group: 'real' }),
     defineField({ name: 'realIntro', title: 'Introduction', type: 'localizedText', group: 'real' }),
-    defineField({ name: 'realTagAtelier', title: "Étiquette « à l'atelier »", type: 'localizedString', group: 'real' }),
-    defineField({ name: 'realTagPortee', title: 'Étiquette « portée »', type: 'localizedString', group: 'real' }),
+    defineField({
+      name: 'realTagAtelier',
+      title: "Étiquette « à l'atelier »",
+      type: 'localizedString',
+      description: 'Petit texte affiché sur la photo « à l\'atelier », ex. « En fabrication ».',
+      group: 'real',
+    }),
+    defineField({
+      name: 'realTagPortee',
+      title: 'Étiquette « portée »',
+      type: 'localizedString',
+      description: 'Petit texte affiché sur la photo « portée », ex. « Chez sa propriétaire ».',
+      group: 'real',
+    }),
     defineField({
       name: 'pieces',
       title: 'Pièces (duos atelier / portée)',
       type: 'array',
+      description: 'Pour chaque pièce, ajoutez une photo prise à l\'atelier et une photo une fois portée.',
       group: 'real',
       of: [
         {
@@ -142,7 +171,12 @@ export const surMesurePage = defineType({
           type: 'object',
           name: 'voice',
           fields: [
-            { name: 'initial', title: 'Initiale (pastille)', type: 'string' },
+            {
+              name: 'initial',
+              title: 'Initiale (pastille)',
+              type: 'string',
+              description: 'Lettre affichée dans le petit rond à côté du témoignage, ex. « M ».',
+            },
             { name: 'quote', title: 'Citation', type: 'localizedText' },
             { name: 'name', title: 'Prénom', type: 'string' },
             { name: 'city', title: 'Ville', type: 'string' },
@@ -153,8 +187,20 @@ export const surMesurePage = defineType({
     }),
 
     // ------------------------------------------------------------------- SEO
-    defineField({ name: 'seoTitle', title: 'SEO — titre (onglet & Google)', type: 'localizedString', group: 'seo' }),
-    defineField({ name: 'seoDescription', title: 'SEO — description', type: 'localizedText', group: 'seo' }),
+    defineField({
+      name: 'seoTitle',
+      title: 'SEO — titre (onglet & Google)',
+      type: 'localizedString',
+      description: 'Texte affiché dans l\'onglet du navigateur et dans Google. ~60 caractères.',
+      group: 'seo',
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO — description',
+      type: 'localizedText',
+      description: 'Texte affiché sous le titre dans les résultats Google. ~150 caractères.',
+      group: 'seo',
+    }),
   ],
   preview: {
     prepare: () => ({ title: 'Page Sur-Mesure' }),
