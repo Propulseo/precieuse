@@ -1,12 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-import { m } from '#/paraglide/messages'
 import { MATIERES, type Matiere } from '../lib/content/matieres'
 import { objectPositionStyle } from './framing/framing'
 
 /** Stagger delay between each card in ms */
 const STAGGER_MS = 200
 
-export function Matieres({ matieres = MATIERES }: { matieres?: Matiere[] }) {
+export function Matieres({
+  matieres = MATIERES,
+  header,
+}: {
+  matieres?: Matiere[]
+  header: { title: string; subtitle: string; marginNote: string }
+}) {
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
 
@@ -29,20 +34,18 @@ export function Matieres({ matieres = MATIERES }: { matieres?: Matiere[] }) {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-poudre py-20 sm:py-28">
-      <div className="absolute top-0 left-0 right-0 border-t-2 border-double border-canard/15" />
-
-      <div className="mx-auto mb-14 sm:mb-16 max-w-[1440px] px-6 sm:px-10 lg:px-16 flex items-end justify-between">
+    <section ref={sectionRef} className="relative w-full bg-poudre py-10 sm:py-14">
+      <div className="mx-auto mb-7 sm:mb-8 max-w-[1440px] px-6 sm:px-10 lg:px-16 flex items-end justify-between">
         <div>
-          <h2 className="font-headline text-[48px] sm:text-[56px] lg:text-[64px] text-canard leading-none mb-3">
-            {m.matieres_section_title()}
+          <h2 className="font-headline text-[48px] sm:text-[56px] lg:text-[64px] text-framboise leading-none mb-3">
+            {header.title}
           </h2>
           <p className="font-body italic font-light text-[20px] sm:text-[22px] text-canard-90">
-            {m.matieres_section_subtitle()}
+            {header.subtitle}
           </p>
         </div>
         <span className="font-body italic font-light text-[13px] text-canard-90/40 hidden md:block -rotate-[0.5deg]">
-          {m.matieres_margin_note()}
+          {header.marginNote}
         </span>
       </div>
 
@@ -61,6 +64,8 @@ export function Matieres({ matieres = MATIERES }: { matieres?: Matiere[] }) {
               <img
                 src={mat.image}
                 alt={mat.image_alt}
+                loading="lazy"
+                decoding="async"
                 style={objectPositionStyle(mat.imagePosition)}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
               />
@@ -73,7 +78,7 @@ export function Matieres({ matieres = MATIERES }: { matieres?: Matiere[] }) {
               <h3 className="font-display text-[30px] lg:text-[34px] text-canard leading-none">
                 {mat.nom}
               </h3>
-              <p className="font-body italic font-light text-[18px] text-canard-90">{mat.sous_titre}</p>
+              <p className="font-body italic font-light text-[18px] text-framboise">{mat.sous_titre}</p>
               <p className="font-body text-[13px] font-light text-canard/80 leading-relaxed mt-1">
                 {mat.description_courte}
               </p>

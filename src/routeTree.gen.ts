@@ -12,20 +12,23 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SurMesureRouteImport } from './routes/sur-mesure'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as CreatriceRouteImport } from './routes/creatrice'
-import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as CollectionRouteImport } from './routes/collection'
 import { Route as CgvRouteImport } from './routes/cgv'
 import { Route as CarnetRouteImport } from './routes/carnet'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CollectionIndexRouteImport } from './routes/collection.index'
+import { Route as CarnetIndexRouteImport } from './routes/carnet.index'
+import { Route as StudioSplatRouteImport } from './routes/studio.$'
 import { Route as PreviewNewsletterRouteImport } from './routes/preview.newsletter'
 import { Route as PreviewLoadersRouteImport } from './routes/preview.loaders'
 import { Route as PreviewLeadcaptureRouteImport } from './routes/preview.leadcapture'
 import { Route as PreviewHeroRouteImport } from './routes/preview.hero'
 import { Route as PreviewFooterRouteImport } from './routes/preview.footer'
 import { Route as PreviewEtabliRouteImport } from './routes/preview.etabli'
-import { Route as PreviewContactRouteImport } from './routes/preview.contact'
+import { Route as PreviewCollectionRouteImport } from './routes/preview.collection'
 import { Route as CollectionSlugRouteImport } from './routes/collection.$slug'
+import { Route as CarnetSlugRouteImport } from './routes/carnet.$slug'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const SurMesureRoute = SurMesureRouteImport.update({
@@ -41,11 +44,6 @@ const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
 const CreatriceRoute = CreatriceRouteImport.update({
   id: '/creatrice',
   path: '/creatrice',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
@@ -71,6 +69,21 @@ const CarnetRoute = CarnetRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionIndexRoute = CollectionIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CollectionRoute,
+} as any)
+const CarnetIndexRoute = CarnetIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CarnetRoute,
+} as any)
+const StudioSplatRoute = StudioSplatRouteImport.update({
+  id: '/studio/$',
+  path: '/studio/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PreviewNewsletterRoute = PreviewNewsletterRouteImport.update({
@@ -103,15 +116,20 @@ const PreviewEtabliRoute = PreviewEtabliRouteImport.update({
   path: '/preview/etabli',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PreviewContactRoute = PreviewContactRouteImport.update({
-  id: '/preview/contact',
-  path: '/preview/contact',
+const PreviewCollectionRoute = PreviewCollectionRouteImport.update({
+  id: '/preview/collection',
+  path: '/preview/collection',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionSlugRoute = CollectionSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => CollectionRoute,
+} as any)
+const CarnetSlugRoute = CarnetSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CarnetRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -121,63 +139,70 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/carnet': typeof CarnetRoute
+  '/carnet': typeof CarnetRouteWithChildren
   '/cgv': typeof CgvRoute
   '/collection': typeof CollectionRouteWithChildren
   '/confidentialite': typeof ConfidentialiteRoute
-  '/contact': typeof ContactRoute
   '/creatrice': typeof CreatriceRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/sur-mesure': typeof SurMesureRoute
+  '/carnet/$slug': typeof CarnetSlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
-  '/preview/contact': typeof PreviewContactRoute
+  '/preview/collection': typeof PreviewCollectionRoute
   '/preview/etabli': typeof PreviewEtabliRoute
   '/preview/footer': typeof PreviewFooterRoute
   '/preview/hero': typeof PreviewHeroRoute
   '/preview/leadcapture': typeof PreviewLeadcaptureRoute
   '/preview/loaders': typeof PreviewLoadersRoute
   '/preview/newsletter': typeof PreviewNewsletterRoute
+  '/studio/$': typeof StudioSplatRoute
+  '/carnet/': typeof CarnetIndexRoute
+  '/collection/': typeof CollectionIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/carnet': typeof CarnetRoute
   '/cgv': typeof CgvRoute
-  '/collection': typeof CollectionRouteWithChildren
   '/confidentialite': typeof ConfidentialiteRoute
-  '/contact': typeof ContactRoute
   '/creatrice': typeof CreatriceRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/sur-mesure': typeof SurMesureRoute
+  '/carnet/$slug': typeof CarnetSlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
-  '/preview/contact': typeof PreviewContactRoute
+  '/preview/collection': typeof PreviewCollectionRoute
   '/preview/etabli': typeof PreviewEtabliRoute
   '/preview/footer': typeof PreviewFooterRoute
   '/preview/hero': typeof PreviewHeroRoute
   '/preview/leadcapture': typeof PreviewLeadcaptureRoute
   '/preview/loaders': typeof PreviewLoadersRoute
   '/preview/newsletter': typeof PreviewNewsletterRoute
+  '/studio/$': typeof StudioSplatRoute
+  '/carnet': typeof CarnetIndexRoute
+  '/collection': typeof CollectionIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/carnet': typeof CarnetRoute
+  '/carnet': typeof CarnetRouteWithChildren
   '/cgv': typeof CgvRoute
   '/collection': typeof CollectionRouteWithChildren
   '/confidentialite': typeof ConfidentialiteRoute
-  '/contact': typeof ContactRoute
   '/creatrice': typeof CreatriceRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/sur-mesure': typeof SurMesureRoute
+  '/carnet/$slug': typeof CarnetSlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
-  '/preview/contact': typeof PreviewContactRoute
+  '/preview/collection': typeof PreviewCollectionRoute
   '/preview/etabli': typeof PreviewEtabliRoute
   '/preview/footer': typeof PreviewFooterRoute
   '/preview/hero': typeof PreviewHeroRoute
   '/preview/leadcapture': typeof PreviewLeadcaptureRoute
   '/preview/loaders': typeof PreviewLoadersRoute
   '/preview/newsletter': typeof PreviewNewsletterRoute
+  '/studio/$': typeof StudioSplatRoute
+  '/carnet/': typeof CarnetIndexRoute
+  '/collection/': typeof CollectionIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
@@ -188,38 +213,42 @@ export interface FileRouteTypes {
     | '/cgv'
     | '/collection'
     | '/confidentialite'
-    | '/contact'
     | '/creatrice'
     | '/mentions-legales'
     | '/sur-mesure'
+    | '/carnet/$slug'
     | '/collection/$slug'
-    | '/preview/contact'
+    | '/preview/collection'
     | '/preview/etabli'
     | '/preview/footer'
     | '/preview/hero'
     | '/preview/leadcapture'
     | '/preview/loaders'
     | '/preview/newsletter'
+    | '/studio/$'
+    | '/carnet/'
+    | '/collection/'
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/carnet'
     | '/cgv'
-    | '/collection'
     | '/confidentialite'
-    | '/contact'
     | '/creatrice'
     | '/mentions-legales'
     | '/sur-mesure'
+    | '/carnet/$slug'
     | '/collection/$slug'
-    | '/preview/contact'
+    | '/preview/collection'
     | '/preview/etabli'
     | '/preview/footer'
     | '/preview/hero'
     | '/preview/leadcapture'
     | '/preview/loaders'
     | '/preview/newsletter'
+    | '/studio/$'
+    | '/carnet'
+    | '/collection'
     | '/api/auth/$'
   id:
     | '__root__'
@@ -228,38 +257,41 @@ export interface FileRouteTypes {
     | '/cgv'
     | '/collection'
     | '/confidentialite'
-    | '/contact'
     | '/creatrice'
     | '/mentions-legales'
     | '/sur-mesure'
+    | '/carnet/$slug'
     | '/collection/$slug'
-    | '/preview/contact'
+    | '/preview/collection'
     | '/preview/etabli'
     | '/preview/footer'
     | '/preview/hero'
     | '/preview/leadcapture'
     | '/preview/loaders'
     | '/preview/newsletter'
+    | '/studio/$'
+    | '/carnet/'
+    | '/collection/'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CarnetRoute: typeof CarnetRoute
+  CarnetRoute: typeof CarnetRouteWithChildren
   CgvRoute: typeof CgvRoute
   CollectionRoute: typeof CollectionRouteWithChildren
   ConfidentialiteRoute: typeof ConfidentialiteRoute
-  ContactRoute: typeof ContactRoute
   CreatriceRoute: typeof CreatriceRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   SurMesureRoute: typeof SurMesureRoute
-  PreviewContactRoute: typeof PreviewContactRoute
+  PreviewCollectionRoute: typeof PreviewCollectionRoute
   PreviewEtabliRoute: typeof PreviewEtabliRoute
   PreviewFooterRoute: typeof PreviewFooterRoute
   PreviewHeroRoute: typeof PreviewHeroRoute
   PreviewLeadcaptureRoute: typeof PreviewLeadcaptureRoute
   PreviewLoadersRoute: typeof PreviewLoadersRoute
   PreviewNewsletterRoute: typeof PreviewNewsletterRoute
+  StudioSplatRoute: typeof StudioSplatRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -284,13 +316,6 @@ declare module '@tanstack/react-router' {
       path: '/creatrice'
       fullPath: '/creatrice'
       preLoaderRoute: typeof CreatriceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/confidentialite': {
@@ -326,6 +351,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collection/': {
+      id: '/collection/'
+      path: '/'
+      fullPath: '/collection/'
+      preLoaderRoute: typeof CollectionIndexRouteImport
+      parentRoute: typeof CollectionRoute
+    }
+    '/carnet/': {
+      id: '/carnet/'
+      path: '/'
+      fullPath: '/carnet/'
+      preLoaderRoute: typeof CarnetIndexRouteImport
+      parentRoute: typeof CarnetRoute
+    }
+    '/studio/$': {
+      id: '/studio/$'
+      path: '/studio/$'
+      fullPath: '/studio/$'
+      preLoaderRoute: typeof StudioSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/preview/newsletter': {
@@ -370,11 +416,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PreviewEtabliRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/preview/contact': {
-      id: '/preview/contact'
-      path: '/preview/contact'
-      fullPath: '/preview/contact'
-      preLoaderRoute: typeof PreviewContactRouteImport
+    '/preview/collection': {
+      id: '/preview/collection'
+      path: '/preview/collection'
+      fullPath: '/preview/collection'
+      preLoaderRoute: typeof PreviewCollectionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/collection/$slug': {
@@ -383,6 +429,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/collection/$slug'
       preLoaderRoute: typeof CollectionSlugRouteImport
       parentRoute: typeof CollectionRoute
+    }
+    '/carnet/$slug': {
+      id: '/carnet/$slug'
+      path: '/$slug'
+      fullPath: '/carnet/$slug'
+      preLoaderRoute: typeof CarnetSlugRouteImport
+      parentRoute: typeof CarnetRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -394,12 +447,27 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface CarnetRouteChildren {
+  CarnetSlugRoute: typeof CarnetSlugRoute
+  CarnetIndexRoute: typeof CarnetIndexRoute
+}
+
+const CarnetRouteChildren: CarnetRouteChildren = {
+  CarnetSlugRoute: CarnetSlugRoute,
+  CarnetIndexRoute: CarnetIndexRoute,
+}
+
+const CarnetRouteWithChildren =
+  CarnetRoute._addFileChildren(CarnetRouteChildren)
+
 interface CollectionRouteChildren {
   CollectionSlugRoute: typeof CollectionSlugRoute
+  CollectionIndexRoute: typeof CollectionIndexRoute
 }
 
 const CollectionRouteChildren: CollectionRouteChildren = {
   CollectionSlugRoute: CollectionSlugRoute,
+  CollectionIndexRoute: CollectionIndexRoute,
 }
 
 const CollectionRouteWithChildren = CollectionRoute._addFileChildren(
@@ -408,21 +476,21 @@ const CollectionRouteWithChildren = CollectionRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CarnetRoute: CarnetRoute,
+  CarnetRoute: CarnetRouteWithChildren,
   CgvRoute: CgvRoute,
   CollectionRoute: CollectionRouteWithChildren,
   ConfidentialiteRoute: ConfidentialiteRoute,
-  ContactRoute: ContactRoute,
   CreatriceRoute: CreatriceRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   SurMesureRoute: SurMesureRoute,
-  PreviewContactRoute: PreviewContactRoute,
+  PreviewCollectionRoute: PreviewCollectionRoute,
   PreviewEtabliRoute: PreviewEtabliRoute,
   PreviewFooterRoute: PreviewFooterRoute,
   PreviewHeroRoute: PreviewHeroRoute,
   PreviewLeadcaptureRoute: PreviewLeadcaptureRoute,
   PreviewLoadersRoute: PreviewLoadersRoute,
   PreviewNewsletterRoute: PreviewNewsletterRoute,
+  StudioSplatRoute: StudioSplatRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

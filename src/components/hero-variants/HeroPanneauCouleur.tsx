@@ -19,7 +19,7 @@ export function HeroPanneauCouleur() {
               Joséphine
             </span>
             <span className="font-display italic text-[11px] tracking-[0.3em] uppercase drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
-              Lisboa
+              Bordeaux
             </span>
           </div>
         </div>
@@ -39,7 +39,7 @@ export function HeroPanneauCouleur() {
             une présence.
           </h1>
           <p className="font-display italic text-[17px] leading-relaxed text-cream/85 max-w-[360px] mb-10">
-            Cinq pièces façonnées à la main, en or 19 carats, dans notre atelier au Portugal.
+            Cinq pièces façonnées à la main, en or 18 carats, dans notre atelier à Bordeaux.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a

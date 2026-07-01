@@ -40,9 +40,9 @@ export const ETABLI_STEPS: EtabliStep[] = [
     annotation: "l'or entre à 1064°C, il sort pièce unique. Il n'y a pas d'autre façon",
     detail:
       "La cire disparaît, l'or prend sa place. Une seule pièce sortira du moule. Il n'y aura pas de seconde chance.",
-    image: '/images/real/mains-poche-thelma.webp',
+    image: '/images/real/bague-pierre-josephine.webp',
     imageAlt:
-      'Bague Thelma en or 18 carats présentée à la main — atelier Précieuse, Bordeaux',
+      'Bague en or 18 carats à entourage de diamants, macro studio posée sur pierre — atelier Précieuse, Bordeaux',
   },
   {
     roman: 'IV',

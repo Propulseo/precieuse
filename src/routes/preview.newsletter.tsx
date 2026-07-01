@@ -7,6 +7,7 @@ import { NewsletterB } from '../components/newsletter-variants/NewsletterB'
 import { NewsletterC } from '../components/newsletter-variants/NewsletterC'
 import { NewsletterD } from '../components/newsletter-variants/NewsletterD'
 import { NewsletterE } from '../components/newsletter-variants/NewsletterE'
+import { homePageFallback } from '../lib/content/home'
 
 const VARIANTS = [
   { id: 'A', label: 'Modal centré', Component: NewsletterA },
@@ -22,7 +23,6 @@ export const Route = createFileRoute('/preview/newsletter')({ component: Newslet
 
 function NewsletterPreview() {
   const [active, setActive] = useState<VariantId>('A')
-  const ActiveComponent = VARIANTS.find((v) => v.id === active)?.Component ?? NewsletterA
   const trigger = useNewsletterTrigger()
 
   return (
@@ -96,11 +96,18 @@ function NewsletterPreview() {
         ))}
       </main>
 
-      <ActiveComponent
-        isOpen={trigger.isOpen}
-        onClose={trigger.close}
-        onSubmit={trigger.submit}
-      />
+      {active === 'A' && <NewsletterA isOpen={trigger.isOpen} onClose={trigger.close} onSubmit={trigger.submit} />}
+      {active === 'B' && (
+        <NewsletterB
+          isOpen={trigger.isOpen}
+          onClose={trigger.close}
+          onSubmit={trigger.submit}
+          content={homePageFallback().sections.newsletter}
+        />
+      )}
+      {active === 'C' && <NewsletterC isOpen={trigger.isOpen} onClose={trigger.close} onSubmit={trigger.submit} />}
+      {active === 'D' && <NewsletterD isOpen={trigger.isOpen} onClose={trigger.close} onSubmit={trigger.submit} />}
+      {active === 'E' && <NewsletterE isOpen={trigger.isOpen} onClose={trigger.close} onSubmit={trigger.submit} />}
     </div>
   )
 }

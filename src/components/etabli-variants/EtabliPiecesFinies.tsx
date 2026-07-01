@@ -44,7 +44,7 @@ const STEPS: Step[] = [
     title: 'La Pièce',
     annotation: 'elle vous attend',
     detail:
-      'L\'or 19 carats prend sa forme finale. Ce qui sort de l\'atelier est unique, ne ressemble à rien d\'autre, et vient à vous.',
+      'L\'or 18 carats prend sa forme finale. Ce qui sort de l\'atelier est unique, ne ressemble à rien d\'autre, et vient à vous.',
     image: '/images/bijoux-officiels/aurore.jpg',
   },
 ]

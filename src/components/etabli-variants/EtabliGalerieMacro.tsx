@@ -58,7 +58,7 @@ export function EtabliGalerieMacro() {
           Cinq pièces, à la main.
         </h2>
         <p className="font-display italic text-[17px] text-ink/65 mt-6 max-w-[520px] mx-auto">
-          Chaque bague façonnée à l'unité, au Portugal, en or 19 carats.
+          Chaque bague façonnée à l'unité, à Bordeaux, en or 18 carats.
         </p>
       </header>
 

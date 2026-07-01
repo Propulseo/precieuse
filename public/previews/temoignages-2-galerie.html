@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Témoignages — Galerie portée (en contexte)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard)}
+  .ctx{padding:92px 8vw;text-align:center}
+  .ctx h2{font-family:var(--display);font-weight:500;font-size:clamp(26px,3.4vw,42px);letter-spacing:-.01em;margin-bottom:14px}
+  .ctx p{font-style:italic;font-size:18px;color:rgba(18,94,94,.7);max-width:54ch;margin:0 auto 26px}
+  .btn{display:inline-block;background:var(--canard);color:var(--poudre);font-family:var(--display);font-size:12px;letter-spacing:.28em;text-transform:uppercase;padding:15px 34px;border-radius:999px;text-decoration:none;transition:background .3s}
+  .btn:hover{background:var(--canard-90)}
+  .mock{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .mock span{border:1px solid rgba(18,94,94,.25);border-radius:999px;padding:13px 22px;font-size:14px;color:rgba(18,94,94,.6)}
+  .badge{position:fixed;top:16px;right:16px;z-index:20;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  .mark{font-family:var(--display);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:rgba(18,94,94,.4);text-align:center;padding:18px}
+
+  /* ─── SECTION Témoignages ─── */
+  .tsection{background:var(--poudre);padding:96px 6vw}
+  .head{max-width:1180px;margin:0 auto 30px;text-align:center}
+  .eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--rubis);display:block;margin-bottom:10px}
+  .head h2{font-family:var(--display);font-weight:500;font-size:clamp(26px,3.4vw,42px);letter-spacing:-.01em}
+  .inner{max-width:1180px;margin:0 auto;position:relative}
+  .imgwrap{position:relative;height:min(48vh,440px);border-radius:30px;overflow:hidden;box-shadow:0 40px 80px -46px rgba(13,71,71,.55)}
+  .frame{position:absolute;inset:-7%;will-change:transform}
+  .shot{position:absolute;inset:0;background:var(--canard-90) center/cover no-repeat;opacity:0;transform:scale(1.05);transition:opacity 1s ease,transform 7s ease}
+  .shot.on{opacity:1;transform:scale(1.12)}
+  .tint{position:absolute;inset:0;background:linear-gradient(100deg,rgba(13,71,71,.6) 0%,rgba(13,71,71,.1) 46%,rgba(13,71,71,0) 64%)}
+  .card{position:absolute;left:34px;bottom:34px;width:min(500px,82%);background:rgba(234,220,211,.88);backdrop-filter:blur(14px) saturate(1.1);border:1px solid rgba(255,255,255,.5);border-radius:24px;padding:34px 38px 28px;box-shadow:0 30px 60px -34px rgba(13,71,71,.6);transform:translateY(26px);opacity:0;transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .9s ease}
+  .tsection.live .card{transform:none;opacity:1}
+  .q{font-family:var(--display);font-weight:500;font-size:clamp(19px,1.9vw,26px);line-height:1.42;color:var(--canard);transition:opacity .45s ease}
+  .drop{float:left;font-family:var(--display);font-size:64px;line-height:.7;color:var(--rubis);margin:4px 12px -6px 0}
+  .meta{margin-top:20px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+  .who{font-family:var(--display);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--canard);transition:opacity .45s ease}
+  .who .piece{display:block;margin-top:5px;font-family:var(--body);font-style:italic;font-size:14px;letter-spacing:0;text-transform:none;color:rgba(18,94,94,.6)}
+  .out .q,.out .who{opacity:0}
+  .nav{display:flex;gap:9px}
+  .nav button{width:40px;height:40px;border-radius:999px;border:1px solid rgba(18,94,94,.3);background:transparent;color:var(--canard);cursor:pointer;font-size:18px;transition:all .3s}
+  .nav button:hover{background:var(--canard);color:var(--poudre)}
+  .dots{position:absolute;right:30px;top:30px;display:flex;flex-direction:column;gap:9px}
+  .dots b{width:7px;height:7px;border-radius:99px;background:rgba(234,220,211,.6);cursor:pointer;transition:all .3s;display:block}
+  .dots b.on{background:var(--rubis);height:24px}
+  @media (prefers-reduced-motion:reduce){.shot{transition:opacity .3s}.card{transition:opacity .4s}}
+  @media (max-width:640px){.dots{display:none}.card{left:18px;right:18px;width:auto;bottom:18px}}
+</style>
+</head>
+<body>
+  <div class="badge">Aperçu en contexte · section Témoignages</div>
+
+  <section class="ctx">
+    <h2>Chaque histoire mérite sa pièce</h2>
+    <p>Un bijou pensé avec vous, façonné à la main dans notre atelier bordelais.</p>
+    <a class="btn" href="#">Demander le sur-mesure</a>
+  </section>
+  <p class="mark">▼ section dans la page</p>
+
+  <section class="tsection" id="ts">
+    <div class="head"><span class="eyebrow">Elles en parlent</span><h2>Ce qu'elles en disent</h2></div>
+    <div class="inner">
+      <div class="imgwrap" id="imgwrap">
+        <div class="frame" id="frame"></div>
+        <div class="tint"></div>
+        <div class="dots" id="dots"></div>
+        <div class="card" id="card">
+          <p class="q" id="q"></p>
+          <div class="meta">
+            <span class="who" id="who"></span>
+            <span class="nav"><button id="prev" aria-label="Précédent">‹</button><button id="next" aria-label="Suivant">›</button></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ctx">
+    <h2>Parlons de votre projet</h2>
+    <p>Laissez-nous vos coordonnées, Emeline vous répond personnellement, 7j/7.</p>
+    <div class="mock"><span>Prénom</span><span>E-mail</span><span>Envoyer →</span></div>
+  </section>
+
+<script>
+  const data=[
+    {q:"Emeline est une artiste. Les bijoux qu'elle a créés pour moi sont au-delà de ce que j'avais imaginé.",a:"Martine B.",v:"Bordeaux",p:"Modèle Aurore",img:"/images/real/bague-main-chaise-aurore.webp"},
+    {q:"Très contente de votre création. Professionnelle, agréable. Je recommande sans hésiter.",a:"Sandrine L.",v:"Lyon",p:"Modèle Thelma",img:"/images/real/bague-main-chaise-thelma.webp"},
+    {q:"On sent dans chaque pièce le temps passé, la précision, l'amour du métier.",a:"Camille R.",v:"Paris",p:"Modèle Joséphine",img:"/images/real/main-chaise-josephine.webp"},
+  ];
+  const frame=document.getElementById('frame'),card=document.getElementById('card'),q=document.getElementById('q'),who=document.getElementById('who'),dots=document.getElementById('dots'),ts=document.getElementById('ts'),imgwrap=document.getElementById('imgwrap');
+  let i=0,timer,paused=false,started=false;
+  const shots=data.map(d=>{const s=document.createElement('div');s.className='shot';s.style.backgroundImage=`url('${d.img}')`;frame.appendChild(s);return s;});
+  data.forEach((_,k)=>{const b=document.createElement('b');b.onclick=()=>go(k);dots.appendChild(b);});
+  const dotEls=[...dots.children];
+  function render(){
+    const d=data[i];
+    card.classList.add('out');
+    setTimeout(()=>{q.innerHTML=`<span class="drop">«</span>${d.q}`;who.innerHTML=`${d.a} · ${d.v}<span class="piece">${d.p}</span>`;card.classList.remove('out');},280);
+    shots.forEach((s,k)=>s.classList.toggle('on',k===i));
+    dotEls.forEach((b,k)=>b.classList.toggle('on',k===i));
+  }
+  function go(n){i=(n+data.length)%data.length;render();schedule();}
+  function schedule(){clearTimeout(timer);if(!paused)timer=setTimeout(()=>go(i+1),7000);}
+  document.getElementById('next').onclick=()=>go(i+1);
+  document.getElementById('prev').onclick=()=>go(i-1);
+  imgwrap.addEventListener('mousemove',e=>{const r=imgwrap.getBoundingClientRect();const x=((e.clientX-r.left)/r.width-.5),y=((e.clientY-r.top)/r.height-.5);frame.style.transform=`translate(${x*-20}px,${y*-20}px)`;});
+  imgwrap.addEventListener('mouseleave',()=>frame.style.transform='');
+  card.addEventListener('mouseenter',()=>{paused=true;clearTimeout(timer);});
+  card.addEventListener('mouseleave',()=>{paused=false;schedule();});
+  new IntersectionObserver((e)=>{e.forEach(en=>{if(en.isIntersecting&&!started){started=true;ts.classList.add('live');render();schedule();}});},{threshold:.3}).observe(ts);
+</script>
+</body>
+</html>

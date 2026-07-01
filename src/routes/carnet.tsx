@@ -1,20 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { CarnetHero } from '../components/carnet/CarnetHero'
-import { CarnetGrid } from '../components/carnet/CarnetGrid'
-import { getArticles } from '../lib/cms'
-import { getLocale } from '#/paraglide/runtime'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
 
+/**
+ * Layout de la section Carnet. Sert de parent à `/carnet` (index, la liste) et
+ * `/carnet/$slug` (article) : il doit rendre l'`<Outlet/>` pour que la route
+ * enfant s'affiche, sinon on verrait toujours la liste.
+ */
 export const Route = createFileRoute('/carnet')({
-  component: CarnetPage,
-  loader: () => getArticles(getLocale()),
+  component: CarnetLayout,
 })
 
-function CarnetPage() {
-  const articles = Route.useLoaderData()
-  return (
-    <>
-      <CarnetHero articles={articles} />
-      <CarnetGrid articles={articles} />
-    </>
-  )
+function CarnetLayout() {
+  return <Outlet />
 }

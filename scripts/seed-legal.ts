@@ -20,7 +20,7 @@ try {
 }
 
 const CONTACT_EMAIL = 'contact@precieuse-joaillerie.com'
-const WHATSAPP_URL = 'https://wa.me/351939198334'
+const WHATSAPP_URL = 'https://wa.me/33600000000' // TODO: vrai numéro FR (+33)
 
 const projectId = process.env.VITE_SANITY_PROJECT_ID
 const token = process.env.SANITY_WRITE_TOKEN

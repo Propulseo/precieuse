@@ -1,61 +1,205 @@
 import { defineField, defineType } from 'sanity'
 import { localizedImage } from '../../lib/i18n'
 
+/** Bloc image (hotspot + alt localisé) réutilisable dans les tableaux. */
+const arrayImage = (name: string, title: string) => ({
+  name,
+  title,
+  type: 'image' as const,
+  options: { hotspot: true },
+  fields: [{ name: 'alt', title: 'Texte alternatif', type: 'localizedString' }],
+})
+
 /**
- * Page Sur-Mesure — regroupe la « Métamorphose » (étapes illustrées) et les
- * « Promesses », correspondant à METAMORPHOSE et PROMESSES de
- * src/lib/content/sur-mesure.ts. Singleton.
+ * Page Sur-Mesure — singleton pilotant TOUTE la page /sur-mesure (héro, bandeau,
+ * atelier, procédé, croquis, réalisations, témoignages). Correspond au contrat
+ * `BespokePageData` (src/lib/content/bespoke.ts) lu par `getBespokePage`. Tant
+ * que les champs sont vides, le site sert le repli i18n/photos par défaut.
  */
 export const surMesurePage = defineType({
   name: 'surMesurePage',
   title: 'Page Sur-Mesure',
   type: 'document',
+  groups: [
+    { name: 'hero', title: 'Héro' },
+    { name: 'atelier', title: "L'atelier" },
+    { name: 'process', title: 'Le procédé' },
+    { name: 'split', title: 'Du croquis' },
+    { name: 'real', title: 'Réalisations' },
+    { name: 'voices', title: 'Témoignages' },
+    { name: 'seo', title: 'SEO' },
+  ],
   fields: [
+    // ---------------------------------------------------------------- Héro
+    defineField({ name: 'heroKicker', title: 'Sur-titre', type: 'localizedString', group: 'hero' }),
+    defineField({ name: 'heroTitle', title: 'Titre', type: 'localizedString', group: 'hero' }),
+    defineField({ name: 'heroTitleAccent', title: 'Titre — mot accentué', type: 'localizedString', group: 'hero' }),
+    defineField({ name: 'heroSub', title: 'Sous-titre', type: 'localizedText', group: 'hero' }),
+    defineField({ name: 'heroCta', title: 'Bouton', type: 'localizedString', group: 'hero' }),
+    localizedImage({ name: 'heroImage', title: 'Photo (moitié droite)', group: 'hero' }),
     defineField({
-      name: 'metamorphose',
-      title: 'Métamorphose (étapes illustrées)',
-      type: 'array',
-      of: [
-        defineField({
-          name: 'etape',
-          title: 'Étape',
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'roman',
-              title: 'Numéro romain (ex. I)',
-              type: 'string',
-            }),
-            defineField({ name: 'title', title: 'Titre', type: 'localizedString' }),
-            defineField({
-              name: 'annotation',
-              title: 'Annotation (manuscrite)',
-              type: 'localizedString',
-            }),
-            defineField({ name: 'detail', title: 'Détail', type: 'localizedText' }),
-            localizedImage(),
-          ],
-          preview: { select: { title: 'title.fr', subtitle: 'roman', media: 'image' } },
-        }),
-      ],
+      name: 'heroVideo',
+      title: 'Vidéo (moitié gauche)',
+      type: 'file',
+      description: 'Vidéo courte en fond, format MP4. Facultatif : sans vidéo, le poster ci-dessous est affiché.',
+      options: { accept: 'video/mp4' },
+      group: 'hero',
     }),
     defineField({
-      name: 'promesses',
-      title: 'Promesses',
+      name: 'heroPoster',
+      title: 'Poster vidéo (image de remplacement)',
+      type: 'image',
+      description: 'Image affichée avant le chargement de la vidéo, ou à la place si pas de vidéo.',
+      options: { hotspot: true },
+      group: 'hero',
+    }),
+    defineField({
+      name: 'marquee',
+      title: 'Bandeau défilant (items)',
       type: 'array',
+      description: 'Courtes mentions qui défilent en boucle sous le héro, ex. « Fait main » , « Sur rendez-vous ».',
+      of: [{ type: 'localizedString' }],
+      group: 'hero',
+    }),
+
+    // ------------------------------------------------------------- Atelier
+    defineField({ name: 'atelierTitleLead', title: 'Titre — début', type: 'localizedString', group: 'atelier' }),
+    defineField({ name: 'atelierTitleAccent', title: 'Titre — mot accentué', type: 'localizedString', group: 'atelier' }),
+    defineField({ name: 'atelierTitleTail', title: 'Titre — fin', type: 'localizedString', group: 'atelier' }),
+    defineField({ name: 'atelierBody', title: 'Paragraphe', type: 'localizedText', group: 'atelier' }),
+    defineField({ name: 'atelierLink', title: 'Libellé du lien', type: 'localizedString', group: 'atelier' }),
+    defineField({
+      name: 'atelierBadge',
+      title: 'Texte du médaillon tournant',
+      type: 'localizedString',
+      description: 'Court texte affiché dans le petit médaillon qui tourne, ex. « Fait main à Bordeaux ».',
+      group: 'atelier',
+    }),
+    defineField({
+      name: 'atelierImages',
+      title: 'Photos (galerie, 3)',
+      type: 'array',
+      description: 'Prévoir exactement 3 photos de l\'atelier pour un affichage équilibré.',
+      of: [arrayImage('img', 'Photo')],
+      group: 'atelier',
+    }),
+
+    // ------------------------------------------------------------- Procédé
+    defineField({
+      name: 'steps',
+      title: 'Étapes (4)',
+      type: 'array',
+      group: 'process',
       of: [
-        defineField({
-          name: 'promesse',
-          title: 'Promesse',
+        {
           type: 'object',
+          name: 'step',
           fields: [
-            defineField({ name: 'titre', title: 'Titre', type: 'localizedString' }),
-            defineField({ name: 'detail', title: 'Détail', type: 'localizedString' }),
-            localizedImage(),
+            { name: 'title', title: 'Titre', type: 'localizedString' },
+            { name: 'body', title: 'Texte', type: 'localizedText' },
           ],
-          preview: { select: { title: 'titre.fr', subtitle: 'detail.fr', media: 'image' } },
-        }),
+          preview: { select: { title: 'title.fr' } },
+        },
       ],
+    }),
+    defineField({ name: 'manifesteLead', title: 'Manifeste — phrase', type: 'localizedText', group: 'process' }),
+    defineField({
+      name: 'manifesteAccent',
+      title: 'Manifeste — mot accentué',
+      type: 'localizedString',
+      description: 'Le mot ou groupe de mots mis en valeur dans la phrase du manifeste.',
+      group: 'process',
+    }),
+
+    // -------------------------------------------------------------- Croquis
+    defineField({ name: 'splitEyebrow', title: 'Sur-titre', type: 'localizedString', group: 'split' }),
+    defineField({ name: 'splitTitleLead', title: 'Titre — début', type: 'localizedString', group: 'split' }),
+    defineField({ name: 'splitTitleAccent', title: 'Titre — mot accentué', type: 'localizedString', group: 'split' }),
+    defineField({ name: 'splitTitleTail', title: 'Titre — fin', type: 'localizedString', group: 'split' }),
+    defineField({ name: 'splitBody', title: 'Paragraphe', type: 'localizedText', group: 'split' }),
+    defineField({ name: 'splitLink', title: 'Libellé du lien', type: 'localizedString', group: 'split' }),
+    localizedImage({ name: 'splitImage', title: 'Photo (esquisses)', group: 'split' }),
+
+    // --------------------------------------------------------- Réalisations
+    defineField({ name: 'realEyebrow', title: 'Sur-titre', type: 'localizedString', group: 'real' }),
+    defineField({ name: 'realTitle', title: 'Titre', type: 'localizedString', group: 'real' }),
+    defineField({ name: 'realIntro', title: 'Introduction', type: 'localizedText', group: 'real' }),
+    defineField({
+      name: 'realTagAtelier',
+      title: "Étiquette « à l'atelier »",
+      type: 'localizedString',
+      description: 'Petit texte affiché sur la photo « à l\'atelier », ex. « En fabrication ».',
+      group: 'real',
+    }),
+    defineField({
+      name: 'realTagPortee',
+      title: 'Étiquette « portée »',
+      type: 'localizedString',
+      description: 'Petit texte affiché sur la photo « portée », ex. « Chez sa propriétaire ».',
+      group: 'real',
+    }),
+    defineField({
+      name: 'pieces',
+      title: 'Pièces (duos atelier / portée)',
+      type: 'array',
+      description: 'Pour chaque pièce, ajoutez une photo prise à l\'atelier et une photo une fois portée.',
+      group: 'real',
+      of: [
+        {
+          type: 'object',
+          name: 'piece',
+          fields: [
+            { name: 'name', title: 'Nom', type: 'string' },
+            { name: 'material', title: 'Matière', type: 'localizedString' },
+            arrayImage('atelier', "Photo à l'atelier"),
+            arrayImage('portee', 'Photo portée'),
+          ],
+          preview: { select: { title: 'name', media: 'atelier' } },
+        },
+      ],
+    }),
+
+    // ----------------------------------------------------------- Témoignages
+    defineField({ name: 'voicesTitle', title: 'Titre de section', type: 'localizedString', group: 'voices' }),
+    defineField({
+      name: 'voices',
+      title: 'Voix (témoignages sur-mesure)',
+      type: 'array',
+      group: 'voices',
+      of: [
+        {
+          type: 'object',
+          name: 'voice',
+          fields: [
+            {
+              name: 'initial',
+              title: 'Initiale (pastille)',
+              type: 'string',
+              description: 'Lettre affichée dans le petit rond à côté du témoignage, ex. « M ».',
+            },
+            { name: 'quote', title: 'Citation', type: 'localizedText' },
+            { name: 'name', title: 'Prénom', type: 'string' },
+            { name: 'city', title: 'Ville', type: 'string' },
+          ],
+          preview: { select: { title: 'name', subtitle: 'city' } },
+        },
+      ],
+    }),
+
+    // ------------------------------------------------------------------- SEO
+    defineField({
+      name: 'seoTitle',
+      title: 'SEO — titre (onglet & Google)',
+      type: 'localizedString',
+      description: 'Texte affiché dans l\'onglet du navigateur et dans Google. ~60 caractères.',
+      group: 'seo',
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO — description',
+      type: 'localizedText',
+      description: 'Texte affiché sous le titre dans les résultats Google. ~150 caractères.',
+      group: 'seo',
     }),
   ],
   preview: {

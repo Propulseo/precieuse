@@ -5,6 +5,7 @@ import { HeroSplitSezane } from '../components/hero-variants/HeroSplitSezane'
 import { HeroSplitProduit } from '../components/hero-variants/HeroSplitProduit'
 import { HeroTriptyqueGemmyo } from '../components/hero-variants/HeroTriptyqueGemmyo'
 import { HeroPanneauCouleur } from '../components/hero-variants/HeroPanneauCouleur'
+import { homePageFallback } from '../lib/content/home'
 
 const VARIANTS = [
   { id: 'A', label: 'Split 50/50 (Sézane, avec portrait)', Component: HeroSplitSezane },
@@ -19,7 +20,6 @@ export const Route = createFileRoute('/preview/hero')({ component: HeroPreview, 
 
 function HeroPreview() {
   const [active, setActive] = useState<VariantId>('A')
-  const ActiveComponent = VARIANTS.find((v) => v.id === active)?.Component ?? HeroSplitSezane
 
   return (
     <div className="min-h-screen bg-cream">
@@ -46,7 +46,11 @@ function HeroPreview() {
         </div>
       </header>
 
-      <ActiveComponent />
+      {/* Preview dev : la variante A (réelle) reçoit le repli statique du héro. */}
+      {active === 'A' && <HeroSplitSezane hero={homePageFallback().hero} />}
+      {active === 'B' && <HeroSplitProduit />}
+      {active === 'C' && <HeroTriptyqueGemmyo />}
+      {active === 'D' && <HeroPanneauCouleur />}
     </div>
   )
 }

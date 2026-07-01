@@ -27,13 +27,13 @@ export function HeroSplitProduit() {
 
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-cream px-6">
         <span className="font-script text-[clamp(20px,2.5vw,28px)] text-cream/95 block mb-4">
-          Lisboa, MMXXVI
+          Bordeaux, MMXXVI
         </span>
         <h1 className="font-headline text-[clamp(52px,8vw,108px)] leading-[0.92] mb-3">
           Précieuse.
         </h1>
         <p className="font-display italic text-[clamp(15px,1.6vw,18px)] text-cream/90 max-w-[440px] mb-10 leading-relaxed">
-          Bagues façonnées à la main, en or 19 carats et pierres choisies.
+          Bagues façonnées à la main, en or 18 carats et pierres choisies.
         </p>
         <a
           href="/collection"

@@ -28,7 +28,7 @@ export function HeroTriptyqueGemmyo() {
             </h1>
             <div className="mt-7 mx-auto w-16 h-px bg-gold" />
             <p className="font-display italic text-[15px] text-ink/65 mt-7 max-w-[280px] mx-auto leading-relaxed">
-              Sur-mesure et collection, à la main, au Portugal.
+              Sur-mesure et collection, à la main, à Bordeaux.
             </p>
           </div>
         </div>

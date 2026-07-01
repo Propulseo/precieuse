@@ -9,25 +9,76 @@ import type { ReactNode } from 'react'
 import {
   BRAND_STORAGE_KEY,
   CAROUSEL_MODE_STORAGE_KEY,
+  COLLECTION_LAYOUT_STORAGE_KEY,
+  COLOR_SLOTS,
+  COLOR_SLOTS_ORDER,
   DEFAULT_BRAND,
   DEFAULT_CAROUSEL_MODE,
+  DEFAULT_COLLECTION_LAYOUT,
   DEFAULT_FILIGRANE_VARIANT,
+  DEFAULT_HERO_EYEBROW,
   DEFAULT_HERO_MARK,
   DEFAULT_SEAL_VARIANT,
   FILIGRANE_VARIANT_STORAGE_KEY,
+  HERO_EYEBROW_STORAGE_KEY,
   HERO_MARK_STORAGE_KEY,
   SEAL_VARIANT_STORAGE_KEY,
   isBrand,
   isCarouselMode,
+  isCollectionLayout,
   isFiligraneVariant,
+  isHeroEyebrow,
   isHeroMark,
+  isHex,
   isSealVariant,
   type Brand,
   type CarouselMode,
+  type CollectionLayout,
+  type ColorSlot,
   type FiligraneVariant,
+  type HeroEyebrow,
   type HeroMark,
   type SealVariant,
 } from './brand'
+
+type Colors = Record<ColorSlot, string>
+
+const DEFAULT_COLORS: Colors = {
+  primary: COLOR_SLOTS.primary.fallback,
+  secondary: COLOR_SLOTS.secondary.fallback,
+  tertiary: COLOR_SLOTS.tertiary.fallback,
+}
+
+/** Lit l'hex d'un niveau : localStorage → défaut de la charte. */
+function readColor(slot: ColorSlot): string {
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = window.localStorage.getItem(COLOR_SLOTS[slot].storageKey)
+      if (isHex(stored)) return stored
+    } catch {
+      /* localStorage indisponible — défaut */
+    }
+  }
+  return COLOR_SLOTS[slot].fallback
+}
+
+/** Applique l'hex sur la variable CSS de <html> (effet immédiat). */
+function applyColor(slot: ColorSlot, hex: string): void {
+  if (typeof document !== 'undefined') {
+    document.documentElement.style.setProperty(COLOR_SLOTS[slot].cssVar, hex)
+  }
+}
+
+/** Persiste l'hex du niveau. */
+function persistColor(slot: ColorSlot, hex: string): void {
+  if (typeof window !== 'undefined') {
+    try {
+      window.localStorage.setItem(COLOR_SLOTS[slot].storageKey, hex)
+    } catch {
+      /* ignore */
+    }
+  }
+}
 
 type BrandContextValue = {
   brand: Brand
@@ -40,6 +91,13 @@ type BrandContextValue = {
   setFiligraneVariant: (variant: FiligraneVariant) => void
   carouselMode: CarouselMode
   setCarouselMode: (mode: CarouselMode) => void
+  collectionLayout: CollectionLayout
+  setCollectionLayout: (layout: CollectionLayout) => void
+  heroEyebrow: HeroEyebrow
+  setHeroEyebrow: (style: HeroEyebrow) => void
+  colors: Colors
+  setColor: (slot: ColorSlot, hex: string) => void
+  resetColors: () => void
 }
 
 const BrandContext = createContext<BrandContextValue | null>(null)
@@ -87,6 +145,18 @@ const CAROUSEL_SPEC: ToggleSpec<CarouselMode> = {
   isValid: isCarouselMode,
   fallback: DEFAULT_CAROUSEL_MODE,
 }
+const COLLECTION_SPEC: ToggleSpec<CollectionLayout> = {
+  attr: 'collection',
+  storageKey: COLLECTION_LAYOUT_STORAGE_KEY,
+  isValid: isCollectionLayout,
+  fallback: DEFAULT_COLLECTION_LAYOUT,
+}
+const HERO_EYEBROW_SPEC: ToggleSpec<HeroEyebrow> = {
+  attr: 'heroEyebrow',
+  storageKey: HERO_EYEBROW_STORAGE_KEY,
+  isValid: isHeroEyebrow,
+  fallback: DEFAULT_HERO_EYEBROW,
+}
 
 /** Lit le réglage : attribut posé avant le paint (no-flash) → localStorage → défaut. */
 function readStored<T extends string>(spec: ToggleSpec<T>): T {
@@ -128,6 +198,11 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     useState<FiligraneVariant>(DEFAULT_FILIGRANE_VARIANT)
   const [carouselMode, setCarouselModeState] =
     useState<CarouselMode>(DEFAULT_CAROUSEL_MODE)
+  const [collectionLayout, setCollectionLayoutState] =
+    useState<CollectionLayout>(DEFAULT_COLLECTION_LAYOUT)
+  const [heroEyebrow, setHeroEyebrowState] =
+    useState<HeroEyebrow>(DEFAULT_HERO_EYEBROW)
+  const [colors, setColorsState] = useState<Colors>(DEFAULT_COLORS)
 
   // Sync initial après hydratation (le SSR ne connaît pas le choix visiteur).
   useEffect(() => {
@@ -136,6 +211,16 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     setSealVariantState(readStored(SEAL_SPEC))
     setFiligraneVariantState(readStored(FILIGRANE_SPEC))
     setCarouselModeState(readStored(CAROUSEL_SPEC))
+    setCollectionLayoutState(readStored(COLLECTION_SPEC))
+    setHeroEyebrowState(readStored(HERO_EYEBROW_SPEC))
+    const nextColors: Colors = {
+      primary: readColor('primary'),
+      secondary: readColor('secondary'),
+      tertiary: readColor('tertiary'),
+    }
+    setColorsState(nextColors)
+    // Garantit la cohérence même si le no-flash n'a pas tourné.
+    COLOR_SLOTS_ORDER.forEach((slot) => applyColor(slot, nextColors[slot]))
   }, [])
 
   const setBrand = useCallback((next: Brand) => {
@@ -163,6 +248,30 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     persist(CAROUSEL_SPEC, next)
   }, [])
 
+  const setCollectionLayout = useCallback((next: CollectionLayout) => {
+    setCollectionLayoutState(next)
+    persist(COLLECTION_SPEC, next)
+  }, [])
+
+  const setHeroEyebrow = useCallback((next: HeroEyebrow) => {
+    setHeroEyebrowState(next)
+    persist(HERO_EYEBROW_SPEC, next)
+  }, [])
+
+  const setColor = useCallback((slot: ColorSlot, hex: string) => {
+    setColorsState((c) => ({ ...c, [slot]: hex }))
+    applyColor(slot, hex)
+    persistColor(slot, hex)
+  }, [])
+
+  const resetColors = useCallback(() => {
+    setColorsState(DEFAULT_COLORS)
+    COLOR_SLOTS_ORDER.forEach((slot) => {
+      applyColor(slot, DEFAULT_COLORS[slot])
+      persistColor(slot, DEFAULT_COLORS[slot])
+    })
+  }, [])
+
   return (
     <BrandContext.Provider
       value={{
@@ -176,6 +285,13 @@ export function BrandProvider({ children }: { children: ReactNode }) {
         setFiligraneVariant,
         carouselMode,
         setCarouselMode,
+        collectionLayout,
+        setCollectionLayout,
+        heroEyebrow,
+        setHeroEyebrow,
+        colors,
+        setColor,
+        resetColors,
       }}
     >
       {children}

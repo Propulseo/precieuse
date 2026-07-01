@@ -9,7 +9,7 @@ export function HeroV7Animated({ anim }: Props) {
       <div className="relative z-10 flex-1 flex items-end justify-center px-4 lg:px-12 pb-[12vh]">
         <div className="relative w-full motion-safe:animate-[glassRise_1.6s_cubic-bezier(0.2,0.8,0.2,1)_120ms_both] flex flex-col items-center gap-10">
           <h1
-            aria-label="Précieuse, joaillerie artisanale, Lisboa"
+            aria-label="Précieuse, joaillerie artisanale, Bordeaux"
             className="font-display italic select-none text-center w-full"
             style={{
               fontSize: 'clamp(40px, 7vw, 110px)',
@@ -26,7 +26,7 @@ export function HeroV7Animated({ anim }: Props) {
           <div className="flex items-center gap-6 motion-safe:animate-[fadeUp_1.4s_ease-out_700ms_both]">
             <span className="block h-px w-12 bg-gold-pale/60" aria-hidden="true" />
             <span className="font-technical text-gold-pale/90">
-              Lisboa · MMXXVI · I
+              Bordeaux · MMXXVI · I
             </span>
             <span className="block h-px w-12 bg-gold-pale/60" aria-hidden="true" />
           </div>

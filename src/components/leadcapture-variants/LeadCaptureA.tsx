@@ -4,7 +4,17 @@ import { m } from '#/paraglide/messages'
 import { getLocale } from '#/paraglide/runtime'
 import { sendLead } from '../../lib/leads'
 
-export function LeadCaptureA() {
+export function LeadCaptureA({
+  header,
+}: {
+  header: {
+    title: string
+    subtitle: string
+    consentPrefix: string
+    consentLink: string
+    consentSuffix: string
+  }
+}) {
   const [civility, setCivility] = useState<'M' | 'Mme' | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
@@ -38,14 +48,14 @@ export function LeadCaptureA() {
 
   if (sent) {
     return (
-      <section className="relative bg-poudre border-t border-b border-canard/15 py-16 px-4 lg:px-8 text-center">
+      <section className="relative bg-poudre py-8 px-4 lg:px-8 text-center">
         <p className="font-headline text-[24px] text-canard">{m.form_success()}</p>
       </section>
     )
   }
 
   return (
-    <section className="relative bg-poudre border-t border-b border-canard/15 py-12 lg:py-14 px-4 lg:px-8">
+    <section className="relative bg-poudre py-6 lg:py-7 px-4 lg:px-8">
       <form
         className="mx-auto max-w-[860px] text-center flex flex-col items-center"
         onSubmit={handleSubmit}
@@ -57,11 +67,11 @@ export function LeadCaptureA() {
         />
 
         <h2 className="font-headline text-[22px] sm:text-[26px] text-canard mt-4 mb-3">
-          {m.leadcapture_title()}
+          {header.title}
         </h2>
 
-        <p className="font-display text-[14px] text-canard/70 leading-relaxed max-w-[440px] mb-6">
-          {m.leadcapture_subtitle()}
+        <p className="font-display text-[14px] text-canard/90 leading-relaxed max-w-[440px] mb-6">
+          {header.subtitle}
         </p>
 
         <fieldset className="flex items-center gap-6 mb-5">
@@ -72,15 +82,11 @@ export function LeadCaptureA() {
               className="flex items-center gap-2.5 cursor-pointer font-display text-[15px] text-canard"
             >
               <span
-                className={`w-4 h-4 border border-canard/40 rounded-sm flex items-center justify-center transition-colors ${
-                  civility === c ? 'bg-canard border-canard' : ''
+                className={`w-4 h-4 border rounded-full flex items-center justify-center transition-colors ${
+                  civility === c ? 'border-canard' : 'border-canard/40'
                 }`}
               >
-                {civility === c && (
-                  <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden>
-                    <path d="M2 5 L4.2 7.2 L8 3" stroke="#eadcd3" strokeWidth="1.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
+                {civility === c && <span className="w-2 h-2 rounded-full bg-canard" />}
               </span>
               <input
                 type="radio"
@@ -105,20 +111,20 @@ export function LeadCaptureA() {
         <button
           type="submit"
           disabled={submitting}
-          className="bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-8 py-3 hover:bg-canard transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-8 py-3 hover:bg-canard-90 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {m.leadcapture_submit()}
         </button>
         {error && (
-          <p className="font-display text-[13px] text-rouille mt-3">{m.form_error()}</p>
+          <p className="font-display text-[13px] text-alerte mt-3">{m.form_error()}</p>
         )}
 
-        <p className="font-display text-[11px] text-canard/55 mt-5 max-w-[420px]">
-          {m.leadcapture_consent_prefix()}{' '}
+        <p className="font-display text-[11px] text-canard/90 mt-5 max-w-[420px]">
+          {header.consentPrefix}{' '}
           <a href="/confidentialite" className="underline underline-offset-2 hover:text-canard">
-            {m.leadcapture_consent_link()}
+            {header.consentLink}
           </a>
-          {m.leadcapture_consent_suffix()}
+          {header.consentSuffix}
         </p>
       </form>
     </section>
@@ -140,10 +146,10 @@ function FieldA({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="font-display text-[12px] text-canard/55 tracking-wide">{label}</span>
+      <span className="font-display text-[12px] text-canard/90 tracking-wide">{label}</span>
       <div className="flex items-center border-b border-canard/30 focus-within:border-canard transition-colors">
         {prefix && (
-          <span className="font-display text-[14px] text-canard/55 pr-2 border-r border-canard/15 mr-2">
+          <span className="font-display text-[14px] text-canard/90 pr-2 border-r border-canard/15 mr-2">
             {prefix}
           </span>
         )}
@@ -151,7 +157,7 @@ function FieldA({
           type={type}
           name={name}
           required={required}
-          className="flex-1 bg-transparent py-2 font-display text-[16px] text-canard placeholder:text-canard/30 focus:outline-none"
+          className="flex-1 bg-transparent py-2 font-display text-[16px] text-canard placeholder:text-canard/55 focus:outline-none"
         />
       </div>
     </label>

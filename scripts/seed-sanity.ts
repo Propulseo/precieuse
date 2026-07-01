@@ -27,8 +27,7 @@ import { MATIERES } from '../src/lib/content/matieres'
 import { LETTRES } from '../src/lib/content/lettres'
 import { ARTICLES } from '../src/lib/content/carnet'
 import { ETABLI_STEPS } from '../src/lib/content/etabli'
-import { BESPOKE_PROCESS, SITE } from '../src/lib/content/site'
-import { METAMORPHOSE, PROMESSES } from '../src/lib/content/sur-mesure'
+import { SITE } from '../src/lib/content/site'
 import { FOOTER_DATA } from '../src/lib/content/footer'
 import {
   PIECE_TRANSLATIONS,
@@ -36,9 +35,6 @@ import {
   TEMOIGNAGE_TRANSLATIONS,
   ARTICLE_TRANSLATIONS,
   ETABLI_TRANSLATIONS,
-  BESPOKE_TRANSLATIONS,
-  METAMORPHOSE_TRANSLATIONS,
-  PROMESSE_TRANSLATIONS,
 } from './seed-translations'
 
 const projectId = process.env.VITE_SANITY_PROJECT_ID
@@ -118,11 +114,12 @@ async function main() {
     [
       ...new Set([
         ...PRODUCTS.map((p) => p.image),
+        ...PRODUCTS.flatMap((p) => [p.photoPortee, p.packshot]).filter(
+          (s): s is string => !!s && !s.endsWith('.svg'),
+        ),
         ...MATIERES.map((m) => m.image),
         ...ARTICLES.map((a) => a.image),
         ...ETABLI_STEPS.map((e) => e.image),
-        ...METAMORPHOSE.map((m) => m.image),
-        ...PROMESSES.map((p) => p.image),
       ]),
     ].map(uploadImage),
   )
@@ -131,6 +128,13 @@ async function main() {
   for (let i = 0; i < PRODUCTS.length; i++) {
     const p = PRODUCTS[i]!
     const assetId = await uploadImage(p.image)
+    // Grille /collection : photo portée + packshot détouré. Le placeholder SVG
+    // (Eugénie) n'est pas seedé → la grille retombe sur le repli statique.
+    const porteeId =
+      p.photoPortee && !p.photoPortee.endsWith('.svg')
+        ? await uploadImage(p.photoPortee)
+        : undefined
+    const packshotId = p.packshot ? await uploadImage(p.packshot) : undefined
     const tr = PIECE_TRANSLATIONS[p.slug]
     docs.push({
       _id: `piece.${p.slug}`,
@@ -143,6 +147,11 @@ async function main() {
       materials: Ltext(p.materials, tr?.materials.en, tr?.materials.pt),
       story: Ltext(p.story, tr?.story.en, tr?.story.pt),
       image: imageField(assetId, p.imageAlt, tr?.imageAlt.en, tr?.imageAlt.pt, p.imagePosition),
+      ...(porteeId
+        ? { photoPortee: imageField(porteeId, p.photoPorteeAlt, undefined, undefined, p.photoPorteePosition) }
+        : {}),
+      ...(packshotId ? { packshot: imageField(packshotId, p.packshotAlt) } : {}),
+      ...(p.imageZoom ? { imageZoom: p.imageZoom } : {}),
       order: i,
     })
   }
@@ -199,6 +208,24 @@ async function main() {
       date: a.date,
       readTime: a.readTime,
       image: imageField(assetId, a.imageAlt, tr?.imageAlt.en, tr?.imageAlt.pt),
+      ...(a.lede ? { lede: a.lede } : {}),
+      // Corps structuré → blocs Sanity (paragraph/heading/quote/list).
+      body: (a.body ?? []).map((b, j) => {
+        const _key = `b${j}`
+        if (b.kind === 'h2') return { _key, _type: 'heading', text: b.text }
+        if (b.kind === 'quote')
+          return { _key, _type: 'quote', text: b.text, ...(b.cite ? { cite: b.cite } : {}) }
+        if (b.kind === 'list') return { _key, _type: 'list', items: b.items }
+        return { _key, _type: 'paragraph', text: b.text }
+      }),
+      ...(a.closingQuote
+        ? {
+            closingQuote: {
+              text: a.closingQuote.text,
+              ...(a.closingQuote.cite ? { cite: a.closingQuote.cite } : {}),
+            },
+          }
+        : {}),
       featured: Boolean(a.featured),
       order: i,
     })
@@ -221,49 +248,10 @@ async function main() {
     })
   }
 
-  // Étapes du parcours sur-mesure
-  for (let i = 0; i < BESPOKE_PROCESS.length; i++) {
-    const s = BESPOKE_PROCESS[i]!
-    const tr = BESPOKE_TRANSLATIONS[s.number]
-    docs.push({
-      _id: `etapeSurMesure.${s.number}`,
-      _type: 'etapeSurMesure',
-      number: s.number,
-      title: Lstr(s.title, tr?.title.en, tr?.title.pt),
-      description: Ltext(s.description, tr?.description.en, tr?.description.pt),
-    })
-  }
-
-  // Page Sur-Mesure (singleton) : métamorphose + promesses
-  const metamorphose = []
-  for (let i = 0; i < METAMORPHOSE.length; i++) {
-    const m = METAMORPHOSE[i]!
-    const assetId = await uploadImage(m.image)
-    const tr = METAMORPHOSE_TRANSLATIONS[i]
-    metamorphose.push({
-      _type: 'etape',
-      _key: `meta-${i}`,
-      roman: m.roman,
-      title: Lstr(m.title, tr?.title.en, tr?.title.pt),
-      annotation: Lstr(m.annotation, tr?.annotation.en, tr?.annotation.pt),
-      detail: Ltext(m.detail, tr?.detail.en, tr?.detail.pt),
-      image: imageField(assetId, m.imageAlt, tr?.imageAlt.en, tr?.imageAlt.pt),
-    })
-  }
-  const promesses = []
-  for (let i = 0; i < PROMESSES.length; i++) {
-    const p = PROMESSES[i]!
-    const assetId = await uploadImage(p.image)
-    const tr = PROMESSE_TRANSLATIONS[i]
-    promesses.push({
-      _type: 'promesse',
-      _key: `prom-${i}`,
-      titre: Lstr(p.titre, tr?.titre.en, tr?.titre.pt),
-      detail: Lstr(p.detail, tr?.detail.en, tr?.detail.pt),
-      image: imageField(assetId, p.imageAlt, tr?.imageAlt.en, tr?.imageAlt.pt),
-    })
-  }
-  docs.push({ _id: 'surMesurePage', _type: 'surMesurePage', metamorphose, promesses })
+  // NB : le singleton `surMesurePage` n'est PLUS seedé ici. Il est piloté par
+  // `scripts/seed-editabilite.ts` (forme actuelle : hero/atelier/steps/split/
+  // realisations/voices). L'ancien seed (metamorphose/promesses) écrasait ce
+  // contenu éditable via createOrReplace → retiré.
 
   // Réglages du site (singleton)
   docs.push({

@@ -26,7 +26,7 @@ export function HeroV4() {
 
           <div className="relative px-6 py-12 lg:py-20 flex flex-col items-center gap-7">
             <h1
-              aria-label="Précieuse, joaillerie artisanale, Lisboa"
+              aria-label="Précieuse, joaillerie artisanale, Bordeaux"
               className="font-display italic leading-[0.85] tracking-[-0.045em] text-center select-none"
               style={{
                 fontSize: 'clamp(80px, 14vw, 220px)',
@@ -39,7 +39,7 @@ export function HeroV4() {
             </h1>
 
             <span className="font-script-lg text-gold-pale drop-shadow-md text-center motion-safe:animate-[fadeUp_1.4s_ease-out_700ms_both]">
-              un atelier, à Lisbonne
+              un atelier, à Bordeaux
             </span>
 
             <Link

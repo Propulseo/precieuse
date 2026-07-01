@@ -14,7 +14,7 @@ export function LeadCaptureB() {
               Joséphine, sur la main de Claire
             </span>
             <span className="font-display italic text-[12px] tracking-[0.3em] uppercase text-ink/55">
-              Lisboa
+              Bordeaux
             </span>
           </div>
         </div>

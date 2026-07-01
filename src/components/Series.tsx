@@ -35,7 +35,7 @@ function slideOffset(i: number, current: number, n: number): number {
 }
 
 const STAGE_CARD =
-  'absolute top-0 bottom-0 my-auto h-fit w-[88%] max-w-[1080px] -translate-x-1/2 overflow-hidden bg-poudre/85 shadow-[0_30px_80px_-20px_rgba(61,40,23,0.35)]'
+  'absolute top-0 bottom-0 my-auto h-fit w-[88%] max-w-[1080px] -translate-x-1/2 overflow-hidden bg-poudre/85'
 const STAGE_EASE = 'duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]'
 
 /** Mode « glissé » : une grande pièce à la fois, qui glisse sur le côté. */
@@ -130,7 +130,13 @@ function CoverflowStage({
   )
 }
 
-export function Series({ products = PRODUCTS }: { products?: Product[] }) {
+export function Series({
+  products = PRODUCTS,
+  header,
+}: {
+  products?: Product[]
+  header: { title: string; subtitle: string }
+}) {
   const N = products.length
   const { carouselMode } = useBrand()
   const [current, setCurrent] = useState(0)
@@ -200,7 +206,7 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-poudre overflow-hidden py-16 lg:py-20 outline-none focus-visible:ring-2 focus-visible:ring-canard"
+      className="relative bg-poudre overflow-hidden py-8 lg:py-10 outline-none focus-visible:ring-2 focus-visible:ring-canard"
       aria-roledescription="carousel"
       aria-label={m.series_carousel_label()}
       tabIndex={0}
@@ -213,12 +219,12 @@ export function Series({ products = PRODUCTS }: { products?: Product[] }) {
       onBlur={() => setPaused(false)}
     >
       <div className="mx-auto max-w-[1440px] px-0 lg:px-12 w-full">
-        <div className="mb-8 px-8 lg:px-0 flex items-end justify-between">
+        <div className="mb-4 px-8 lg:px-0 flex items-end justify-between">
           <div>
-            <h2 className="font-headline text-[40px] text-canard leading-none mb-1">{m.series_title()}</h2>
-            <p className="font-body italic font-light text-[18px] text-rouille">{m.series_subtitle()}</p>
+            <h2 className="font-headline text-[clamp(28px,5vw,40px)] text-canard leading-none mb-1">{header.title}</h2>
+            <p className="font-body italic font-light text-[18px] text-framboise">{header.subtitle}</p>
           </div>
-          <span className="font-display text-[13px] text-canard hidden md:block">p. 04</span>
+          <span className="font-display text-[13px] text-framboise hidden md:block">p. 04</span>
         </div>
 
         <div className="flex items-center justify-center gap-5 mb-6 px-8 lg:px-0" role="group" aria-label={m.series_nav_label()}>

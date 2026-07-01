@@ -26,11 +26,11 @@ export function HeroV6() {
       <div className="relative flex items-center px-8 lg:px-20 py-16 lg:py-0 bg-ink">
         <div className="motion-safe:animate-[fadeRight_1.4s_cubic-bezier(0.2,0.8,0.2,1)_200ms_both] max-w-[520px]">
           <span className="font-technical text-gold-pale/80 block mb-6">
-            Vitrine · MMXXVI · Lisboa
+            Vitrine · MMXXVI · Bordeaux
           </span>
 
           <h1
-            aria-label="Précieuse, joaillerie artisanale, Lisboa"
+            aria-label="Précieuse, joaillerie artisanale, Bordeaux"
             className="font-display italic leading-[0.88] tracking-[-0.035em] select-none"
             style={{
               fontSize: 'clamp(72px, 9vw, 140px)',
@@ -41,7 +41,7 @@ export function HeroV6() {
           </h1>
 
           <p className="font-display italic text-[18px] lg:text-[22px] text-[#fff7e3]/85 leading-relaxed mt-8 max-w-[36ch]">
-            Un atelier, à Lisbonne. Chaque bague naît d'une commande,
+            Un atelier, à Bordeaux. Chaque bague naît d'une commande,
             d'une main, d'un nom.
           </p>
 

@@ -27,6 +27,7 @@ export const legalPage = defineType({
       name: 'body',
       title: 'Contenu',
       type: 'localizedPortableText',
+      description: 'Le texte complet de la page (mentions légales, confidentialité ou CGV).',
     }),
   ],
   preview: {

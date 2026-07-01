@@ -1,9 +1,14 @@
-import { visionTool } from '@sanity/vision'
+import { frFRLocale } from '@sanity/locale-fr-fr'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 
-import { apiVersion, dataset, projectId } from './sanity/env'
+import { dataset, projectId } from './sanity/env'
 import { schemaTypes } from './sanity/schemaTypes'
+import { precieuseTheme } from './src/components/studio/theme'
+import { StudioLogo } from './src/components/studio/StudioLogo'
+import { StudioIcon } from './src/components/studio/StudioIcon'
+import { structure } from './src/components/studio/structure'
+import { singletonDocumentActions, singletonNewDocumentOptions } from './src/components/studio/singletons'
 
 /**
  * Standalone Sanity Studio configuration.
@@ -20,8 +25,18 @@ import { schemaTypes } from './sanity/schemaTypes'
  */
 export default defineConfig({
   basePath: '/studio',
+  title: 'Précieuse',
+  icon: StudioIcon,
   projectId: projectId || 'placeholder',
   dataset,
+  theme: precieuseTheme,
   schema: { types: schemaTypes },
-  plugins: [structureTool(), visionTool({ defaultApiVersion: apiVersion })],
+  plugins: [structureTool({ structure }), frFRLocale()],
+  studio: {
+    components: { logo: StudioLogo },
+  },
+  document: {
+    actions: singletonDocumentActions,
+    newDocumentOptions: singletonNewDocumentOptions,
+  },
 })

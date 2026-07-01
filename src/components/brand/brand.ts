@@ -87,7 +87,7 @@ export function isHeroMark(value: unknown): value is HeroMark {
 export type SealVariant = 'rond' | 'octogone' | 'epure'
 
 export const SEAL_VARIANTS: SealVariant[] = ['rond', 'octogone', 'epure']
-export const DEFAULT_SEAL_VARIANT: SealVariant = 'rond'
+export const DEFAULT_SEAL_VARIANT: SealVariant = 'epure'
 export const SEAL_VARIANT_STORAGE_KEY = 'precieuse-seal'
 
 export const SEAL_VARIANT_LABELS: Record<SealVariant, string> = {
@@ -145,4 +145,119 @@ export const CAROUSEL_MODE_HINTS: Record<CarouselMode, string> = {
 
 export function isCarouselMode(value: unknown): value is CarouselMode {
   return typeof value === 'string' && (CAROUSEL_MODES as string[]).includes(value)
+}
+
+// ─── Présentation de la section Collection (home) : défilé plein écran ou carrousel ───
+// Piloté par `data-collection` sur <html>, persisté indépendamment. Défaut = défilé.
+export type CollectionLayout = 'defile' | 'carrousel'
+
+export const COLLECTION_LAYOUTS: CollectionLayout[] = ['defile', 'carrousel']
+export const DEFAULT_COLLECTION_LAYOUT: CollectionLayout = 'defile'
+export const COLLECTION_LAYOUT_STORAGE_KEY = 'precieuse-collection-layout'
+
+export const COLLECTION_LAYOUT_LABELS: Record<CollectionLayout, string> = {
+  defile: 'Défilé',
+  carrousel: 'Carrousel',
+}
+
+export const COLLECTION_LAYOUT_HINTS: Record<CollectionLayout, string> = {
+  defile: 'Les pièces défilent horizontalement au scroll (plein écran).',
+  carrousel: 'Une pièce à la fois, en carrousel (réglable ci-dessous).',
+}
+
+export function isCollectionLayout(value: unknown): value is CollectionLayout {
+  return (
+    typeof value === 'string' && (COLLECTION_LAYOUTS as string[]).includes(value)
+  )
+}
+
+// ─── Fond de l'eyebrow de la hero : 4 traitements au choix ───
+// Piloté par `data-heroEyebrow` sur <html>, persisté indépendamment. « actuel »
+// = le cartouche translucide (patch) ; les trois autres retirent le fond.
+export type HeroEyebrow = 'actuel' | 'filets' | 'nu' | 'losanges'
+
+export const HERO_EYEBROWS: HeroEyebrow[] = ['actuel', 'filets', 'nu', 'losanges']
+export const DEFAULT_HERO_EYEBROW: HeroEyebrow = 'nu'
+export const HERO_EYEBROW_STORAGE_KEY = 'precieuse-hero-eyebrow'
+
+export const HERO_EYEBROW_LABELS: Record<HeroEyebrow, string> = {
+  actuel: 'Actuel',
+  filets: 'Filets',
+  nu: 'Texte nu',
+  losanges: 'Losanges',
+}
+
+export function isHeroEyebrow(value: unknown): value is HeroEyebrow {
+  return typeof value === 'string' && (HERO_EYEBROWS as string[]).includes(value)
+}
+
+// ─── Couleurs personnalisables (aperçu dev) : 3 niveaux pilotés en direct ───
+// Chaque niveau écrit UNE variable CSS sur <html> (style inline, qui l'emporte
+// sur les tokens de styles.css) et persiste son hex en localStorage. Le no-flash
+// les applique avant le paint. Sert à tester en live des combinaisons de charte.
+export type ColorSlot = 'primary' | 'secondary' | 'tertiary'
+
+export const COLOR_SLOTS_ORDER: ColorSlot[] = ['primary', 'secondary', 'tertiary']
+
+export type ColorPreset = { label: string; hex: string }
+
+export type ColorSlotSpec = {
+  /** Variable CSS pilotée (inline sur <html>). */
+  cssVar: string
+  storageKey: string
+  /** Hex par défaut = valeur actuelle de la charte. */
+  fallback: string
+  label: string
+  hint: string
+  presets: ColorPreset[]
+}
+
+export const COLOR_SLOTS: Record<ColorSlot, ColorSlotSpec> = {
+  primary: {
+    cssVar: '--brand-accent',
+    storageKey: 'precieuse-color-primary',
+    fallback: '#125e5e',
+    label: 'Couleur principale',
+    hint: 'Texte, titres, UI et logos.',
+    presets: [
+      { label: 'Canard', hex: '#125e5e' },
+      { label: 'Jewel', hex: '#107252' },
+      { label: 'Nuit', hex: '#2f3e4d' },
+      { label: 'Prune', hex: '#72106b' },
+    ],
+  },
+  secondary: {
+    cssVar: '--poudre',
+    storageKey: 'precieuse-color-secondary',
+    fallback: '#eadcd3',
+    label: 'Couleur secondaire (fond)',
+    hint: 'Le fond chaud des pages.',
+    presets: [
+      { label: 'Poudre', hex: '#eadcd3' },
+      { label: 'Ivoire', hex: '#f4ece4' },
+      { label: 'Blanc cassé', hex: '#faf6f1' },
+      { label: 'Pêche pâle', hex: '#f7e3d3' },
+    ],
+  },
+  tertiary: {
+    cssVar: '--framboise',
+    storageKey: 'precieuse-color-tertiary',
+    fallback: '#b80049',
+    label: 'Couleur tertiaire (accent)',
+    hint: 'Accents, eyebrows, liens, détails.',
+    presets: [
+      { label: 'Framboise', hex: '#bb4e7c' },
+      { label: 'Framboise foncé', hex: '#8e3a5d' },
+      { label: 'Rubis', hex: '#b80049' },
+      { label: 'Rose', hex: '#d07992' },
+      { label: 'Prune', hex: '#72106b' },
+      { label: 'Corail', hex: '#f98688' },
+      { label: 'Pêche', hex: '#fbbb8b' },
+    ],
+  },
+}
+
+const HEX_RE = /^#[0-9a-fA-F]{6}$/
+export function isHex(value: unknown): value is string {
+  return typeof value === 'string' && HEX_RE.test(value)
 }

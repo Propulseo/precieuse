@@ -5,9 +5,15 @@ export type Lettre = {
   ville: string
   date: string
   piece: string
+  /** Photo de la pièce portée (galerie témoignages). Optionnel : fallback côté composant. */
+  image?: string
+  imageAlt?: string
+  /** `object-position` CSS (point focal Sanity). */
+  imagePosition?: string
 }
 
-// NOTE: placeholders — à valider / remplacer par de vrais avis (Eméline).
+// NOTE: placeholders — à valider / remplacer par de vrais avis + photos (Eméline).
+// Règle « galerie portée » : 1 avis = 1 photo « bague sur chaise » = 1 bague.
 export const LETTRES: Lettre[] = [
   {
     citation:
@@ -16,7 +22,8 @@ export const LETTRES: Lettre[] = [
     initiale: 'M',
     ville: 'Bordeaux',
     date: '18 mars 2025',
-    piece: 'Création sur-mesure',
+    piece: 'Modèle Aurore',
+    image: '/images/real/bague-main-chaise-aurore.webp',
   },
   {
     citation:
@@ -25,7 +32,8 @@ export const LETTRES: Lettre[] = [
     initiale: 'S',
     ville: 'Lyon',
     date: '3 octobre 2024',
-    piece: 'Bague serpentine sur-mesure',
+    piece: 'Modèle Thelma',
+    image: '/images/real/bague-main-chaise-thelma.webp',
   },
   {
     citation:
@@ -35,5 +43,6 @@ export const LETTRES: Lettre[] = [
     ville: 'Paris',
     date: '12 février 2025',
     piece: 'Modèle Joséphine',
+    image: '/images/real/main-chaise-josephine.webp',
   },
 ]

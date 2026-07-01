@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Témoignages — Cinéma (5 images)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif;--dur:7000ms}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard)}
+  .ctx{padding:92px 8vw;text-align:center}
+  .ctx h2{font-family:var(--display);font-weight:500;font-size:clamp(26px,3.4vw,42px);letter-spacing:-.01em;margin-bottom:14px}
+  .ctx p{font-style:italic;font-size:18px;color:rgba(18,94,94,.7);max-width:54ch;margin:0 auto 26px}
+  .btn{display:inline-block;background:var(--canard);color:var(--poudre);font-family:var(--display);font-size:12px;letter-spacing:.28em;text-transform:uppercase;padding:15px 34px;border-radius:999px;text-decoration:none;transition:background .3s}
+  .btn:hover{background:var(--canard-90)}
+  .mock{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .mock span{border:1px solid rgba(18,94,94,.25);border-radius:999px;padding:13px 22px;font-size:14px;color:rgba(18,94,94,.6)}
+  .badge{position:fixed;top:16px;right:16px;z-index:20;background:rgba(18,94,94,.92);color:var(--poudre);font-family:var(--display);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  .mark{font-family:var(--display);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:rgba(18,94,94,.4);text-align:center;padding:18px}
+
+  /* ─── SECTION Témoignages : bande canard, hauteur de section ─── */
+  .tsection{position:relative;overflow:hidden;background:var(--canard-90);color:var(--poudre);min-height:600px;display:grid;place-items:center;padding:104px 8vw}
+  .bgs{position:absolute;inset:0}
+  .bg{position:absolute;inset:0;background:var(--canard-90) center/cover no-repeat;opacity:0;transform:scale(1.06);transition:opacity 1.2s ease;will-change:opacity,transform}
+  .bg.on{opacity:1;animation:ken 20s ease-in-out infinite alternate}
+  @keyframes ken{from{transform:scale(1.06)}to{transform:scale(1.18) translate(-1.6%,-1%)}}
+  .scrim{position:absolute;inset:0;background:radial-gradient(120% 90% at 32% 42%,rgba(13,71,71,.42),rgba(13,71,71,.86) 72%),linear-gradient(180deg,rgba(13,71,71,.66),rgba(18,94,94,.5));mix-blend-mode:multiply}
+  .content{position:relative;z-index:2;max-width:960px;text-align:center}
+  .eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--rubis);filter:saturate(1.4) brightness(1.6);opacity:0;transform:translateY(8px)}
+  .tsection.live .eyebrow{animation:fadeUp .8s .15s ease forwards}
+  .rubis-line{height:2px;width:0;background:var(--rubis);margin:18px auto 26px;filter:brightness(1.5)}
+  .tsection.live .rubis-line{animation:grow .9s .3s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes grow{to{width:60px}}
+  blockquote{font-family:var(--display);font-weight:500;font-size:clamp(24px,3.1vw,42px);line-height:1.18;letter-spacing:-.01em;max-width:24ch;margin:0 auto;text-wrap:balance}
+  blockquote .w{display:inline-block;opacity:0;filter:blur(7px);transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1),filter .6s ease}
+  blockquote.in .w{opacity:1;filter:blur(0);transform:none}
+  .author{margin-top:28px;font-family:var(--display);font-size:13px;letter-spacing:.3em;text-transform:uppercase;opacity:0;transition:opacity .8s ease}
+  .author.in{opacity:1}
+  .author .piece{display:block;margin-top:7px;font-family:var(--body);font-style:italic;font-size:15px;letter-spacing:.02em;text-transform:none;color:rgba(234,220,211,.6)}
+  .rail{position:absolute;left:0;right:0;bottom:30px;z-index:3;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:0 8vw}
+  .tick{height:2px;width:46px;background:rgba(234,220,211,.22);border:none;cursor:pointer;overflow:hidden;position:relative}
+  .tick i{position:absolute;inset:0;left:-100%;background:var(--rubis);filter:brightness(1.5)}
+  .tick.active i{animation:fill var(--dur) linear forwards}
+  .tick.done i{left:0}
+  @keyframes fill{to{left:0}}
+  @keyframes fadeUp{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.bg.on{animation:none}.w{transition:none!important;opacity:1!important;filter:none!important;transform:none!important}}
+</style>
+</head>
+<body>
+  <div class="badge">Aperçu en contexte · section Témoignages</div>
+
+  <section class="ctx">
+    <h2>Chaque histoire mérite sa pièce</h2>
+    <p>Un bijou pensé avec vous, façonné à la main dans notre atelier bordelais.</p>
+    <a class="btn" href="#">Demander le sur-mesure</a>
+  </section>
+  <p class="mark">▼ section dans la page</p>
+
+  <section class="tsection" id="ts">
+    <div class="bgs" id="bgs"></div>
+    <div class="scrim"></div>
+    <div class="content">
+      <p class="eyebrow">Elles en parlent</p>
+      <span class="rubis-line"></span>
+      <blockquote id="quote"></blockquote>
+      <p class="author" id="author"></p>
+    </div>
+    <div class="rail" id="rail"></div>
+  </section>
+
+  <section class="ctx">
+    <h2>Parlons de votre projet</h2>
+    <p>Laissez-nous vos coordonnées, Emeline vous répond personnellement, 7j/7.</p>
+    <div class="mock"><span>Prénom</span><span>E-mail</span><span>Envoyer →</span></div>
+  </section>
+
+<script>
+  const DUR=7000;
+  document.documentElement.style.setProperty('--dur',DUR+'ms');
+  const data=[
+    {q:"Emeline est tout simplement une artiste. Le résultat est au-delà de ce que j'avais imaginé.",a:"Martine B.",v:"Bordeaux",p:"Création sur-mesure",img:"/images/stitch/hero-atelier-dusk.jpg"},
+    {q:"Très professionnelle, agréable et sympathique. Je recommande sans hésiter.",a:"Sandrine L.",v:"Lyon",p:"Bague serpentine",img:"/images/stitch-v2/macro-1-setting-detail.jpg"},
+    {q:"On sent dans chaque pièce le temps passé, la précision, l'amour du métier.",a:"Camille R.",v:"Paris",p:"Modèle Joséphine",img:"/images/matieres/rubis-v2.jpg"},
+    {q:"J'ai offert la bague de fiançailles à celle que j'aime — son regard en l'ouvrant valait tout l'or du monde.",a:"Thomas G.",v:"Nantes",p:"Bague de fiançailles",img:"/images/atelier/bague-en-fabrication.jpg"},
+    {q:"Reprendre les diamants de ma grand-mère pour une pièce à moi : Emeline a gardé l'âme du bijou.",a:"Inès M.",v:"Toulouse",p:"Transmission",img:"/images/stitch/materiaux-diamants-gvs.jpg"},
+  ];
+  const quote=document.getElementById('quote'),author=document.getElementById('author'),rail=document.getElementById('rail'),bgs=document.getElementById('bgs'),ts=document.getElementById('ts');
+  let i=0,timer=null,paused=false,started=false;
+  const layers=data.map(d=>{const b=document.createElement('div');b.className='bg';b.style.backgroundImage=`url('${d.img}')`;bgs.appendChild(b);return b;});
+  data.forEach((_,k)=>{const b=document.createElement('button');b.className='tick';b.innerHTML='<i></i>';b.onclick=()=>go(k);rail.appendChild(b);});
+  const ticks=[...rail.children];
+  function render(){
+    const d=data[i];
+    layers.forEach((l,k)=>l.classList.toggle('on',k===i));
+    quote.classList.remove('in');author.classList.remove('in');
+    quote.innerHTML=d.q.split(' ').map(w=>`<span class="w">${w}</span>`).join(' ');
+    author.innerHTML=`<b>${d.a}</b> — ${d.v}<span class="piece">${d.p}</span>`;
+    const words=[...quote.querySelectorAll('.w')];
+    requestAnimationFrame(()=>{quote.classList.add('in');words.forEach((w,n)=>w.style.transitionDelay=(0.04*n+0.1)+'s');setTimeout(()=>author.classList.add('in'),180+words.length*40);});
+    ticks.forEach((t,k)=>{t.classList.remove('active','done');if(k<i)t.classList.add('done');});
+    void ticks[i].offsetWidth;ticks[i].classList.add('active');
+  }
+  function go(n){i=(n+data.length)%data.length;render();schedule();}
+  function schedule(){clearTimeout(timer);if(!paused)timer=setTimeout(()=>go(i+1),DUR);}
+  ts.addEventListener('mouseenter',()=>{paused=true;clearTimeout(timer);});
+  ts.addEventListener('mouseleave',()=>{paused=false;schedule();});
+  new IntersectionObserver((e)=>{e.forEach(en=>{if(en.isIntersecting&&!started){started=true;ts.classList.add('live');render();schedule();}});},{threshold:.35}).observe(ts);
+</script>
+</body>
+</html>

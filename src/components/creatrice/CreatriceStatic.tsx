@@ -1,93 +1,90 @@
-import { Link } from '@tanstack/react-router'
 import { m } from '#/paraglide/messages'
+import { EditorialHeader } from '../editorial/EditorialHeader'
+import { BRAND_PICTO_MASK, maskStyle } from '../brand/brand'
+import { ClosingInvite } from '../ClosingInvite'
+import { Filigrane, Seal } from './ornements'
 
 /**
- * Version statique (Paraglide) de la page Créatrice — repli affiché tant que le
- * document `creatricePage` n'est pas rempli dans Sanity (cf. CreatriceCms).
+ * Page Créatrice — version statique (repli Paraglide tant que Sanity n'est pas
+ * rempli). Charte poudre/canard : manchette éditoriale partagée + corps mis en
+ * scène comme une lettre signée d'Emeline.
  */
 export function CreatriceStatic() {
   return (
     <>
-      {/* Intro — portrait + accroche */}
-      <section className="relative bg-cream py-20 px-8 lg:px-16">
-        <div className="mx-auto max-w-[1320px] grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20 items-center">
-          <div className="relative w-full max-w-[460px] aspect-[3/4] border border-ink/30 overflow-hidden mx-auto lg:mx-0">
-            <img
-              src="/images/emeline/emeline-atelier.jpg"
-              alt={m.creatrice_intro_portrait_alt()}
-              className="absolute inset-0 w-full h-full object-cover luxe-grayscale"
-            />
-          </div>
+      <EditorialHeader title={m.creatrice_intro_title()}>
+        <p className="mx-auto max-w-[54ch] font-body italic font-light text-[clamp(14px,1.4vw,17px)] leading-[1.5] text-canard-90 [text-wrap:pretty]">
+          {m.creatrice_intro_lede()}
+        </p>
+      </EditorialHeader>
 
-          <div>
-            <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
-              {m.creatrice_intro_eyebrow()}
-            </span>
-            <h1 className="font-headline text-[clamp(48px,7vw,90px)] text-ink leading-[0.95]">
-              {m.creatrice_intro_title()}
-            </h1>
-            <p className="font-display italic text-[20px] text-ink/75 mt-8 leading-relaxed max-w-prose">
-              {m.creatrice_intro_lede()}
+      <section className="overflow-hidden bg-poudre px-8 pb-6 pt-3 lg:px-16 lg:pt-4">
+        <div className="mx-auto max-w-[680px]">
+          {/* Portrait encadré + légende — visible dès l'arrivée (au-dessus de la ligne de flottaison). */}
+          <figure className="relative mb-12 flex flex-col items-center">
+            {/* Feuilles de la marque en filigrane pâle, de part et d'autre du portrait (décor des marges). */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-y-1/2 lg:block"
+              style={{ width: 360, height: 360, marginLeft: -560, opacity: 0.07, ...maskStyle(BRAND_PICTO_MASK, 'var(--canard)') }}
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-y-1/2 -scale-x-100 lg:block"
+              style={{ width: 360, height: 360, marginLeft: 200, opacity: 0.07, ...maskStyle(BRAND_PICTO_MASK, 'var(--canard)') }}
+            />
+            <div className="relative aspect-[3/4] w-[240px] max-w-[64vw] overflow-hidden border border-canard/30">
+              <img
+                src="/images/emeline-portrait.jpg"
+                alt={m.creatrice_intro_portrait_alt()}
+                fetchPriority="high"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+            <figcaption className="mt-3 flex items-baseline gap-3.5 font-display text-[12px] uppercase tracking-[0.22em]">
+              <span className="text-canard/75">Emeline Le Ray</span>
+              <span className="text-framboise">·</span>
+              <span className="text-canard">Bordeaux · MMXXV</span>
+            </figcaption>
+          </figure>
+
+          {/* Corps de lettre */}
+          <p className="font-display text-[18px] leading-[1.95] text-canard/85 first-letter:float-left first-letter:pr-3 first-letter:pt-2 first-letter:font-headline first-letter:text-[56px] first-letter:leading-[0.7] first-letter:text-framboise">
+            {m.creatrice_parcours_p1()}
+          </p>
+          <p className="mt-5 font-display text-[18px] leading-[1.95] text-canard/85">
+            {m.creatrice_parcours_p2()}
+          </p>
+
+          <Filigrane />
+
+          <p className="font-display text-[18px] leading-[1.95] text-canard/85">
+            {m.creatrice_philosophie_body()}
+          </p>
+
+          {/* Citation en exergue */}
+          <blockquote className="relative mx-auto my-14 max-w-[560px] text-center">
+            <span aria-hidden className="mx-auto mb-6 block h-0.5 w-16 bg-framboise" />
+            <p className="font-display italic text-[clamp(23px,3.2vw,31px)] leading-[1.45] text-canard">
+              {m.creatrice_philosophie_quote()}
             </p>
-          </div>
-        </div>
-      </section>
+          </blockquote>
 
-      {/* Parcours */}
-      <section className="relative bg-cream py-20 px-8 lg:px-16 border-t border-ink/15">
-        <div className="mx-auto max-w-[1320px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="relative aspect-[3/4] overflow-hidden order-2 lg:order-1">
-            <img
-              src="/images/real/deux-mains.webp"
-              alt={m.creatrice_parcours_image_alt()}
-              className="absolute inset-0 w-full h-full object-cover luxe-grayscale"
-            />
-          </div>
-          <div className="order-1 lg:order-2">
-            <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
-              {m.creatrice_parcours_eyebrow()}
-            </span>
-            <h2 className="font-headline text-[40px] text-ink leading-none mb-8">
-              {m.creatrice_parcours_title()}
-            </h2>
-            <div className="space-y-6 font-sans text-[15px] text-ink/80 leading-relaxed max-w-prose">
-              <p>{m.creatrice_parcours_p1()}</p>
-              <p>{m.creatrice_parcours_p2()}</p>
+          {/* Clôture : cachet + signature */}
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-8 border-t border-canard/15 pt-8">
+            <Seal />
+            <div className="text-center">
+              <div className="font-headline italic text-[44px] leading-none text-canard">Emeline</div>
+              <div className="mt-2.5 font-display text-[12px] uppercase tracking-[0.24em] text-canard/55">
+                {m.creatrice_signature_role()}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Philosophie + citation */}
-      <section className="relative bg-cream py-20 px-8 lg:px-16 border-t border-ink/15">
-        <div className="mx-auto max-w-[800px]">
-          <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
-            {m.creatrice_philosophie_eyebrow()}
-          </span>
-          <h2 className="font-headline text-[40px] text-ink leading-none mb-8">
-            {m.creatrice_philosophie_title()}
-          </h2>
-          <p className="font-sans text-[15px] text-ink/80 leading-relaxed">
-            {m.creatrice_philosophie_body()}
-          </p>
-          <blockquote className="border-l-2 border-raspberry/40 pl-6 mt-12">
-            <p className="font-display italic text-[26px] text-ink leading-snug">
-              {m.creatrice_philosophie_quote()}
-            </p>
-          </blockquote>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="relative bg-cream py-24 px-8 lg:px-16 border-t border-ink/15 text-center">
-        <h2 className="font-headline text-[48px] text-ink leading-none mb-10">{m.creatrice_cta_title()}</h2>
-        <Link
-          to="/contact"
-          className="inline-block font-display italic text-[18px] text-ink border border-ink/30 px-8 py-3 hover:bg-ink hover:text-cream transition-all duration-300"
-        >
-          {m.creatrice_cta_button()} →
-        </Link>
-      </section>
+      <ClosingInvite title={m.creatrice_cta_title()} cta={m.creatrice_cta_button()} />
     </>
   )
 }

@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { m } from '#/paraglide/messages'
 
 const STORAGE_KEY = 'precieuse_splash_shown'
-const DURATION_MS = 5500
+const DURATION_MS = 4000
 
-export function SplashScreen() {
+export function SplashScreen({ tagline }: { tagline?: string }) {
   const [phase, setPhase] = useState<'showing' | 'fading' | 'hidden'>('showing')
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export function SplashScreen() {
       <span aria-hidden className="splash-divider mt-7 block h-px bg-canard" />
 
       <p className="splash-tagline font-display text-[12px] sm:text-[13px] tracking-[0.4em] uppercase text-canard/65 mt-5">
-        {m.splash_tagline()}
+        {tagline ?? m.splash_tagline()}
       </p>
     </div>
   )

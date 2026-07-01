@@ -1,107 +1,106 @@
-import { Link } from '@tanstack/react-router'
 import { m } from '#/paraglide/messages'
 import type { CreatriceContent } from '../../lib/cms'
+import { EditorialHeader } from '../editorial/EditorialHeader'
+import { ClosingInvite } from '../ClosingInvite'
+import { BRAND_PICTO_MASK, maskStyle } from '../brand/brand'
+import { Filigrane, Seal } from './ornements'
 
 /**
- * Page Créatrice pilotée par Sanity (document `creatricePage`) — affichée dès
- * qu'Emeline a rempli le document. Le CTA final reste structurel (Paraglide).
- * Les sections alternent l'image gauche/droite automatiquement.
+ * Page Créatrice pilotée par Sanity (document `creatricePage`). Rend EXACTEMENT
+ * le même design « lettre signée » que `CreatriceStatic` (le repli), mais depuis
+ * le document d'Emeline. Toute divergence visuelle est un bug (cf. spec parité).
  */
 export function CreatriceCms({ content }: { content: CreatriceContent }) {
   return (
     <>
-      {/* Intro — portrait + accroche */}
-      <section className="relative bg-cream py-20 px-8 lg:px-16">
-        <div className="mx-auto max-w-[1320px] grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20 items-center">
-          {content.portrait.url ? (
-            <div className="relative w-full max-w-[460px] aspect-[3/4] border border-ink/30 overflow-hidden mx-auto lg:mx-0">
-              <img
-                src={content.portrait.url}
-                alt={content.portrait.alt}
-                style={{ objectPosition: content.portrait.position }}
-                className="absolute inset-0 w-full h-full object-cover luxe-grayscale"
-              />
-            </div>
+      <EditorialHeader title={content.introTitle}>
+        {content.introLede ? (
+          <p className="mx-auto max-w-[54ch] font-body italic font-light text-[clamp(14px,1.4vw,17px)] leading-[1.5] text-canard-90 [text-wrap:pretty]">
+            {content.introLede}
+          </p>
+        ) : null}
+      </EditorialHeader>
+
+      <section className="overflow-hidden bg-poudre px-8 pb-6 pt-3 lg:px-16 lg:pt-4">
+        <div className="mx-auto max-w-[680px]">
+          {/* Portrait encadré + légende, avec filigranes de marque dans les marges. */}
+          <figure className="relative mb-12 flex flex-col items-center">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-y-1/2 lg:block"
+              style={{ width: 360, height: 360, marginLeft: -560, opacity: 0.07, ...maskStyle(BRAND_PICTO_MASK, 'var(--canard)') }}
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-y-1/2 -scale-x-100 lg:block"
+              style={{ width: 360, height: 360, marginLeft: 200, opacity: 0.07, ...maskStyle(BRAND_PICTO_MASK, 'var(--canard)') }}
+            />
+            {content.portrait.url ? (
+              <div className="relative aspect-[3/4] w-[240px] max-w-[64vw] overflow-hidden border border-canard/30">
+                <img
+                  src={content.portrait.url}
+                  alt={content.portrait.alt}
+                  style={{ objectPosition: content.portrait.position }}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            ) : null}
+            <figcaption className="mt-3 flex items-baseline gap-3.5 font-display text-[12px] uppercase tracking-[0.22em]">
+              <span className="text-canard/75">{content.captionName}</span>
+              <span className="text-framboise">·</span>
+              <span className="text-canard">{content.captionPlace}</span>
+            </figcaption>
+          </figure>
+
+          {/* Corps de lettre — lettrine sur le premier paragraphe. */}
+          {content.parcours.map((p, i) => (
+            <p
+              key={i}
+              className={
+                i === 0
+                  ? 'font-display text-[18px] leading-[1.95] text-canard/85 first-letter:float-left first-letter:pr-3 first-letter:pt-2 first-letter:font-headline first-letter:text-[56px] first-letter:leading-[0.7] first-letter:text-framboise'
+                  : 'mt-5 font-display text-[18px] leading-[1.95] text-canard/85'
+              }
+            >
+              {p}
+            </p>
+          ))}
+
+          <Filigrane />
+
+          {content.philosophieBody ? (
+            <p className="font-display text-[18px] leading-[1.95] text-canard/85">
+              {content.philosophieBody}
+            </p>
           ) : null}
-          <div>
-            {content.overline ? (
-              <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
-                {content.overline}
-              </span>
-            ) : null}
-            <h1 className="font-headline text-[clamp(48px,7vw,90px)] text-ink leading-[0.95]">
-              {content.title}
-            </h1>
-            {content.intro ? (
-              <p className="font-display italic text-[20px] text-ink/75 mt-8 leading-relaxed max-w-prose">
-                {content.intro}
+
+          {content.quote ? (
+            <blockquote className="relative mx-auto my-14 max-w-[560px] text-center">
+              <span aria-hidden className="mx-auto mb-6 block h-0.5 w-16 bg-framboise" />
+              <p className="font-display italic text-[clamp(23px,3.2vw,31px)] leading-[1.45] text-canard">
+                {content.quote}
               </p>
-            ) : null}
+            </blockquote>
+          ) : null}
+
+          {/* Clôture : cachet + signature. */}
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-8 border-t border-canard/15 pt-8">
+            <Seal />
+            <div className="text-center">
+              <div className="font-headline italic text-[44px] leading-none text-canard">
+                {content.signatureName}
+              </div>
+              <div className="mt-2.5 font-display text-[12px] uppercase tracking-[0.24em] text-canard/55">
+                {content.signatureRole}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Sections (image alternée gauche/droite) */}
-      {content.sections.map((section, i) => (
-        <section
-          key={`${section.title}-${i}`}
-          className="relative bg-cream py-20 px-8 lg:px-16 border-t border-ink/15"
-        >
-          <div className="mx-auto max-w-[1320px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {section.image.url ? (
-              <div
-                className={`relative aspect-[3/4] overflow-hidden ${i % 2 === 0 ? 'order-2 lg:order-1' : 'order-2'}`}
-              >
-                <img
-                  src={section.image.url}
-                  alt={section.image.alt}
-                  style={{ objectPosition: section.image.position }}
-                  className="absolute inset-0 w-full h-full object-cover luxe-grayscale"
-                />
-              </div>
-            ) : null}
-            <div className={i % 2 === 0 ? 'order-1 lg:order-2' : 'order-1'}>
-              {section.overline ? (
-                <span className="font-display italic text-[12px] tracking-[0.35em] text-gold block mb-3 uppercase">
-                  {section.overline}
-                </span>
-              ) : null}
-              <h2 className="font-headline text-[40px] text-ink leading-none mb-8">
-                {section.title}
-              </h2>
-              <div className="space-y-6 font-sans text-[15px] text-ink/80 leading-relaxed max-w-prose">
-                {section.body.map((p, j) => (
-                  <p key={j}>{p}</p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      ))}
-
-      {/* Citation */}
-      {content.quote ? (
-        <section className="relative bg-cream py-20 px-8 lg:px-16 border-t border-ink/15">
-          <div className="mx-auto max-w-[800px]">
-            <blockquote className="border-l-2 border-raspberry/40 pl-6">
-              <p className="font-display italic text-[26px] text-ink leading-snug">
-                {content.quote}
-              </p>
-            </blockquote>
-          </div>
-        </section>
-      ) : null}
-
-      {/* CTA (structurel) */}
-      <section className="relative bg-cream py-24 px-8 lg:px-16 border-t border-ink/15 text-center">
-        <h2 className="font-headline text-[48px] text-ink leading-none mb-10">{m.creatrice_cta_title()}</h2>
-        <Link
-          to="/contact"
-          className="inline-block font-display italic text-[18px] text-ink border border-ink/30 px-8 py-3 hover:bg-ink hover:text-cream transition-all duration-300"
-        >
-          {m.creatrice_cta_button()} →
-        </Link>
-      </section>
+      <ClosingInvite title={m.creatrice_cta_title()} cta={m.creatrice_cta_button()} />
     </>
   )
 }

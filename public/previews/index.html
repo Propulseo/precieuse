@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Précieuse — Aperçus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Ysabeau+Office:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{--canard:#125e5e;--canard-90:#0d4747;--poudre:#eadcd3;--poudre-dark:#d9c7b8;--rubis:#b80049;
+    --display:'Spectral',Georgia,serif;--body:'Ysabeau Office',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body);background:var(--poudre);color:var(--canard);min-height:100vh;padding:8vh 6vw}
+  .eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--rubis)}
+  h1{font-family:var(--display);font-weight:500;font-size:clamp(34px,5vw,60px);letter-spacing:-.01em;margin:12px 0 6px}
+  .lede{font-style:italic;font-size:18px;color:rgba(18,94,94,.7);max-width:60ch;margin-bottom:14px}
+  .note{font-size:13px;color:rgba(18,94,94,.55);max-width:60ch;margin-bottom:48px}
+  h2.sec{font-family:var(--display);font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:rgba(18,94,94,.6);margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid rgba(18,94,94,.15)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-bottom:54px}
+  a.card{display:flex;flex-direction:column;justify-content:space-between;min-height:170px;text-decoration:none;color:inherit;
+    background:rgba(255,255,255,.4);border:1px solid rgba(18,94,94,.14);border-radius:22px;padding:26px 26px 22px;transition:all .35s cubic-bezier(.2,.7,.2,1)}
+  a.card:hover{transform:translateY(-4px);background:var(--canard);color:var(--poudre);border-color:var(--canard);box-shadow:0 26px 50px -28px rgba(13,71,71,.6)}
+  a.card .n{font-family:var(--display);font-size:12px;letter-spacing:.3em;text-transform:uppercase;opacity:.6}
+  a.card h3{font-family:var(--display);font-weight:500;font-size:26px;margin:14px 0 6px}
+  a.card p{font-size:14px;line-height:1.5;opacity:.75}
+  a.card .go{margin-top:16px;font-family:var(--display);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+  a.card.soon{opacity:.5;pointer-events:none}
+  .foot{font-size:12px;color:rgba(18,94,94,.5)}
+</style>
+</head>
+<body>
+  <p class="eyebrow">Précieuse · Atelier de design</p>
+  <h1>Aperçus « waouh »</h1>
+  <p class="lede">Trois directions pour la section Témoignages, montrées <b>dans la page</b> (avec un bout de section au-dessus et en dessous). Scrolle jusqu'à la section, puis bouge la souris : les effets se déclenchent au scroll.</p>
+  <p class="note">Maquettes autonomes (HTML), à l'échelle d'une <b>section</b>, pas un écran à part. La version finale sera rebâtie en React une fois la direction choisie. Images réelles de l'atelier servies par le serveur de dev.</p>
+
+  <h2 class="sec">Fiche produit · 4 variantes (nom dans la manchette ornementale)</h2>
+  <div class="grid">
+    <a class="card" href="/previews/produit-A-manchette.html" style="border-color:rgba(184,0,73,.45)">
+      <span class="n">Variante A</span>
+      <div><h3>Manchette éditoriale</h3><p>Le plus proche : nom centré + fleur entre filets, tagline en sous-titre, puis le split photo / détails (Sur devis, Matières, Histoire).</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+    <a class="card" href="/previews/produit-B-hero.html">
+      <span class="n">Variante B</span>
+      <div><h3>Image héroïque</h3><p>Photo plein cadre d'abord (façon magazine), puis tout le récit centré dessous, specs en deux colonnes, CTA central.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+    <a class="card" href="/previews/produit-C-fiche.html">
+      <span class="n">Variante C</span>
+      <div><h3>Fiche d'atelier</h3><p>Style Carnet : lettrine, exergue rubis, photo collante légendée, marqueur « p. 04 ». Le plus éditorial.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+    <a class="card" href="/previews/produit-D-galerie.html">
+      <span class="n">Variante D</span>
+      <div><h3>Galerie & spécifications</h3><p>Mini-galerie (photo portée + packshot détouré), colonne specs à droite, ligne de réassurance. Le plus « showroom ».</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+  </div>
+
+  <h2 class="sec">Sur-mesure · refonte complète (page entière)</h2>
+  <div class="grid">
+    <a class="card" href="/previews/sur-mesure.html" style="border-color:rgba(184,0,73,.45)">
+      <span class="n">★ Refonte</span>
+      <div><h3>Page Sur-mesure</h3><p>Modèle CustomMade adapté à Précieuse : héro, marquee, manifeste, croquis, procédé (vrais pictos dessinés), choix de la pierre, garantie, atelier, réalisations, témoignages, formulaire. Copie FR alignée marque.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+  </div>
+
+  <h2 class="sec">Témoignages · 5 avis, 5 images</h2>
+  <div class="grid">
+    <a class="card" href="/previews/temoignages-1-cinema.html">
+      <span class="n">Aperçu 1</span>
+      <div><h3>Cinéma</h3><p>Bande canard : 5 fonds d'atelier qui se fondent (un par avis), citation qui s'écrit mot à mot.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+    <a class="card" href="/previews/temoignages-2-galerie.html">
+      <span class="n">Aperçu 2</span>
+      <div><h3>Galerie portée</h3><p>3 bagues « sur la chaise » (Aurore, Thelma, Joséphine), une par avis, parallaxe + carte en verre poudré.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+  </div>
+
+  <h2 class="sec">Footer · mix 3 + 4 (toggles variante + couleur)</h2>
+  <div class="grid">
+    <a class="card" href="/previews/footer-mix.html" style="border-color:rgba(184,0,73,.45)">
+      <span class="n">★ Playground</span>
+      <div><h3>Mix 3 + 4</h3><p>Newsletter (taille de la 3) + picto centré (4). Bascule entre 5 variantes ET recolore le picto/accent en direct.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+  </div>
+
+  <h2 class="sec">Footer · 5 premières pistes</h2>
+  <div class="grid">
+    <a class="card" href="/previews/footer-1-colophon.html">
+      <span class="n">Footer 1</span>
+      <div><h3>Colophon canard</h3><p>Bloc canard de clôture, colonnes éditoriales, sceau d'atelier. Le « moment » sombre de fin.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+    <a class="card" href="/previews/footer-2-minimal.html">
+      <span class="n">Footer 2</span>
+      <div><h3>Minimal éditorial</h3><p>Poudre, très aéré, grande phrase serif + filet rubis, liens sur une ligne. Façon Sézane.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+    <a class="card" href="/previews/footer-3-newsletter.html">
+      <span class="n">Footer 3</span>
+      <div><h3>Newsletter d'abord</h3><p>Bande d'invitation à la lettre de l'atelier (capte des leads), puis footer compact.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+    <a class="card" href="/previews/footer-4-centre.html">
+      <span class="n">Footer 4</span>
+      <div><h3>Lockup centré</h3><p>Fleur + nom centrés, nav sur une ligne, cérémonial et symétrique.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+    <a class="card" href="/previews/footer-5-signature.html">
+      <span class="n">Footer 5</span>
+      <div><h3>Signature atelier</h3><p>Split éditorial : déclaration + signature d'Emeline à gauche, navigation à droite.</p></div>
+      <span class="go">Ouvrir →</span>
+    </a>
+  </div>
+
+  <p class="foot">Précieuse · joaillerie d'atelier · Bordeaux</p>
+</body>
+</html>

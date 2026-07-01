@@ -7,7 +7,7 @@ export function HeroV5() {
     <HeroBackground>
       <div className="relative z-10 mx-auto max-w-[1440px] w-full px-8 lg:px-16 py-5 text-center border-b border-gold-pale/15">
         <span className="font-technical text-gold-pale/85 drop-shadow-md">
-          Vitrine · MMXXVI · Lisboa
+          Vitrine · MMXXVI · Bordeaux
         </span>
       </div>
 
@@ -32,7 +32,7 @@ export function HeroV5() {
 
           <div className="relative px-6 py-12 lg:py-20 flex flex-col items-center gap-10">
             <h1
-              aria-label="Précieuse, joaillerie artisanale, Lisboa"
+              aria-label="Précieuse, joaillerie artisanale, Bordeaux"
               className="font-display italic leading-[0.85] tracking-[-0.045em] text-center select-none"
               style={{
                 fontSize: 'clamp(80px, 14vw, 220px)',

@@ -1,13 +1,9 @@
-import { m } from '#/paraglide/messages'
 import { BRAND_PICTO_MASK, maskStyle } from './brand/brand'
 import { useBrand } from './brand/BrandProvider'
+import type { HomePageData } from '../lib/content/home'
 
-const PAIRES = [
-  { roman: 'I', pas: () => m.avantpropos_pair1_pas(), mais: () => m.avantpropos_pair1_mais() },
-  { roman: 'II', pas: () => m.avantpropos_pair2_pas(), mais: () => m.avantpropos_pair2_mais() },
-  { roman: 'III', pas: () => m.avantpropos_pair3_pas(), mais: () => m.avantpropos_pair3_mais() },
-  { roman: 'IV', pas: () => m.avantpropos_pair4_pas(), mais: () => m.avantpropos_pair4_mais() },
-]
+/** Chiffres romains des paires du manifeste (la donnée Sanity ne les porte pas). */
+const ROMANS = ['I', 'II', 'III', 'IV'] as const
 
 const FILIGRANE_SVG_CLASS = 'w-[80px] h-6 text-rouille opacity-70'
 
@@ -120,84 +116,81 @@ function Seal() {
   return <SealRond />
 }
 
-export function AvantPropos() {
+export function AvantPropos({ apropos }: { apropos: HomePageData['avantPropos'] }) {
   return (
-    <section className="relative bg-poudre py-20 px-8 lg:px-16">
+    <section className="relative bg-poudre py-10 px-8 lg:px-16">
 
       <div className="mx-auto max-w-[1320px] grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
         <div className="relative md:order-1 order-2 mx-auto md:mx-0">
           <div className="relative w-full max-w-[460px] aspect-[3/4] border border-canard/30 overflow-hidden">
             <img
-              src="/images/emeline-portrait.jpg"
-              alt={m.avantpropos_portrait_alt()}
+              src={apropos.portrait.src}
+              alt={apropos.portrait.alt}
+              style={apropos.portrait.position ? { objectPosition: apropos.portrait.position } : undefined}
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
           <div className="mt-3 flex items-baseline justify-between max-w-[460px]">
             <span className="font-display text-[13px] tracking-[0.25em] uppercase text-canard/70">
-              Emeline Le Ray
+              {apropos.name}
             </span>
             <span className="font-display text-[12px] tracking-[0.2em] uppercase text-canard">
-              Bordeaux · MMXXVI
+              {apropos.place}
             </span>
           </div>
         </div>
 
         <div className="md:order-2 order-1">
-          <span className="font-display text-[10px] tracking-[0.45em] uppercase text-canard block mb-5">
-            {m.avantpropos_foreword()}
-          </span>
-
-          <div className="flex flex-col items-start mb-10">
+          <div className="flex flex-col items-start mb-5">
             <span className="font-display text-[34px] tracking-[0.18em] uppercase text-canard leading-none">
               Atelier
             </span>
             <div className="my-3">
               <Filigrane />
             </div>
-            <span className="font-headline text-[52px] text-canard leading-none">
+            <span className="font-headline text-[clamp(32px,6vw,52px)] text-canard leading-none">
               Précieuse
             </span>
           </div>
 
           <ul className="flex flex-col gap-7">
-            {PAIRES.map((p) => (
-              <li key={p.roman} className="grid grid-cols-[32px_1fr] gap-5 items-baseline">
-                <span className="font-display text-[15px] text-rouille opacity-80 tracking-wider">
-                  · {p.roman} ·
+            {apropos.manifesto.map((p, i) => (
+              <li key={i} className="grid grid-cols-[44px_1fr] gap-5 items-baseline">
+                <span className="font-display text-[15px] text-rouille opacity-80 tracking-wider whitespace-nowrap">
+                  · {ROMANS[i] ?? i + 1} ·
                 </span>
                 <div className="flex flex-col gap-1.5">
                   <span className="font-display text-[15px] text-canard/65 tracking-wide">
-                    {p.pas()}
+                    {p.pas}
                   </span>
                   <span className="font-display text-[20px] text-canard leading-[1.45]">
-                    {p.mais()}
+                    {p.mais}
                   </span>
                 </div>
               </li>
             ))}
           </ul>
 
-          <div className="mt-10 flex items-center gap-6 pt-6 border-t border-canard/15">
+          <div className="mt-6 flex items-center gap-6 pt-4 border-t border-canard/15">
             <Seal />
             <div className="flex flex-col">
-              <span className="font-display text-[18px] text-canard">Emeline Le Ray</span>
+              <span className="font-display text-[18px] text-canard">{apropos.name}</span>
               <span className="font-display text-[13px] text-canard/65 tracking-wide">
-                {m.avantpropos_credits_qualification()}
+                {apropos.qualification}
               </span>
               <span className="font-display text-[12px] text-canard/45 tracking-wide mt-0.5">
-                {m.avantpropos_credits_founder()}
+                {apropos.founder}
               </span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-12 flex justify-end max-w-[1320px] mx-auto">
-        <span className="font-display text-[13px] text-canard">p. 02</span>
+      <div className="mt-6 flex justify-end max-w-[1320px] mx-auto">
+        <span className="font-display text-[13px] text-framboise">p. 02</span>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 border-t border-canard/25" />
     </section>
   )
 }

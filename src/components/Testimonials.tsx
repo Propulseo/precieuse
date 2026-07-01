@@ -1,60 +1,45 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import type {
+  MouseEvent as ReactMouseEvent,
+  TouchEvent as ReactTouchEvent,
+} from 'react'
 import { m } from '#/paraglide/messages'
 import { LETTRES, type Lettre } from '../lib/content/lettres'
 
-const INTERVAL_MS = 8000
+const INTERVAL_MS = 7000
 
-function mod(n: number, m: number): number {
-  return ((n % m) + m) % m
-}
-
-type CardRole = 'focus' | 'peek-left' | 'peek-right' | 'hidden'
-
-function getRoleFor(i: number, current: number, n: number): CardRole {
-  const diff = mod(i - current, n)
-  if (diff === 0) return 'focus'
-  if (diff === 1) return 'peek-right'
-  if (diff === n - 1) return 'peek-left'
-  return 'hidden'
-}
-
-type Material = { bg: string; text: string; label: string }
-
-const MATERIALS: Material[] = [
-  { bg: 'bg-canard', text: 'text-poudre', label: 'text-poudre/55' },
-  { bg: 'bg-poudre-dark', text: 'text-canard', label: 'text-canard/60' },
-  { bg: 'bg-canard-10', text: 'text-canard', label: 'text-canard/60' },
+// Fallback si une lettre CMS n'a pas (encore) sa photo : les 3 bagues « sur chaise ».
+const FALLBACK_IMAGES = [
+  '/images/real/bague-main-chaise-aurore.webp',
+  '/images/real/bague-main-chaise-thelma.webp',
+  '/images/real/main-chaise-josephine.webp',
 ]
 
-function materialFor(i: number): Material {
-  return MATERIALS[mod(i, MATERIALS.length)]!
+function mod(n: number, base: number): number {
+  return ((n % base) + base) % base
 }
 
-const CARD_TRANSITION = 'transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]'
-
-function getCardClasses(role: CardRole, mat: Material): string {
-  const base = `absolute top-0 h-full rounded-[24px] p-6 lg:p-9 flex flex-col items-center justify-center text-center ${mat.bg} ${mat.text} ${CARD_TRANSITION}`
-  const sizing = 'w-[88%] max-w-[460px]'
-
-  if (role === 'focus') {
-    return `${base} ${sizing} left-1/2 -translate-x-1/2 z-30 opacity-100 scale-100 shadow-[0_30px_70px_-30px_rgba(26,12,4,0.45)]`
-  }
-  if (role === 'peek-right') {
-    return `${base} ${sizing} left-1/2 translate-x-[35%] z-10 opacity-35 scale-[0.82] pointer-events-none hidden md:flex`
-  }
-  if (role === 'peek-left') {
-    return `${base} ${sizing} left-1/2 -translate-x-[135%] z-10 opacity-35 scale-[0.82] pointer-events-none hidden md:flex`
-  }
-  return `${base} ${sizing} left-1/2 -translate-x-1/2 z-0 opacity-0 scale-[0.7] pointer-events-none`
-}
-
-export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
+/**
+ * Témoignages — « galerie portée » : une grande photo de la pièce portée
+ * (parallaxe à la souris) + une carte citation en verre poudré. 1 avis =
+ * 1 photo = 1 bague. Lecture auto (en vue, hors survol), swipe tactile, points
+ * de navigation, `prefers-reduced-motion` respecté.
+ */
+export function Testimonials({
+  lettres = LETTRES,
+  header,
+}: {
+  lettres?: Lettre[]
+  header: { line1: string; line2: string }
+}) {
   const N = lettres.length
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [inView, setInView] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
-  const [touchStartX, setTouchStartX] = useState<number | null>(null)
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+  const frameRef = useRef<HTMLDivElement>(null)
+  const touchStartX = useRef<number | null>(null)
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -64,115 +49,170 @@ export function Testimonials({ lettres = LETTRES }: { lettres?: Lettre[] }) {
     return () => mq.removeEventListener('change', handler)
   }, [])
 
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([e]) => setInView(!!e?.isIntersecting),
+      { threshold: 0.3 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  const goTo = useCallback((i: number) => setCurrent(mod(i, N)), [N])
   const goNext = useCallback(() => setCurrent((c) => mod(c + 1, N)), [N])
   const goPrev = useCallback(() => setCurrent((c) => mod(c - 1, N)), [N])
 
   useEffect(() => {
-    if (paused || reducedMotion) return
-    timerRef.current = setInterval(goNext, INTERVAL_MS)
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current)
-    }
-  }, [paused, reducedMotion, goNext])
+    if (!inView || paused || reducedMotion) return
+    const t = setInterval(goNext, INTERVAL_MS)
+    return () => clearInterval(t)
+  }, [inView, paused, reducedMotion, goNext])
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStartX(e.touches[0]?.clientX ?? null)
+  const onMove = (e: ReactMouseEvent<HTMLDivElement>) => {
+    const f = frameRef.current
+    if (!f || reducedMotion) return
+    const r = e.currentTarget.getBoundingClientRect()
+    const x = (e.clientX - r.left) / r.width - 0.5
+    const y = (e.clientY - r.top) / r.height - 0.5
+    f.style.transform = `translate(${x * -20}px, ${y * -20}px)`
   }
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null) return
-    const delta = (e.changedTouches[0]?.clientX ?? 0) - touchStartX
-    if (Math.abs(delta) >= 50) {
-      if (delta < 0) goNext()
-      else goPrev()
-    }
-    setTouchStartX(null)
+  const onLeave = () => {
+    if (frameRef.current) frameRef.current.style.transform = ''
   }
+  const onTouchStart = (e: ReactTouchEvent) => {
+    touchStartX.current = e.touches[0]?.clientX ?? null
+  }
+  const onTouchEnd = (e: ReactTouchEvent) => {
+    if (touchStartX.current === null) return
+    const delta = (e.changedTouches[0]?.clientX ?? 0) - touchStartX.current
+    if (Math.abs(delta) >= 50) (delta < 0 ? goNext : goPrev)()
+    touchStartX.current = null
+  }
+
+  const active = lettres[current]
+  if (!active) return null
+  const fade = reducedMotion
+    ? ''
+    : 'animate-in fade-in slide-in-from-bottom-2 duration-500'
 
   return (
     <section
+      ref={sectionRef}
       id="testimonials"
-      className="scroll-mt-20 relative bg-poudre py-14 lg:py-20 px-4 lg:px-8 overflow-hidden"
+      className="scroll-mt-20 relative bg-poudre py-8 lg:py-10 px-4 lg:px-8"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
       aria-roledescription="carousel"
       aria-label={m.testimonials_carousel_label()}
     >
-      <div className="mx-auto max-w-[1400px] flex flex-col items-center text-center">
-        <span className="inline-block px-5 py-1.5 rounded-full border border-canard/35 font-display text-[11px] tracking-[0.4em] uppercase text-canard/80">
-          {m.testimonials_overline()}
-        </span>
-
-        <h2 className="font-display text-[clamp(30px,4.2vw,52px)] leading-[1.05] text-canard mt-5 mb-9 lg:mb-12 max-w-[16ch]">
-          {m.testimonials_title_line1()}
-          <br />
-          {m.testimonials_title_line2()}
-        </h2>
-
-        <div className="relative w-full h-[300px] sm:h-[320px] lg:h-[340px]">
-          {lettres.map((t, i) => {
-            const role = getRoleFor(i, current, N)
-            const mat = materialFor(i)
-            return (
-              <article
-                key={t.auteur}
-                className={getCardClasses(role, mat)}
-                aria-hidden={role !== 'focus'}
-                aria-label={m.testimonials_card_label({ author: t.auteur, city: t.ville })}
-              >
-                <p
-                  className={`font-display text-[clamp(16px,1.7vw,20px)] leading-[1.45] ${mat.text}`}
-                >
-                  « {t.citation} »
-                </p>
-                <footer
-                  className={`mt-4 font-display text-[11px] tracking-[0.3em] uppercase ${mat.label}`}
-                >
-                  {t.auteur}, {t.ville}
-                </footer>
-              </article>
-            )
-          })}
+      <div className="mx-auto max-w-[1180px]">
+        <div className="text-center mb-7 lg:mb-9">
+          <h2 className="font-headline text-[clamp(28px,4vw,46px)] leading-[1.06] text-canard">
+            {header.line1} {header.line2}
+          </h2>
         </div>
 
         <div
-          className="flex items-center gap-3 mt-8 lg:mt-10"
-          role="group"
-          aria-label={m.testimonials_nav_label()}
+          className="relative h-[min(48vh,440px)] rounded-[30px] overflow-hidden shadow-[0_40px_80px_-46px_rgba(13,71,71,0.45)]"
+          onMouseMove={onMove}
+          onMouseLeave={onLeave}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
         >
-          <button
-            type="button"
-            onClick={goPrev}
-            aria-label={m.testimonials_prev_label()}
-            className="w-10 h-10 rounded-full border border-canard/30 flex items-center justify-center text-canard hover:bg-canard hover:text-poudre transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-canard"
+          <div
+            ref={frameRef}
+            className="absolute -inset-[7%] transition-transform duration-300 ease-out"
           >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-              <path
-                d="M9 2 L4 7 L9 12"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            {lettres.map((t, i) => (
+              <img
+                key={t.auteur}
+                src={t.image || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]!}
+                alt={t.imageAlt || m.testimonials_photo_alt({ model: t.piece })}
+                aria-hidden={i !== current}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                style={{ objectPosition: t.imagePosition }}
+                className={`absolute inset-0 w-full h-full object-cover ${
+                  reducedMotion ? '' : 'transition-opacity duration-1000 ease-out'
+                } ${i === current ? 'opacity-100' : 'opacity-0'}`}
               />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={goNext}
-            aria-label={m.testimonials_next_label()}
-            className="w-10 h-10 rounded-full border border-canard/30 flex items-center justify-center text-canard hover:bg-canard hover:text-poudre transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-canard"
+            ))}
+          </div>
+
+          {/* Voile dégradé pour asseoir la carte sur la gauche */}
+          <div className="absolute inset-0 bg-gradient-to-r from-canard/65 via-canard/15 to-transparent pointer-events-none" />
+
+          {/* Points (indiquent la position) */}
+          <div
+            className="absolute right-6 top-6 flex flex-col gap-2.5"
+            role="group"
+            aria-label={m.testimonials_nav_label()}
           >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-              <path
-                d="M5 2 L10 7 L5 12"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            {lettres.map((t, i) => (
+              <button
+                key={t.auteur}
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={m.testimonials_card_label({ author: t.auteur, city: t.ville })}
+                aria-current={i === current}
+                className={`w-[7px] rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-poudre ${
+                  i === current ? 'h-6 bg-framboise' : 'h-[7px] bg-poudre/55 hover:bg-poudre'
+                }`}
               />
-            </svg>
-          </button>
+            ))}
+          </div>
+
+          {/* Carte citation — verre poudré */}
+          <div className="absolute left-5 bottom-5 sm:left-7 sm:bottom-7 w-[min(500px,84%)] rounded-[22px] bg-poudre/85 backdrop-blur-md border border-white/50 p-5 sm:p-6 shadow-[0_30px_60px_-34px_rgba(13,71,71,0.55)]">
+            <p
+              key={current}
+              aria-live="polite"
+              className={`font-display text-[14.5px] sm:text-[16px] leading-[1.5] text-canard ${fade}`}
+            >
+              <span
+                aria-hidden
+                className="float-left font-display text-[38px] leading-[0.7] text-framboise mr-2.5 -mt-0.5 select-none"
+              >
+                «
+              </span>
+              {active.citation}
+            </p>
+            <div className="mt-4 flex items-end justify-between gap-4">
+              <span
+                key={`a-${current}`}
+                className={`font-display text-[12px] tracking-[0.28em] uppercase text-canard ${fade}`}
+              >
+                {active.auteur} · {active.ville}
+                <span className="block mt-1.5 font-body italic font-light text-[14px] tracking-normal normal-case text-canard/60">
+                  {active.piece}
+                </span>
+              </span>
+              <span className="flex gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={goPrev}
+                  aria-label={m.testimonials_prev_label()}
+                  className="w-9 h-9 rounded-full border border-canard/30 flex items-center justify-center text-canard hover:bg-canard hover:text-poudre transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-canard"
+                >
+                  <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
+                    <path d="M9 2 L4 7 L9 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={goNext}
+                  aria-label={m.testimonials_next_label()}
+                  className="w-9 h-9 rounded-full border border-canard/30 flex items-center justify-center text-canard hover:bg-canard hover:text-poudre transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-canard"
+                >
+                  <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
+                    <path d="M5 2 L10 7 L5 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

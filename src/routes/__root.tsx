@@ -2,6 +2,7 @@ import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
+  useRouterState,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
@@ -11,7 +12,11 @@ import ConvexProvider from '../integrations/convex/provider'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import { getLocale } from '#/paraglide/runtime'
-import { getSite, getFooter } from '../lib/cms'
+import { m } from '#/paraglide/messages'
+import { getSite, getFooter, getContact } from '../lib/cms'
+import { SITE } from '../lib/content/site'
+import { footerFallback } from '../lib/content/footer'
+import { contactFallback } from '../lib/content/contact'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
 import { SplashScreen } from '../components/SplashScreen'
@@ -19,6 +24,8 @@ import { WhatsAppButton } from '../components/WhatsAppButton'
 import { BrandProvider } from '../components/brand/BrandProvider'
 import { BrandToggle } from '../components/brand/BrandToggle'
 import { BRAND_NO_FLASH_SCRIPT } from '../components/brand/no-flash-script'
+import { ContactDrawerProvider } from '../components/contact/ContactDrawerProvider'
+import { ContactDrawer } from '../components/contact/ContactDrawer'
 
 import appCss from '../styles.css?url'
 
@@ -39,73 +46,102 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
   // Réglages globaux pilotés par Emeline dans Sanity (numéro WhatsApp, footer…),
   // avec repli sur les constantes/Paraglide si Sanity n'est pas configuré.
-  loader: async () => {
+  loader: async ({ location }) => {
+    // Le Studio (/studio) masque le chrome du site : inutile d'interroger Sanity
+    // pour les réglages globaux. On renvoie les replis typés (aucun appel réseau)
+    // → évite 3 requêtes GROQ superflues à chaque ouverture du Studio.
+    if (location.pathname === '/studio' || location.pathname.startsWith('/studio/')) {
+      return { site: SITE, footer: footerFallback(), contact: contactFallback() }
+    }
     const locale = getLocale()
-    const [site, footer] = await Promise.all([getSite(locale), getFooter()])
-    return { site, footer }
+    const [site, footer, contact] = await Promise.all([
+      getSite(locale),
+      getFooter(locale),
+      getContact(locale),
+    ])
+    return { site, footer, contact }
   },
 
   head: () => ({
     meta: [
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { title: 'Précieuse, Joaillerie artisanale, Bordeaux' },
+      // Valeurs SEO par défaut ; chaque route les écrase via seo() (src/lib/seo.ts).
+      { name: 'description', content: m.seo_default_desc() },
+      { name: 'theme-color', content: '#125e5e' },
+      { property: 'og:site_name', content: 'Précieuse' },
+      { property: 'og:type', content: 'website' },
       {
-        charSet: 'utf-8',
+        property: 'og:image',
+        content: 'https://precieuse-five.vercel.app/picto.png',
       },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'Précieuse, Joaillerie artisanale, Bordeaux',
-      },
+      { name: 'twitter:card', content: 'summary_large_image' },
     ],
     links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-      {
-        rel: 'icon',
-        type: 'image/png',
-        href: '/picto.png',
-      },
+      { rel: 'stylesheet', href: appCss },
+      { rel: 'icon', type: 'image/png', href: '/picto.png' },
+      { rel: 'apple-touch-icon', href: '/picto.png' },
+      { rel: 'manifest', href: '/manifest.json' },
     ],
   }),
   shellComponent: RootDocument,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { site, footer } = Route.useLoaderData()
+  const { site, footer, contact } = Route.useLoaderData()
+  // Le Studio Sanity (/studio) est plein écran : on masque le chrome du site.
+  const pathname = useRouterState({ select: (s) => s.location.pathname })
+  const isStudio = pathname === '/studio' || pathname.startsWith('/studio/')
   return (
-    <html lang={getLocale()} data-brand="canard" data-hero-mark="logo" data-seal="rond" data-filigrane="losange" data-carousel="glisse">
+    <html
+      suppressHydrationWarning
+      lang={getLocale()}
+      data-brand="canard"
+      data-hero-mark="logo"
+      data-seal="rond"
+      data-filigrane="losange"
+      data-carousel="glisse"
+    >
       <head>
         {/* No-flash : pose data-brand depuis localStorage avant le paint. */}
         <script dangerouslySetInnerHTML={{ __html: BRAND_NO_FLASH_SCRIPT }} />
         <HeadContent />
       </head>
       <body>
-        <SplashScreen />
-        <ConvexProvider>
-          <BrandProvider>
-            <Nav />
-            <main className="pt-16 min-h-screen">{children}</main>
-            <Footer footer={footer} />
-            <WhatsAppButton href={site.whatsapp} />
-            {/* Sélecteur de design réservé au dev : jamais exposé en prod. */}
-            {import.meta.env.DEV && <BrandToggle />}
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              TanStackQueryDevtools,
-            ]}
-          />
-          </BrandProvider>
-        </ConvexProvider>
+        {isStudio ? (
+          // Studio Sanity : plein écran, sans nav/footer/splash du site.
+          children
+        ) : (
+          <>
+            <SplashScreen tagline={site.baseline} />
+            <ConvexProvider>
+              <BrandProvider>
+                <ContactDrawerProvider>
+                  <Nav />
+                  <main className="pt-16 min-h-screen">{children}</main>
+                  <Footer footer={footer} />
+                  <WhatsAppButton href={site.whatsapp} label={site.whatsappLabel} />
+                  <ContactDrawer site={site} contact={contact} />
+                  {/* Sélecteur de design réservé au dev : jamais exposé en prod. */}
+                  {import.meta.env.DEV && <BrandToggle />}
+                  <TanStackDevtools
+                    config={{
+                      position: 'bottom-right',
+                    }}
+                    plugins={[
+                      {
+                        name: 'Tanstack Router',
+                        render: <TanStackRouterDevtoolsPanel />,
+                      },
+                      TanStackQueryDevtools,
+                    ]}
+                  />
+                </ContactDrawerProvider>
+              </BrandProvider>
+            </ConvexProvider>
+          </>
+        )}
         <Scripts />
       </body>
     </html>
