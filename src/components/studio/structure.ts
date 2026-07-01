@@ -44,10 +44,7 @@ export const structure: StructureResolver = (S) =>
       // — Pages — (singletons : éditeur mono-document, pas de doublon possible)
       singleton(S, 'homePage', "Page d'accueil", HomeIcon),
       singleton(S, 'surMesurePage', 'Page Sur-Mesure', SparkleIcon),
-      // creatricePage : pas encore seedée (retravaillée côté front) et lue via
-      // `[0]` sans `_id` canonique → on garde la liste tant qu'aucun document
-      // `_id: 'creatricePage'` n'existe. À passer en singleton() une fois créé.
-      S.documentTypeListItem('creatricePage').title('Page Créatrice (À propos)').icon(UserIcon),
+      singleton(S, 'creatricePage', 'Page Créatrice (À propos)', UserIcon),
       singleton(S, 'contact', 'Contact', CommentIcon),
 
       S.divider(),
