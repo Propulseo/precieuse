@@ -7,6 +7,7 @@ import { schemaTypes } from './sanity/schemaTypes'
 import { precieuseTheme } from './src/components/studio/theme'
 import { StudioLogo } from './src/components/studio/StudioLogo'
 import { structure } from './src/components/studio/structure'
+import { singletonDocumentActions, singletonNewDocumentOptions } from './src/components/studio/singletons'
 
 /**
  * Standalone Sanity Studio configuration.
@@ -31,5 +32,9 @@ export default defineConfig({
   plugins: [structureTool({ structure }), frFRLocale()],
   studio: {
     components: { logo: StudioLogo },
+  },
+  document: {
+    actions: singletonDocumentActions,
+    newDocumentOptions: singletonNewDocumentOptions,
   },
 })
