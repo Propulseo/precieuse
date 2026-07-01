@@ -13,7 +13,12 @@ export const siteSettings = defineType({
     }),
     defineField({ name: 'baseline', title: 'Baseline', type: 'localizedString' }),
     defineField({ name: 'email', title: 'Email', type: 'string' }),
-    defineField({ name: 'whatsapp', title: 'WhatsApp (URL)', type: 'url' }),
+    defineField({
+      name: 'whatsapp',
+      title: 'WhatsApp (URL)',
+      type: 'url',
+      description: 'Lien complet, ex. « https://wa.me/33612345678 ».',
+    }),
     defineField({
       name: 'whatsappLabel',
       title: 'WhatsApp — libellé du bouton flottant',
@@ -24,11 +29,13 @@ export const siteSettings = defineType({
       name: 'hours',
       title: 'Horaires',
       type: 'localizedString',
+      description: 'Ex. « Sur rendez-vous, du mardi au samedi ».',
     }),
     defineField({
       name: 'address',
       title: 'Adresse',
       type: 'object',
+      description: "Adresse de l'atelier affichée sur le site.",
       fields: [
         defineField({ name: 'street', title: 'Rue', type: 'string' }),
         defineField({ name: 'zip', title: 'Code postal', type: 'string' }),
