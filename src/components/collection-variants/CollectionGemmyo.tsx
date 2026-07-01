@@ -79,7 +79,7 @@ export function CollectionGemmyo({ products = PRODUCTS }: { products?: Product[]
           <div
             key={product.slug}
             id={`piece-${product.slug}`}
-            className="grid scroll-mt-20 grid-cols-1 lg:min-h-[42vh] lg:grid-cols-2"
+            className="mx-auto grid w-full max-w-[1200px] scroll-mt-20 grid-cols-1 lg:min-h-[42vh] lg:grid-cols-2"
           >
             <WornCell product={product} reversed={reversed} />
             <InfoCell product={product} reversed={reversed} />
