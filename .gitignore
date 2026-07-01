@@ -15,6 +15,12 @@ __unconfig*
 todos.json
 .planning/
 
+# Tooling de skills Claude Code (installe globalement, committe par erreur) — hors depot
+.claude/skills/
+.claude/settings.local.json
+.agents/
+.impeccable/
+
 # Logs de session Playwright MCP (debug)
 .playwright-mcp/
 
