@@ -6,6 +6,7 @@ import { dataset, projectId } from './sanity/env'
 import { schemaTypes } from './sanity/schemaTypes'
 import { precieuseTheme } from './src/components/studio/theme'
 import { StudioLogo } from './src/components/studio/StudioLogo'
+import { StudioIcon } from './src/components/studio/StudioIcon'
 import { structure } from './src/components/studio/structure'
 import { singletonDocumentActions, singletonNewDocumentOptions } from './src/components/studio/singletons'
 
@@ -25,6 +26,7 @@ import { singletonDocumentActions, singletonNewDocumentOptions } from './src/com
 export default defineConfig({
   basePath: '/studio',
   title: 'Précieuse',
+  icon: StudioIcon,
   projectId: projectId || 'placeholder',
   dataset,
   theme: precieuseTheme,
