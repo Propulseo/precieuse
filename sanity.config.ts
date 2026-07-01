@@ -1,11 +1,11 @@
-import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 
-import { apiVersion, dataset, projectId } from './sanity/env'
+import { dataset, projectId } from './sanity/env'
 import { schemaTypes } from './sanity/schemaTypes'
 import { precieuseTheme } from './src/components/studio/theme'
 import { StudioLogo } from './src/components/studio/StudioLogo'
+import { structure } from './src/components/studio/structure'
 
 /**
  * Standalone Sanity Studio configuration.
@@ -27,7 +27,7 @@ export default defineConfig({
   dataset,
   theme: precieuseTheme,
   schema: { types: schemaTypes },
-  plugins: [structureTool(), visionTool({ defaultApiVersion: apiVersion })],
+  plugins: [structureTool({ structure })],
   studio: {
     components: { logo: StudioLogo },
   },
