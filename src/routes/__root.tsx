@@ -14,6 +14,9 @@ import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
 import { getSite, getFooter, getContact } from '../lib/cms'
+import { SITE } from '../lib/content/site'
+import { footerFallback } from '../lib/content/footer'
+import { contactFallback } from '../lib/content/contact'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
 import { SplashScreen } from '../components/SplashScreen'
@@ -43,7 +46,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
   // Réglages globaux pilotés par Emeline dans Sanity (numéro WhatsApp, footer…),
   // avec repli sur les constantes/Paraglide si Sanity n'est pas configuré.
-  loader: async () => {
+  loader: async ({ location }) => {
+    // Le Studio (/studio) masque le chrome du site : inutile d'interroger Sanity
+    // pour les réglages globaux. On renvoie les replis typés (aucun appel réseau)
+    // → évite 3 requêtes GROQ superflues à chaque ouverture du Studio.
+    if (location.pathname === '/studio' || location.pathname.startsWith('/studio/')) {
+      return { site: SITE, footer: footerFallback(), contact: contactFallback() }
+    }
     const locale = getLocale()
     const [site, footer, contact] = await Promise.all([
       getSite(locale),
@@ -83,7 +92,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const { site, footer, contact } = Route.useLoaderData()
   // Le Studio Sanity (/studio) est plein écran : on masque le chrome du site.
   const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const isStudio = pathname.startsWith('/studio')
+  const isStudio = pathname === '/studio' || pathname.startsWith('/studio/')
   return (
     <html
       suppressHydrationWarning
