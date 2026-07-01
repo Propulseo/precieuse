@@ -26,7 +26,11 @@ export function Matieres({
           observer.disconnect()
         }
       },
-      { threshold: 0.15 },
+      // threshold 0 (et non 0.15) : sur mobile la section passe en une colonne
+      // et devient plus haute que l'écran — un seuil de 15 % ne serait jamais
+      // atteint, les cartes resteraient invisibles. Le rootMargin déclenche le
+      // reveal dès que le haut de la section entre franchement dans l'écran.
+      { threshold: 0, rootMargin: '0px 0px -10% 0px' },
     )
 
     observer.observe(el)
