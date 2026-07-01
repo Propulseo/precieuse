@@ -46,7 +46,7 @@ function InfoCell({ product, reversed }: { product: Product; reversed: boolean }
         {product.description}
       </p>
 
-      <div className="my-8 flex h-[150px] w-full items-center justify-center lg:my-9 lg:h-[190px]">
+      <div className="my-4 flex h-[130px] w-full items-center justify-center lg:my-5 lg:h-[160px]">
         <img
           src={product.packshot}
           alt={product.packshotAlt ?? `${product.name} — ${product.tagline}`}
