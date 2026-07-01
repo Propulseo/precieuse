@@ -4,6 +4,8 @@ import { structureTool } from 'sanity/structure'
 
 import { apiVersion, dataset, projectId } from './sanity/env'
 import { schemaTypes } from './sanity/schemaTypes'
+import { precieuseTheme } from './src/components/studio/theme'
+import { StudioLogo } from './src/components/studio/StudioLogo'
 
 /**
  * Standalone Sanity Studio configuration.
@@ -20,8 +22,13 @@ import { schemaTypes } from './sanity/schemaTypes'
  */
 export default defineConfig({
   basePath: '/studio',
+  title: 'Précieuse',
   projectId: projectId || 'placeholder',
   dataset,
+  theme: precieuseTheme,
   schema: { types: schemaTypes },
   plugins: [structureTool(), visionTool({ defaultApiVersion: apiVersion })],
+  studio: {
+    components: { logo: StudioLogo },
+  },
 })
