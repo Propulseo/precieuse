@@ -19,6 +19,7 @@ import { Route as CarnetRouteImport } from './routes/carnet'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CollectionIndexRouteImport } from './routes/collection.index'
 import { Route as CarnetIndexRouteImport } from './routes/carnet.index'
+import { Route as StudioSplatRouteImport } from './routes/studio.$'
 import { Route as PreviewNewsletterRouteImport } from './routes/preview.newsletter'
 import { Route as PreviewLoadersRouteImport } from './routes/preview.loaders'
 import { Route as PreviewLeadcaptureRouteImport } from './routes/preview.leadcapture'
@@ -79,6 +80,11 @@ const CarnetIndexRoute = CarnetIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => CarnetRoute,
+} as any)
+const StudioSplatRoute = StudioSplatRouteImport.update({
+  id: '/studio/$',
+  path: '/studio/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PreviewNewsletterRoute = PreviewNewsletterRouteImport.update({
   id: '/preview/newsletter',
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/preview/leadcapture': typeof PreviewLeadcaptureRoute
   '/preview/loaders': typeof PreviewLoadersRoute
   '/preview/newsletter': typeof PreviewNewsletterRoute
+  '/studio/$': typeof StudioSplatRoute
   '/carnet/': typeof CarnetIndexRoute
   '/collection/': typeof CollectionIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByTo {
   '/preview/leadcapture': typeof PreviewLeadcaptureRoute
   '/preview/loaders': typeof PreviewLoadersRoute
   '/preview/newsletter': typeof PreviewNewsletterRoute
+  '/studio/$': typeof StudioSplatRoute
   '/carnet': typeof CarnetIndexRoute
   '/collection': typeof CollectionIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -192,6 +200,7 @@ export interface FileRoutesById {
   '/preview/leadcapture': typeof PreviewLeadcaptureRoute
   '/preview/loaders': typeof PreviewLoadersRoute
   '/preview/newsletter': typeof PreviewNewsletterRoute
+  '/studio/$': typeof StudioSplatRoute
   '/carnet/': typeof CarnetIndexRoute
   '/collection/': typeof CollectionIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -216,6 +225,7 @@ export interface FileRouteTypes {
     | '/preview/leadcapture'
     | '/preview/loaders'
     | '/preview/newsletter'
+    | '/studio/$'
     | '/carnet/'
     | '/collection/'
     | '/api/auth/$'
@@ -236,6 +246,7 @@ export interface FileRouteTypes {
     | '/preview/leadcapture'
     | '/preview/loaders'
     | '/preview/newsletter'
+    | '/studio/$'
     | '/carnet'
     | '/collection'
     | '/api/auth/$'
@@ -258,6 +269,7 @@ export interface FileRouteTypes {
     | '/preview/leadcapture'
     | '/preview/loaders'
     | '/preview/newsletter'
+    | '/studio/$'
     | '/carnet/'
     | '/collection/'
     | '/api/auth/$'
@@ -279,6 +291,7 @@ export interface RootRouteChildren {
   PreviewLeadcaptureRoute: typeof PreviewLeadcaptureRoute
   PreviewLoadersRoute: typeof PreviewLoadersRoute
   PreviewNewsletterRoute: typeof PreviewNewsletterRoute
+  StudioSplatRoute: typeof StudioSplatRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -353,6 +366,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/carnet/'
       preLoaderRoute: typeof CarnetIndexRouteImport
       parentRoute: typeof CarnetRoute
+    }
+    '/studio/$': {
+      id: '/studio/$'
+      path: '/studio/$'
+      fullPath: '/studio/$'
+      preLoaderRoute: typeof StudioSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/preview/newsletter': {
       id: '/preview/newsletter'
@@ -470,6 +490,7 @@ const rootRouteChildren: RootRouteChildren = {
   PreviewLeadcaptureRoute: PreviewLeadcaptureRoute,
   PreviewLoadersRoute: PreviewLoadersRoute,
   PreviewNewsletterRoute: PreviewNewsletterRoute,
+  StudioSplatRoute: StudioSplatRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

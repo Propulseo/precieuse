@@ -2,6 +2,7 @@ import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
+  useRouterState,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
@@ -80,6 +81,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const { site, footer, contact } = Route.useLoaderData()
+  // Le Studio Sanity (/studio) est plein écran : on masque le chrome du site.
+  const pathname = useRouterState({ select: (s) => s.location.pathname })
+  const isStudio = pathname.startsWith('/studio')
   return (
     <html
       suppressHydrationWarning
@@ -96,32 +100,39 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <SplashScreen tagline={site.baseline} />
-        <ConvexProvider>
-          <BrandProvider>
-            <ContactDrawerProvider>
-              <Nav />
-              <main className="pt-16 min-h-screen">{children}</main>
-              <Footer footer={footer} />
-              <WhatsAppButton href={site.whatsapp} label={site.whatsappLabel} />
-              <ContactDrawer site={site} contact={contact} />
-              {/* Sélecteur de design réservé au dev : jamais exposé en prod. */}
-              {import.meta.env.DEV && <BrandToggle />}
-              <TanStackDevtools
-                config={{
-                  position: 'bottom-right',
-                }}
-                plugins={[
-                  {
-                    name: 'Tanstack Router',
-                    render: <TanStackRouterDevtoolsPanel />,
-                  },
-                  TanStackQueryDevtools,
-                ]}
-              />
-            </ContactDrawerProvider>
-          </BrandProvider>
-        </ConvexProvider>
+        {isStudio ? (
+          // Studio Sanity : plein écran, sans nav/footer/splash du site.
+          children
+        ) : (
+          <>
+            <SplashScreen tagline={site.baseline} />
+            <ConvexProvider>
+              <BrandProvider>
+                <ContactDrawerProvider>
+                  <Nav />
+                  <main className="pt-16 min-h-screen">{children}</main>
+                  <Footer footer={footer} />
+                  <WhatsAppButton href={site.whatsapp} label={site.whatsappLabel} />
+                  <ContactDrawer site={site} contact={contact} />
+                  {/* Sélecteur de design réservé au dev : jamais exposé en prod. */}
+                  {import.meta.env.DEV && <BrandToggle />}
+                  <TanStackDevtools
+                    config={{
+                      position: 'bottom-right',
+                    }}
+                    plugins={[
+                      {
+                        name: 'Tanstack Router',
+                        render: <TanStackRouterDevtoolsPanel />,
+                      },
+                      TanStackQueryDevtools,
+                    ]}
+                  />
+                </ContactDrawerProvider>
+              </BrandProvider>
+            </ConvexProvider>
+          </>
+        )}
         <Scripts />
       </body>
     </html>
