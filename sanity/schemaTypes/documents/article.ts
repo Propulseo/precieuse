@@ -23,7 +23,12 @@ export const article = defineType({
       options: { source: 'title.fr' },
       validation: (rule) => rule.required(),
     }),
-    defineField({ name: 'excerpt', title: 'Extrait', type: 'localizedText' }),
+    defineField({
+      name: 'excerpt',
+      title: 'Extrait',
+      type: 'localizedText',
+      description: 'Court résumé affiché dans la liste des articles du Carnet.',
+    }),
     defineField({
       name: 'lede',
       title: 'Chapô (intro mise en avant)',
@@ -81,6 +86,7 @@ export const article = defineType({
       name: 'category',
       title: 'Catégorie',
       type: 'string',
+      description: 'Sert à classer et filtrer les articles sur la page Carnet.',
       options: {
         list: [
           { title: 'Atelier', value: 'Atelier' },
@@ -95,12 +101,18 @@ export const article = defineType({
       type: 'string',
       description: 'Format libre (ex. « 12 mai 2026 »).',
     }),
-    defineField({ name: 'readTime', title: 'Temps de lecture', type: 'string' }),
+    defineField({
+      name: 'readTime',
+      title: 'Temps de lecture',
+      type: 'string',
+      description: 'Ex. « 4 min ».',
+    }),
     localizedImage(),
     defineField({
       name: 'featured',
       title: 'Mis en avant ?',
       type: 'boolean',
+      description: 'Cochez pour afficher cet article en tête de la page Carnet.',
       initialValue: false,
     }),
     defineField({ name: 'order', title: "Ordre d'affichage", type: 'number' }),
