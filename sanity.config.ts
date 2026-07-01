@@ -1,3 +1,4 @@
+import { frFRLocale } from '@sanity/locale-fr-fr'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 
@@ -27,7 +28,7 @@ export default defineConfig({
   dataset,
   theme: precieuseTheme,
   schema: { types: schemaTypes },
-  plugins: [structureTool({ structure })],
+  plugins: [structureTool({ structure }), frFRLocale()],
   studio: {
     components: { logo: StudioLogo },
   },
