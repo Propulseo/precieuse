@@ -19,6 +19,7 @@ export const creatricePage = defineType({
       name: 'sections',
       title: 'Sections',
       type: 'array',
+      description: 'Les blocs de texte (avec photo) qui racontent le parcours d\'Emeline, dans l\'ordre où ils apparaîtront.',
       of: [
         defineField({
           name: 'section',
@@ -31,6 +32,7 @@ export const creatricePage = defineType({
               name: 'body',
               title: 'Paragraphes',
               type: 'array',
+              description: 'Un paragraphe par élément de la liste.',
               of: [{ type: 'localizedText' }],
             }),
             localizedImage(),
@@ -41,7 +43,12 @@ export const creatricePage = defineType({
         }),
       ],
     }),
-    defineField({ name: 'quote', title: 'Citation', type: 'localizedText' }),
+    defineField({
+      name: 'quote',
+      title: 'Citation',
+      type: 'localizedText',
+      description: 'Citation de clôture affichée en fin de page.',
+    }),
   ],
   preview: {
     prepare: () => ({ title: 'Page Créatrice' }),
