@@ -20,15 +20,13 @@ import { CollectionIntro } from './collection-intro'
 function WornCell({ product, reversed }: { product: Product; reversed: boolean }) {
   const worn = product.photoPortee ?? '/images/placeholder-piece.svg'
   return (
-    <div className={`flex items-center justify-center bg-poudre p-4 lg:p-6 ${reversed ? 'lg:order-2' : ''}`}>
-      <div className="relative aspect-[4/5] w-full max-w-[380px] overflow-hidden bg-canard-10">
-        <img
-          src={worn}
-          alt={product.photoPorteeAlt ?? product.imageAlt}
-          style={objectPositionStyle(product.photoPorteePosition)}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      </div>
+    <div className={`relative min-h-[46vh] overflow-hidden bg-canard-10 ${reversed ? 'lg:order-2' : ''}`}>
+      <img
+        src={worn}
+        alt={product.photoPorteeAlt ?? product.imageAlt}
+        style={objectPositionStyle(product.photoPorteePosition)}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
     </div>
   )
 }
@@ -79,7 +77,7 @@ export function CollectionGemmyo({ products = PRODUCTS }: { products?: Product[]
           <div
             key={product.slug}
             id={`piece-${product.slug}`}
-            className="mx-auto grid w-full max-w-[1200px] scroll-mt-20 grid-cols-1 lg:min-h-[42vh] lg:grid-cols-2"
+            className="grid scroll-mt-20 grid-cols-1 lg:min-h-[46vh] lg:grid-cols-2"
           >
             <WornCell product={product} reversed={reversed} />
             <InfoCell product={product} reversed={reversed} />
