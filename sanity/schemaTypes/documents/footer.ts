@@ -5,9 +5,14 @@ const socialObject = defineField({
   title: 'Réseau social',
   type: 'object',
   fields: [
-    defineField({ name: 'label', title: 'Libellé', type: 'string' }),
-    defineField({ name: 'handle', title: 'Identifiant affiché', type: 'string' }),
-    defineField({ name: 'href', title: 'URL', type: 'url' }),
+    defineField({ name: 'label', title: 'Libellé', type: 'string', description: 'Nom du réseau, ex. « Instagram ».' }),
+    defineField({
+      name: 'handle',
+      title: 'Identifiant affiché',
+      type: 'string',
+      description: 'Ex. « @precieuse.bordeaux ».',
+    }),
+    defineField({ name: 'href', title: 'URL', type: 'url', description: 'Lien complet vers le profil.' }),
   ],
   preview: { select: { title: 'label', subtitle: 'handle' } },
 })
@@ -39,17 +44,20 @@ export const footer = defineType({
       name: 'responseLine1',
       title: 'Délai de réponse — ligne 1',
       type: 'localizedString',
+      description: 'Ex. « Réponse sous 48 h ».',
     }),
     defineField({
       name: 'responseLine2',
       title: 'Délai de réponse — ligne 2',
       type: 'localizedString',
+      description: 'Ex. « du lundi au vendredi ».',
     }),
     defineField({ name: 'copyright', title: 'Copyright', type: 'localizedString' }),
     defineField({
       name: 'atelierStamp',
       title: "Cachet d'atelier (un élément par ligne)",
       type: 'localizedText',
+      description: 'Petites mentions affichées comme un tampon, ex. « Fait main » sur une ligne, « Bordeaux » sur la suivante.',
     }),
   ],
   preview: {
