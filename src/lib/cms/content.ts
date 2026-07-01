@@ -498,19 +498,17 @@ export async function getLegalPage(
 // ---------------------------------------------------------------------------
 
 export type CreatriceImage = { url: string; alt: string; position?: string }
-export type CreatriceSection = {
-  overline: string
-  title: string
-  body: string[]
-  image: CreatriceImage
-}
 export type CreatriceContent = {
-  overline: string
-  title: string
-  intro: string
+  introTitle: string
+  introLede: string
   portrait: CreatriceImage
-  sections: CreatriceSection[]
+  captionName: string
+  captionPlace: string
+  parcours: string[]
+  philosophieBody: string
   quote: string
+  signatureName: string
+  signatureRole: string
 }
 
 /**
@@ -524,39 +522,31 @@ export async function getCreatrice(
   if (!isSanityConfigured) return null
   const data = await cmsFetch<Record<string, unknown> | null>(
     `*[_type == "creatricePage"][0]{
-      overline, title, intro,
+      introTitle, introLede,
       "portrait": portrait.asset->url, "portraitAlt": portrait.alt, "portraitHotspot": portrait.hotspot,
-      sections[]{
-        overline, title, body,
-        "image": image.asset->url, "imageAlt": image.alt, "imageHotspot": image.hotspot
-      },
-      quote
+      captionName, captionPlace,
+      parcours, philosophieBody, quote,
+      signatureName, signatureRole
     }`,
   )
   if (!data) return null
-  const sections = ((data.sections as Array<Record<string, unknown>> | undefined) ?? []).map((s) => ({
-    overline: pickLocale(s.overline as never, locale),
-    title: pickLocale(s.title as never, locale),
-    body: ((s.body as Array<unknown> | undefined) ?? [])
-      .map((b) => pickLocale(b as never, locale))
-      .filter(Boolean),
-    image: {
-      url: String(s.image ?? ''),
-      alt: pickLocale(s.imageAlt as never, locale),
-      position: hotspotToPosition(s.imageHotspot),
-    },
-  }))
   return {
-    overline: pickLocale(data.overline as never, locale),
-    title: pickLocale(data.title as never, locale),
-    intro: pickLocale(data.intro as never, locale),
+    introTitle: pickLocale(data.introTitle as never, locale),
+    introLede: pickLocale(data.introLede as never, locale),
     portrait: {
       url: String(data.portrait ?? ''),
       alt: pickLocale(data.portraitAlt as never, locale),
       position: hotspotToPosition(data.portraitHotspot),
     },
-    sections,
+    captionName: String(data.captionName ?? ''),
+    captionPlace: String(data.captionPlace ?? ''),
+    parcours: ((data.parcours as Array<unknown> | undefined) ?? [])
+      .map((p) => pickLocale(p as never, locale))
+      .filter(Boolean),
+    philosophieBody: pickLocale(data.philosophieBody as never, locale),
     quote: pickLocale(data.quote as never, locale),
+    signatureName: String(data.signatureName ?? ''),
+    signatureRole: pickLocale(data.signatureRole as never, locale),
   }
 }
 
