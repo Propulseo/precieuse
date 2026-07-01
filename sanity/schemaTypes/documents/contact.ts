@@ -30,12 +30,20 @@ export const contact = defineType({
       name: 'reassurance',
       title: 'Ligne de réassurance',
       type: 'localizedText',
+      description: 'Courte phrase qui rassure avant l\'envoi, ex. « Réponse sous 48 h, sans engagement ».',
     }),
-    defineField({ name: 'faq', title: 'Mini-FAQ', type: 'array', of: [faqItem] }),
+    defineField({
+      name: 'faq',
+      title: 'Mini-FAQ',
+      type: 'array',
+      description: 'Questions fréquentes affichées dans le panneau de contact.',
+      of: [faqItem],
+    }),
     defineField({
       name: 'successTitle',
       title: 'Message de succès — titre',
       type: 'localizedString',
+      description: 'Affiché juste après l\'envoi du formulaire de contact.',
     }),
     defineField({
       name: 'successBody',
