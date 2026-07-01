@@ -1,3 +1,17 @@
+import {
+  BookIcon,
+  CaseIcon,
+  CogIcon,
+  CommentIcon,
+  DiamondIcon,
+  DocumentTextIcon,
+  FolderIcon,
+  HomeIcon,
+  SparkleIcon,
+  TagIcon,
+  UserIcon,
+  UsersIcon,
+} from '@sanity/icons'
 import type { StructureResolver } from 'sanity/structure'
 
 /**
@@ -14,28 +28,28 @@ export const structure: StructureResolver = (S) =>
     .title('Contenu')
     .items([
       // — Pages —
-      S.documentTypeListItem('homePage').title("Page d'accueil"),
-      S.documentTypeListItem('surMesurePage').title('Page Sur-Mesure'),
-      S.documentTypeListItem('creatricePage').title('Page Créatrice (À propos)'),
-      S.documentTypeListItem('contact').title('Contact'),
+      S.documentTypeListItem('homePage').title("Page d'accueil").icon(HomeIcon),
+      S.documentTypeListItem('surMesurePage').title('Page Sur-Mesure').icon(SparkleIcon),
+      S.documentTypeListItem('creatricePage').title('Page Créatrice (À propos)').icon(UserIcon),
+      S.documentTypeListItem('contact').title('Contact').icon(CommentIcon),
 
       S.divider(),
 
       // — Bijoux —
-      S.documentTypeListItem('piece').title('Les bagues (collection)'),
-      S.documentTypeListItem('matiere').title('Matières'),
+      S.documentTypeListItem('piece').title('Les bagues (collection)').icon(DiamondIcon),
+      S.documentTypeListItem('matiere').title('Matières').icon(TagIcon),
 
       S.divider(),
 
       // — Carnet —
-      S.documentTypeListItem('article').title('Articles du Carnet'),
-      S.documentTypeListItem('temoignage').title('Témoignages'),
-      S.documentTypeListItem('etapeEtabli').title("Étapes de l'atelier"),
+      S.documentTypeListItem('article').title('Articles du Carnet').icon(BookIcon),
+      S.documentTypeListItem('temoignage').title('Témoignages').icon(UsersIcon),
+      S.documentTypeListItem('etapeEtabli').title("Étapes de l'atelier").icon(CaseIcon),
 
       S.divider(),
 
       // — Réglages —
-      S.documentTypeListItem('siteSettings').title('Paramètres du site'),
-      S.documentTypeListItem('footer').title('Pied de page'),
-      S.documentTypeListItem('legalPage').title('Pages légales'),
+      S.documentTypeListItem('siteSettings').title('Paramètres du site').icon(CogIcon),
+      S.documentTypeListItem('footer').title('Pied de page').icon(FolderIcon),
+      S.documentTypeListItem('legalPage').title('Pages légales').icon(DocumentTextIcon),
     ])
