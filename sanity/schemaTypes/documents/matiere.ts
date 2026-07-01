@@ -34,8 +34,14 @@ export const matiere = defineType({
       name: 'annotationCaveat',
       title: 'Annotation (manuscrite)',
       type: 'localizedString',
+      description: 'Petite note affichée comme écrite à la main à côté de la matière, ex. « rare et précieux ».',
     }),
-    defineField({ name: 'page', title: 'Folio (ex. p. 05)', type: 'string' }),
+    defineField({
+      name: 'page',
+      title: 'Folio (ex. p. 05)',
+      type: 'string',
+      description: 'Numéro de page décoratif, dans l\'esprit d\'un carnet. Purement esthétique.',
+    }),
     defineField({ name: 'order', title: "Ordre d'affichage", type: 'number' }),
   ],
   orderings: [
