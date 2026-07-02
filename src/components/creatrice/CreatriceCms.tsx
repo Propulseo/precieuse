@@ -15,14 +15,14 @@ export function CreatriceCms({ content }: { content: CreatriceContent }) {
     <>
       <EditorialHeader title={content.introTitle}>
         {content.introLede ? (
-          <p className="mx-auto max-w-[54ch] font-body italic font-light text-[clamp(14px,1.4vw,17px)] leading-[1.5] text-canard-90 [text-wrap:pretty]">
+          <p className="mx-auto max-w-[54ch] font-body italic font-light text-[clamp(14px,1.4vw,19px)] leading-[1.5] text-canard-90 [text-wrap:pretty]">
             {content.introLede}
           </p>
         ) : null}
       </EditorialHeader>
 
       <section className="overflow-hidden bg-poudre px-8 pb-6 pt-3 lg:px-16 lg:pt-4">
-        <div className="mx-auto max-w-[680px]">
+        <div className="mx-auto max-w-[clamp(680px,52vw,900px)]">
           {/* Portrait encadré + légende, avec filigranes de marque dans les marges. */}
           <figure className="relative mb-12 flex flex-col items-center">
             <span
@@ -36,7 +36,7 @@ export function CreatriceCms({ content }: { content: CreatriceContent }) {
               style={{ width: 360, height: 360, marginLeft: 200, opacity: 0.07, ...maskStyle(BRAND_PICTO_MASK, 'var(--canard)') }}
             />
             {content.portrait.url ? (
-              <div className="relative aspect-[3/4] w-[240px] max-w-[64vw] overflow-hidden border border-canard/30">
+              <div className="relative aspect-[3/4] w-[clamp(240px,22vw,320px)] max-w-[64vw] overflow-hidden border border-canard/30">
                 <img
                   src={content.portrait.url}
                   alt={content.portrait.alt}
@@ -60,8 +60,8 @@ export function CreatriceCms({ content }: { content: CreatriceContent }) {
               key={i}
               className={
                 i === 0
-                  ? 'font-display text-[18px] leading-[1.95] text-canard/85 first-letter:float-left first-letter:pr-3 first-letter:pt-2 first-letter:font-headline first-letter:text-[56px] first-letter:leading-[0.7] first-letter:text-framboise'
-                  : 'mt-5 font-display text-[18px] leading-[1.95] text-canard/85'
+                  ? 'font-display text-[clamp(18px,1.1vw,22px)] leading-[1.95] text-canard/85 first-letter:float-left first-letter:pr-3 first-letter:pt-2 first-letter:font-headline first-letter:text-[clamp(56px,5vw,72px)] first-letter:leading-[0.7] first-letter:text-framboise'
+                  : 'mt-5 font-display text-[clamp(18px,1.1vw,22px)] leading-[1.95] text-canard/85'
               }
             >
               {p}
@@ -71,15 +71,15 @@ export function CreatriceCms({ content }: { content: CreatriceContent }) {
           <Filigrane />
 
           {content.philosophieBody ? (
-            <p className="font-display text-[18px] leading-[1.95] text-canard/85">
+            <p className="font-display text-[clamp(18px,1.1vw,22px)] leading-[1.95] text-canard/85">
               {content.philosophieBody}
             </p>
           ) : null}
 
           {content.quote ? (
-            <blockquote className="relative mx-auto my-14 max-w-[560px] text-center">
+            <blockquote className="relative mx-auto my-14 max-w-[clamp(560px,42vw,740px)] text-center">
               <span aria-hidden className="mx-auto mb-6 block h-0.5 w-16 bg-framboise" />
-              <p className="font-display italic text-[clamp(23px,3.2vw,31px)] leading-[1.45] text-canard">
+              <p className="font-display italic text-[clamp(23px,3vw,34px)] leading-[1.45] text-canard">
                 {content.quote}
               </p>
             </blockquote>
@@ -89,7 +89,7 @@ export function CreatriceCms({ content }: { content: CreatriceContent }) {
           <div className="mt-12 flex flex-wrap items-center justify-center gap-8 border-t border-canard/15 pt-8">
             <Seal />
             <div className="text-center">
-              <div className="font-headline italic text-[44px] leading-none text-canard">
+              <div className="font-headline italic text-[clamp(44px,4vw,58px)] leading-none text-canard">
                 {content.signatureName}
               </div>
               <div className="mt-2.5 font-display text-[12px] uppercase tracking-[0.24em] text-canard/55">
