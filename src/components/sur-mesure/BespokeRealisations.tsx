@@ -12,7 +12,7 @@ export function BespokeRealisations({
   realisations: BespokePageData['realisations']
 }) {
   return (
-    <section className="mx-auto max-w-[1180px] px-[8vw] pb-16 pt-[60px]">
+    <section className="px-8 pb-16 pt-[60px] lg:px-14">
       <div className="mb-[54px] text-center">
         <Eyebrow className="mb-[14px] block">{realisations.eyebrow}</Eyebrow>
         <h2 className="font-display text-[clamp(28px,3.6vw,44px)] font-normal leading-[1.06]">

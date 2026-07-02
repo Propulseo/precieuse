@@ -18,7 +18,7 @@ export function BespokeProcess({
   manifeste: BespokePageData['manifeste']
 }) {
   return (
-    <section id="process" className="bg-poudre-dark px-[8vw] pb-16 pt-[60px]">
+    <section id="process" className="bg-poudre-dark px-8 pb-16 pt-[60px] lg:px-14">
       <Reveal>
         <div className="relative mx-auto grid max-w-[1080px] grid-cols-4 gap-[30px] max-[768px]:grid-cols-2 max-[768px]:gap-x-[26px] max-[768px]:gap-y-[42px] max-[460px]:grid-cols-1">
           {/* Filet horizontal reliant les étapes */}

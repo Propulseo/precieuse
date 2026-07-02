@@ -9,7 +9,7 @@ import type { BespokePageData } from '../../lib/content/bespoke'
  */
 export function BespokeSplit({ split }: { split: BespokePageData['split'] }) {
   return (
-    <section className="mx-auto grid max-w-[1240px] grid-cols-1 items-center gap-[clamp(36px,6vw,80px)] px-[8vw] pb-16 pt-6 md:grid-cols-2 max-md:pb-[74px]">
+    <section className="grid grid-cols-1 items-center gap-[clamp(36px,6vw,80px)] px-8 pb-16 pt-6 md:grid-cols-2 lg:px-14 max-md:pb-[74px]">
       <Reveal>
         <div>
           <Eyebrow className="mb-4 block">{split.eyebrow}</Eyebrow>

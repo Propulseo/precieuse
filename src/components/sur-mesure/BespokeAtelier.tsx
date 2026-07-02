@@ -16,8 +16,8 @@ export function BespokeAtelier({
 }) {
   const [a0, a1, a2] = atelier.images
   return (
-    <section className="overflow-hidden px-[8vw] pb-[68px] pt-16">
-      <div className="mx-auto grid max-w-[1240px] grid-cols-1 items-center gap-[clamp(40px,6vw,80px)] md:grid-cols-[1.05fr_.95fr]">
+    <section className="overflow-hidden px-8 pb-[68px] pt-16 lg:px-14">
+      <div className="grid grid-cols-1 items-center gap-[clamp(40px,6vw,80px)] md:grid-cols-[1.05fr_.95fr]">
         <Reveal>
           <div>
             <h2 className="max-w-[15ch] font-display text-[clamp(30px,4vw,54px)] font-normal leading-[1.06]">
