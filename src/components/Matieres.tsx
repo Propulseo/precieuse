@@ -129,34 +129,37 @@ export function Matieres({
             {header.subtitle}
           </p>
         </div>
-        {/* Flèches du carrousel — mobile uniquement (même langage que Témoignages). */}
-        <div className="flex shrink-0 gap-2 sm:hidden" aria-hidden={false}>
-          <button
-            type="button"
-            onClick={() => scrollByCard(-1)}
-            disabled={!canPrev}
-            aria-label={m.matieres_prev_label()}
-            className={arrowCls}
-          >
-            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
-              <path d="M9 2 L4 7 L9 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollByCard(1)}
-            disabled={!canNext}
-            aria-label={m.matieres_next_label()}
-            className={arrowCls}
-          >
-            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
-              <path d="M5 2 L10 7 L5 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </div>
         <span className="font-body italic font-light text-[13px] text-canard-90/40 hidden md:block -rotate-[0.5deg]">
           {header.marginNote}
         </span>
+      </div>
+
+      {/* Flèches du carrousel — mobile uniquement, sur leur propre rangée :
+          à 320px le titre 48px + les flèches ne tiennent pas côte à côte
+          (débordement horizontal constaté). */}
+      <div className="mb-3 flex justify-end gap-2 px-6 sm:hidden">
+        <button
+          type="button"
+          onClick={() => scrollByCard(-1)}
+          disabled={!canPrev}
+          aria-label={m.matieres_prev_label()}
+          className={arrowCls}
+        >
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
+            <path d="M9 2 L4 7 L9 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          onClick={() => scrollByCard(1)}
+          disabled={!canNext}
+          aria-label={m.matieres_next_label()}
+          className={arrowCls}
+        >
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
+            <path d="M5 2 L10 7 L5 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </div>
 
       {/* Mobile : carrousel — swipe natif + flèches (une carte à la fois). */}
