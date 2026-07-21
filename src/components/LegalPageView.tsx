@@ -55,7 +55,8 @@ export function LegalPageView({ title, blocks }: { title: string; blocks: unknow
   return (
     <section className="bg-poudre py-20 px-8 lg:px-16 min-h-screen">
       <div className="mx-auto max-w-[800px]">
-        <h1 className="font-headline text-[48px] text-canard leading-none mb-8">{title}</h1>
+        {/* clamp : « confidentialité » à 48px fixes déborde d'un écran de 320px. */}
+        <h1 className="font-headline text-[clamp(30px,10vw,48px)] text-canard leading-none mb-8">{title}</h1>
         {blocks.length ? (
           <PortableText value={blocks} components={components} />
         ) : (

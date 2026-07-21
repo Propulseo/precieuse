@@ -173,9 +173,12 @@ export function AvantPropos({ apropos }: { apropos: HomePageData['avantPropos'] 
             ))}
           </ul>
 
-          <div className="mt-6 flex items-center gap-6 pt-4 border-t border-canard/15">
+          {/* flex-wrap + min-w-0 : à 320px le cachet (variante épurée, ligne
+              insécable ~200px) et la signature ne tiennent pas côte à côte —
+              sans wrap, la signature sort de l'écran (scroll horizontal). */}
+          <div className="mt-6 flex flex-wrap items-center gap-6 pt-4 border-t border-canard/15">
             <Seal />
-            <div className="flex flex-col">
+            <div className="flex min-w-0 flex-col">
               <span className="font-display text-[18px] text-canard">{apropos.name}</span>
               <span className="font-display text-[13px] text-canard/65 tracking-wide">
                 {apropos.qualification}
