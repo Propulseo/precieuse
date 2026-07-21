@@ -79,6 +79,18 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { name: 'twitter:card', content: 'summary_large_image' },
     ],
     links: [
+      // Fonts Google en <link> direct (plus d'@import dans styles.css) : le
+      // preconnect ouvre les connexions pendant que le HTML se parse.
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossOrigin: 'anonymous',
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Spectral:wght@500;600&family=Ysabeau+Office:ital,wght@0,200;0,300;1,300&display=swap',
+      },
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', type: 'image/png', href: '/picto.png' },
       { rel: 'apple-touch-icon', href: '/picto.png' },

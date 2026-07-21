@@ -8,6 +8,16 @@ export function SplashScreen({ tagline }: { tagline?: string }) {
   const [phase, setPhase] = useState<'showing' | 'fading' | 'hidden'>('showing')
 
   useEffect(() => {
+    // prefers-reduced-motion : pas d'animation d'entrée de 4 s imposée.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setPhase('hidden')
+      try {
+        sessionStorage.setItem(STORAGE_KEY, '1')
+      } catch {
+        /* stockage indisponible */
+      }
+      return
+    }
     try {
       if (sessionStorage.getItem(STORAGE_KEY)) {
         setPhase('hidden')

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { m } from '#/paraglide/messages'
 import { BESPOKE_STEP_SVGS, bespokePageFallback } from '../lib/content/bespoke'
 import type { BespokeStepData } from '../lib/content/bespoke'
@@ -58,12 +59,12 @@ export function SurMesure({
         </div>
 
         <div className="mt-6 flex flex-col items-center gap-4">
-          <a
-            href="/sur-mesure"
+          <Link
+            to="/sur-mesure"
             className="inline-block bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-10 py-3.5 hover:bg-canard-90 transition-colors duration-300"
           >
             {m.surmesure_cta()}
-          </a>
+          </Link>
           <span className="font-display text-[13px] text-canard/55">
             {header.meta}
           </span>

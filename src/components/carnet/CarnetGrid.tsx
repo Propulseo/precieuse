@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import { ARTICLES, type Article } from '../../lib/content/carnet'
 import { m } from '#/paraglide/messages'
 import { objectPositionStyle } from '../framing/framing'
@@ -54,8 +55,9 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
           <div className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((article) => (
               <article key={article.slug} className="group flex flex-col">
-                <a
-                  href={`/carnet/${article.slug}`}
+                <Link
+                  to="/carnet/$slug"
+                  params={{ slug: article.slug }}
                   className="relative mb-5 block aspect-[3/2] overflow-hidden"
                 >
                   <img
@@ -66,7 +68,7 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
                     decoding="async"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                   />
-                </a>
+                </Link>
 
                 <div className="mb-3 flex items-center gap-3">
                   <span className="font-display text-[11px] uppercase tracking-[0.25em] text-framboise">
@@ -78,11 +80,11 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
                   </span>
                 </div>
 
-                <a href={`/carnet/${article.slug}`}>
+                <Link to="/carnet/$slug" params={{ slug: article.slug }}>
                   <h3 className="font-headline text-[22px] leading-[1.15] text-canard transition-colors duration-300 group-hover:text-framboise lg:text-[24px] [text-wrap:balance]">
                     {article.title}
                   </h3>
-                </a>
+                </Link>
 
                 <p className="mt-2.5 flex-1 font-body font-light text-[15px] md:text-[14px] leading-relaxed text-canard/90 [text-wrap:pretty]">
                   {article.excerpt}

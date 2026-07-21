@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { m } from '#/paraglide/messages'
 import { BRAND_WORDMARK_MASK, maskStyle } from '../brand/brand'
 import { useBrand } from '../brand/BrandProvider'
@@ -128,18 +129,18 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
             {hero.subline}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="/collection"
+            <Link
+              to="/collection"
               className="inline-flex items-center justify-center min-w-[260px] whitespace-nowrap font-display text-[12px] tracking-[0.25em] uppercase border border-poudre/80 px-7 py-3.5 hover:bg-poudre hover:text-canard transition-colors duration-300"
             >
               {m.hero_cta_collection()}
-            </a>
-            <a
-              href="/sur-mesure"
+            </Link>
+            <Link
+              to="/sur-mesure"
               className="inline-flex items-center justify-center min-w-[260px] whitespace-nowrap font-display text-[12px] tracking-[0.25em] uppercase bg-poudre text-canard border border-poudre px-7 py-3.5 hover:bg-transparent hover:text-poudre transition-colors duration-300"
             >
               {m.hero_cta_bespoke()}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

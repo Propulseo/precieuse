@@ -2,8 +2,8 @@
  * Precieuse v2 — Design tokens (direction v4c)
  * ============================================================ */
 
-/* Polices Google — chargees ici plutot que via <link> pour limiter les FOUT */
-@import url('https://fonts.googleapis.com/css2?family=Spectral:wght@500;600&family=Ysabeau+Office:ital,wght@0,200;0,300;1,300&display=swap');
+/* Polices Google : chargées via <link> + preconnect dans __root.tsx — un
+   @import ici créait une chaîne bloquante CSS → CSS Google → woff2. */
 
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';

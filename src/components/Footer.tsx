@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { m } from '#/paraglide/messages'
 import { FOOTER_DATA } from '../lib/content/footer'
 import type { FooterContent } from '../lib/content/footer'
@@ -17,17 +18,19 @@ const BRAND_LOGO = '/brand/footer-logo-poudre-w360.png'
  * agence et aria-labels restent structurels via Paraglide (FR/EN/PT).
  */
 export function Footer({ footer }: { footer: FooterContent }) {
+  // `as const` : les href restent des littéraux → compatibles avec le `to` typé
+  // de <Link> (navigation SPA, plus de rechargement complet de page).
   const navLinks = [
     { label: m.footer_nav_collection(), href: '/collection' },
     { label: m.footer_nav_journal(), href: '/carnet' },
     { label: m.footer_nav_atelier(), href: '/creatrice' },
     { label: m.footer_nav_bespoke(), href: '/sur-mesure' },
-  ]
+  ] as const
   const legalLinks = [
     { label: m.footer_legal_mentions(), href: '/mentions-legales' },
     { label: m.footer_legal_privacy(), href: '/confidentialite' },
     { label: m.footer_legal_terms(), href: '/cgv' },
-  ]
+  ] as const
   const social = footer.social
   const email = footer.email
 
@@ -72,9 +75,9 @@ export function Footer({ footer }: { footer: FooterContent }) {
             <p className={eyebrow}>{m.footer_navigate()}</p>
             <nav className="flex flex-col gap-2.5" aria-label={m.footer_nav_aria()}>
               {navLinks.map((l) => (
-                <a key={l.label} href={l.href} className={link}>
+                <Link key={l.label} to={l.href} className={link}>
                   {l.label}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>
@@ -124,9 +127,9 @@ export function Footer({ footer }: { footer: FooterContent }) {
           </a>
           <nav className="flex items-center gap-4 flex-wrap" aria-label={m.footer_legal_aria()}>
             {legalLinks.map((l) => (
-              <a key={l.label} href={l.href} className="py-2 md:py-0 hover:text-poudre transition-colors duration-300">
+              <Link key={l.label} to={l.href} className="py-2 md:py-0 hover:text-poudre transition-colors duration-300">
                 {l.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
