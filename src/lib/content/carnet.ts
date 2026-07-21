@@ -457,18 +457,6 @@ export const ARTICLES: Article[] = [
         kind: 'p',
         text: "Entre deux visites, vous pouvez faire un test tout simple : passez délicatement l'ongle sur les griffes. Si l'une accroche ou semble relevée, ou si vous sentez la pierre bouger, ne tardez pas. Et si un accident arrive, surtout : ne tentez pas de redresser l'anneau ni de recoller une pierre vous-même. Glissez le bijou, et la pierre, si vous l'avez, dans un sachet, et confiez-le-nous. À l'atelier, on resserre les griffes, on nettoie en profondeur, on rend au métal son éclat, et, pour l'or blanc, on rafraîchit le rhodium quand il s'est usé.",
       },
-      { kind: 'h2', text: 'Les gestes qui comptent' },
-      {
-        kind: 'list',
-        items: [
-          'Nettoyer en douceur : eau tiède, savon doux, brosse souple, puis on sèche.',
-          'Bannir les abrasifs (dentifrice, bicarbonate) et les ultrasons maison.',
-          "Mettre sa bague en dernier, la retirer en premier (crème et parfum d'abord, bijoux ensuite).",
-          "L'ôter pour le sport, le ménage, la piscine et la mer.",
-          "La ranger seule, à l'abri des chocs et des pierres plus dures.",
-          'La faire vérifier une à deux fois par an, et réagir vite si une pierre bouge.',
-        ],
-      },
       {
         kind: 'p',
         text: "Une bague, au fond, se patine comme une vie : elle prend de petites marques, et c'est très bien ainsi. Le tout est de veiller à l'essentiel, les pierres bien tenues, et de la porter, justement, sans trop y penser. C'est à cela qu'elle est faite.",
