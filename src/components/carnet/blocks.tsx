@@ -1,9 +1,4 @@
-import { Fragment } from 'react'
-import { m } from '#/paraglide/messages'
 import type { ArticleBlock } from '../../lib/content/carnet'
-
-/** Numéros du mémo d'atelier (variante mobile des blocs liste). */
-const MEMO_ROMANS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']
 
 /** Slug stable pour les ancres de sommaire (sans accents, kebab-case).
  *  Repli `section` si le titre ne produit aucun caractère exploitable. */
@@ -82,38 +77,13 @@ export function ArticleBlocks({
             )
           case 'list':
             return (
-              <Fragment key={i}>
-                {/* ≥ md : liste à puces d'origine, strictement inchangée. */}
-                <ul className={`max-md:hidden ${styles.list}`}>
-                  {block.items.map((it) => (
-                    <li key={it} className={styles.listItem}>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-                {/* Mobile : « mémo d'atelier » — mêmes items, mis en scène
-                    (numéros romains, filets) pour éviter l'effet liste brute. */}
-                <div className="md:hidden mt-6 border border-canard/15 px-5 py-5">
-                  <p className="mb-1 text-center font-display text-[11px] uppercase tracking-[0.32em] text-framboise">
-                    · {m.article_memo_label()} ·
-                  </p>
-                  <ul>
-                    {block.items.map((it, j) => (
-                      <li
-                        key={it}
-                        className="flex items-baseline gap-3.5 border-t border-canard/10 py-2.5 first:border-t-0"
-                      >
-                        <span className="shrink-0 font-display text-[12px] tracking-[0.18em] text-framboise">
-                          {MEMO_ROMANS[j] ?? j + 1}
-                        </span>
-                        <span className="font-body text-[15px] font-light leading-relaxed text-canard/85">
-                          {it}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Fragment>
+              <ul key={i} className={styles.list}>
+                {block.items.map((it) => (
+                  <li key={it} className={styles.listItem}>
+                    {it}
+                  </li>
+                ))}
+              </ul>
             )
           default: {
             const cap = dropCap && firstParagraph
