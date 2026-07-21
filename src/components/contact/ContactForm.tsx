@@ -77,6 +77,8 @@ export function ContactForm({
           <span className={labelCls}>{m.contact_field_name()}</span>
           <input
             type="text"
+            name="name"
+            autoComplete="name"
             required
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
@@ -87,6 +89,8 @@ export function ContactForm({
           <span className={labelCls}>{m.contact_field_email()}</span>
           <input
             type="email"
+            name="email"
+            autoComplete="email"
             required
             value={form.email}
             onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}

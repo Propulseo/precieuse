@@ -102,10 +102,10 @@ export function LeadCaptureA({
         </fieldset>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5 w-full mb-7 text-left">
-          <FieldA label={m.leadcapture_field_firstname()} name="prenom" required />
-          <FieldA label={m.leadcapture_field_lastname()} name="nom" required />
-          <FieldA label={m.leadcapture_field_email()} name="email" type="email" required />
-          <FieldA label={m.leadcapture_field_phone()} name="phone" type="tel" prefix="FR" />
+          <FieldA label={m.leadcapture_field_firstname()} name="prenom" autoComplete="given-name" required />
+          <FieldA label={m.leadcapture_field_lastname()} name="nom" autoComplete="family-name" required />
+          <FieldA label={m.leadcapture_field_email()} name="email" type="email" autoComplete="email" required />
+          <FieldA label={m.leadcapture_field_phone()} name="phone" type="tel" autoComplete="tel" prefix="FR" />
         </div>
 
         <button
@@ -135,12 +135,14 @@ function FieldA({
   label,
   name,
   type = 'text',
+  autoComplete,
   required = false,
   prefix,
 }: {
   label: string
   name: string
   type?: string
+  autoComplete?: string
   required?: boolean
   prefix?: string
 }) {
@@ -156,6 +158,7 @@ function FieldA({
         <input
           type={type}
           name={name}
+          autoComplete={autoComplete}
           required={required}
           className="flex-1 bg-transparent py-2 font-display text-[16px] text-canard placeholder:text-canard/55 focus:outline-none"
         />

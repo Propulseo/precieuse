@@ -51,13 +51,16 @@ export function NewsletterB({ isOpen, onClose, onSubmit, content }: Props) {
         }}
         className="mt-5 space-y-2"
       >
+        {/* 16px de base : sous 16px, iOS zoome automatiquement au focus. */}
         <input
           type="email"
+          name="email"
+          autoComplete="email"
           placeholder={m.newsletter_placeholder()}
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full bg-poudre-dark/30 border border-canard/15 rounded-md px-3 py-2 font-display text-[14px] text-canard placeholder:text-canard/40 focus:border-canard focus:outline-none"
+          className="w-full bg-poudre-dark/30 border border-canard/15 rounded-md px-3 py-2 font-display text-[16px] md:text-[14px] text-canard placeholder:text-canard/40 focus:border-canard focus:outline-none"
         />
         <button
           type="submit"
