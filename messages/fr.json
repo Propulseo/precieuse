@@ -80,6 +80,8 @@
   "etabli_photo_caption": "cliché",
   "etabli_fragment_label": "FRAGMENT {roman}",
   "etabli_footer_note": "quatre étapes, pas une de moins",
+  "etabli_prev_label": "Fragment précédent",
+  "etabli_next_label": "Fragment suivant",
   "etabli_day_monday": "lundi",
   "etabli_day_tuesday": "mardi",
   "etabli_day_wednesday": "mercredi",

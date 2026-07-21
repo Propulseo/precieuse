@@ -80,6 +80,8 @@
   "etabli_photo_caption": "snapshot",
   "etabli_fragment_label": "FRAGMENT {roman}",
   "etabli_footer_note": "four stages, not one fewer",
+  "etabli_prev_label": "Previous fragment",
+  "etabli_next_label": "Next fragment",
   "etabli_day_monday": "Monday",
   "etabli_day_tuesday": "Tuesday",
   "etabli_day_wednesday": "Wednesday",

@@ -23,6 +23,9 @@ export function Etabli({
 }) {
   const [active, setActive] = useState(0)
   const stepRefs = useRef<(HTMLDivElement | null)[]>([])
+  // Carrousel mobile (fragments) : position + état des flèches.
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  const [mobileIdx, setMobileIdx] = useState(0)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -43,6 +46,26 @@ export function Etabli({
   const step = steps[active]
   if (!step) return null
 
+  /** Position de défilement → index de la carte courante + état des flèches. */
+  function onScrollerScroll() {
+    const el = scrollerRef.current
+    if (!el || !el.firstElementChild) return
+    const cardW = el.firstElementChild.getBoundingClientRect().width + 16
+    setMobileIdx(Math.max(0, Math.min(steps.length - 1, Math.round(el.scrollLeft / cardW))))
+  }
+
+  /** Fait défiler d'une carte (respecte prefers-reduced-motion). */
+  function scrollByCard(dir: 1 | -1) {
+    const el = scrollerRef.current
+    if (!el || !el.firstElementChild) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const cardW = el.firstElementChild.getBoundingClientRect().width + 16
+    el.scrollBy({ left: dir * cardW, behavior: reduce ? 'auto' : 'smooth' })
+  }
+
+  const arrowCls =
+    'flex h-11 w-11 items-center justify-center rounded-full border border-canard/30 text-canard transition-opacity duration-300 disabled:opacity-25'
+
   return (
     <section className="relative bg-poudre">
       <header className="relative px-8 lg:px-16 pt-12 pb-8">
@@ -56,10 +79,88 @@ export function Etabli({
             <Eyebrow className="mb-3">{header.overline}</Eyebrow>
             <h2 className="font-headline text-[clamp(32px,6vw,56px)] text-canard leading-[0.95]">{header.title}</h2>
           </div>
+          {/* Flèches du carrousel — mobile/tablette uniquement (même langage que Matières). */}
+          <div className="flex shrink-0 gap-2 lg:hidden">
+            <button
+              type="button"
+              onClick={() => scrollByCard(-1)}
+              disabled={mobileIdx <= 0}
+              aria-label={m.etabli_prev_label()}
+              className={arrowCls}
+            >
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
+                <path d="M9 2 L4 7 L9 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByCard(1)}
+              disabled={mobileIdx >= steps.length - 1}
+              aria-label={m.etabli_next_label()}
+              className={arrowCls}
+            >
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
+                <path d="M5 2 L10 7 L5 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
         </div>
       </header>
 
-      <div className="relative">
+      {/* Mobile/tablette : carrousel — un fragment par carte, swipe natif + flèches. */}
+      <div className="lg:hidden">
+        <div
+          ref={scrollerRef}
+          onScroll={onScrollerScroll}
+          role="list"
+          aria-label={header.title}
+          className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-8 px-8 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {steps.map((s) => {
+            const detailFirst = s.detail.charAt(0)
+            const detailRest = s.detail.slice(1)
+            return (
+              <div key={s.roman} role="listitem" className="w-[85vw] max-w-[420px] shrink-0 snap-start">
+                <div className="relative aspect-[4/5] w-full overflow-hidden">
+                  <img
+                    src={s.image}
+                    alt={s.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                    style={objectPositionStyle(s.imagePosition)}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
+                <div className="mt-5 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <span className="block w-10 h-px bg-canard" />
+                    <span className="font-display text-[12px] tracking-[0.35em] text-framboise">
+                      {m.etabli_fragment_label({ roman: s.roman })}
+                    </span>
+                  </div>
+                  <h3 className="font-headline text-[clamp(30px,7vw,40px)] text-canard leading-[0.98]">{s.title}.</h3>
+                  <div className="relative inline-block w-full">
+                    <p className="font-body italic font-light text-[19px] text-canard-90 leading-relaxed">{s.annotation}</p>
+                    <BrushUnderline />
+                  </div>
+                  <p className="font-display text-[16px] text-canard/75 leading-relaxed pt-2">
+                    <span className="font-display float-left mr-3 mt-1.5 text-[52px] leading-[0.8] text-canard">
+                      {detailFirst}
+                    </span>
+                    {detailRest}
+                  </p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <p aria-hidden className="mt-4 text-center font-display text-[13px] tracking-widest text-canard/60">
+          {String(mobileIdx + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
+        </p>
+      </div>
+
+      {/* ≥ lg : mise en scène d'origine (image sticky + textes scrollés), inchangée. */}
+      <div className="relative hidden lg:block">
         <div className="mx-auto max-w-[1440px] px-8 lg:px-16 grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-16 lg:gap-24">
           {/* Image sticky desktop */}
           <div className="hidden lg:block">
@@ -101,10 +202,6 @@ export function Etabli({
                   data-active={isActive}
                   className="group min-h-[60vh] flex flex-col justify-center py-8 relative"
                 >
-                  <div className="lg:hidden relative w-full aspect-[4/5] mb-8 overflow-hidden">
-                    <img src={s.image} alt={s.imageAlt} loading="lazy" decoding="async" style={objectPositionStyle(s.imagePosition)} className="absolute inset-0 w-full h-full object-cover" />
-                  </div>
-
                   <div className="space-y-7 transition-[opacity,transform] duration-700 ease-out group-data-[active=false]:opacity-50 group-data-[active=false]:translate-y-2">
                     <div className="flex items-center gap-3">
                       <span className="block w-10 h-px bg-canard" />
