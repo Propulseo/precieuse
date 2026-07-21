@@ -81,7 +81,7 @@ export function ContactDrawer({
           type="button"
           onClick={close}
           aria-label={m.contact_close_aria()}
-          className="absolute top-[18px] right-[18px] z-[5] flex h-[38px] w-[38px] items-center justify-center rounded-full border border-canard/60 text-canard opacity-70 transition-all hover:rotate-90 hover:opacity-100"
+          className="absolute top-[14px] right-[14px] z-[5] flex h-11 w-11 md:top-[18px] md:right-[18px] md:h-[38px] md:w-[38px] items-center justify-center rounded-full border border-canard/60 text-canard opacity-70 transition-all hover:rotate-90 hover:opacity-100"
         >
           ✕
         </button>

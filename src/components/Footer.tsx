@@ -32,8 +32,9 @@ export function Footer({ footer }: { footer: FooterContent }) {
 
   const eyebrow =
     'font-display text-[11px] tracking-[0.32em] uppercase text-poudre/85 mb-4'
+  // py mobile : espace les liens empilés pour des zones tactiles confortables.
   const link =
-    'font-display text-[15px] text-poudre/90 hover:text-poudre transition-colors duration-300 w-fit'
+    'font-display text-[15px] text-poudre/90 hover:text-poudre transition-colors duration-300 w-fit py-1.5 md:py-0'
 
   return (
     <footer className="relative overflow-hidden bg-canard text-poudre">
@@ -122,7 +123,7 @@ export function Footer({ footer }: { footer: FooterContent }) {
           </a>
           <nav className="flex items-center gap-4 flex-wrap" aria-label={m.footer_legal_aria()}>
             {legalLinks.map((l) => (
-              <a key={l.label} href={l.href} className="hover:text-poudre transition-colors duration-300">
+              <a key={l.label} href={l.href} className="py-2 md:py-0 hover:text-poudre transition-colors duration-300">
                 {l.label}
               </a>
             ))}

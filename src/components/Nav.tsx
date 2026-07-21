@@ -48,7 +48,7 @@ function LangList({
             onSelect?.()
           }}
           aria-current={loc === current}
-          className={`font-display text-[13px] uppercase tracking-[0.18em] transition-colors ${
+          className={`-m-2 p-2 font-display text-[13px] uppercase tracking-[0.18em] transition-colors ${
             loc === current ? active : `${idle} cursor-pointer`
           }`}
         >
@@ -129,6 +129,28 @@ export function Nav() {
   const { open: openContact } = useContactDrawer()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const headerRef = useRef<HTMLElement>(null)
+
+  // Ferme le menu mobile au clic/tap hors du header et à la touche Échap.
+  useEffect(() => {
+    if (!menuOpen) return
+    const onDown = (e: MouseEvent | TouchEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setMenuOpen(false)
+      }
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('touchstart', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('touchstart', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [menuOpen])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD)
@@ -165,6 +187,7 @@ export function Nav() {
 
   return (
     <header
+      ref={headerRef}
       className={`fixed top-0 z-50 w-full transition-[background-color,border-color,backdrop-filter] duration-500 ease-out ${
         barOpaque
           ? 'bg-poudre/95 backdrop-blur-sm border-b border-canard/15'
@@ -252,7 +275,7 @@ export function Nav() {
             onClick={() => setMenuOpen((o) => !o)}
             aria-expanded={menuOpen}
             aria-label={menuOpen ? m.nav_menu_close() : m.nav_menu_open()}
-            className={`-mr-2 flex h-10 w-10 items-center justify-center transition-colors md:hidden ${burgerColor} ${homeTopShadow}`}
+            className={`-mr-2 flex h-11 w-11 items-center justify-center transition-colors md:hidden ${burgerColor} ${homeTopShadow}`}
           >
             {menuOpen ? (
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>

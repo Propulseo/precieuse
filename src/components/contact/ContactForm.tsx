@@ -104,7 +104,7 @@ export function ContactForm({
               type="button"
               onClick={() => setSubject(s.id)}
               aria-pressed={subject === s.id}
-              className={`font-display text-[11.5px] rounded-full px-3 py-1.5 border transition-colors ${
+              className={`font-display text-[11.5px] rounded-full px-3 py-2.5 md:py-1.5 border transition-colors ${
                 subject === s.id
                   ? 'bg-canard text-poudre border-canard'
                   : 'border-canard/40 text-canard/85 hover:text-canard'

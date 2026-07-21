@@ -34,7 +34,7 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
               type="button"
               onClick={() => setFilter(cat)}
               aria-pressed={filter === cat}
-              className={`border-b-2 pb-1 font-display text-[13px] uppercase tracking-[0.15em] transition-colors duration-300 ${
+              className={`border-b-2 pt-2 pb-2 md:pt-0 md:pb-1 font-display text-[13px] uppercase tracking-[0.15em] transition-colors duration-300 ${
                 filter === cat
                   ? 'border-framboise text-canard'
                   : 'border-transparent text-canard/50 hover:text-canard/80'

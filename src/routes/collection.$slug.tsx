@@ -241,7 +241,7 @@ function ProductPage() {
               setZoom(null)
             }}
             aria-label="Fermer"
-            className="absolute right-5 top-5 font-display text-[24px] leading-none text-poudre/80 transition-colors hover:text-poudre"
+            className="absolute right-2 top-2 p-3 font-display text-[24px] leading-none text-poudre/80 transition-colors hover:text-poudre"
           >
             ✕
           </button>

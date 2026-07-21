@@ -151,16 +151,23 @@ export function Testimonials({
             aria-label={m.testimonials_nav_label()}
           >
             {lettres.map((t, i) => (
+              // Bouton = zone tactile élargie sur mobile ; le point visuel (span)
+              // garde sa taille de 7px sur tous les écrans.
               <button
                 key={t.auteur}
                 type="button"
                 onClick={() => goTo(i)}
                 aria-label={m.testimonials_card_label({ author: t.auteur, city: t.ville })}
                 aria-current={i === current}
-                className={`w-[7px] rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-poudre ${
-                  i === current ? 'h-6 bg-framboise' : 'h-[7px] bg-poudre/55 hover:bg-poudre'
-                }`}
-              />
+                className="flex items-center justify-center max-md:h-10 max-md:w-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-poudre"
+              >
+                <span
+                  aria-hidden
+                  className={`block w-[7px] rounded-full transition-all duration-300 ${
+                    i === current ? 'h-6 bg-framboise' : 'h-[7px] bg-poudre/55 hover:bg-poudre'
+                  }`}
+                />
+              </button>
             ))}
           </div>
 
@@ -194,7 +201,7 @@ export function Testimonials({
                   type="button"
                   onClick={goPrev}
                   aria-label={m.testimonials_prev_label()}
-                  className="w-9 h-9 rounded-full border border-canard/30 flex items-center justify-center text-canard hover:bg-canard hover:text-poudre transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-canard"
+                  className="w-11 h-11 md:w-9 md:h-9 rounded-full border border-canard/30 flex items-center justify-center text-canard hover:bg-canard hover:text-poudre transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-canard"
                 >
                   <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
                     <path d="M9 2 L4 7 L9 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -204,7 +211,7 @@ export function Testimonials({
                   type="button"
                   onClick={goNext}
                   aria-label={m.testimonials_next_label()}
-                  className="w-9 h-9 rounded-full border border-canard/30 flex items-center justify-center text-canard hover:bg-canard hover:text-poudre transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-canard"
+                  className="w-11 h-11 md:w-9 md:h-9 rounded-full border border-canard/30 flex items-center justify-center text-canard hover:bg-canard hover:text-poudre transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-canard"
                 >
                   <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
                     <path d="M5 2 L10 7 L5 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />

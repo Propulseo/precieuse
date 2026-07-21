@@ -25,7 +25,7 @@ export function NewsletterB({ isOpen, onClose, onSubmit, content }: Props) {
         type="button"
         onClick={onClose}
         aria-label={m.newsletter_close()}
-        className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center text-canard/55 hover:text-canard hover:bg-canard/5 rounded-full transition-colors"
+        className="absolute top-2 right-2 w-10 h-10 md:top-3 md:right-3 md:w-7 md:h-7 flex items-center justify-center text-canard/55 hover:text-canard hover:bg-canard/5 rounded-full transition-colors"
       >
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden>
           <path d="M3 3 L10 10 M10 3 L3 10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
