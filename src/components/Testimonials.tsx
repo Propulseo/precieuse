@@ -169,7 +169,7 @@ export function Testimonials({
             <p
               key={current}
               aria-live="polite"
-              className={`font-display text-[14.5px] sm:text-[16px] leading-[1.5] text-canard ${fade}`}
+              className={`font-display text-[16px] leading-[1.5] text-canard ${fade}`}
             >
               <span
                 aria-hidden

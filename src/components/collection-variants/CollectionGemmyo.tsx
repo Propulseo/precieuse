@@ -40,7 +40,7 @@ function InfoCell({ product, reversed }: { product: Product; reversed: boolean }
       <p className="mt-4 font-body italic font-light text-[clamp(17px,1.6vw,21px)] text-canard/75">
         {product.tagline}
       </p>
-      <p className="mt-6 max-w-[46ch] font-body font-light text-[14px] leading-relaxed text-canard/60">
+      <p className="mt-6 max-w-[46ch] font-body font-light text-[15px] md:text-[14px] leading-relaxed text-canard/60">
         {product.description}
       </p>
 

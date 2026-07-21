@@ -159,7 +159,7 @@ export function ContactDrawer({
                   {item.q}
                   <span className="text-[16px] opacity-60">+</span>
                 </summary>
-                <p className="max-w-[40ch] pt-1.5 font-display text-[12.5px] italic leading-[1.55] text-canard/75">
+                <p className="max-w-[40ch] pt-1.5 font-display text-[14px] md:text-[12.5px] italic leading-[1.55] text-canard/75">
                   {item.a}
                 </p>
               </details>

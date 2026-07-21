@@ -83,7 +83,7 @@ export function Matieres({
                 {mat.nom}
               </h3>
               <p className="font-body italic font-light text-[18px] text-framboise">{mat.sous_titre}</p>
-              <p className="font-body text-[13px] font-light text-canard/80 leading-relaxed mt-1">
+              <p className="font-body text-[15px] md:text-[13px] font-light text-canard/80 leading-relaxed mt-1">
                 {mat.description_courte}
               </p>
               <span className="font-body italic font-light text-[13px] text-canard-90/55 mt-auto pt-4 -rotate-[0.5deg]">

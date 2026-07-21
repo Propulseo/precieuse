@@ -185,7 +185,7 @@ function ProductPage() {
             <p className="mb-6 mt-1.5 font-display text-[20px] italic text-canard/70">
               {product.price}
             </p>
-            <p className="max-w-[48ch] font-body text-[15px] leading-relaxed text-canard/90">
+            <p className="max-w-[48ch] font-body text-[16px] md:text-[15px] leading-relaxed text-canard/90">
               {product.description}
             </p>
 
@@ -193,7 +193,7 @@ function ProductPage() {
               <span className="mb-2.5 block font-display text-[12px] uppercase italic tracking-[0.3em] text-framboise">
                 {m.product_materials_label()}
               </span>
-              <p className="font-body text-[14px] leading-relaxed text-canard/90">
+              <p className="font-body text-[15px] md:text-[14px] leading-relaxed text-canard/90">
                 {product.materials}
               </p>
             </div>
