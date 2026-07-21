@@ -55,8 +55,10 @@ function HeroEyebrowMark({ text }: { text: string }) {
 export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
   const { heroMark } = useBrand()
 
+  // dvh : le 100vh figé d'iOS Safari cache le bas du héro (CTA) derrière la
+  // barre d'URL ; h-screen reste en repli pour les vieux navigateurs.
   return (
-    <section className="relative w-full h-screen min-h-[640px] -mt-16 overflow-hidden">
+    <section className="relative w-full h-screen supports-[height:100dvh]:h-dvh min-h-[640px] -mt-16 overflow-hidden">
       <div className="grid grid-cols-2 h-full">
         <div className="relative overflow-hidden">
           <img

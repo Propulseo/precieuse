@@ -130,6 +130,14 @@
   * {
     border-color: var(--border);
   }
+  /* Supprime le flash gris/bleu au tap sur mobile (le feedback visuel passe
+     par les transitions hover/active des composants). */
+  a,
+  button,
+  summary,
+  [role='button'] {
+    -webkit-tap-highlight-color: transparent;
+  }
   body {
     background-color: var(--poudre);
     color: var(--canard);

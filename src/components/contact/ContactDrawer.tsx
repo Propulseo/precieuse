@@ -73,7 +73,7 @@ export function ContactDrawer({
         aria-modal="true"
         aria-label={contact.title}
         tabIndex={-1}
-        className={`fixed top-0 right-0 z-[95] h-screen w-[420px] max-w-[94vw] bg-poudre text-canard shadow-[-30px_0_60px_-30px_rgba(13,71,71,0.5)] outline-none transition-transform duration-500 ease-[cubic-bezier(.4,0,.1,1)] ${
+        className={`fixed top-0 right-0 z-[95] h-screen supports-[height:100dvh]:h-dvh w-[420px] max-w-[94vw] bg-poudre text-canard shadow-[-30px_0_60px_-30px_rgba(13,71,71,0.5)] outline-none transition-transform duration-500 ease-[cubic-bezier(.4,0,.1,1)] ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
