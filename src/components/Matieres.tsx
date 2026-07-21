@@ -1,9 +1,65 @@
 import { useEffect, useRef, useState } from 'react'
+import { m } from '#/paraglide/messages'
 import { MATIERES, type Matiere } from '../lib/content/matieres'
 import { objectPositionStyle } from './framing/framing'
 
 /** Stagger delay between each card in ms */
 const STAGGER_MS = 200
+
+/** Carte matière — partagée entre la grille (≥ sm) et le carrousel mobile. */
+function MatiereCard({
+  mat,
+  i,
+  visible,
+  bordered,
+}: {
+  mat: Matiere
+  i: number
+  visible: boolean
+  bordered?: boolean
+}) {
+  return (
+    <article
+      className={`group flex h-full flex-col transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        bordered
+          ? 'border border-canard/10'
+          : 'border-r border-b border-canard/10 last:border-r-0'
+      }`}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(-60px)',
+        transitionDelay: visible ? `${i * STAGGER_MS}ms` : '0ms',
+      }}
+    >
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-canard-10">
+        <img
+          src={mat.image}
+          alt={mat.image_alt}
+          loading="lazy"
+          decoding="async"
+          style={objectPositionStyle(mat.imagePosition)}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
+        />
+        <span className="font-display text-[12px] text-poudre/85 absolute bottom-3 right-4 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
+          {mat.page}
+        </span>
+      </div>
+
+      <div className="flex flex-col gap-3 p-6 lg:p-8 flex-1">
+        <h3 className="font-display text-[30px] lg:text-[34px] text-canard leading-none">
+          {mat.nom}
+        </h3>
+        <p className="font-body italic font-light text-[18px] text-framboise">{mat.sous_titre}</p>
+        <p className="font-body text-[15px] md:text-[13px] font-light text-canard/80 leading-relaxed mt-1">
+          {mat.description_courte}
+        </p>
+        <span className="font-body italic font-light text-[13px] text-canard-90/55 mt-auto pt-4 -rotate-[0.5deg]">
+          {mat.annotation_caveat}
+        </span>
+      </div>
+    </article>
+  )
+}
 
 export function Matieres({
   matieres = MATIERES,
@@ -14,6 +70,9 @@ export function Matieres({
 }) {
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  const [canPrev, setCanPrev] = useState(false)
+  const [canNext, setCanNext] = useState(true)
 
   useEffect(() => {
     const el = sectionRef.current
@@ -37,9 +96,31 @@ export function Matieres({
     return () => observer.disconnect()
   }, [])
 
+  /** Active/grise les flèches selon la position de défilement du carrousel. */
+  function updateArrows() {
+    const el = scrollerRef.current
+    if (!el) return
+    setCanPrev(el.scrollLeft > 8)
+    setCanNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 8)
+  }
+
+  /** Fait défiler d'environ une carte (respecte prefers-reduced-motion). */
+  function scrollByCard(dir: 1 | -1) {
+    const el = scrollerRef.current
+    if (!el) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    el.scrollBy({
+      left: dir * el.clientWidth * 0.8,
+      behavior: reduce ? 'auto' : 'smooth',
+    })
+  }
+
+  const arrowCls =
+    'flex h-11 w-11 items-center justify-center rounded-full border border-canard/30 text-canard transition-opacity duration-300 disabled:opacity-25'
+
   return (
     <section ref={sectionRef} className="relative w-full bg-poudre py-10 sm:py-14">
-      <div className="mx-auto mb-7 sm:mb-8 max-w-[1440px] px-6 sm:px-10 lg:px-16 flex items-end justify-between">
+      <div className="mx-auto mb-7 sm:mb-8 max-w-[1440px] px-6 sm:px-10 lg:px-16 flex items-end justify-between gap-4">
         <div>
           <h2 className="font-headline text-[48px] sm:text-[56px] lg:text-[64px] text-framboise leading-none mb-3">
             {header.title}
@@ -48,49 +129,55 @@ export function Matieres({
             {header.subtitle}
           </p>
         </div>
+        {/* Flèches du carrousel — mobile uniquement (même langage que Témoignages). */}
+        <div className="flex shrink-0 gap-2 sm:hidden" aria-hidden={false}>
+          <button
+            type="button"
+            onClick={() => scrollByCard(-1)}
+            disabled={!canPrev}
+            aria-label={m.matieres_prev_label()}
+            className={arrowCls}
+          >
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
+              <path d="M9 2 L4 7 L9 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollByCard(1)}
+            disabled={!canNext}
+            aria-label={m.matieres_next_label()}
+            className={arrowCls}
+          >
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden>
+              <path d="M5 2 L10 7 L5 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
         <span className="font-body italic font-light text-[13px] text-canard-90/40 hidden md:block -rotate-[0.5deg]">
           {header.marginNote}
         </span>
       </div>
 
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+      {/* Mobile : carrousel — swipe natif + flèches (une carte à la fois). */}
+      <div
+        ref={scrollerRef}
+        onScroll={updateArrows}
+        role="list"
+        aria-label={header.title}
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-6 px-6 pb-2 sm:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
         {matieres.map((mat, i) => (
-          <article
-            key={mat.slug}
-            className="group flex h-full flex-col border-r border-b border-canard/10 last:border-r-0 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
-            style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateY(0)' : 'translateY(-60px)',
-              transitionDelay: visible ? `${i * STAGGER_MS}ms` : '0ms',
-            }}
-          >
-            <div className="relative aspect-[3/4] w-full overflow-hidden bg-canard-10">
-              <img
-                src={mat.image}
-                alt={mat.image_alt}
-                loading="lazy"
-                decoding="async"
-                style={objectPositionStyle(mat.imagePosition)}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
-              />
-              <span className="font-display text-[12px] text-poudre/85 absolute bottom-3 right-4 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
-                {mat.page}
-              </span>
-            </div>
+          <div key={mat.slug} role="listitem" className="w-[80vw] max-w-[340px] shrink-0 snap-start">
+            <MatiereCard mat={mat} i={i} visible={visible} bordered />
+          </div>
+        ))}
+      </div>
 
-            <div className="flex flex-col gap-3 p-6 lg:p-8 flex-1">
-              <h3 className="font-display text-[30px] lg:text-[34px] text-canard leading-none">
-                {mat.nom}
-              </h3>
-              <p className="font-body italic font-light text-[18px] text-framboise">{mat.sous_titre}</p>
-              <p className="font-body text-[15px] md:text-[13px] font-light text-canard/80 leading-relaxed mt-1">
-                {mat.description_courte}
-              </p>
-              <span className="font-body italic font-light text-[13px] text-canard-90/55 mt-auto pt-4 -rotate-[0.5deg]">
-                {mat.annotation_caveat}
-              </span>
-            </div>
-          </article>
+      {/* ≥ sm : grille d'origine, inchangée. */}
+      <div className="hidden w-full sm:grid sm:grid-cols-2 lg:grid-cols-5">
+        {matieres.map((mat, i) => (
+          <MatiereCard key={mat.slug} mat={mat} i={i} visible={visible} />
         ))}
       </div>
     </section>

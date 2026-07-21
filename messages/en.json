@@ -259,5 +259,7 @@
   "collection_hint_swipe": "swipe →",
   "product_zoom_aria": "Enlarge the photo of {name}",
   "product_photo_aria": "View photo {index} of {name}",
-  "lightbox_close_aria": "Close the preview"
+  "lightbox_close_aria": "Close the preview",
+  "matieres_prev_label": "Previous material",
+  "matieres_next_label": "Next material"
 }

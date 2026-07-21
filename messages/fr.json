@@ -259,5 +259,7 @@
   "collection_hint_swipe": "glissez →",
   "product_zoom_aria": "Agrandir la photo de {name}",
   "product_photo_aria": "Voir la photo {index} de {name}",
-  "lightbox_close_aria": "Fermer l'aperçu"
+  "lightbox_close_aria": "Fermer l'aperçu",
+  "matieres_prev_label": "Matière précédente",
+  "matieres_next_label": "Matière suivante"
 }

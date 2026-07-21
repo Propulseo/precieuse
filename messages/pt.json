@@ -259,5 +259,7 @@
   "collection_hint_swipe": "deslize →",
   "product_zoom_aria": "Ampliar a foto de {name}",
   "product_photo_aria": "Ver a foto {index} de {name}",
-  "lightbox_close_aria": "Fechar a pré-visualização"
+  "lightbox_close_aria": "Fechar a pré-visualização",
+  "matieres_prev_label": "Matéria anterior",
+  "matieres_next_label": "Matéria seguinte"
 }
