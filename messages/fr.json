@@ -261,5 +261,6 @@
   "product_photo_aria": "Voir la photo {index} de {name}",
   "lightbox_close_aria": "Fermer l'aperçu",
   "matieres_prev_label": "Matière précédente",
-  "matieres_next_label": "Matière suivante"
+  "matieres_next_label": "Matière suivante",
+  "article_memo_label": "Mémo d'atelier"
 }

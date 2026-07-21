@@ -261,5 +261,6 @@
   "product_photo_aria": "View photo {index} of {name}",
   "lightbox_close_aria": "Close the preview",
   "matieres_prev_label": "Previous material",
-  "matieres_next_label": "Next material"
+  "matieres_next_label": "Next material",
+  "article_memo_label": "Atelier memo"
 }
