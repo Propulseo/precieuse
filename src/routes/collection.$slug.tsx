@@ -173,7 +173,7 @@ function ProductPage() {
                   style={{
                     width: 'clamp(76px,8vw,96px)',
                     aspectRatio: '1 / 1',
-                    ...maskStyle('/brand/picto-shape.png', 'var(--framboise)'),
+                    ...maskStyle('/brand/picto-shape-w720.png', 'var(--framboise)'),
                   }}
                 />
                 <span className="h-px flex-1 bg-current" />

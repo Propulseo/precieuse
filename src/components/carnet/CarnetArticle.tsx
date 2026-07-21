@@ -147,6 +147,8 @@ export function CarnetArticle({
                     src={a.image}
                     alt={a.imageAlt}
                     style={objectPositionStyle(a.imagePosition)}
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                   />
                 </div>

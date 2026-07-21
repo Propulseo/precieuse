@@ -17,7 +17,15 @@ import { CollectionIntro } from './collection-intro'
 // pilotées par Sanity via `getProducts` (champs `photoPortee` / `packshot`), avec
 // repli sur les chemins statiques de `products.ts`. Plus de map codée en dur ici.
 
-function WornCell({ product, reversed }: { product: Product; reversed: boolean }) {
+function WornCell({
+  product,
+  reversed,
+  eager,
+}: {
+  product: Product
+  reversed: boolean
+  eager?: boolean
+}) {
   const worn = product.photoPortee ?? '/images/placeholder-piece.svg'
   return (
     <div className={`relative min-h-[46vh] overflow-hidden bg-canard-10 ${reversed ? 'lg:order-2' : ''}`}>
@@ -25,6 +33,8 @@ function WornCell({ product, reversed }: { product: Product; reversed: boolean }
         src={worn}
         alt={product.photoPorteeAlt ?? product.imageAlt}
         style={objectPositionStyle(product.photoPorteePosition)}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover"
       />
     </div>
@@ -48,6 +58,8 @@ function InfoCell({ product, reversed }: { product: Product; reversed: boolean }
         <img
           src={product.packshot}
           alt={product.packshotAlt ?? `${product.name} — ${product.tagline}`}
+          loading="lazy"
+          decoding="async"
           className="max-h-full max-w-[190px] object-contain"
         />
       </div>
@@ -79,7 +91,7 @@ export function CollectionGemmyo({ products = PRODUCTS }: { products?: Product[]
             id={`piece-${product.slug}`}
             className="grid scroll-mt-20 grid-cols-1 lg:min-h-[46vh] lg:grid-cols-2"
           >
-            <WornCell product={product} reversed={reversed} />
+            <WornCell product={product} reversed={reversed} eager={i === 0} />
             <InfoCell product={product} reversed={reversed} />
           </div>
         )

@@ -61,7 +61,7 @@ export function LeadCaptureA({
         onSubmit={handleSubmit}
       >
         <img
-          src="/brand/picto-shape.png"
+          src="/brand/picto-shape-w720.png"
           alt="Précieuse"
           className="h-[86px] w-auto"
         />

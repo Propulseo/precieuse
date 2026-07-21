@@ -4,8 +4,9 @@ import type { FooterContent } from '../lib/content/footer'
 import { BRAND_PICTO_MASK, maskStyle } from './brand/brand'
 
 // Logo poudre (picto + nom) — PNG fixe, lisible sur le fond canard.
-const BRAND_LOGO =
-  '/images/Photo%20Precieus/Precieuse_logo-picto-shape_RVB_poudre_300dpi.png'
+// Version 360px (48 Ko) dans /brand (versionné) : l'original 300dpi vit dans
+// « Photo Precieus/ » qui est GITIGNORÉ → il 404ait en prod sur chaque page.
+const BRAND_LOGO = '/brand/footer-logo-poudre-w360.png'
 
 /**
  * Footer « Bandeau » — bloc canard plein de clôture (le moment sombre de fin),

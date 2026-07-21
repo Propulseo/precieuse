@@ -62,6 +62,8 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
                     src={article.image}
                     alt={article.imageAlt}
                     style={objectPositionStyle(article.imagePosition)}
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                   />
                 </a>

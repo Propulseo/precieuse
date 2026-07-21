@@ -53,7 +53,7 @@ export function SplashScreen({ tagline }: { tagline?: string }) {
     >
       <div className="relative w-[260px] sm:w-[320px] lg:w-[360px] aspect-[5/6]">
         <img
-          src="/brand/picto-shape.png"
+          src="/brand/picto-shape-w720.png"
           alt="Précieuse"
           className="splash-picto absolute inset-0 w-full h-full object-contain"
         />
