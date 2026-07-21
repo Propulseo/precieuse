@@ -206,7 +206,7 @@ export function CollectionFilmstrip({
       >
         <div className="sticky top-0 flex h-screen flex-col overflow-hidden pb-8 pt-[84px]">
           <header className="mx-auto w-full max-w-[1440px] px-6 lg:px-16">
-            <Header hint="défilez ↓" title={header.title} subtitle={header.subtitle} />
+            <Header hint={m.collection_hint_scroll()} title={header.title} subtitle={header.subtitle} />
             <div aria-hidden="true" className="mt-5 h-px w-full overflow-hidden bg-canard/15">
               <div
                 className="h-px bg-framboise"
@@ -235,7 +235,7 @@ export function CollectionFilmstrip({
   return (
     <section className="w-full bg-poudre py-12 lg:py-20">
       <header className="mx-auto max-w-[1440px] px-6 lg:px-16">
-        <Header hint="glissez →" title={header.title} subtitle={header.subtitle} />
+        <Header hint={m.collection_hint_swipe()} title={header.title} subtitle={header.subtitle} />
       </header>
       <div
         className="mt-9 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-pl-6 px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"

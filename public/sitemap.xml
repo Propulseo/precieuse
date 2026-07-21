@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sitemap statique — pages publiques (langues servies sur la même URL via cookie). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://precieuse-five.vercel.app/</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/collection</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/collection/josephine</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/collection/aurore</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/collection/eugenie</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/collection/thelma</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/collection/louise</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/carnet</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/carnet/chemin-dune-bague</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/carnet/or-18kt-source-trace</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/carnet/journal-fonte-matinee-atelier</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/carnet/choisir-pierre-precieuse</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/carnet/rhodolite-pierre-oubliee</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/carnet/bague-portee-au-quotidien</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/creatrice</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/sur-mesure</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/mentions-legales</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/confidentialite</loc></url>
+  <url><loc>https://precieuse-five.vercel.app/cgv</loc></url>
+</urlset>

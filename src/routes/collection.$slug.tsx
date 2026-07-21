@@ -122,7 +122,7 @@ function ProductPage() {
               <button
                 type="button"
                 onClick={() => setZoom(current)}
-                aria-label={`Agrandir la photo de ${product.name}`}
+                aria-label={m.product_zoom_aria({ name: product.name })}
                 className={`group relative aspect-square cursor-zoom-in overflow-hidden border border-canard/20 ${current.contain ? 'bg-poudre-dark' : ''}`}
               >
                 <img
@@ -141,7 +141,7 @@ function ProductPage() {
                     key={p.src}
                     type="button"
                     onClick={() => setActive(i)}
-                    aria-label={`Voir la photo ${i + 1} de ${product.name}`}
+                    aria-label={m.product_photo_aria({ index: i + 1, name: product.name })}
                     aria-current={i === safeActive}
                     className={`relative aspect-square w-full max-w-[110px] flex-1 overflow-hidden border transition-colors ${i === safeActive ? 'border-transparent outline outline-2 outline-framboise' : 'border-canard/20 hover:border-canard/40'} ${p.contain ? 'bg-poudre-dark' : ''}`}
                   >
@@ -240,7 +240,7 @@ function ProductPage() {
               e.stopPropagation()
               setZoom(null)
             }}
-            aria-label="Fermer"
+            aria-label={m.lightbox_close_aria()}
             className="absolute right-2 top-2 p-3 font-display text-[24px] leading-none text-poudre/80 transition-colors hover:text-poudre"
           >
             ✕

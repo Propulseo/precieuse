@@ -249,5 +249,15 @@
   "seo_legal_privacy_title": "Privacy policy — Précieuse",
   "seo_legal_terms_title": "Terms & conditions — Précieuse",
   "seo_legal_desc": "Legal information for Précieuse, craft jewellery in Bordeaux.",
-  "seo_default_desc": "Craft jewellery in Bordeaux: rings and jewellery in 18-carat gold, handcrafted. Collection and bespoke creations."
+  "seo_default_desc": "Craft jewellery in Bordeaux: rings and jewellery in 18-carat gold, handcrafted. Collection and bespoke creations.",
+  "notfound_eyebrow": "Page not found",
+  "notfound_title": "This page has wandered off",
+  "notfound_body": "The address you requested doesn't exist, or no longer does. The rest of the atelier is wide open to you.",
+  "notfound_cta_home": "Back to home",
+  "notfound_cta_collection": "View the collection",
+  "collection_hint_scroll": "scroll ↓",
+  "collection_hint_swipe": "swipe →",
+  "product_zoom_aria": "Enlarge the photo of {name}",
+  "product_photo_aria": "View photo {index} of {name}",
+  "lightbox_close_aria": "Close the preview"
 }

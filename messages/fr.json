@@ -249,5 +249,15 @@
   "seo_legal_privacy_title": "Politique de confidentialité — Précieuse",
   "seo_legal_terms_title": "Conditions générales de vente — Précieuse",
   "seo_legal_desc": "Informations légales du site Précieuse, joaillerie artisanale à Bordeaux.",
-  "seo_default_desc": "Joaillerie artisanale à Bordeaux : bagues et bijoux en or 18 carats, façonnés à la main. Collection et créations sur-mesure."
+  "seo_default_desc": "Joaillerie artisanale à Bordeaux : bagues et bijoux en or 18 carats, façonnés à la main. Collection et créations sur-mesure.",
+  "notfound_eyebrow": "Page introuvable",
+  "notfound_title": "Cette page s'est égarée",
+  "notfound_body": "L'adresse demandée n'existe pas ou n'existe plus. Le reste de l'atelier vous est grand ouvert.",
+  "notfound_cta_home": "Retour à l'accueil",
+  "notfound_cta_collection": "Voir la collection",
+  "collection_hint_scroll": "défilez ↓",
+  "collection_hint_swipe": "glissez →",
+  "product_zoom_aria": "Agrandir la photo de {name}",
+  "product_photo_aria": "Voir la photo {index} de {name}",
+  "lightbox_close_aria": "Fermer l'aperçu"
 }

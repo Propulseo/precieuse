@@ -249,5 +249,15 @@
   "seo_legal_privacy_title": "Política de privacidade — Précieuse",
   "seo_legal_terms_title": "Condições gerais de venda — Précieuse",
   "seo_legal_desc": "Informações legais do site Précieuse, joalharia artesanal em Bordéus.",
-  "seo_default_desc": "Joalharia artesanal em Bordéus: anéis e joias em ouro de 18 quilates, feitos à mão. Coleção e criações por medida."
+  "seo_default_desc": "Joalharia artesanal em Bordéus: anéis e joias em ouro de 18 quilates, feitos à mão. Coleção e criações por medida.",
+  "notfound_eyebrow": "Página não encontrada",
+  "notfound_title": "Esta página perdeu-se",
+  "notfound_body": "O endereço pedido não existe ou já não existe. O resto do ateliê está de portas abertas para si.",
+  "notfound_cta_home": "Voltar ao início",
+  "notfound_cta_collection": "Ver a coleção",
+  "collection_hint_scroll": "deslize ↓",
+  "collection_hint_swipe": "deslize →",
+  "product_zoom_aria": "Ampliar a foto de {name}",
+  "product_photo_aria": "Ver a foto {index} de {name}",
+  "lightbox_close_aria": "Fechar a pré-visualização"
 }

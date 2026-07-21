@@ -1,5 +1,6 @@
 import {
   HeadContent,
+  Link,
   Scripts,
   createRootRouteWithContext,
   useRouterState,
@@ -98,7 +99,39 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
   }),
   shellComponent: RootDocument,
+  notFoundComponent: NotFound,
 })
+
+/** Page 404 — sur la charte (poudre/canard, accent framboise), avec retour. */
+function NotFound() {
+  return (
+    <section className="flex min-h-[60vh] flex-col items-center justify-center bg-poudre px-8 py-24 text-center">
+      <p className="font-display text-[12px] uppercase tracking-[0.35em] text-framboise">
+        {m.notfound_eyebrow()}
+      </p>
+      <h1 className="mt-4 font-headline text-[clamp(30px,7vw,52px)] leading-[1.05] text-canard [text-wrap:balance]">
+        {m.notfound_title()}
+      </h1>
+      <p className="mx-auto mt-4 max-w-[44ch] font-body text-[16px] font-light leading-relaxed text-canard/80 [text-wrap:pretty]">
+        {m.notfound_body()}
+      </p>
+      <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row">
+        <Link
+          to="/"
+          className="inline-block bg-canard px-8 py-3.5 font-display text-[12px] uppercase tracking-[0.25em] text-poudre transition-colors duration-300 hover:bg-canard-90"
+        >
+          {m.notfound_cta_home()}
+        </Link>
+        <Link
+          to="/collection"
+          className="inline-block border border-canard/40 px-8 py-3.5 font-display text-[12px] uppercase tracking-[0.25em] text-canard transition-colors duration-300 hover:bg-canard hover:text-poudre"
+        >
+          {m.notfound_cta_collection()}
+        </Link>
+      </div>
+    </section>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const { site, footer, contact } = Route.useLoaderData()
