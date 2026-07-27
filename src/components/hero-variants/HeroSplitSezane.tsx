@@ -144,7 +144,7 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
           quasi transparent au centre pour ne pas éteindre les visuels. */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_bottom,rgba(13,71,71,0.5)_0%,rgba(13,71,71,0.2)_36%,rgba(13,71,71,0.2)_62%,rgba(13,71,71,0.56)_100%)]" />
 
-      <div className="absolute inset-0 flex items-center justify-center px-6">
+      <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-6">
         <div className="mx-auto flex w-full max-w-[640px] flex-col items-center text-center text-poudre">
           <HeroEyebrowMark text={hero.eyebrow} />
 
@@ -180,16 +180,18 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
             </h1>
           )}
 
-          {/* #18 — sur grand écran, deux colonnes de largeur égale : leur
-              frontière tombe donc exactement sur la séparation des visuels, et
-              chaque moitié de la promesse s'en écarte du même retrait (pr/pl).
-              Un simple écart centré ne suffisait pas : l'équilibre dependait de
-              la longueur de chaque texte. Sur mobile, rendu inchangé (texte au
-              fil, écart d'une espace normale). */}
-          <p className="font-display text-[clamp(20px,2.6vw,30px)] text-poudre mb-3 max-w-[24ch] lg:max-w-none lg:w-full leading-snug drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
-            <span className="flex flex-wrap items-baseline justify-center gap-x-[0.28em] lg:grid lg:grid-cols-2 lg:gap-x-0">
-              <span className="lg:justify-self-end lg:pr-5">{hero.taglineLead}</span>
-              <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)] lg:justify-self-start lg:pl-5">
+          {/* #18 — deux colonnes de largeur égale à TOUTES les tailles : leur
+              frontière tombe exactement sur la séparation des visuels, et chaque
+              moitié de la promesse s'en écarte du même retrait (pr/pl). La
+              seconde moitié démarre donc sur l'image de droite, du téléphone au
+              grand écran. Un simple écart centré ne suffisait pas : l'équilibre
+              dépendait de la longueur de chaque texte, et sur mobile la bascule
+              tombait avant la couture. Retrait réduit sous `lg` pour que
+              « Votre histoire. » tienne sur une ligne jusqu'à 320 px de large. */}
+          <p className="font-display text-[clamp(20px,2.6vw,30px)] text-poudre mb-3 w-full leading-snug drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+            <span className="grid grid-cols-2 items-baseline">
+              <span className="justify-self-end pr-1.5 lg:pr-5">{hero.taglineLead}</span>
+              <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)] justify-self-start pl-1.5 lg:pl-5">
                 {hero.taglineAccent}
               </span>
             </span>
