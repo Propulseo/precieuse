@@ -61,18 +61,22 @@ function HeroEyebrowMark({ text }: { text: string }) {
 /**
  * Moitié droite du héro : la photo reste le premier rendu (c'est elle qui
  * compte pour le LCP mobile < 2,5 s, objectif Ads du PRD). La vidéo ne prend le
- * relais qu'après le premier rendu, sur grand écran, et jamais en
- * « animations réduites ». La photo sert aussi de `poster` → pas de clignotement
- * au moment du relais.
+ * relais qu'après ce premier rendu, et jamais en « animations réduites ». La
+ * photo sert aussi de `poster` → pas de clignotement au moment du relais.
+ *
+ * La vidéo était auparavant réservée aux écrans ≥ 1024 px : le fichier pesait
+ * 4,44 Mo (encodé à 7,4 Mb/s, du niveau master), impossible à servir sur 4G.
+ * Il est désormais encodé pour le web — 505 Ko, SSIM 0,981 face à l'original,
+ * soit aucune différence visible — donc le téléphone y a droit aussi.
  */
 function HeroRightMedia({ img }: { img: HomeImg }) {
   const [showVideo, setShowVideo] = useState(false)
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const wide = window.matchMedia('(min-width: 1024px)').matches
-    if (reduced || !wide) return
-    // Laisse passer le premier rendu avant d'aller chercher les 4 Mo de vidéo.
+    if (reduced) return
+    // Laisse passer le premier rendu avant d'aller chercher la vidéo : la photo
+    // doit rester l'élément qui décide du LCP.
     const id = window.setTimeout(() => setShowVideo(true), 300)
     return () => window.clearTimeout(id)
   }, [])
@@ -96,7 +100,11 @@ function HeroRightMedia({ img }: { img: HomeImg }) {
         muted
         loop
         playsInline
-        preload="none"
+        // `metadata` et non `none` : Safari iOS refuse souvent de démarrer une
+        // lecture automatique quand on lui a interdit tout préchargement, et
+        // c'est précisément le téléphone qu'on vise maintenant. Le report du
+        // chargement reste assuré par les 300 ms ci-dessus.
+        preload="metadata"
         aria-label={img.alt}
         // Même point focal que la photo : sans ça, le hotspot réglé dans Sanity
         // s'appliquerait à la photo mais pas à la vidéo, et le cadrage sauterait
