@@ -98,6 +98,10 @@ function HeroRightMedia({ img }: { img: HomeImg }) {
         playsInline
         preload="none"
         aria-label={img.alt}
+        // Même point focal que la photo : sans ça, le hotspot réglé dans Sanity
+        // s'appliquerait à la photo mais pas à la vidéo, et le cadrage sauterait
+        // au moment du relais.
+        style={position}
         className={common}
       />
     )

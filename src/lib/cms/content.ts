@@ -83,9 +83,11 @@ function hotspotToPosition(h: unknown): string | undefined {
  * GROQ synchrones → TTFB de plusieurs secondes en prod. Deux garde-fous :
  * - timeout : au-delà de FETCH_TIMEOUT_MS on répond `null` (repli statique)
  *   plutôt que de bloquer la page sur une requête qui traîne ;
- * - cache mémoire TTL : une réponse (même `null`) est resservie pendant
- *   CACHE_TTL_MS. Les modifications d'Emeline dans le Studio apparaissent donc
- *   avec ≤ 5 min de latence — compromis assumé pour un site vitrine.
+ * - cache mémoire TTL : une réponse réussie est resservie pendant CACHE_TTL_MS
+ *   (5 min) → les modifications d'Emeline dans le Studio apparaissent avec
+ *   ≤ 5 min de latence, compromis assumé pour un site vitrine. Une réponse
+ *   `null` (timeout, panne) n'est gardée que NEGATIVE_TTL_MS (30 s), pour
+ *   retrouver Sanity vite après un incident au lieu de rester 5 min en repli.
  */
 const FETCH_TIMEOUT_MS = 3_500
 const CACHE_TTL_MS = 5 * 60_000

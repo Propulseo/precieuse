@@ -28,9 +28,11 @@ function cardLabel(t: Lettre): string {
 
 /**
  * Témoignages — « galerie portée » : une grande photo de la pièce portée
- * (parallaxe à la souris) + une carte citation en verre poudré. 1 avis =
- * 1 photo = 1 bague. Lecture auto (en vue, hors survol), swipe tactile, points
- * de navigation, `prefers-reduced-motion` respecté.
+ * (parallaxe à la souris) + une carte citation en verre poudré. L'appariement
+ * « 1 avis = 1 photo = 1 bague » n'est plus revendiqué depuis le passage aux
+ * vrais avis (cf. `content/lettres.ts`) : ils portent sur du sur-mesure, pas
+ * sur un modèle de la collection. Lecture auto (en vue, hors survol), swipe
+ * tactile, points de navigation, `prefers-reduced-motion` respecté.
  */
 export function Testimonials({
   lettres = LETTRES,
