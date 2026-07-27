@@ -10,6 +10,8 @@ import { temoignage } from './documents/temoignage'
 import { etapeEtabli } from './documents/etapeEtabli'
 import { surMesurePage } from './documents/surMesurePage'
 import { creatricePage } from './documents/creatricePage'
+import { carnetPage } from './documents/carnetPage'
+import { collectionPage } from './documents/collectionPage'
 import { legalPage } from './documents/legalPage'
 import { footer } from './documents/footer'
 import { contact } from './documents/contact'
@@ -27,6 +29,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   etapeEtabli,
   surMesurePage,
   creatricePage,
+  carnetPage,
+  collectionPage,
   legalPage,
   footer,
   contact,

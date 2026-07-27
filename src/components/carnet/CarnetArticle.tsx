@@ -4,6 +4,8 @@ import type { Article } from '../../lib/content/carnet'
 import { objectPositionStyle } from '../framing/framing'
 import { ArticleBlocks, proseStyles } from './blocks'
 import { Sommaire } from './Sommaire'
+import { carnetPageFallback } from '../../lib/content/pages'
+import type { CarnetPageData } from '../../lib/content/pages'
 
 /** Méta d'un article : catégorie · date · temps de lecture (accent framboise). */
 function Meta({ a, center }: { a: Article; center?: boolean }) {
@@ -25,9 +27,11 @@ function Meta({ a, center }: { a: Article; center?: boolean }) {
 export function CarnetArticle({
   article,
   related,
+  page = carnetPageFallback(),
 }: {
   article: Article
   related: Article[]
+  page?: CarnetPageData
 }) {
   const body = article.body ?? []
   const headings = body.filter(
@@ -53,7 +57,7 @@ export function CarnetArticle({
               >
                 ←
               </span>
-              {m.article_back()}
+              {page.backLabel}
             </Link>
             <div className="mt-4 sm:mt-0">
               <Meta a={article} center />
@@ -89,7 +93,7 @@ export function CarnetArticle({
           {headings.length > 0 ? (
             <aside className="hidden lg:block">
               <div className="sticky top-20">
-                <Sommaire headings={headings} readTime={article.readTime} />
+                <Sommaire headings={headings} readTime={article.readTime} label={page.tocLabel} />
               </div>
             </aside>
           ) : null}
@@ -97,7 +101,7 @@ export function CarnetArticle({
           <div>
             {headings.length > 0 ? (
               <div className="mb-10 border-y border-canard/15 py-6 lg:hidden">
-                <Sommaire headings={headings} readTime={article.readTime} />
+                <Sommaire headings={headings} readTime={article.readTime} label={page.tocLabel} />
               </div>
             ) : null}
 
@@ -132,7 +136,7 @@ export function CarnetArticle({
       {related.length > 0 ? (
         <aside className="mx-auto mt-20 max-w-[1320px] px-8 lg:px-16">
           <h2 className="mb-10 text-center font-headline text-[clamp(22px,2.6vw,32px)] text-canard">
-            {m.article_related()}
+            {page.relatedLabel}
           </h2>
           <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-3">
             {related.map((a) => (

@@ -11,9 +11,12 @@ import { slugifyHeading } from './blocks'
 export function Sommaire({
   headings,
   readTime,
+  label = m.carnet_toc_label(),
 }: {
   headings: { text: string }[]
   readTime: string
+  /** Titre du sommaire, éditable via le singleton `carnetPage`. */
+  label?: string
 }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [marker, setMarker] = useState({ top: 0, height: 0 })
@@ -66,7 +69,7 @@ export function Sommaire({
   return (
     <div>
       <div className="font-display text-[10px] uppercase tracking-[0.35em] text-framboise">
-        {m.carnet_toc_label()}
+        {label}
       </div>
       <div className="mt-1.5 font-body text-[12px] font-light text-canard/45">
         {m.carnet_toc_chapters({ count: headings.length })} ·{' '}

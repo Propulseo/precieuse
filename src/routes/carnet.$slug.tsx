@@ -1,6 +1,6 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { CarnetArticle } from '../components/carnet/CarnetArticle'
-import { getArticles } from '../lib/cms'
+import { getArticles, getCarnetPage } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
 import { seo } from '../lib/seo'
 
@@ -8,7 +8,8 @@ export const Route = createFileRoute('/carnet/$slug')({
   component: ArticlePage,
   // Lit Sanity quand configuré, sinon le contenu statique (fallback des getters).
   loader: async ({ params }) => {
-    const articles = await getArticles(getLocale())
+    const locale = getLocale()
+    const [articles, page] = await Promise.all([getArticles(locale), getCarnetPage(locale)])
     const article = articles.find((a) => a.slug === params.slug)
     if (!article) throw notFound()
     // « À lire aussi » : on privilégie la même catégorie, puis on complète.
@@ -16,7 +17,7 @@ export const Route = createFileRoute('/carnet/$slug')({
       ...articles.filter((a) => a.slug !== article.slug && a.category === article.category),
       ...articles.filter((a) => a.slug !== article.slug && a.category !== article.category),
     ].slice(0, 3)
-    return { article, related }
+    return { article, related, page }
   },
   // head après loader : TanStack n'infère `loaderData` que si loader est déclaré avant.
   head: ({ loaderData }) =>
@@ -32,6 +33,6 @@ export const Route = createFileRoute('/carnet/$slug')({
 })
 
 function ArticlePage() {
-  const { article, related } = Route.useLoaderData()
-  return <CarnetArticle article={article} related={related} />
+  const { article, related, page } = Route.useLoaderData()
+  return <CarnetArticle article={article} related={related} page={page} />
 }

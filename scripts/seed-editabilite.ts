@@ -280,6 +280,38 @@ async function seedHomePage() {
   console.log("✓ Page d'accueil : héro + avant-propos + en-têtes de section seedés")
 }
 
+/**
+ * Petits singletons de page : en-tête du Carnet et de la Collection. Les
+ * libellés à variable (« 4 min de lecture », « 3 chapitres ») restent en code —
+ * ils contiennent un emplacement technique que le Studio ne protège pas.
+ */
+async function seedPetitesPages() {
+  await client.createOrReplace({
+    _id: 'carnetPage',
+    _type: 'carnetPage',
+    title: L('carnet_title'),
+    intro: L('carnet_intro', 'localizedText'),
+    featuredLabel: L('carnet_featured_label'),
+    readArticleLabel: L('carnet_read_article'),
+    emptyLabel: L('carnet_empty'),
+    tocLabel: L('carnet_toc_label'),
+    backLabel: L('article_back'),
+    relatedLabel: L('article_related'),
+    seoTitle: L('seo_carnet_title'),
+    seoDescription: L('seo_carnet_desc', 'localizedText'),
+  })
+  console.log('✓ Page Carnet : en-tête, libellés et SEO seedés')
+
+  await client.createOrReplace({
+    _id: 'collectionPage',
+    _type: 'collectionPage',
+    title: L('collection_title'),
+    seoTitle: L('seo_collection_title'),
+    seoDescription: L('seo_collection_desc', 'localizedText'),
+  })
+  console.log('✓ Page Collection : titre et SEO seedés')
+}
+
 // ---------------------------------------------------------------------------
 // 4) Pied de page — singleton footer (réseaux/email + textes éditoriaux)
 // ---------------------------------------------------------------------------
@@ -345,6 +377,7 @@ async function main() {
   await seedTemoignagePhotos()
   await seedSurMesurePage()
   await seedHomePage()
+  await seedPetitesPages()
   await seedFooter()
   await seedSiteSettings()
   await seedContact()

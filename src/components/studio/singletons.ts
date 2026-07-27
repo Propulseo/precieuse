@@ -6,6 +6,8 @@ export const SINGLETON_TYPES = new Set<string>([
   'siteSettings',
   'surMesurePage',
   'creatricePage',
+  'carnetPage',
+  'collectionPage',
   'footer',
   'contact',
 ])

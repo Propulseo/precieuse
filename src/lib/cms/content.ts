@@ -43,6 +43,8 @@ import { bespokePageFallback } from '../content/bespoke'
 import type { BespokePageData, BespokeImg, BespokeStepData } from '../content/bespoke'
 import { homePageFallback } from '../content/home'
 import type { HomePageData, HomeImg } from '../content/home'
+import { carnetPageFallback, collectionPageFallback } from '../content/pages'
+import type { CarnetPageData, CollectionPageData } from '../content/pages'
 import { SITE } from '../content/site'
 import { CREATION_TYPES, BUDGETS } from '../content/sur-mesure'
 import { footerFallback } from '../content/footer'
@@ -541,6 +543,8 @@ export type CreatriceContent = {
   quote: string
   signatureName: string
   signatureRole: string
+  /** SEO de la page, vide tant qu'Emeline ne l'a pas rempli (repli i18n côté route). */
+  seo: { title: string; description: string }
 }
 
 /**
@@ -558,7 +562,7 @@ export async function getCreatrice(
       "portrait": portrait.asset->url, "portraitAlt": portrait.alt, "portraitHotspot": portrait.hotspot,
       captionName, captionPlace,
       parcours, philosophieBody, quote,
-      signatureName, signatureRole
+      signatureName, signatureRole, seoTitle, seoDescription
     }`,
   )
   if (!data) return null
@@ -579,6 +583,69 @@ export async function getCreatrice(
     quote: pickLocale(data.quote as never, locale),
     signatureName: String(data.signatureName ?? ''),
     signatureRole: pickLocale(data.signatureRole as never, locale),
+    seo: {
+      title: pickLocale(data.seoTitle as never, locale),
+      description: pickLocale(data.seoDescription as never, locale),
+    },
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Petits singletons de page : Carnet et Collection
+// ---------------------------------------------------------------------------
+
+/**
+ * En-tête et libellés de la page Carnet, depuis le singleton `carnetPage`.
+ * Chaque champ vide retombe sur le repli i18n.
+ */
+export async function getCarnetPage(
+  locale: Locale = DEFAULT_LOCALE,
+): Promise<CarnetPageData> {
+  const fb = carnetPageFallback()
+  if (!isSanityConfigured) return fb
+  const data = await cmsFetch<Record<string, unknown> | null>(
+    `*[_type == "carnetPage"][0]{
+      title, intro, featuredLabel, readArticleLabel, emptyLabel,
+      tocLabel, backLabel, relatedLabel, seoTitle, seoDescription
+    }`,
+  )
+  if (!data) return fb
+  const s = (v: unknown, fallback: string): string =>
+    pickLocale(v as never, locale) || fallback
+  return {
+    title: s(data.title, fb.title),
+    intro: s(data.intro, fb.intro),
+    featuredLabel: s(data.featuredLabel, fb.featuredLabel),
+    readArticleLabel: s(data.readArticleLabel, fb.readArticleLabel),
+    emptyLabel: s(data.emptyLabel, fb.emptyLabel),
+    tocLabel: s(data.tocLabel, fb.tocLabel),
+    backLabel: s(data.backLabel, fb.backLabel),
+    relatedLabel: s(data.relatedLabel, fb.relatedLabel),
+    seo: {
+      title: s(data.seoTitle, fb.seo.title),
+      description: s(data.seoDescription, fb.seo.description),
+    },
+  }
+}
+
+/** Titre et SEO de la page Collection, depuis le singleton `collectionPage`. */
+export async function getCollectionPage(
+  locale: Locale = DEFAULT_LOCALE,
+): Promise<CollectionPageData> {
+  const fb = collectionPageFallback()
+  if (!isSanityConfigured) return fb
+  const data = await cmsFetch<Record<string, unknown> | null>(
+    `*[_type == "collectionPage"][0]{ title, seoTitle, seoDescription }`,
+  )
+  if (!data) return fb
+  const s = (v: unknown, fallback: string): string =>
+    pickLocale(v as never, locale) || fallback
+  return {
+    title: s(data.title, fb.title),
+    seo: {
+      title: s(data.seoTitle, fb.seo.title),
+      description: s(data.seoDescription, fb.seo.description),
+    },
   }
 }
 

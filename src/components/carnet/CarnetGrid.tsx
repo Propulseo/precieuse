@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { ARTICLES, type Article } from '../../lib/content/carnet'
+import { carnetPageFallback } from '../../lib/content/pages'
+import type { CarnetPageData } from '../../lib/content/pages'
 import { m } from '#/paraglide/messages'
 import { objectPositionStyle } from '../framing/framing'
 
@@ -13,7 +15,13 @@ const ALL = 'Tous'
  * Accent framboise sur catégories et survols, état vide géré. Les catégories
  * sont dérivées des articles (donc éditables dans Sanity, jamais désynchronisées).
  */
-export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
+export function CarnetGrid({
+  articles = ARTICLES,
+  page = carnetPageFallback(),
+}: {
+  articles?: Article[]
+  page?: CarnetPageData
+}) {
   const rest = articles.filter((a) => !a.featured)
   const categories = [ALL, ...new Set(articles.map((a) => a.category))]
   const [filter, setFilter] = useState<string>(ALL)
@@ -49,7 +57,7 @@ export function CarnetGrid({ articles = ARTICLES }: { articles?: Article[] }) {
         {/* Grille / état vide */}
         {filtered.length === 0 ? (
           <p className="py-16 text-center font-body italic font-light text-[18px] text-canard/65">
-            {m.carnet_empty()}
+            {page.emptyLabel}
           </p>
         ) : (
           <div className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">

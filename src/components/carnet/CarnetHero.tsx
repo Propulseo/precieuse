@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { ARTICLES, type Article } from '../../lib/content/carnet'
+import { carnetPageFallback } from '../../lib/content/pages'
+import type { CarnetPageData } from '../../lib/content/pages'
 import { m } from '#/paraglide/messages'
 import { EditorialHeader } from '../editorial/EditorialHeader'
 import { objectPositionStyle } from '../framing/framing'
@@ -10,16 +12,22 @@ import { objectPositionStyle } from '../framing/framing'
  * traitement éditorial (pas une carte). Sur la charte poudre/canard, accent
  * framboise.
  */
-export function CarnetHero({ articles = ARTICLES }: { articles?: Article[] }) {
+export function CarnetHero({
+  articles = ARTICLES,
+  page = carnetPageFallback(),
+}: {
+  articles?: Article[]
+  page?: CarnetPageData
+}) {
   const featured = articles.find((a) => a.featured) ?? articles[0]
 
   return (
     <>
       {/* Manchette — composant partagé (cohérent avec Collection et Créatrice),
           avec le texte d'intro à la place de la liste de pièces. */}
-      <EditorialHeader title={m.carnet_title()}>
+      <EditorialHeader title={page.title}>
         <p className="mx-auto max-w-[54ch] font-body italic font-light text-[clamp(14px,1.4vw,17px)] leading-[1.4] text-canard-90 [text-wrap:pretty]">
-          {m.carnet_intro()}
+          {page.intro}
         </p>
       </EditorialHeader>
 
@@ -45,7 +53,7 @@ export function CarnetHero({ articles = ARTICLES }: { articles?: Article[] }) {
 
             <div>
               <span className="font-display text-[11px] uppercase tracking-[0.3em] text-framboise">
-                {m.carnet_featured_label()} · {featured.date}
+                {page.featuredLabel} · {featured.date}
               </span>
               <Link to="/carnet/$slug" params={{ slug: featured.slug }} className="group block">
                 <h2 className="mt-3 font-headline text-[clamp(26px,3.4vw,44px)] leading-[1.05] text-canard transition-colors duration-300 group-hover:text-framboise [text-wrap:balance]">
@@ -61,7 +69,7 @@ export function CarnetHero({ articles = ARTICLES }: { articles?: Article[] }) {
                   params={{ slug: featured.slug }}
                   className="group/btn inline-flex items-center gap-2.5 py-2 md:py-0 font-display text-[13px] uppercase tracking-[0.2em] text-canard transition-colors hover:text-framboise"
                 >
-                  <span>{m.carnet_read_article()}</span>
+                  <span>{page.readArticleLabel}</span>
                   <span
                     aria-hidden
                     className="transition-transform group-hover/btn:translate-x-1 motion-reduce:transition-none"

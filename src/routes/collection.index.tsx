@@ -1,23 +1,27 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { CollectionGemmyo } from '../components/collection-variants/CollectionGemmyo'
-import { getProducts } from '../lib/cms'
+import { getCollectionPage, getProducts } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
-import { m } from '#/paraglide/messages'
 import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/collection/')({
   component: CollectionPage,
-  head: () =>
+  // Titre et SEO pilotés par le singleton Sanity `collectionPage` ; repli i18n
+  // si le document est vide. Les bagues restent des documents `piece`.
+  loader: async () => {
+    const locale = getLocale()
+    const [products, page] = await Promise.all([getProducts(locale), getCollectionPage(locale)])
+    return { products, page }
+  },
+  head: ({ loaderData }) =>
     seo({
-      title: m.seo_collection_title(),
-      description: m.seo_collection_desc(),
+      title: loaderData?.page.seo.title ?? '',
+      description: loaderData?.page.seo.description ?? '',
       path: '/collection',
     }),
-  // Lit Sanity quand configuré, sinon le contenu statique (fallback des getters).
-  loader: () => getProducts(getLocale()),
 })
 
 function CollectionPage() {
-  const products = Route.useLoaderData()
-  return <CollectionGemmyo products={products} />
+  const { products, page } = Route.useLoaderData()
+  return <CollectionGemmyo products={products} title={page.title} />
 }

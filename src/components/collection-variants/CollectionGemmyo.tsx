@@ -75,10 +75,16 @@ function InfoCell({ product, reversed }: { product: Product; reversed: boolean }
   )
 }
 
-export function CollectionGemmyo({ products = PRODUCTS }: { products?: Product[] }) {
+export function CollectionGemmyo({
+  products = PRODUCTS,
+  title,
+}: {
+  products?: Product[]
+  title?: string
+}) {
   return (
     <section className="bg-poudre">
-      <CollectionIntro products={products} />
+      <CollectionIntro products={products} title={title} />
 
       {products.map((product, i) => {
         // Grille = photo portée + packshot détouré : sans packshot, on n'affiche

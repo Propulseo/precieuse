@@ -70,6 +70,8 @@ async function main() {
     quote: L('creatrice_philosophie_quote', 'localizedText'),
     signatureName: 'Emeline',
     signatureRole: L('creatrice_signature_role'),
+    seoTitle: L('seo_creatrice_title'),
+    seoDescription: L('seo_creatrice_desc', 'localizedText'),
   })
 
   console.log('✅ creatricePage seedé (publié)')

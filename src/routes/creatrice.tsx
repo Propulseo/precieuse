@@ -8,13 +8,14 @@ import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/creatrice')({
   component: CreatricePage,
-  head: () =>
+  loader: () => getCreatrice(getLocale()),
+  // SEO piloté par le doc Sanity creatricePage, repli i18n tant qu'il est vide.
+  head: ({ loaderData }) =>
     seo({
-      title: m.seo_creatrice_title(),
-      description: m.seo_creatrice_desc(),
+      title: loaderData?.seo.title || m.seo_creatrice_title(),
+      description: loaderData?.seo.description || m.seo_creatrice_desc(),
       path: '/creatrice',
     }),
-  loader: () => getCreatrice(getLocale()),
 })
 
 function CreatricePage() {

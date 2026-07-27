@@ -49,13 +49,15 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // — Bijoux — (multi-documents : liste normale)
+      // — Bijoux — (en-tête de page en singleton, puis les documents)
+      singleton(S, 'collectionPage', 'Page Collection (en-tête)', DiamondIcon),
       S.documentTypeListItem('piece').title('Les bagues (collection)').icon(DiamondIcon),
       S.documentTypeListItem('matiere').title('Matières').icon(TagIcon),
 
       S.divider(),
 
-      // — Carnet — (multi-documents)
+      // — Carnet — (en-tête de page en singleton, puis les articles)
+      singleton(S, 'carnetPage', 'Page Carnet (en-tête)', BookIcon),
       S.documentTypeListItem('article').title('Articles du Carnet').icon(BookIcon),
       S.documentTypeListItem('temoignage').title('Témoignages').icon(UsersIcon),
       S.documentTypeListItem('etapeEtabli').title("Étapes de l'atelier").icon(CaseIcon),

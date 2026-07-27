@@ -13,6 +13,18 @@ export const creatricePage = defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'seoTitle',
+      title: 'SEO — titre (onglet & Google)',
+      type: 'localizedString',
+      description: 'Texte affiché dans l’onglet du navigateur et dans Google. ~60 caractères.',
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO — description',
+      type: 'localizedText',
+      description: 'Texte affiché sous le titre dans les résultats Google. ~150 caractères.',
+    }),
+    defineField({
       name: 'introTitle',
       title: 'Titre',
       type: 'localizedString',

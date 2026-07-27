@@ -8,11 +8,18 @@ import { EditorialHeader } from '../editorial/EditorialHeader'
  * « La Collection », intro, ornement diamant et sommaire des pièces (ancres).
  * Pleine largeur, compact. Sur la charte (poudre/canard, accent framboise).
  */
-export function CollectionIntro({ products }: { products: Product[] }) {
+export function CollectionIntro({
+  products,
+  title = m.collection_title(),
+}: {
+  products: Product[]
+  /** Titre de la page, éditable via le singleton `collectionPage`. */
+  title?: string
+}) {
   return (
-    <EditorialHeader title={m.collection_title()} className="paper-grain">
+    <EditorialHeader title={title} className="paper-grain">
       <nav
-        aria-label={m.collection_title()}
+        aria-label={title}
         className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
       >
         {products.map((p, i) => (
