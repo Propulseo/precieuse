@@ -16,6 +16,7 @@ import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
 import { getSite, getFooter, getContact } from '../lib/cms'
 import { SITE } from '../lib/content/site'
+import { SITE_URL } from '../lib/site-url'
 import { footerFallback } from '../lib/content/footer'
 import { contactFallback } from '../lib/content/contact'
 import { Nav } from '../components/Nav'
@@ -73,10 +74,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { name: 'theme-color', content: '#125e5e' },
       { property: 'og:site_name', content: 'Précieuse' },
       { property: 'og:type', content: 'website' },
-      {
-        property: 'og:image',
-        content: 'https://precieuse-five.vercel.app/picto.png',
-      },
+      { property: 'og:image', content: `${SITE_URL}/picto.png` },
       { name: 'twitter:card', content: 'summary_large_image' },
     ],
     links: [

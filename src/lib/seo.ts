@@ -7,10 +7,11 @@
  * domaine de production, et `og:locale` suit la langue active.
  */
 import { getLocale } from '#/paraglide/runtime'
+import { SITE_URL } from './site-url'
 
 const SITE_NAME = 'Précieuse'
-/** Domaine public canonique (pas de domaine custom à ce jour). */
-const BASE_URL = 'https://precieuse-five.vercel.app'
+/** Domaine public canonique — source unique dans `site-url.ts`. */
+const BASE_URL = SITE_URL
 const DEFAULT_OG_IMAGE = `${BASE_URL}/picto.png`
 
 const OG_LOCALE: Record<string, string> = {
