@@ -2,16 +2,12 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { sendLead } from '../../lib/leads'
 import { getLocale } from '#/paraglide/runtime'
-import { m } from '#/paraglide/messages'
+import { contactFallback } from '../../lib/content/contact'
+import type { ContactContent } from '../../lib/content/contact'
 
-const SUBJECTS = [
-  { id: 'question', label: () => m.contact_subject_question() },
-  { id: 'bespoke', label: () => m.contact_subject_bespoke() },
-  { id: 'care', label: () => m.contact_subject_care() },
-  { id: 'press', label: () => m.contact_subject_press() },
-] as const
+const SUBJECT_IDS = ['question', 'bespoke', 'care', 'press'] as const
 
-type SubjectId = (typeof SUBJECTS)[number]['id']
+type SubjectId = (typeof SUBJECT_IDS)[number]
 
 const inputCls =
   'w-full bg-transparent border-b border-canard/30 py-1.5 font-body text-[16px] text-canard placeholder:text-canard/55 focus:outline-none focus:border-framboise transition-colors'
@@ -20,12 +16,21 @@ const labelCls =
 
 /** Formulaire du drawer Contact (ambiance Épure) : nom, email, sujet en chips,
  *  message. Envoi via la server fn `sendLead` (kind contact, sujet → creationType).
- *  Le message de succès est piloté par Sanity (repli i18n) via la prop `success`. */
+ *  Tout le texte (libellés, sujets, bouton, messages) vient de Sanity via
+ *  `content`, avec repli i18n. Les identifiants de sujet, eux, restent figés :
+ *  ils partent en base avec le lead. */
 export function ContactForm({
-  success = { title: m.contact_success_title(), body: m.contact_success_body() },
+  content = contactFallback(),
 }: {
-  success?: { title: string; body: string }
+  content?: ContactContent
 } = {}) {
+  const success = { title: content.successTitle, body: content.successBody }
+  const SUBJECTS = [
+    { id: 'question', label: content.form.subjects.question },
+    { id: 'bespoke', label: content.form.subjects.bespoke },
+    { id: 'care', label: content.form.subjects.care },
+    { id: 'press', label: content.form.subjects.press },
+  ] as const satisfies ReadonlyArray<{ id: SubjectId; label: string }>
   const [sent, setSent] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(false)
@@ -74,7 +79,7 @@ export function ContactForm({
     <form onSubmit={handleSubmit} className="mt-3.5 flex flex-col gap-3.5">
       <div className="flex gap-[18px]">
         <label className="flex-1">
-          <span className={labelCls}>{m.contact_field_name()}</span>
+          <span className={labelCls}>{content.form.fieldName}</span>
           <input
             type="text"
             name="name"
@@ -86,7 +91,7 @@ export function ContactForm({
           />
         </label>
         <label className="flex-1">
-          <span className={labelCls}>{m.contact_field_email()}</span>
+          <span className={labelCls}>{content.form.fieldEmail}</span>
           <input
             type="email"
             name="email"
@@ -100,7 +105,7 @@ export function ContactForm({
       </div>
 
       <div>
-        <span className={labelCls}>{m.contact_field_subject()}</span>
+        <span className={labelCls}>{content.form.fieldSubject}</span>
         <div className="flex flex-wrap gap-2">
           {SUBJECTS.map((s) => (
             <button
@@ -114,14 +119,14 @@ export function ContactForm({
                   : 'border-canard/40 text-canard/85 hover:text-canard'
               }`}
             >
-              {s.label()}
+              {s.label}
             </button>
           ))}
         </div>
       </div>
 
       <label>
-        <span className={labelCls}>{m.contact_field_message()}</span>
+        <span className={labelCls}>{content.form.fieldMessage}</span>
         <textarea
           required
           rows={2}
@@ -136,11 +141,11 @@ export function ContactForm({
         disabled={submitting}
         className="self-start font-display text-[12px] tracking-[0.24em] uppercase px-7 py-3 rounded-full bg-canard text-poudre hover:bg-framboise transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {m.contact_submit()} →
+        {content.form.submitLabel} →
       </button>
 
       {error && (
-        <p role="alert" className="font-body text-[13px] text-framboise">{m.form_error()}</p>
+        <p role="alert" className="font-body text-[13px] text-framboise">{content.form.errorMessage}</p>
       )}
     </form>
   )

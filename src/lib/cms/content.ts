@@ -469,7 +469,10 @@ export async function getContact(
   const data = await cmsFetch<Record<string, unknown> | null>(
     `*[_type == "contact"][0]{
       eyebrow, title, lede, reassurance,
-      faq[]{ q, a }, successTitle, successBody
+      faq[]{ q, a }, successTitle, successBody,
+      fieldName, fieldEmail, fieldSubject, fieldMessage,
+      submitLabel, errorMessage,
+      subjectQuestion, subjectBespoke, subjectCare, subjectPress
     }`,
   )
   if (!data) return fb
@@ -490,6 +493,20 @@ export async function getContact(
     faq,
     successTitle: s(data.successTitle, fb.successTitle),
     successBody: s(data.successBody, fb.successBody),
+    form: {
+      fieldName: s(data.fieldName, fb.form.fieldName),
+      fieldEmail: s(data.fieldEmail, fb.form.fieldEmail),
+      fieldSubject: s(data.fieldSubject, fb.form.fieldSubject),
+      fieldMessage: s(data.fieldMessage, fb.form.fieldMessage),
+      submitLabel: s(data.submitLabel, fb.form.submitLabel),
+      errorMessage: s(data.errorMessage, fb.form.errorMessage),
+      subjects: {
+        question: s(data.subjectQuestion, fb.form.subjects.question),
+        bespoke: s(data.subjectBespoke, fb.form.subjects.bespoke),
+        care: s(data.subjectCare, fb.form.subjects.care),
+        press: s(data.subjectPress, fb.form.subjects.press),
+      },
+    },
   }
 }
 
@@ -635,13 +652,21 @@ export async function getCollectionPage(
   const fb = collectionPageFallback()
   if (!isSanityConfigured) return fb
   const data = await cmsFetch<Record<string, unknown> | null>(
-    `*[_type == "collectionPage"][0]{ title, seoTitle, seoDescription }`,
+    `*[_type == "collectionPage"][0]{
+      title, backLabel, materialsLabel, storyLabel, requestCta, reassurance,
+      seoTitle, seoDescription
+    }`,
   )
   if (!data) return fb
   const s = (v: unknown, fallback: string): string =>
     pickLocale(v as never, locale) || fallback
   return {
     title: s(data.title, fb.title),
+    backLabel: s(data.backLabel, fb.backLabel),
+    materialsLabel: s(data.materialsLabel, fb.materialsLabel),
+    storyLabel: s(data.storyLabel, fb.storyLabel),
+    requestCta: s(data.requestCta, fb.requestCta),
+    reassurance: s(data.reassurance, fb.reassurance),
     seo: {
       title: s(data.seoTitle, fb.seo.title),
       description: s(data.seoDescription, fb.seo.description),

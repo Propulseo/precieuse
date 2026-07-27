@@ -306,10 +306,15 @@ async function seedPetitesPages() {
     _id: 'collectionPage',
     _type: 'collectionPage',
     title: L('collection_title'),
+    backLabel: L('product_back_to_collection'),
+    materialsLabel: L('product_materials_label'),
+    storyLabel: L('product_story_label'),
+    requestCta: L('product_request_cta'),
+    reassurance: L('product_reassurance'),
     seoTitle: L('seo_collection_title'),
     seoDescription: L('seo_collection_desc', 'localizedText'),
   })
-  console.log('✓ Page Collection : titre et SEO seedés')
+  console.log('✓ Page Collection : titre, libellés de fiche et SEO seedés')
 }
 
 // ---------------------------------------------------------------------------
@@ -368,8 +373,18 @@ async function seedContact() {
     })),
     successTitle: L('contact_success_title'),
     successBody: L('contact_success_body'),
+    fieldName: L('contact_field_name'),
+    fieldEmail: L('contact_field_email'),
+    fieldSubject: L('contact_field_subject'),
+    fieldMessage: L('contact_field_message'),
+    submitLabel: L('contact_submit'),
+    errorMessage: L('form_error'),
+    subjectQuestion: L('contact_subject_question'),
+    subjectBespoke: L('contact_subject_bespoke'),
+    subjectCare: L('contact_subject_care'),
+    subjectPress: L('contact_subject_press'),
   })
-  console.log('✓ Contact : drawer (sur-titre, titre, accroche, réassurance, FAQ, succès) seedé')
+  console.log('✓ Contact : drawer + libellés du formulaire et sujets seedés')
 }
 
 async function main() {

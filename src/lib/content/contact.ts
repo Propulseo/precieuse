@@ -6,9 +6,8 @@ export type ContactFaqItem = { q: string; a: string }
 /**
  * Contrat de données du drawer Contact (et, par partage, du bandeau de clôture
  * `ClosingInvite`). Vient du singleton Sanity `contact` quand il est rempli,
- * sinon de ce repli i18n (Paraglide). Les libellés de champs, les chips de sujet,
- * les coordonnées et les liens restent structurels (Paraglide/SITE).
- * Cf. `getContact` (src/lib/cms/content.ts).
+ * sinon de ce repli i18n (Paraglide). Les coordonnées et les liens restent
+ * structurels (SITE). Cf. `getContact` (src/lib/cms/content.ts).
  */
 export type ContactContent = {
   eyebrow: string
@@ -18,6 +17,16 @@ export type ContactContent = {
   faq: ContactFaqItem[]
   successTitle: string
   successBody: string
+  /** Libellés du formulaire (champs, bouton, erreur) et les 4 sujets. */
+  form: {
+    fieldName: string
+    fieldEmail: string
+    fieldSubject: string
+    fieldMessage: string
+    submitLabel: string
+    errorMessage: string
+    subjects: { question: string; bespoke: string; care: string; press: string }
+  }
 }
 
 /**
@@ -38,5 +47,19 @@ export function contactFallback(): ContactContent {
     ],
     successTitle: m.contact_success_title(),
     successBody: m.contact_success_body(),
+    form: {
+      fieldName: m.contact_field_name(),
+      fieldEmail: m.contact_field_email(),
+      fieldSubject: m.contact_field_subject(),
+      fieldMessage: m.contact_field_message(),
+      submitLabel: m.contact_submit(),
+      errorMessage: m.form_error(),
+      subjects: {
+        question: m.contact_subject_question(),
+        bespoke: m.contact_subject_bespoke(),
+        care: m.contact_subject_care(),
+        press: m.contact_subject_press(),
+      },
+    },
   }
 }

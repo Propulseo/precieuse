@@ -109,7 +109,7 @@ export function ContactDrawer({
           </p>
 
           {/* Formulaire */}
-          <ContactForm success={{ title: contact.successTitle, body: contact.successBody }} />
+          <ContactForm content={contact} />
 
           {/* Réassurance */}
           <p className="mt-[18px] font-display text-[11.5px] leading-[1.6] text-canard/65">

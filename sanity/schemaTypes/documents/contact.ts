@@ -15,8 +15,7 @@ const faqItem = defineField({
  * Contact (drawer) — singleton pilotant le contenu éditorial du panneau de
  * contact ET, par partage, le bandeau de clôture (`ClosingInvite`). Lu par
  * `getContact` ; repli i18n via `contactFallback()` tant que les champs sont
- * vides. Les libellés de champs/coordonnées et les chips de sujet restent gérés
- * par Paraglide (structurels).
+ * vides.
  */
 export const contact = defineType({
   name: 'contact',
@@ -50,6 +49,28 @@ export const contact = defineType({
       title: 'Message de succès — corps',
       type: 'localizedString',
     }),
+
+    // Libellés du formulaire lui-même.
+    defineField({ name: 'fieldName', title: 'Champ — libellé « Nom »', type: 'localizedString' }),
+    defineField({ name: 'fieldEmail', title: 'Champ — libellé « E-mail »', type: 'localizedString' }),
+    defineField({ name: 'fieldSubject', title: 'Champ — libellé « Sujet »', type: 'localizedString' }),
+    defineField({ name: 'fieldMessage', title: 'Champ — libellé « Message »', type: 'localizedString' }),
+    defineField({ name: 'submitLabel', title: "Bouton d'envoi", type: 'localizedString' }),
+    defineField({
+      name: 'errorMessage',
+      title: "Message d'erreur",
+      type: 'localizedString',
+      description: "Affiché si l'envoi échoue (panne réseau, service indisponible).",
+    }),
+    defineField({
+      name: 'subjectQuestion',
+      title: 'Sujet — « Une question »',
+      type: 'localizedString',
+      description: 'Les quatre sujets proposés sous forme de pastilles cliquables.',
+    }),
+    defineField({ name: 'subjectBespoke', title: 'Sujet — « Sur-mesure »', type: 'localizedString' }),
+    defineField({ name: 'subjectCare', title: 'Sujet — « Entretien »', type: 'localizedString' }),
+    defineField({ name: 'subjectPress', title: 'Sujet — « Presse »', type: 'localizedString' }),
   ],
   preview: { prepare: () => ({ title: 'Contact (drawer)' }) },
 })

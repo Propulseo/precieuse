@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
-import { getProduct } from '../lib/cms'
+import { getCollectionPage, getProduct } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
 import { objectPositionStyle } from '../components/framing/framing'
@@ -13,18 +13,22 @@ export const Route = createFileRoute('/collection/$slug')({
   component: ProductPage,
   // Reads from Sanity when configured, otherwise the static PRODUCTS fallback.
   loader: async ({ params }) => {
-    const product = await getProduct(params.slug, getLocale())
+    const locale = getLocale()
+    const [product, page] = await Promise.all([
+      getProduct(params.slug, locale),
+      getCollectionPage(locale),
+    ])
     if (!product) throw notFound()
-    return product
+    return { product, page }
   },
   // head après loader : TanStack n'infère `loaderData` que si loader est déclaré avant.
   head: ({ loaderData, params }) =>
     loaderData
       ? seo({
-          title: `${loaderData.name} — Précieuse`,
-          description: loaderData.description,
+          title: `${loaderData.product.name} — Précieuse`,
+          description: loaderData.product.description,
           path: `/collection/${params.slug}`,
-          image: loaderData.image,
+          image: loaderData.product.image,
         })
       : {},
 })
@@ -77,7 +81,7 @@ const imgMotion =
  * photos cliquables (lightbox), puis spécifications et appel au contact (drawer).
  */
 function ProductPage() {
-  const product = Route.useLoaderData()
+  const { product, page } = Route.useLoaderData()
   const { open: openContact } = useContactDrawer()
   const [zoom, setZoom] = useState<GalleryPhoto | null>(null)
   const photos = buildGallery(product)
@@ -112,7 +116,7 @@ function ProductPage() {
           to="/collection"
           className="inline-block font-display text-[14px] italic text-framboise transition-colors hover:text-canard"
         >
-          ← {m.product_back_to_collection()}
+          ← {page.backLabel}
         </Link>
 
         <div className="grid grid-cols-1 items-start gap-12 pt-3 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
@@ -191,7 +195,7 @@ function ProductPage() {
 
             <div className="mt-6 border-t border-canard/15 pt-5">
               <span className="mb-2.5 block font-display text-[12px] uppercase italic tracking-[0.3em] text-framboise">
-                {m.product_materials_label()}
+                {page.materialsLabel}
               </span>
               <p className="font-body text-[15px] md:text-[14px] leading-relaxed text-canard/90">
                 {product.materials}
@@ -199,7 +203,7 @@ function ProductPage() {
             </div>
             <div className="mt-6 border-t border-canard/15 pt-5">
               <span className="mb-2.5 block font-display text-[12px] uppercase italic tracking-[0.3em] text-framboise">
-                {m.product_story_label()}
+                {page.storyLabel}
               </span>
               <p className="font-display text-[16px] italic leading-[1.5] text-canard">
                 {product.story}
@@ -211,10 +215,10 @@ function ProductPage() {
               onClick={openContact}
               className="mt-8 inline-block bg-canard px-10 py-3.5 font-display text-[12px] uppercase tracking-[0.3em] text-poudre transition-colors duration-300 hover:bg-canard-90"
             >
-              {m.product_request_cta()} →
+              {page.requestCta} →
             </button>
             <p className="mt-4 font-display text-[12px] text-canard/85">
-              {m.product_reassurance()}
+              {page.reassurance}
             </p>
           </div>
         </div>

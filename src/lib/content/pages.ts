@@ -34,12 +34,23 @@ export function carnetPageFallback(): CarnetPageData {
 
 export type CollectionPageData = {
   title: string
+  /** Libellés partagés par toutes les fiches produit. */
+  backLabel: string
+  materialsLabel: string
+  storyLabel: string
+  requestCta: string
+  reassurance: string
   seo: { title: string; description: string }
 }
 
 export function collectionPageFallback(): CollectionPageData {
   return {
     title: m.collection_title(),
+    backLabel: m.product_back_to_collection(),
+    materialsLabel: m.product_materials_label(),
+    storyLabel: m.product_story_label(),
+    requestCta: m.product_request_cta(),
+    reassurance: m.product_reassurance(),
     seo: { title: m.seo_collection_title(), description: m.seo_collection_desc() },
   }
 }

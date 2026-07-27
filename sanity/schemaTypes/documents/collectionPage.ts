@@ -11,6 +11,7 @@ export const collectionPage = defineType({
   type: 'document',
   groups: [
     { name: 'entete', title: 'En-tête' },
+    { name: 'fiche', title: 'Fiche d’une bague' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
@@ -19,6 +20,40 @@ export const collectionPage = defineType({
       title: 'Titre de la page',
       type: 'localizedString',
       group: 'entete',
+    }),
+
+    // Libellés partagés par toutes les fiches produit (une seule saisie).
+    defineField({
+      name: 'backLabel',
+      title: 'Lien de retour vers la collection',
+      type: 'localizedString',
+      group: 'fiche',
+    }),
+    defineField({
+      name: 'materialsLabel',
+      title: 'Titre du bloc « Matières »',
+      type: 'localizedString',
+      group: 'fiche',
+    }),
+    defineField({
+      name: 'storyLabel',
+      title: 'Titre du bloc « Histoire »',
+      type: 'localizedString',
+      group: 'fiche',
+    }),
+    defineField({
+      name: 'requestCta',
+      title: 'Bouton de demande',
+      type: 'localizedString',
+      description: 'Ex. « Demander cette pièce ». Ouvre le formulaire de contact.',
+      group: 'fiche',
+    }),
+    defineField({
+      name: 'reassurance',
+      title: 'Mention rassurante sous le bouton',
+      type: 'localizedString',
+      description: 'Ex. « Réponse sous 48 h, sans engagement ».',
+      group: 'fiche',
     }),
     defineField({
       name: 'seoTitle',
