@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import { m } from '#/paraglide/messages'
 import { BESPOKE_STEP_SVGS, bespokePageFallback } from '../lib/content/bespoke'
 import type { BespokeStepData } from '../lib/content/bespoke'
 
@@ -15,7 +14,14 @@ export function SurMesure({
   header,
 }: {
   steps?: BespokeStepData[]
-  header: { title: string; intro: string; tagline: string; meta: string }
+  header: {
+    title: string
+    intro: string
+    tagline: string
+    meta: string
+    cta: string
+    stepLabel: string
+  }
 }) {
   return (
     <section className="relative bg-poudre pt-10 lg:pt-14 pb-6 lg:pb-7 px-6 lg:px-16">
@@ -49,7 +55,7 @@ export function SurMesure({
                 />
               </span>
               <span className="mb-2 block font-display text-[11px] uppercase tracking-[0.28em] text-framboise">
-                {m.sm_step_label()} {i + 1}
+                {header.stepLabel} {i + 1}
               </span>
               <h3 className="font-display text-[20px] text-canard leading-[1.1]">
                 {step.title}
@@ -68,7 +74,7 @@ export function SurMesure({
             to="/sur-mesure"
             className="inline-block bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-10 py-3.5 hover:bg-canard-90 transition-colors duration-300"
           >
-            {m.surmesure_cta()}
+            {header.cta}
           </Link>
           <span className="font-display text-[13px] text-canard/55">
             {header.meta}

@@ -13,6 +13,13 @@ export function LeadCaptureA({
     consentPrefix: string
     consentLink: string
     consentSuffix: string
+    fieldFirstname: string
+    fieldLastname: string
+    fieldEmail: string
+    fieldPhone: string
+    submit: string
+    success: string
+    error: string
   }
 }) {
   const [civility, setCivility] = useState<'M' | 'Mme' | null>(null)
@@ -49,7 +56,7 @@ export function LeadCaptureA({
   if (sent) {
     return (
       <section className="relative bg-poudre py-8 px-4 lg:px-8 text-center">
-        <p className="font-headline text-[24px] text-canard">{m.form_success()}</p>
+        <p className="font-headline text-[24px] text-canard">{header.success}</p>
       </section>
     )
   }
@@ -102,10 +109,10 @@ export function LeadCaptureA({
         </fieldset>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5 w-full mb-7 text-left">
-          <FieldA label={m.leadcapture_field_firstname()} name="prenom" autoComplete="given-name" required />
-          <FieldA label={m.leadcapture_field_lastname()} name="nom" autoComplete="family-name" required />
-          <FieldA label={m.leadcapture_field_email()} name="email" type="email" autoComplete="email" required />
-          <FieldA label={m.leadcapture_field_phone()} name="phone" type="tel" autoComplete="tel" prefix="FR" />
+          <FieldA label={header.fieldFirstname} name="prenom" autoComplete="given-name" required />
+          <FieldA label={header.fieldLastname} name="nom" autoComplete="family-name" required />
+          <FieldA label={header.fieldEmail} name="email" type="email" autoComplete="email" required />
+          <FieldA label={header.fieldPhone} name="phone" type="tel" autoComplete="tel" prefix="FR" />
         </div>
 
         <button
@@ -113,10 +120,10 @@ export function LeadCaptureA({
           disabled={submitting}
           className="bg-canard text-poudre font-display text-[12px] tracking-[0.3em] uppercase px-8 py-3 hover:bg-canard-90 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {m.leadcapture_submit()}
+          {header.submit}
         </button>
         {error && (
-          <p className="font-display text-[13px] text-alerte mt-3">{m.form_error()}</p>
+          <p className="font-display text-[13px] text-alerte mt-3">{header.error}</p>
         )}
 
         <p className="font-display text-[11px] text-canard/90 mt-5 max-w-[420px]">

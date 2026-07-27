@@ -42,6 +42,20 @@ export const homePage = defineType({
       group: 'hero',
     }),
     defineField({ name: 'heroEyebrow', title: 'Sur-titre (au-dessus du logo)', type: 'localizedString', group: 'hero' }),
+    defineField({
+      name: 'heroCtaCollection',
+      title: 'Bouton de gauche',
+      type: 'localizedString',
+      description: 'Ex. « Découvrir la collection ». Mène à la page Collection.',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroCtaBespoke',
+      title: 'Bouton de droite',
+      type: 'localizedString',
+      description: 'Ex. « Créer sur-mesure ». Mène à la page Sur-mesure.',
+      group: 'hero',
+    }),
 
     // ----------------------------------------------------------- Avant-propos
     localizedImage({ name: 'aproposPortrait', title: "Portrait d'Emeline", group: 'avantPropos' }),
@@ -109,6 +123,20 @@ export const homePage = defineType({
       description: 'Ex. « Réponse sous 48 h ».',
       group: 'sections',
     }),
+    defineField({
+      name: 'bespokeCta',
+      title: 'Bloc sur-mesure — bouton',
+      type: 'localizedString',
+      description: 'Ex. « Commencer mon projet ». Mène à la page Sur-mesure.',
+      group: 'sections',
+    }),
+    defineField({
+      name: 'bespokeStepLabel',
+      title: 'Bloc sur-mesure — mot « Étape »',
+      type: 'localizedString',
+      description: 'Affiché avant le numéro de chaque étape : « Étape 1 », « Étape 2 »…',
+      group: 'sections',
+    }),
     defineField({ name: 'etabliOverline', title: 'Établi — sur-titre', type: 'localizedString', group: 'sections' }),
     defineField({ name: 'etabliTitle', title: 'Établi — titre', type: 'localizedString', group: 'sections' }),
     defineField({ name: 'collectionTitle', title: 'Collection — titre', type: 'localizedString', group: 'sections' }),
@@ -125,6 +153,25 @@ export const homePage = defineType({
       group: 'sections',
     }),
     defineField({ name: 'leadCaptureConsentLink', title: 'Formulaire — libellé du lien confidentialité', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'leadCaptureFieldFirstname', title: 'Formulaire — libellé « Prénom »', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'leadCaptureFieldLastname', title: 'Formulaire — libellé « Nom »', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'leadCaptureFieldEmail', title: 'Formulaire — libellé « E-mail »', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'leadCaptureFieldPhone', title: 'Formulaire — libellé « Téléphone »', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'leadCaptureSubmit', title: "Formulaire — bouton d'envoi", type: 'localizedString', group: 'sections' }),
+    defineField({
+      name: 'leadCaptureSuccess',
+      title: 'Formulaire — message de confirmation',
+      type: 'localizedString',
+      description: 'Remplace le formulaire une fois la demande envoyée.',
+      group: 'sections',
+    }),
+    defineField({
+      name: 'leadCaptureError',
+      title: "Formulaire — message d'erreur",
+      type: 'localizedString',
+      description: "Affiché si l'envoi échoue (panne réseau, service indisponible).",
+      group: 'sections',
+    }),
     defineField({
       name: 'leadCaptureConsentSuffix',
       title: 'Formulaire — consentement (après le lien)',
@@ -135,6 +182,14 @@ export const homePage = defineType({
     defineField({ name: 'newsletterEyebrow', title: 'Newsletter — sur-titre', type: 'localizedString', group: 'sections' }),
     defineField({ name: 'newsletterTitle', title: 'Newsletter — titre', type: 'localizedString', group: 'sections' }),
     defineField({ name: 'newsletterSubtitle', title: 'Newsletter — sous-titre', type: 'localizedString', group: 'sections' }),
+    defineField({ name: 'newsletterCta', title: 'Newsletter — bouton', type: 'localizedString', group: 'sections' }),
+    defineField({
+      name: 'newsletterPlaceholder',
+      title: 'Newsletter — texte gris du champ e-mail',
+      type: 'localizedString',
+      description: "Exemple affiché en gris dans le champ tant qu'il est vide, ex. « votre@email.fr ».",
+      group: 'sections',
+    }),
 
     // ------------------------------------------------------------------- SEO
     defineField({

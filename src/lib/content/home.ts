@@ -16,6 +16,8 @@ export type HomePageData = {
     taglineLead: string
     taglineAccent: string
     subline: string
+    ctaCollection: string
+    ctaBespoke: string
   }
   avantPropos: {
     portrait: HomeImg
@@ -30,7 +32,15 @@ export type HomePageData = {
     /** Bandeau réassurance : liste de garanties (retours, mise à taille…). */
     reassurance: string[]
     matieres: { title: string; subtitle: string; marginNote: string }
-    bespoke: { title: string; intro: string; tagline: string; meta: string }
+    bespoke: {
+      title: string
+      intro: string
+      tagline: string
+      meta: string
+      cta: string
+      /** Mot affiché avant le numéro d'étape (« Étape 1 »). */
+      stepLabel: string
+    }
     etabli: { overline: string; title: string }
     collection: { title: string; subtitle: string }
     testimonials: { line1: string; line2: string }
@@ -40,8 +50,21 @@ export type HomePageData = {
       consentPrefix: string
       consentLink: string
       consentSuffix: string
+      fieldFirstname: string
+      fieldLastname: string
+      fieldEmail: string
+      fieldPhone: string
+      submit: string
+      success: string
+      error: string
     }
-    newsletter: { eyebrow: string; title: string; subtitle: string }
+    newsletter: {
+      eyebrow: string
+      title: string
+      subtitle: string
+      cta: string
+      placeholder: string
+    }
   }
   /** Métadonnées SEO (titre + description) de la page, éditables par page. */
   seo: { title: string; description: string }
@@ -67,6 +90,8 @@ export function homePageFallback(): HomePageData {
       taglineLead: m.hero_tagline_lead(),
       taglineAccent: m.hero_tagline_accent(),
       subline: m.hero_subline(),
+      ctaCollection: m.hero_cta_collection(),
+      ctaBespoke: m.hero_cta_bespoke(),
     },
     avantPropos: {
       portrait: {
@@ -101,6 +126,8 @@ export function homePageFallback(): HomePageData {
         intro: m.surmesure_intro_paragraph(),
         tagline: m.surmesure_intro_tagline(),
         meta: m.surmesure_meta(),
+        cta: m.surmesure_cta(),
+        stepLabel: m.sm_step_label(),
       },
       etabli: { overline: m.etabli_overline(), title: m.etabli_title() },
       collection: { title: m.series_title(), subtitle: m.series_subtitle() },
@@ -114,11 +141,20 @@ export function homePageFallback(): HomePageData {
         consentPrefix: m.leadcapture_consent_prefix(),
         consentLink: m.leadcapture_consent_link(),
         consentSuffix: m.leadcapture_consent_suffix(),
+        fieldFirstname: m.leadcapture_field_firstname(),
+        fieldLastname: m.leadcapture_field_lastname(),
+        fieldEmail: m.leadcapture_field_email(),
+        fieldPhone: m.leadcapture_field_phone(),
+        submit: m.leadcapture_submit(),
+        success: m.form_success(),
+        error: m.form_error(),
       },
       newsletter: {
         eyebrow: m.newsletter_eyebrow(),
         title: m.newsletter_title(),
         subtitle: m.newsletter_short_subtitle(),
+        cta: m.newsletter_cta(),
+        placeholder: m.newsletter_placeholder(),
       },
     },
     seo: { title: m.seo_home_title(), description: m.seo_home_desc() },

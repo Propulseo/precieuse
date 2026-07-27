@@ -5,7 +5,13 @@ interface Props {
   isOpen: boolean
   onClose: () => void
   onSubmit: (email: string) => void
-  content: { eyebrow: string; title: string; subtitle: string }
+  content: {
+    eyebrow: string
+    title: string
+    subtitle: string
+    cta: string
+    placeholder: string
+  }
 }
 
 export function NewsletterB({ isOpen, onClose, onSubmit, content }: Props) {
@@ -56,7 +62,7 @@ export function NewsletterB({ isOpen, onClose, onSubmit, content }: Props) {
           type="email"
           name="email"
           autoComplete="email"
-          placeholder={m.newsletter_placeholder()}
+          placeholder={content.placeholder}
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -66,7 +72,7 @@ export function NewsletterB({ isOpen, onClose, onSubmit, content }: Props) {
           type="submit"
           className="w-full bg-canard text-poudre rounded-md py-2 font-display text-[12px] tracking-[0.2em] uppercase hover:bg-canard-90 transition-colors"
         >
-          {m.newsletter_cta()}
+          {content.cta}
         </button>
       </form>
     </div>
