@@ -64,6 +64,14 @@ const Ltext = (fr?: string, en?: string, pt?: string) => ({
   ...(pt ? { pt } : {}),
 })
 
+// Type MIME déduit de l'extension : le catalogue mélange .webp, .jpg et .png.
+const MIME_BY_EXT: Record<string, string> = {
+  webp: 'image/webp',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+}
+
 // Upload des images (dédupliqué par chemin) → map chemin public -> asset._id
 const assetCache = new Map<string, string>()
 async function uploadImage(publicPath: string): Promise<string> {
@@ -71,9 +79,10 @@ async function uploadImage(publicPath: string): Promise<string> {
   if (cached) return cached
   const disk = join(process.cwd(), 'public', publicPath)
   const buf = readFileSync(disk)
+  const ext = publicPath.split('.').pop()?.toLowerCase() ?? ''
   const asset = await client.assets.upload('image', buf, {
     filename: basename(publicPath),
-    contentType: 'image/webp',
+    contentType: MIME_BY_EXT[ext] ?? 'application/octet-stream',
   })
   assetCache.set(publicPath, asset._id)
   console.log(`  ↑ ${basename(publicPath)} → ${asset._id}`)
@@ -175,19 +184,20 @@ async function main() {
     })
   }
 
-  // Témoignages (placeholders — à remplacer par de vrais avis)
+  // Témoignages — vrais avis depuis le retour Emeline du 27/07 (#28).
+  // Ville et date non communiquées : champs omis plutôt que vides.
   for (let i = 0; i < LETTRES.length; i++) {
     const t = LETTRES[i]!
     const tr = TEMOIGNAGE_TRANSLATIONS[i]
     docs.push({
       _id: `temoignage.${i}`,
       _type: 'temoignage',
-      placeholder: true,
+      placeholder: false,
       citation: Ltext(t.citation, tr?.citation.en, tr?.citation.pt),
       auteur: t.auteur,
       initiale: t.initiale,
-      ville: t.ville,
-      date: t.date,
+      ...(t.ville ? { ville: t.ville } : {}),
+      ...(t.date ? { date: t.date } : {}),
       piece: Lstr(t.piece, tr?.piece.en, tr?.piece.pt),
       order: i,
     })

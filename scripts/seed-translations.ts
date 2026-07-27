@@ -156,73 +156,76 @@ export const MATIERE_TRANSLATIONS: Record<
   'or-18kt': {
     sousTitre: { en: 'sourced and traced', pt: 'de origem rastreada' },
     description: {
-      en: '18-carat gold — yellow, white or rose — worked by hand in our atelier in Bordeaux. A gold sourced and traced through the Kimberley Process, chosen for its warm radiance and its hold — made to last.',
-      pt: 'Ouro de 18 quilates amarelo, branco ou rosa, trabalhado à mão no nosso atelier em Bordeaux. Um ouro de origem rastreada através do Processo de Kimberley, escolhido pelo seu brilho quente e pela sua resistência — pensado para durar.',
+      en: '18-carat gold — yellow, white or rose — shaped by hand in my Bordeaux atelier. I select a traced gold, from demanding partners and favouring recycled metal wherever possible. Every creation meets a strict quality charter, for a piece as responsible as it is durable.',
+      pt: 'Ouro de 18 quilates amarelo, branco ou rosa, moldado à mão no meu atelier em Bordéus. Seleciono um ouro rastreado, proveniente de parceiros exigentes e privilegiando a reciclagem sempre que possível. Cada criação respeita uma carta de qualidade rigorosa, para oferecer uma joia tão responsável quanto duradoura.',
     },
     imageAlt: {
       en: 'Ring in polished 18-carat gold set with a stone — savoir-faire of the Précieuse atelier, Bordeaux',
       pt: 'Anel em ouro de 18 quilates polido cravejado com uma pedra — savoir-faire do atelier Précieuse, Bordeaux',
     },
     annotationCaveat: {
-      en: 'sourced and traced · Kimberley',
-      pt: 'de origem rastreada · Kimberley',
+      en: 'sourced and traced',
+      pt: 'de origem rastreada',
     },
   },
   diamants: {
     sousTitre: { en: 'GIA/HRD-certified', pt: 'certificados GIA/HRD' },
     description: {
-      en: 'Brilliant-, marquise- and baguette-cut diamonds, GIA- or HRD-certified. Each stone is sourced and traced through the Kimberley Process, then set by hand to release the light to its fullest.',
-      pt: 'Diamantes de talhe brilhante, navete e baguete, certificados GIA ou HRD. Cada pedra é de origem rastreada através do Processo de Kimberley e depois cravada à mão para libertar a luz ao máximo.',
+      en: 'Diamonds carefully selected in every shape, to suit your wishes. GIA- or HRD-certified, each diamond is rigorously sourced and traced in accordance with the Kimberley Process, guaranteeing a responsible and transparent provenance.',
+      pt: 'Diamantes cuidadosamente selecionados em todas as formas, consoante os seus desejos. Certificados GIA ou HRD, cada diamante é rigorosamente rastreado, em conformidade com o Processo de Kimberley, garantindo uma proveniência responsável e transparente.',
     },
     imageAlt: {
       en: 'Ring in 18-carat gold set with GIA/HRD-certified diamonds — Précieuse atelier, Bordeaux',
       pt: 'Anel em ouro de 18 quilates cravejado de diamantes certificados GIA/HRD — atelier Précieuse, Bordeaux',
     },
     annotationCaveat: {
-      en: 'GIA/HRD-certified',
-      pt: 'certificados GIA/HRD',
+      en: 'GIA/HRD-certified · Kimberley Process',
+      pt: 'certificados GIA/HRD · Processo de Kimberley',
     },
   },
   tanzanites: {
-    sousTitre: { en: 'rare blue-violet', pt: 'azul-violeta raro' },
+    sousTitre: { en: 'A rare beauty from Africa', pt: 'Beleza rara de África' },
     description: {
-      en: 'Tanzanite in a deep blue-violet, a rare gem born at the foot of Kilimanjaro and nowhere else. Its colour reveals itself differently in every light. Made to order for bespoke pieces.',
-      pt: 'Tanzanite de azul-violeta profundo, gema rara nascida ao pé do Kilimanjaro e em nenhum outro lugar. A sua cor revela-se de outra forma a cada luz. Por encomenda para as peças por medida.',
+      en: 'A rare gem born at the foot of Kilimanjaro, tanzanite is mined from one single mine in the world, in Tanzania. Its fascinating shades of blue and violet, together with its exceptional rarity, make it a gemstone of incomparable elegance.',
+      pt: 'Gema rara nascida ao pé do Kilimanjaro, a tanzanite é extraída de uma única mina no mundo, na Tanzânia. Os seus fascinantes tons de azul e violeta, aliados à sua excecional raridade, fazem dela uma pedra preciosa de elegância incomparável.',
     },
     imageAlt: {
-      en: 'Ring in 18-carat gold set with a coloured stone — Précieuse atelier, Bordeaux',
-      pt: 'Anel em ouro de 18 quilates cravejado com uma pedra de cor — atelier Précieuse, Bordeaux',
+      en: 'Pear-cut tanzanite of an intense blue-violet presented on a plinth — Précieuse atelier, Bordeaux',
+      pt: 'Tanzanite de talhe pera de um azul-violeta intenso apresentada sobre um pedestal — atelier Précieuse, Bordeaux',
     },
-    annotationCaveat: { en: 'made to order', pt: 'por encomenda' },
+    annotationCaveat: { en: 'Available made to order', pt: 'Disponível por encomenda' },
   },
   tourmalines: {
-    sousTitre: { en: 'a whole palette', pt: 'toda uma palete' },
+    sousTitre: {
+      en: 'The candy stone, endlessly colourful',
+      pt: 'A pedra rebuçado, colorida à vontade',
+    },
     description: {
-      en: 'Tourmalines in green, pink or indigo, through to electric Paraíba blue. The stone of a thousand colours, chosen one by one for its character. Made to order for bespoke pieces.',
-      pt: 'Turmalinas verdes, rosadas ou índigo, até ao azul Paraíba elétrico. A pedra das mil cores, escolhida uma a uma pelo seu caráter. Por encomenda para as peças por medida.',
+      en: 'Tourmaline captivates with its incredible palette of colours, from pink to green by way of blue. The rarest of them, the Paraíba tourmaline discovered in Brazil, is famed for its intense turquoise blue and ranks among the most precious gems in the world.',
+      pt: 'A turmalina seduz pela sua incrível palete de cores, do rosa ao verde, passando pelo azul. A mais rara, a turmalina Paraíba, descoberta no Brasil, é célebre pelo seu azul-turquesa intenso e faz parte das gemas mais preciosas do mundo.',
     },
     imageAlt: {
-      en: 'Ring in 18-carat gold, coloured stone framed by diamonds — Précieuse atelier, Bordeaux',
-      pt: 'Anel em ouro de 18 quilates, pedra de cor rodeada de diamantes — atelier Précieuse, Bordeaux',
+      en: 'Bicolour pink-and-green emerald-cut tourmaline presented on a plinth — Précieuse atelier, Bordeaux',
+      pt: 'Turmalina bicolor rosa e verde, talhe esmeralda, apresentada sobre um pedestal — atelier Précieuse, Bordeaux',
     },
-    annotationCaveat: { en: 'made to order', pt: 'por encomenda' },
+    annotationCaveat: { en: 'Available made to order', pt: 'Disponível por encomenda' },
   },
   opales: {
-    sousTitre: { en: 'shifting fires', pt: 'fogos mutáveis' },
+    sousTitre: { en: 'The stone of a thousand fires', pt: 'A pedra dos mil fogos' },
     description: {
-      en: 'Opals with shifting reflections: every flash of light reveals a new colour. A living stone, never twice the same. Made to order for bespoke pieces.',
-      pt: 'Opalas de reflexos móveis: cada lampejo de luz revela uma nova cor. Uma pedra viva, nunca duas vezes igual. Por encomenda para as peças por medida.',
+      en: 'The opal is a fascinating gem, famed for its unique play of light revealing an infinity of colours. Ethiopian opals, particularly sought after, captivate with their blazing flashes, from yellow to red by way of orange and green.',
+      pt: 'A opala é uma gema fascinante, célebre pelos seus jogos de luz únicos que revelam uma infinidade de cores. As opalas da Etiópia, particularmente procuradas, seduzem pelos seus brilhos flamejantes, do amarelo ao vermelho, passando pelo laranja e pelo verde.',
     },
     imageAlt: {
-      en: 'Ring in 18-carat gold set with a coloured stone of shifting reflections — Précieuse atelier, Bordeaux',
-      pt: 'Anel em ouro de 18 quilates cravejado com uma pedra de cor de reflexos mutáveis — atelier Précieuse, Bordeaux',
+      en: 'Oval cabochon opal with orange and green fires presented on a plinth — Précieuse atelier, Bordeaux',
+      pt: 'Opala cabochão oval com fogos alaranjados e verdes apresentada sobre um pedestal — atelier Précieuse, Bordeaux',
     },
-    annotationCaveat: { en: 'made to order', pt: 'por encomenda' },
+    annotationCaveat: { en: 'Available made to order', pt: 'Disponível por encomenda' },
   },
 }
 
 // ---------------------------------------------------------------------------
-// Témoignages (placeholders) — clé : index du tableau (0..n)
+// Témoignages (vrais avis, retour Emeline du 27/07) — clé : index du tableau
 // ---------------------------------------------------------------------------
 export const TEMOIGNAGE_TRANSLATIONS: Record<
   number,
@@ -233,27 +236,24 @@ export const TEMOIGNAGE_TRANSLATIONS: Record<
 > = {
   0: {
     citation: {
-      en: 'Emeline is quite simply an artist. The jewels she created for me turned out to be magnificent; the result is beyond what I had imagined. I am moved and thrilled.',
-      pt: 'A Emeline é, simplesmente, uma artista. As joias que criou para mim revelaram-se magníficas, o resultado está para além do que eu tinha imaginado. Estou comovida e entusiasmada.',
+      en: 'Thank you for the originality of your jewellery, but above all for your kindness, your patience and your understanding! A true professional! I highly recommend…',
+      pt: 'Obrigada pela originalidade das suas joias, mas sobretudo pela sua simpatia, pela sua paciência e pela sua compreensão! Uma verdadeira profissional! Recomendo vivamente…',
     },
     piece: { en: 'Bespoke creation', pt: 'Criação por medida' },
   },
   1: {
     citation: {
-      en: 'Very pleased with your creation for my ring. Highly professional, pleasant and friendly. I recommend her without hesitation.',
-      pt: 'Muito contente com a vossa criação para o meu anel. Muito profissional, agradável e simpática. Recomendo sem hesitar.',
+      en: 'Emeline is quite simply an artist! The jewels she created for me turned out to be magnificent, the result is beyond what I had imagined… I am moved and thrilled! In a word: sublime! Thank you from the bottom of my heart.',
+      pt: 'A Emeline é, simplesmente, uma artista! As joias que criou para mim revelaram-se magníficas, o resultado está para além do que eu tinha imaginado… Estou comovida e entusiasmada! Numa palavra: sublime! Obrigada de todo o coração.',
     },
-    piece: {
-      en: 'Bespoke serpentine ring',
-      pt: 'Anel serpentina por medida',
-    },
+    piece: { en: 'Bespoke creation', pt: 'Criação por medida' },
   },
   2: {
     citation: {
-      en: 'You feel in every piece the time spent, the precision, the love of the craft. I have worn my ring every day for two years and it is still just as beautiful.',
-      pt: 'Sente-se em cada peça o tempo dedicado, a precisão, o amor pelo ofício. Uso o meu anel todos os dias há dois anos e continua tão bonito como sempre.',
+      en: 'Always available, good advice, and fair prices. Thank you very much, you are a true professional.',
+      pt: 'Sempre disponível, bons conselhos e preços justos. Muito obrigada, é uma verdadeira profissional.',
     },
-    piece: { en: 'Joséphine model', pt: 'Modelo Joséphine' },
+    piece: { en: 'Bespoke creation', pt: 'Criação por medida' },
   },
 }
 
@@ -288,8 +288,8 @@ export const ARTICLE_TRANSLATIONS: Record<
       pt: 'O ouro de 18 quilates, de origem rastreada',
     },
     excerpt: {
-      en: 'Why we work only with gold sourced and traced through the Kimberley Process, and what that changes for your jewel. (Draft — to be confirmed.)',
-      pt: 'Porque trabalhamos apenas com ouro de origem rastreada através do Processo de Kimberley, e o que isso muda para a sua joia. (Rascunho — a validar.)',
+      en: 'Three quarters pure gold, one quarter alloy, and a question that matters as much as purity: where does this metal come from? Fineness, colours and traceability, without the jargon.',
+      pt: 'Três quartos de ouro puro, um quarto de liga, e uma questão que conta tanto como a pureza: de onde vem este metal? Toque, cores e rastreabilidade, sem jargão.',
     },
     imageAlt: {
       en: 'Ring in polished 18-carat gold set with a stone — savoir-faire of the Précieuse atelier, Bordeaux',
@@ -501,8 +501,8 @@ export const PROMESSE_TRANSLATIONS: Record<
   0: {
     titre: { en: '18-carat gold', pt: 'Ouro de 18 quilates' },
     detail: {
-      en: 'Sourced and traced through the Kimberley Process',
-      pt: 'De origem rastreada através do Processo de Kimberley',
+      en: 'Sourced and traced, favouring recycled metal wherever possible',
+      pt: 'De origem rastreada, privilegiando a reciclagem sempre que possível',
     },
     imageAlt: {
       en: 'Ring in polished 18-carat gold set with a stone — Précieuse atelier, Bordeaux',

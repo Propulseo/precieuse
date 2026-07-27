@@ -45,7 +45,8 @@ export const METAMORPHOSE: MetamorphoseStep[] = [
 export const PROMESSES = [
   {
     titre: 'Or 18 carats',
-    detail: 'Sourcé et tracé grâce au traité de Kimberley',
+    // Kimberley ne concerne que les diamants (retour Emeline #9).
+    detail: "Sourcé et tracé, privilégiant le recyclage lorsque c'est possible",
     image: '/images/real/bague-pierre-josephine.webp',
     imageAlt:
       "Bague en or 18 carats poli sertie d'une pierre — atelier Précieuse, Bordeaux",
