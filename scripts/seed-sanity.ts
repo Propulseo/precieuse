@@ -27,8 +27,6 @@ import { MATIERES } from '../src/lib/content/matieres'
 import { LETTRES } from '../src/lib/content/lettres'
 import { ARTICLES } from '../src/lib/content/carnet'
 import { ETABLI_STEPS } from '../src/lib/content/etabli'
-import { SITE } from '../src/lib/content/site'
-import { FOOTER_DATA } from '../src/lib/content/footer'
 import {
   PIECE_TRANSLATIONS,
   MATIERE_TRANSLATIONS,
@@ -263,46 +261,12 @@ async function main() {
   // realisations/voices). L'ancien seed (metamorphose/promesses) écrasait ce
   // contenu éditable via createOrReplace → retiré.
 
-  // Réglages du site (singleton)
-  docs.push({
-    _id: 'siteSettings',
-    _type: 'siteSettings',
-    brand: SITE.brand,
-    baseline: Lstr(
-      SITE.baseline,
-      'Artisan jewellery · Bordeaux',
-      'Joalharia artesanal · Bordeaux',
-    ),
-    email: SITE.email,
-    whatsapp: SITE.whatsapp,
-    instagram: SITE.instagram,
-    hours: Lstr(
-      SITE.hours,
-      'by appointment · Tuesday to Saturday · 10am to 6pm',
-      'mediante marcação · de terça a sábado · das 10h às 18h',
-    ),
-    address: {
-      street: SITE.address.street,
-      zip: SITE.address.zip,
-      city: SITE.address.city,
-      country: SITE.address.country,
-    },
-  })
-
-  // Pied de page (singleton) — seuls les réseaux sociaux + l'email sont pilotés
-  // par Sanity ; nav/signature/copyright sont traduits via Paraglide, crédit figé.
-  docs.push({
-    _id: 'footer',
-    _type: 'footer',
-    social: FOOTER_DATA.social.map((s, i) => ({
-      _type: 'social',
-      _key: `social-${i}`,
-      label: s.label,
-      handle: s.handle,
-      href: s.href,
-    })),
-    email: FOOTER_DATA.email,
-  })
+  // NB : les singletons `siteSettings` et `footer` ne sont PLUS seedés ici. Ils
+  // appartiennent désormais à `scripts/seed-editabilite.ts`, qui les remplit
+  // avec davantage de champs (whatsappLabel côté réglages ; signature, lignes de
+  // réponse, copyright et cachet d'atelier côté pied de page). Les réécrire
+  // depuis ce script en createOrReplace effacerait ces champs — même raison que
+  // pour `surMesurePage` ci-dessus.
 
   console.log(`→ Écriture de ${docs.length} documents…`)
   const tx = client.transaction()
