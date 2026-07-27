@@ -1,8 +1,14 @@
+import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { m } from '#/paraglide/messages'
 import { BRAND_WORDMARK_MASK, maskStyle } from '../brand/brand'
 import { useBrand } from '../brand/BrandProvider'
-import type { HomePageData } from '../../lib/content/home'
+import type { HomeImg, HomePageData } from '../../lib/content/home'
+
+// Vidéo de la moitié droite du héro (retour Emeline #15/#16). Pas encore
+// pilotée par Sanity : à passer en champ `homePage` si Emeline doit pouvoir la
+// changer elle-même.
+const HERO_VIDEO_SRC = '/images/video/hero-emeline.mp4'
 
 /**
  * Hero A — Split 50/50 strict (style Sézane).
@@ -53,6 +59,55 @@ function HeroEyebrowMark({ text }: { text: string }) {
   )
 }
 
+/**
+ * Moitié droite du héro : la photo reste le premier rendu (c'est elle qui
+ * compte pour le LCP mobile < 2,5 s, objectif Ads du PRD). La vidéo ne prend le
+ * relais qu'après le premier rendu, sur grand écran, et jamais en
+ * « animations réduites ». La photo sert aussi de `poster` → pas de clignotement
+ * au moment du relais.
+ */
+function HeroRightMedia({ img }: { img: HomeImg }) {
+  const [showVideo, setShowVideo] = useState(false)
+
+  useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const wide = window.matchMedia('(min-width: 1024px)').matches
+    if (reduced || !wide) return
+    // Laisse passer le premier rendu avant d'aller chercher les 4 Mo de vidéo.
+    const id = window.setTimeout(() => setShowVideo(true), 300)
+    return () => window.clearTimeout(id)
+  }, [])
+
+  const common = 'absolute inset-0 w-full h-full object-cover'
+  const position = img.position ? { objectPosition: img.position } : undefined
+
+  if (showVideo) {
+    return (
+      <video
+        src={HERO_VIDEO_SRC}
+        poster={img.src}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-label={img.alt}
+        style={position}
+        className={common}
+      />
+    )
+  }
+  return (
+    <img
+      src={img.src}
+      alt={img.alt}
+      style={position}
+      fetchPriority="high"
+      className={common}
+    />
+  )
+}
+
 export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
   const { heroMark } = useBrand()
 
@@ -71,13 +126,7 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
           />
         </div>
         <div className="relative overflow-hidden">
-          <img
-            src={hero.imageRight.src}
-            alt={hero.imageRight.alt}
-            style={hero.imageRight.position ? { objectPosition: hero.imageRight.position } : undefined}
-            fetchPriority="high"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          <HeroRightMedia img={hero.imageRight} />
         </div>
       </div>
 
@@ -121,14 +170,22 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
             </h1>
           )}
 
-          <p className="font-display text-[clamp(20px,2.6vw,30px)] text-poudre mb-3 max-w-[24ch] leading-snug drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
-            {hero.taglineLead}{' '}
-            <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">{hero.taglineAccent}</span>
+          {/* Les deux moitiés de la promesse sont écartées sur grand écran
+              (#18) : le groupe étant centré, le blanc tombe pile sur la
+              séparation des deux visuels. Sur mobile, l'écart reste celui d'une
+              espace normale (rendu inchangé). */}
+          <p className="font-display text-[clamp(20px,2.6vw,30px)] text-poudre mb-3 max-w-[24ch] lg:max-w-none leading-snug drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+            <span className="flex flex-wrap items-baseline justify-center gap-x-[0.28em] lg:gap-x-16">
+              <span>{hero.taglineLead}</span>
+              <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">{hero.taglineAccent}</span>
+            </span>
           </p>
           <p className="font-display text-[clamp(14px,1.7vw,18px)] text-poudre/85 mb-10 max-w-[36ch] leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
             {hero.subline}
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* Même logique pour les deux boutons (#17) : écart élargi sur grand
+              écran pour que le blanc tombe sur la séparation des visuels. */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 lg:gap-16">
             <Link
               to="/collection"
               className="inline-flex items-center justify-center min-w-[260px] whitespace-nowrap font-display text-[12px] tracking-[0.25em] uppercase border border-poudre/80 px-7 py-3.5 hover:bg-poudre hover:text-canard transition-colors duration-300"
