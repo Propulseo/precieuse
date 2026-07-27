@@ -7,6 +7,13 @@
  * créer de doublons. Le contenu FR est seedé dans le champ `fr` des objets
  * localisés ; EN/PT restent vides (à traduire plus tard).
  *
+ * IMPORTANT — séparateur `-` et jamais `.` dans les _id. Le droit de lecture
+ * publique du dataset est `_id in path("*")`, qui ne matche que les identifiants
+ * SANS point (c'est ainsi que Sanity exclut les brouillons `drafts.xxx`). Un
+ * _id du genre `matiere.opales` est donc invisible pour le site, qui lit en
+ * anonyme — les documents existent, mais la page retombe silencieusement sur le
+ * repli statique.
+ *
  * Lancer :  node_modules/.bin/tsx scripts/seed-sanity.ts
  * Requiert dans .env : VITE_SANITY_PROJECT_ID, VITE_SANITY_DATASET,
  *                      VITE_SANITY_API_VERSION, SANITY_WRITE_TOKEN (rôle Editor).
@@ -144,7 +151,7 @@ async function main() {
     const packshotId = p.packshot ? await uploadImage(p.packshot) : undefined
     const tr = PIECE_TRANSLATIONS[p.slug]
     docs.push({
-      _id: `piece.${p.slug}`,
+      _id: `piece-${p.slug}`,
       _type: 'piece',
       name: p.name,
       slug: { _type: 'slug', current: p.slug },
@@ -169,7 +176,7 @@ async function main() {
     const assetId = await uploadImage(m.image)
     const tr = MATIERE_TRANSLATIONS[m.slug]
     docs.push({
-      _id: `matiere.${m.slug}`,
+      _id: `matiere-${m.slug}`,
       _type: 'matiere',
       nom: m.nom,
       slug: { _type: 'slug', current: m.slug },
@@ -188,7 +195,7 @@ async function main() {
     const t = LETTRES[i]!
     const tr = TEMOIGNAGE_TRANSLATIONS[i]
     docs.push({
-      _id: `temoignage.${i}`,
+      _id: `temoignage-${i}`,
       _type: 'temoignage',
       placeholder: false,
       citation: Ltext(t.citation, tr?.citation.en, tr?.citation.pt),
@@ -207,7 +214,7 @@ async function main() {
     const assetId = await uploadImage(a.image)
     const tr = ARTICLE_TRANSLATIONS[a.slug]
     docs.push({
-      _id: `article.${a.slug}`,
+      _id: `article-${a.slug}`,
       _type: 'article',
       title: Lstr(a.title, tr?.title.en, tr?.title.pt),
       slug: { _type: 'slug', current: a.slug },
@@ -245,7 +252,7 @@ async function main() {
     const assetId = await uploadImage(e.image)
     const tr = ETABLI_TRANSLATIONS[e.index]
     docs.push({
-      _id: `etapeEtabli.${e.index}`,
+      _id: `etapeEtabli-${e.index}`,
       _type: 'etapeEtabli',
       roman: e.roman,
       index: e.index,
