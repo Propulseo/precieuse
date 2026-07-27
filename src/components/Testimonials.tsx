@@ -19,6 +19,13 @@ function mod(n: number, base: number): number {
   return ((n % base) + base) % base
 }
 
+/** Libellé d'un avis : la ville n'est pas toujours renseignée (vrais avis). */
+function cardLabel(t: Lettre): string {
+  return t.ville
+    ? m.testimonials_card_label({ author: t.auteur, city: t.ville })
+    : m.testimonials_card_label_no_city({ author: t.auteur })
+}
+
 /**
  * Témoignages — « galerie portée » : une grande photo de la pièce portée
  * (parallaxe à la souris) + une carte citation en verre poudré. 1 avis =
@@ -157,7 +164,7 @@ export function Testimonials({
                 key={t.auteur}
                 type="button"
                 onClick={() => goTo(i)}
-                aria-label={m.testimonials_card_label({ author: t.auteur, city: t.ville })}
+                aria-label={cardLabel(t)}
                 aria-current={i === current}
                 className="flex items-center justify-center max-md:h-10 max-md:w-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-poudre"
               >
@@ -191,7 +198,8 @@ export function Testimonials({
                 key={`a-${current}`}
                 className={`font-display text-[12px] tracking-[0.28em] uppercase text-canard ${fade}`}
               >
-                {active.auteur} · {active.ville}
+                {active.auteur}
+                {active.ville ? ` · ${active.ville}` : ''}
                 <span className="block mt-1.5 font-body italic font-light text-[14px] tracking-normal normal-case text-canard/60">
                   {active.piece}
                 </span>

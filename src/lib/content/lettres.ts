@@ -2,8 +2,10 @@ export type Lettre = {
   citation: string
   auteur: string
   initiale: string
-  ville: string
-  date: string
+  /** Optionnel : les avis récupérés n'ont pas tous une ville renseignée. */
+  ville?: string
+  /** Optionnel : format libre (ex. « 18 mars 2025 »). */
+  date?: string
   piece: string
   /** Photo de la pièce portée (galerie témoignages). Optionnel : fallback côté composant. */
   image?: string
@@ -12,37 +14,34 @@ export type Lettre = {
   imagePosition?: string
 }
 
-// NOTE: placeholders — à valider / remplacer par de vrais avis + photos (Eméline).
-// Règle « galerie portée » : 1 avis = 1 photo « bague sur chaise » = 1 bague.
+// Vrais avis transmis par Emeline (retour du 27/07, #28) — ne plus traiter comme
+// des placeholders. Ville et date non communiquées : champs laissés vides,
+// l'affichage s'adapte. `piece` = « Création sur-mesure » (#29) : ces avis
+// portent sur du sur-mesure, pas sur un modèle de la collection — le lien
+// « 1 avis = 1 photo = 1 bague » n'est donc plus revendiqué.
 export const LETTRES: Lettre[] = [
   {
     citation:
-      "Emeline est tout simplement une artiste. Les bijoux qu'elle a créés pour moi se sont révélés magnifiques, le résultat est au-delà de ce que j'avais imaginé. Je suis émue et enthousiasmée.",
-    auteur: 'Martine B.',
-    initiale: 'M',
-    ville: 'Bordeaux',
-    date: '18 mars 2025',
-    piece: 'Modèle Aurore',
+      "Merci à vous pour l'originalité de vos bijoux, mais surtout pour votre gentillesse, votre patience et votre compréhension ! Une vraie pro ! Je recommande fortement…",
+    auteur: 'L. Nicola',
+    initiale: 'L',
+    piece: 'Création sur-mesure',
     image: '/images/real/bague-main-chaise-aurore.webp',
   },
   {
     citation:
-      "Très contente de votre création pour ma bague. Très professionnelle, agréable et sympathique. Je recommande sans hésiter.",
-    auteur: 'Sandrine L.',
-    initiale: 'S',
-    ville: 'Lyon',
-    date: '3 octobre 2024',
-    piece: 'Modèle Thelma',
+      "Emeline est tout simplement une artiste ! Les bijoux qu'elle a créés pour moi se sont révélés être magnifiques, le résultat est au-delà de ce que j'avais imaginé… Je suis émue et enthousiasmée ! En un mot : Sublime ! Merci de tout cœur.",
+    auteur: 'M. Benoit',
+    initiale: 'M',
+    piece: 'Création sur-mesure',
     image: '/images/real/bague-main-chaise-thelma.webp',
   },
   {
     citation:
-      "On sent dans chaque pièce le temps passé, la précision, l'amour du métier. Je porte ma bague tous les jours depuis deux ans, elle est toujours aussi belle.",
-    auteur: 'Camille R.',
-    initiale: 'C',
-    ville: 'Paris',
-    date: '12 février 2025',
-    piece: 'Modèle Joséphine',
+      'Toujours disponible, de bons conseils, et des prix justes. Merci beaucoup, vous êtes une vraie professionnelle.',
+    auteur: 'I. Echinops',
+    initiale: 'I',
+    piece: 'Création sur-mesure',
     image: '/images/real/main-chaise-josephine.webp',
   },
 ]
