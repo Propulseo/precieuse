@@ -78,26 +78,38 @@ function HeroRightMedia({ img }: { img: HomeImg }) {
     return () => window.clearTimeout(id)
   }, [])
 
-  const common = 'absolute inset-0 w-full h-full object-cover'
+  // Même étalonnage que le héro de /sur-mesure, pour que les deux pages se
+  // répondent.
+  const grade = 'brightness-[0.8] saturate-[1.06]'
+  const common = `absolute inset-0 w-full h-full object-cover ${grade}`
   const position = img.position ? { objectPosition: img.position } : undefined
 
   if (showVideo) {
     return (
-      <video
-        src={HERO_VIDEO_SRC}
-        poster={img.src}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="none"
-        aria-label={img.alt}
-        // La vidéo est au format téléphone (716 x 1284) alors que la moitié de
-        // héro est bien plus large : en `cover` elle serait rognée de moitié en
-        // hauteur. `contain` la montre entière, les bandes laterales sont
-        // remplies en canard.
-        className={`${common} object-contain bg-canard`}
-      />
+      <>
+        {/* La vidéo est au format téléphone (716 x 1284) et la moitié de héro
+            bien plus large : en `cover` elle serait rognée de moitié. On la
+            montre donc entière (`contain`), et on remplit le vide derrière avec
+            la photo agrandie et floutée plutôt qu'un aplat — le cadre parait
+            plein et les deux moitiés restent de la même famille. */}
+        <img
+          src={img.src}
+          alt=""
+          aria-hidden="true"
+          className={`absolute inset-0 w-full h-full object-cover scale-110 blur-2xl brightness-[0.45] saturate-[1.06]`}
+        />
+        <video
+          src={HERO_VIDEO_SRC}
+          poster={img.src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-label={img.alt}
+          className={`absolute inset-0 w-full h-full object-contain ${grade}`}
+        />
+      </>
     )
   }
   return (
@@ -125,7 +137,7 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
             alt={hero.imageLeft.alt}
             style={hero.imageLeft.position ? { objectPosition: hero.imageLeft.position } : undefined}
             fetchPriority="high"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover brightness-[0.8] saturate-[1.06]"
           />
         </div>
         <div className="relative overflow-hidden">
@@ -133,9 +145,10 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
         </div>
       </div>
 
-      {/* Léger dégradé vertical (cadre haut/bas) pour aider la lisibilité —
-          pas de halo central. */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/30 via-transparent to-black/30" />
+      {/* Voile canard dégradé — même recette que le héro de /sur-mesure :
+          appuyé en haut et en bas (lisibilité de la marque et des boutons),
+          quasi transparent au centre pour ne pas éteindre les visuels. */}
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_bottom,rgba(13,71,71,0.5)_0%,rgba(13,71,71,0.2)_36%,rgba(13,71,71,0.2)_62%,rgba(13,71,71,0.56)_100%)]" />
 
       <div className="absolute inset-0 flex items-center justify-center px-6">
         <div className="mx-auto flex w-full max-w-[640px] flex-col items-center text-center text-poudre">
@@ -173,31 +186,35 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
             </h1>
           )}
 
-          {/* Les deux moitiés de la promesse sont écartées sur grand écran
-              (#18) : le groupe étant centré, le blanc tombe pile sur la
-              séparation des deux visuels. Sur mobile, l'écart reste celui d'une
-              espace normale (rendu inchangé). */}
-          <p className="font-display text-[clamp(20px,2.6vw,30px)] text-poudre mb-3 max-w-[24ch] lg:max-w-none leading-snug drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
-            <span className="flex flex-wrap items-baseline justify-center gap-x-[0.28em] lg:gap-x-16">
-              <span>{hero.taglineLead}</span>
-              <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">{hero.taglineAccent}</span>
+          {/* #18 — sur grand écran, deux colonnes de largeur égale : leur
+              frontière tombe donc exactement sur la séparation des visuels, et
+              chaque moitié de la promesse s'en écarte du même retrait (pr/pl).
+              Un simple écart centré ne suffisait pas : l'équilibre dependait de
+              la longueur de chaque texte. Sur mobile, rendu inchangé (texte au
+              fil, écart d'une espace normale). */}
+          <p className="font-display text-[clamp(20px,2.6vw,30px)] text-poudre mb-3 max-w-[24ch] lg:max-w-none lg:w-full leading-snug drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+            <span className="flex flex-wrap items-baseline justify-center gap-x-[0.28em] lg:grid lg:grid-cols-2 lg:gap-x-0">
+              <span className="lg:justify-self-end lg:pr-5">{hero.taglineLead}</span>
+              <span className="text-lie-de-vin drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)] lg:justify-self-start lg:pl-5">
+                {hero.taglineAccent}
+              </span>
             </span>
           </p>
           <p className="font-display text-[clamp(14px,1.7vw,18px)] text-poudre/85 mb-10 max-w-[36ch] leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
             {hero.subline}
           </p>
-          {/* Même logique pour les deux boutons (#17) : écart élargi sur grand
-              écran pour que le blanc tombe sur la séparation des visuels. */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 lg:gap-16">
+          {/* #17 — même grille que la promesse ci-dessus, et même retrait, pour
+              que boutons et texte soient cales identiquement sur la jointure. */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 lg:grid lg:w-full lg:grid-cols-2 lg:gap-0">
             <Link
               to="/collection"
-              className="inline-flex items-center justify-center min-w-[260px] whitespace-nowrap font-display text-[12px] tracking-[0.25em] uppercase border border-poudre/80 px-7 py-3.5 hover:bg-poudre hover:text-canard transition-colors duration-300"
+              className="inline-flex items-center justify-center min-w-[260px] whitespace-nowrap font-display text-[12px] tracking-[0.25em] uppercase border border-poudre/80 px-7 py-3.5 hover:bg-poudre hover:text-canard transition-colors duration-300 lg:justify-self-end lg:mr-5"
             >
               {m.hero_cta_collection()}
             </Link>
             <Link
               to="/sur-mesure"
-              className="inline-flex items-center justify-center min-w-[260px] whitespace-nowrap font-display text-[12px] tracking-[0.25em] uppercase bg-poudre text-canard border border-poudre px-7 py-3.5 hover:bg-transparent hover:text-poudre transition-colors duration-300"
+              className="inline-flex items-center justify-center min-w-[260px] whitespace-nowrap font-display text-[12px] tracking-[0.25em] uppercase bg-poudre text-canard border border-poudre px-7 py-3.5 hover:bg-transparent hover:text-poudre transition-colors duration-300 lg:justify-self-start lg:ml-5"
             >
               {m.hero_cta_bespoke()}
             </Link>
