@@ -92,8 +92,11 @@ function HeroRightMedia({ img }: { img: HomeImg }) {
         playsInline
         preload="none"
         aria-label={img.alt}
-        style={position}
-        className={common}
+        // La vidéo est au format téléphone (716 x 1284) alors que la moitié de
+        // héro est bien plus large : en `cover` elle serait rognée de moitié en
+        // hauteur. `contain` la montre entière, les bandes laterales sont
+        // remplies en canard.
+        className={`${common} object-contain bg-canard`}
       />
     )
   }
