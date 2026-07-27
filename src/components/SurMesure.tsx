@@ -54,6 +54,11 @@ export function SurMesure({
               <h3 className="font-display text-[20px] text-canard leading-[1.1]">
                 {step.title}
               </h3>
+              {/* Descriptif de l'étape (retour Emeline #24-27) : il existait déjà
+                  sur /sur-mesure, il manquait sur la home. */}
+              <p className="mt-2 mx-auto max-w-[26ch] font-body text-[14px] leading-[1.5] text-canard/70">
+                {step.body}
+              </p>
             </div>
           ))}
         </div>
