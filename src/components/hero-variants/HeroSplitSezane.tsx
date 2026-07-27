@@ -84,31 +84,22 @@ function HeroRightMedia({ img }: { img: HomeImg }) {
   const position = img.position ? { objectPosition: img.position } : undefined
 
   if (showVideo) {
+    // Plein cadre, comme la photo de gauche : aucune bande, la moitié de héro
+    // est entièrement remplie. La vidéo étant au format téléphone (716 x 1284)
+    // et le cadre bien plus large, elle est forcément rognée en haut et en bas —
+    // c'est le compromis assumé pour ne pas laisser de vide sur les côtés.
     return (
-      <>
-        {/* La vidéo est au format téléphone (716 x 1284) et la moitié de héro
-            bien plus large : en `cover` elle serait rognée de moitié. On la
-            montre donc entière (`contain`), et on remplit le vide derrière avec
-            la photo agrandie et floutée plutôt qu'un aplat — le cadre parait
-            plein et les deux moitiés restent de la même famille. */}
-        <img
-          src={img.src}
-          alt=""
-          aria-hidden="true"
-          className={`absolute inset-0 w-full h-full object-cover scale-110 blur-2xl brightness-[0.45] saturate-[1.06]`}
-        />
-        <video
-          src={HERO_VIDEO_SRC}
-          poster={img.src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          aria-label={img.alt}
-          className={`absolute inset-0 w-full h-full object-contain ${grade}`}
-        />
-      </>
+      <video
+        src={HERO_VIDEO_SRC}
+        poster={img.src}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-label={img.alt}
+        className={common}
+      />
     )
   }
   return (
