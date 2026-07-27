@@ -20,7 +20,7 @@ export function ContactDrawer({
   site,
   contact = contactFallback(),
 }: {
-  site: { email: string; whatsapp: string }
+  site: { email: string; whatsapp: string; google?: string }
   contact?: ContactContent
 }) {
   const { isOpen, close } = useContactDrawer()
@@ -140,9 +140,22 @@ export function ContactDrawer({
             </div>
             <div>
               <div className={kCls}>{m.contact_label_atelier()}</div>
-              <span className="font-display text-[13.5px] text-canard">
-                {m.contact_atelier_value()}
-              </span>
+              {/* Renvoie vers la fiche Google (avis + itinéraire). Repli en
+                  texte simple si le lien n'est pas renseigné dans Sanity. */}
+              {site.google ? (
+                <a
+                  href={site.google}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-display text-[13.5px] text-canard underline decoration-canard/30 underline-offset-2 transition-colors hover:text-framboise hover:decoration-framboise"
+                >
+                  {m.contact_atelier_value()}
+                </a>
+              ) : (
+                <span className="font-display text-[13.5px] text-canard">
+                  {m.contact_atelier_value()}
+                </span>
+              )}
             </div>
           </div>
 

@@ -97,6 +97,7 @@
   "testimonials_title_line2": "portent en parlent",
   "testimonials_card_label": "Témoignage de {author}, {city}",
   "testimonials_card_label_no_city": "Témoignage de {author}",
+  "testimonials_google_link": "Voir tous les avis sur Google",
   "testimonials_nav_label": "Navigation des témoignages",
   "testimonials_prev_label": "Témoignage précédent",
   "testimonials_next_label": "Témoignage suivant",

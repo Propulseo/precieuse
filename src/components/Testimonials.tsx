@@ -35,9 +35,12 @@ function cardLabel(t: Lettre): string {
 export function Testimonials({
   lettres = LETTRES,
   header,
+  googleUrl,
 }: {
   lettres?: Lettre[]
   header: { line1: string; line2: string }
+  /** Fiche Google : les avis affichés en viennent, on renvoie vers la source. */
+  googleUrl?: string
 }) {
   const N = lettres.length
   const [current, setCurrent] = useState(0)
@@ -229,6 +232,26 @@ export function Testimonials({
             </div>
           </div>
         </div>
+
+        {/* Renvoi vers la source : ces avis viennent de la fiche Google. */}
+        {googleUrl ? (
+          <div className="mt-5 text-center">
+            <a
+              href={googleUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 font-display text-[12px] uppercase tracking-[0.2em] text-canard/70 transition-colors hover:text-framboise"
+            >
+              {m.testimonials_google_link()}
+              <span
+                aria-hidden
+                className="transition-transform group-hover:translate-x-1 motion-reduce:transition-none"
+              >
+                →
+              </span>
+            </a>
+          </div>
+        ) : null}
       </div>
     </section>
   )

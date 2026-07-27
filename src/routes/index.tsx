@@ -21,6 +21,7 @@ import {
   getEtabliSteps,
   getBespokeSteps,
   getHomePage,
+  getSite,
 } from '../lib/cms'
 import { getLocale } from '#/paraglide/runtime'
 import { m } from '#/paraglide/messages'
@@ -31,7 +32,9 @@ export const Route = createFileRoute('/')({
   // Lit Sanity quand configuré, sinon le contenu statique (fallback des getters).
   loader: async () => {
     const locale = getLocale()
-    const [products, matieres, lettres, etabliSteps, bespokeSteps, home] =
+    // `getSite` sert ici au lien vers la fiche Google sous les témoignages ; la
+    // requête est mutualisée avec celle du root par le cache de `cmsFetch`.
+    const [products, matieres, lettres, etabliSteps, bespokeSteps, home, site] =
       await Promise.all([
         getProducts(locale),
         getMatieres(locale),
@@ -39,8 +42,9 @@ export const Route = createFileRoute('/')({
         getEtabliSteps(locale),
         getBespokeSteps(locale),
         getHomePage(locale),
+        getSite(locale),
       ])
-    return { products, matieres, lettres, etabliSteps, bespokeSteps, home }
+    return { products, matieres, lettres, etabliSteps, bespokeSteps, home, site }
   },
   // head après loader : TanStack n'infère `loaderData` que si loader est déclaré
   // avant. Le SEO (titre/description) vient du doc Sanity homePage, repli i18n.
@@ -53,7 +57,7 @@ export const Route = createFileRoute('/')({
 })
 
 function Home() {
-  const { products, matieres, lettres, etabliSteps, bespokeSteps, home } =
+  const { products, matieres, lettres, etabliSteps, bespokeSteps, home, site } =
     Route.useLoaderData()
   const newsletter = useNewsletterTrigger()
 
@@ -81,7 +85,11 @@ function Home() {
         <SurMesure steps={bespokeSteps} header={home.sections.bespoke} />
       </Reveal>
       <Reveal delay={60}>
-        <Testimonials lettres={lettres} header={home.sections.testimonials} />
+        <Testimonials
+          lettres={lettres}
+          header={home.sections.testimonials}
+          googleUrl={site.google}
+        />
       </Reveal>
       <Reveal delay={60}>
         <LeadCaptureA header={home.sections.leadCapture} />

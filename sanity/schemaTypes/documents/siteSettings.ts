@@ -26,6 +26,13 @@ export const siteSettings = defineType({
     }),
     defineField({ name: 'instagram', title: 'Instagram (URL)', type: 'url' }),
     defineField({
+      name: 'google',
+      title: 'Fiche Google (URL)',
+      type: 'url',
+      description:
+        'Lien vers votre fiche Google, celle qui affiche les avis clients. Utilisé sur « Atelier · Bordeaux » dans le panneau Contact, sous les témoignages et dans le pied de page.',
+    }),
+    defineField({
       name: 'hours',
       title: 'Horaires',
       type: 'localizedString',

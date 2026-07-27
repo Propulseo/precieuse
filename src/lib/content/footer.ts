@@ -28,6 +28,11 @@ export const FOOTER_DATA = {
       handle: 'Emeline Le Ray',
       href: 'https://www.linkedin.com/in/emeline-le-ray-70052116a',
     },
+    {
+      label: 'Google',
+      handle: 'Avis clients',
+      href: 'https://share.google/IhDrgYIhH7Q6WP9Q7',
+    },
   ],
   email: 'contact@precieuse-joaillerie.com',
   signature: 'Fait à la main à Bordeaux, porté partout',

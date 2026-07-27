@@ -348,6 +348,7 @@ async function seedSiteSettings() {
     whatsapp: SITE.whatsapp,
     whatsappLabel: L('wa_label'),
     instagram: SITE.instagram,
+    google: SITE.google,
     hours: { _type: 'localizedString', fr: SITE.hours },
     address: { ...SITE.address },
   })

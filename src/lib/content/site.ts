@@ -7,6 +7,8 @@ export const SITE = {
   // Libellé du bouton WhatsApp flottant (repli FR ; EN/PT via Sanity/Paraglide).
   whatsappLabel: 'Échanger avec Emeline',
   instagram: 'https://instagram.com/precieusejoaillerie',
+  /** Fiche Google Business (avis clients) — lien de partage fourni par Emeline. */
+  google: 'https://share.google/IhDrgYIhH7Q6WP9Q7',
   address: {
     street: '[Adresse Bordeaux — à confirmer]',
     zip: '',
