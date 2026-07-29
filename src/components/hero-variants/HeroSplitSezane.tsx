@@ -4,11 +4,6 @@ import { BRAND_WORDMARK_MASK, maskStyle } from '../brand/brand'
 import { useBrand } from '../brand/BrandProvider'
 import type { HomeImg, HomePageData } from '../../lib/content/home'
 
-// Vidéo de la moitié droite du héro (retour Emeline #15/#16). Pas encore
-// pilotée par Sanity : à passer en champ `homePage` si Emeline doit pouvoir la
-// changer elle-même.
-const HERO_VIDEO_SRC = '/images/video/hero-emeline.mp4'
-
 /**
  * Hero A — Split 50/50 strict (style Sézane).
  * Macro produit à gauche + portrait/main portée à droite.
@@ -69,17 +64,18 @@ function HeroEyebrowMark({ text }: { text: string }) {
  * Il est désormais encodé pour le web — 505 Ko, SSIM 0,981 face à l'original,
  * soit aucune différence visible — donc le téléphone y a droit aussi.
  */
-function HeroRightMedia({ img }: { img: HomeImg }) {
+function HeroRightMedia({ img, video }: { img: HomeImg; video: string }) {
   const [showVideo, setShowVideo] = useState(false)
 
   useEffect(() => {
+    if (!video) return
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced) return
     // Laisse passer le premier rendu avant d'aller chercher la vidéo : la photo
     // doit rester l'élément qui décide du LCP.
     const id = window.setTimeout(() => setShowVideo(true), 300)
     return () => window.clearTimeout(id)
-  }, [])
+  }, [video])
 
   // Même étalonnage que le héro de /sur-mesure, pour que les deux pages se
   // répondent.
@@ -94,7 +90,7 @@ function HeroRightMedia({ img }: { img: HomeImg }) {
     // c'est le compromis assumé pour ne pas laisser de vide sur les côtés.
     return (
       <video
-        src={HERO_VIDEO_SRC}
+        src={video}
         poster={img.src}
         autoPlay
         muted
@@ -143,7 +139,7 @@ export function HeroSplitSezane({ hero }: { hero: HomePageData['hero'] }) {
           />
         </div>
         <div className="relative overflow-hidden">
-          <HeroRightMedia img={hero.imageRight} />
+          <HeroRightMedia img={hero.imageRight} video={hero.video} />
         </div>
       </div>
 

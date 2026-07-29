@@ -20,7 +20,22 @@ export const homePage = defineType({
   ],
   fields: [
     localizedImage({ name: 'heroImageLeft', title: 'Photo de gauche', group: 'hero' }),
-    localizedImage({ name: 'heroImageRight', title: 'Photo de droite', group: 'hero' }),
+    localizedImage({
+      name: 'heroImageRight',
+      title: 'Photo de droite (image d’attente de la vidéo)',
+      description:
+        'À droite, c’est la vidéo ci-dessous qui s’affiche. Cette photo est ce que le visiteur voit pendant la première seconde, le temps que la vidéo se charge — et à sa place si le visiteur a désactivé les animations. Choisissez donc une image proche de la première image de la vidéo. Cliquez dessus et déplacez le point pour indiquer la partie à garder au recadrage.',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroVideo',
+      title: 'Vidéo (moitié droite)',
+      type: 'file',
+      description:
+        'Vidéo courte, sans son, format MP4, en boucle. IMPORTANT : moins de 1 Mo — une vidéo sortie du téléphone pèse 5 à 10 fois trop lourd et rendrait le site très lent à ouvrir. En cas de doute, envoyez-nous le fichier, on l’allège pour vous. Sans vidéo, la photo ci-dessus est affichée.',
+      options: { accept: 'video/mp4' },
+      group: 'hero',
+    }),
     defineField({
       name: 'heroTaglineLead',
       title: 'Promesse — début',

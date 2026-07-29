@@ -696,6 +696,7 @@ export async function getHomePage(
     `*[_type == "homePage"][0]{
       "leftSrc": heroImageLeft.asset->url, "leftAlt": heroImageLeft.alt, "leftHotspot": heroImageLeft.hotspot,
       "rightSrc": heroImageRight.asset->url, "rightAlt": heroImageRight.alt, "rightHotspot": heroImageRight.hotspot,
+      "heroVideo": heroVideo.asset->url,
       heroTaglineLead, heroTaglineAccent, heroSubline, heroEyebrow,
       heroCtaCollection, heroCtaBespoke,
       "aproposSrc": aproposPortrait.asset->url, "aproposAlt": aproposPortrait.alt, "aproposHotspot": aproposPortrait.hotspot,
@@ -747,6 +748,7 @@ export async function getHomePage(
     hero: {
       imageLeft: img(data.leftSrc, data.leftAlt, data.leftHotspot, fb.hero.imageLeft),
       imageRight: img(data.rightSrc, data.rightAlt, data.rightHotspot, fb.hero.imageRight),
+      video: data.heroVideo ? String(data.heroVideo) : fb.hero.video,
       eyebrow: s(data.heroEyebrow, fb.hero.eyebrow),
       taglineLead: s(data.heroTaglineLead, fb.hero.taglineLead),
       taglineAccent: s(data.heroTaglineAccent, fb.hero.taglineAccent),

@@ -11,7 +11,10 @@ export type HomeImg = { src: string; alt: string; position?: string }
 export type HomePageData = {
   hero: {
     imageLeft: HomeImg
+    /** Moitié droite : sert de poster/repli à la vidéo (cf. `video`). */
     imageRight: HomeImg
+    /** Vidéo de la moitié droite (URL de l'asset). Vide = photo seule. */
+    video: string
     eyebrow: string
     taglineLead: string
     taglineAccent: string
@@ -86,6 +89,7 @@ export function homePageFallback(): HomePageData {
         src: '/images/real/buste-thelma-louise.webp',
         alt: m.hero_alt_thelma_louise(),
       },
+      video: '/images/video/hero-emeline.mp4',
       eyebrow: m.hero_eyebrow(),
       taglineLead: m.hero_tagline_lead(),
       taglineAccent: m.hero_tagline_accent(),
